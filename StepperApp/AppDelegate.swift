@@ -63,9 +63,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let navigationController = UINavigationController()
         navigationController.view.backgroundColor = .systemBackground
         
-        let viewController = ChallengeViewController()
+        let viewController = WeekChartViewController()
         navigationController.viewControllers = [viewController]
-        let challengeItem = UITabBarItem(title: "Challenge", image: UIImage(systemName: "gamecontroller"), selectedImage: nil)
+        let challengeItem = UITabBarItem(title: "weekCharts", image: UIImage(systemName: "gamecontroller"), selectedImage: nil)
         viewController.tabBarItem = challengeItem
         return navigationController
     }

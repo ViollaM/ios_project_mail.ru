@@ -7,7 +7,7 @@
 
 import UIKit
 
-class StepsViewController: UIViewController {
+final class StepsViewController: UIViewController {
 
     private lazy var label: UILabel = {
         let label = UILabel()

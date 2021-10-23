@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ChallengeViewController: UIViewController {
+final class ChallengeViewController: UIViewController {
 
     private lazy var label: UILabel = {
         let label = UILabel()

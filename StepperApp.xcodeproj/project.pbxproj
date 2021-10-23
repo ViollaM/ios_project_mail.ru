@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 55;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -14,6 +14,8 @@
 		01651A4F2712131400DC9391 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01651A4E2712131400DC9391 /* ProfileViewController.swift */; };
 		01651A512712134000DC9391 /* FriendsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01651A502712134000DC9391 /* FriendsListViewController.swift */; };
 		01651A532712137100DC9391 /* ChallengeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01651A522712137100DC9391 /* ChallengeViewController.swift */; };
+		3A59D2C09ADB9AA1AAE377E2 /* Pods_StepperApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A924E68D2EAE87E9BC99EBB /* Pods_StepperApp.framework */; };
+		A124C81027241D8B00540595 /* WeekChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A124C80F27241D8B00540595 /* WeekChartViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +28,10 @@
 		01651A4E2712131400DC9391 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		01651A502712134000DC9391 /* FriendsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsListViewController.swift; sourceTree = "<group>"; };
 		01651A522712137100DC9391 /* ChallengeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeViewController.swift; sourceTree = "<group>"; };
+		5FF80AFC5EDDD5F3380FACE8 /* Pods-StepperApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StepperApp.release.xcconfig"; path = "Target Support Files/Pods-StepperApp/Pods-StepperApp.release.xcconfig"; sourceTree = "<group>"; };
+		7A924E68D2EAE87E9BC99EBB /* Pods_StepperApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StepperApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A124C80F27241D8B00540595 /* WeekChartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekChartViewController.swift; sourceTree = "<group>"; };
+		CB9D39384BA8490515AF5B40 /* Pods-StepperApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StepperApp.debug.xcconfig"; path = "Target Support Files/Pods-StepperApp/Pods-StepperApp.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,6 +39,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3A59D2C09ADB9AA1AAE377E2 /* Pods_StepperApp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -44,6 +51,8 @@
 			children = (
 				01651A3927120D2D00DC9391 /* StepperApp */,
 				01651A3827120D2D00DC9391 /* Products */,
+				7F695EEC87C4F13BB1496FA7 /* Pods */,
+				1A219C7BD864A22EE30861FF /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -63,6 +72,7 @@
 				01651A4527120D2E00DC9391 /* LaunchScreen.storyboard */,
 				01651A4827120D2E00DC9391 /* Info.plist */,
 				01651A542712138C00DC9391 /* Scenes */,
+				A124C80F27241D8B00540595 /* WeekChartViewController.swift */,
 			);
 			path = StepperApp;
 			sourceTree = "<group>";
@@ -78,6 +88,23 @@
 			name = Scenes;
 			sourceTree = "<group>";
 		};
+		1A219C7BD864A22EE30861FF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7A924E68D2EAE87E9BC99EBB /* Pods_StepperApp.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		7F695EEC87C4F13BB1496FA7 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				CB9D39384BA8490515AF5B40 /* Pods-StepperApp.debug.xcconfig */,
+				5FF80AFC5EDDD5F3380FACE8 /* Pods-StepperApp.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -85,9 +112,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 01651A4B27120D2E00DC9391 /* Build configuration list for PBXNativeTarget "StepperApp" */;
 			buildPhases = (
+				2E81756311D603F04CA23B67 /* [CP] Check Pods Manifest.lock */,
 				01651A3327120D2D00DC9391 /* Sources */,
 				01651A3427120D2D00DC9391 /* Frameworks */,
 				01651A3527120D2D00DC9391 /* Resources */,
+				0E938D0152E389BB02994290 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -114,7 +143,7 @@
 				};
 			};
 			buildConfigurationList = 01651A3227120D2D00DC9391 /* Build configuration list for PBXProject "StepperApp" */;
-			compatibilityVersion = "Xcode 13.0";
+			compatibilityVersion = "Xcode 12.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -143,12 +172,55 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		0E938D0152E389BB02994290 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-StepperApp/Pods-StepperApp-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-StepperApp/Pods-StepperApp-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-StepperApp/Pods-StepperApp-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		2E81756311D603F04CA23B67 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-StepperApp-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		01651A3327120D2D00DC9391 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				01651A512712134000DC9391 /* FriendsListViewController.swift in Sources */,
+				A124C81027241D8B00540595 /* WeekChartViewController.swift in Sources */,
 				01651A532712137100DC9391 /* ChallengeViewController.swift in Sources */,
 				01651A4F2712131400DC9391 /* ProfileViewController.swift in Sources */,
 				01651A3F27120D2D00DC9391 /* StepsViewController.swift in Sources */,
@@ -288,6 +360,7 @@
 		};
 		01651A4C27120D2E00DC9391 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CB9D39384BA8490515AF5B40 /* Pods-StepperApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -316,6 +389,7 @@
 		};
 		01651A4D27120D2E00DC9391 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5FF80AFC5EDDD5F3380FACE8 /* Pods-StepperApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

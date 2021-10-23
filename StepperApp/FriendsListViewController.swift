@@ -7,7 +7,7 @@
 
 import UIKit
 
-class FriendsListViewController: UIViewController {
+final class FriendsListViewController: UIViewController {
 
     private lazy var label: UILabel = {
         let label = UILabel()

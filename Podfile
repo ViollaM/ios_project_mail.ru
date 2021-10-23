@@ -7,4 +7,5 @@ target 'StepperApp' do
 
   # Pods for StepperApp
   pod 'Charts'
+  pod 'PinLayout'
 end

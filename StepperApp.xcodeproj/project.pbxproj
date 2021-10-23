@@ -14,6 +14,9 @@
 		01651A4F2712131400DC9391 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01651A4E2712131400DC9391 /* ProfileViewController.swift */; };
 		01651A512712134000DC9391 /* FriendsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01651A502712134000DC9391 /* FriendsListViewController.swift */; };
 		01651A532712137100DC9391 /* ChallengeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01651A522712137100DC9391 /* ChallengeViewController.swift */; };
+		0172EABE27242F7000DE1779 /* StepsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0172EABD27242F7000DE1779 /* StepsService.swift */; };
+		0172EAC12724318C00DE1779 /* SteppingDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0172EAC02724318C00DE1779 /* SteppingDay.swift */; };
+		0172EAC52724335900DE1779 /* SteppingWeek.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0172EAC42724335900DE1779 /* SteppingWeek.swift */; };
 		3A59D2C09ADB9AA1AAE377E2 /* Pods_StepperApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A924E68D2EAE87E9BC99EBB /* Pods_StepperApp.framework */; };
 		A124C81027241D8B00540595 /* WeekChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A124C80F27241D8B00540595 /* WeekChartViewController.swift */; };
 /* End PBXBuildFile section */
@@ -28,6 +31,9 @@
 		01651A4E2712131400DC9391 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		01651A502712134000DC9391 /* FriendsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsListViewController.swift; sourceTree = "<group>"; };
 		01651A522712137100DC9391 /* ChallengeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeViewController.swift; sourceTree = "<group>"; };
+		0172EABD27242F7000DE1779 /* StepsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepsService.swift; sourceTree = "<group>"; };
+		0172EAC02724318C00DE1779 /* SteppingDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SteppingDay.swift; sourceTree = "<group>"; };
+		0172EAC42724335900DE1779 /* SteppingWeek.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SteppingWeek.swift; sourceTree = "<group>"; };
 		5FF80AFC5EDDD5F3380FACE8 /* Pods-StepperApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StepperApp.release.xcconfig"; path = "Target Support Files/Pods-StepperApp/Pods-StepperApp.release.xcconfig"; sourceTree = "<group>"; };
 		7A924E68D2EAE87E9BC99EBB /* Pods_StepperApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StepperApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A124C80F27241D8B00540595 /* WeekChartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekChartViewController.swift; sourceTree = "<group>"; };
@@ -72,7 +78,8 @@
 				01651A4527120D2E00DC9391 /* LaunchScreen.storyboard */,
 				01651A4827120D2E00DC9391 /* Info.plist */,
 				01651A542712138C00DC9391 /* Scenes */,
-				A124C80F27241D8B00540595 /* WeekChartViewController.swift */,
+				0172EABF2724315D00DE1779 /* Models */,
+				0172EABC27242F3200DE1779 /* Services */,
 			);
 			path = StepperApp;
 			sourceTree = "<group>";
@@ -84,8 +91,26 @@
 				01651A4E2712131400DC9391 /* ProfileViewController.swift */,
 				01651A502712134000DC9391 /* FriendsListViewController.swift */,
 				01651A522712137100DC9391 /* ChallengeViewController.swift */,
+				A124C80F27241D8B00540595 /* WeekChartViewController.swift */,
 			);
 			name = Scenes;
+			sourceTree = "<group>";
+		};
+		0172EABC27242F3200DE1779 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				0172EABD27242F7000DE1779 /* StepsService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		0172EABF2724315D00DE1779 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				0172EAC42724335900DE1779 /* SteppingWeek.swift */,
+				0172EAC02724318C00DE1779 /* SteppingDay.swift */,
+			);
+			name = Models;
 			sourceTree = "<group>";
 		};
 		1A219C7BD864A22EE30861FF /* Frameworks */ = {
@@ -219,9 +244,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0172EAC52724335900DE1779 /* SteppingWeek.swift in Sources */,
 				01651A512712134000DC9391 /* FriendsListViewController.swift in Sources */,
 				A124C81027241D8B00540595 /* WeekChartViewController.swift in Sources */,
 				01651A532712137100DC9391 /* ChallengeViewController.swift in Sources */,
+				0172EABE27242F7000DE1779 /* StepsService.swift in Sources */,
+				0172EAC12724318C00DE1779 /* SteppingDay.swift in Sources */,
 				01651A4F2712131400DC9391 /* ProfileViewController.swift in Sources */,
 				01651A3F27120D2D00DC9391 /* StepsViewController.swift in Sources */,
 				01651A3B27120D2D00DC9391 /* AppDelegate.swift in Sources */,

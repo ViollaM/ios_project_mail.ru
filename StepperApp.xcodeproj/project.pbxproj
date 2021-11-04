@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		014F5F96272D9E960058132F /* TabBarControllerFunc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014F5F95272D9E960058132F /* TabBarControllerFunc.swift */; };
+		014F5F99272D9F880058132F /* AuthorizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014F5F98272D9F880058132F /* AuthorizationViewController.swift */; };
+		014F5F9B272D9F990058132F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014F5F9A272D9F990058132F /* LoginViewController.swift */; };
+		014F5F9D272D9FAE0058132F /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014F5F9C272D9FAE0058132F /* SignUpViewController.swift */; };
 		01651A3B27120D2D00DC9391 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01651A3A27120D2D00DC9391 /* AppDelegate.swift */; };
 		01651A3F27120D2D00DC9391 /* StepsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01651A3E27120D2D00DC9391 /* StepsViewController.swift */; };
 		01651A4427120D2E00DC9391 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 01651A4327120D2E00DC9391 /* Assets.xcassets */; };
@@ -22,6 +26,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		014F5F95272D9E960058132F /* TabBarControllerFunc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarControllerFunc.swift; sourceTree = "<group>"; };
+		014F5F98272D9F880058132F /* AuthorizationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationViewController.swift; sourceTree = "<group>"; };
+		014F5F9A272D9F990058132F /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		014F5F9C272D9FAE0058132F /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		01651A3727120D2D00DC9391 /* StepperApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StepperApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		01651A3A27120D2D00DC9391 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		01651A3E27120D2D00DC9391 /* StepsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepsViewController.swift; sourceTree = "<group>"; };
@@ -52,6 +60,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		014F5F97272D9F280058132F /* AuthorizationVCs */ = {
+			isa = PBXGroup;
+			children = (
+				014F5F98272D9F880058132F /* AuthorizationViewController.swift */,
+				014F5F9A272D9F990058132F /* LoginViewController.swift */,
+				014F5F9C272D9FAE0058132F /* SignUpViewController.swift */,
+			);
+			path = AuthorizationVCs;
+			sourceTree = "<group>";
+		};
 		01651A2E27120D2D00DC9391 = {
 			isa = PBXGroup;
 			children = (
@@ -74,26 +92,14 @@
 			isa = PBXGroup;
 			children = (
 				01651A3A27120D2D00DC9391 /* AppDelegate.swift */,
-				01651A4327120D2E00DC9391 /* Assets.xcassets */,
-				01651A4527120D2E00DC9391 /* LaunchScreen.storyboard */,
-				01651A4827120D2E00DC9391 /* Info.plist */,
-				01651A542712138C00DC9391 /* Scenes */,
-				0172EABF2724315D00DE1779 /* Models */,
+				014F5F95272D9E960058132F /* TabBarControllerFunc.swift */,
+				01A6B2C92734450600D16DF9 /* Scenes */,
 				0172EABC27242F3200DE1779 /* Services */,
+				01A6B2CA2734454F00D16DF9 /* Models */,
+				014F5F97272D9F280058132F /* AuthorizationVCs */,
+				01A6B2CB273445D800D16DF9 /* Support */,
 			);
 			path = StepperApp;
-			sourceTree = "<group>";
-		};
-		01651A542712138C00DC9391 /* Scenes */ = {
-			isa = PBXGroup;
-			children = (
-				01651A3E27120D2D00DC9391 /* StepsViewController.swift */,
-				01651A4E2712131400DC9391 /* ProfileViewController.swift */,
-				01651A502712134000DC9391 /* FriendsListViewController.swift */,
-				01651A522712137100DC9391 /* ChallengeViewController.swift */,
-				A124C80F27241D8B00540595 /* WeekChartViewController.swift */,
-			);
-			name = Scenes;
 			sourceTree = "<group>";
 		};
 		0172EABC27242F3200DE1779 /* Services */ = {
@@ -104,13 +110,35 @@
 			path = Services;
 			sourceTree = "<group>";
 		};
-		0172EABF2724315D00DE1779 /* Models */ = {
+		01A6B2C92734450600D16DF9 /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				01651A3E27120D2D00DC9391 /* StepsViewController.swift */,
+				A124C80F27241D8B00540595 /* WeekChartViewController.swift */,
+				01651A502712134000DC9391 /* FriendsListViewController.swift */,
+				01651A522712137100DC9391 /* ChallengeViewController.swift */,
+				01651A4E2712131400DC9391 /* ProfileViewController.swift */,
+			);
+			path = Scenes;
+			sourceTree = "<group>";
+		};
+		01A6B2CA2734454F00D16DF9 /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				0172EAC42724335900DE1779 /* SteppingWeek.swift */,
 				0172EAC02724318C00DE1779 /* SteppingDay.swift */,
 			);
-			name = Models;
+			path = Models;
+			sourceTree = "<group>";
+		};
+		01A6B2CB273445D800D16DF9 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				01651A4327120D2E00DC9391 /* Assets.xcassets */,
+				01651A4527120D2E00DC9391 /* LaunchScreen.storyboard */,
+				01651A4827120D2E00DC9391 /* Info.plist */,
+			);
+			path = Support;
 			sourceTree = "<group>";
 		};
 		1A219C7BD864A22EE30861FF /* Frameworks */ = {
@@ -244,7 +272,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				014F5F9B272D9F990058132F /* LoginViewController.swift in Sources */,
+				014F5F99272D9F880058132F /* AuthorizationViewController.swift in Sources */,
 				0172EAC52724335900DE1779 /* SteppingWeek.swift in Sources */,
+				014F5F96272D9E960058132F /* TabBarControllerFunc.swift in Sources */,
 				01651A512712134000DC9391 /* FriendsListViewController.swift in Sources */,
 				A124C81027241D8B00540595 /* WeekChartViewController.swift in Sources */,
 				01651A532712137100DC9391 /* ChallengeViewController.swift in Sources */,
@@ -252,6 +283,7 @@
 				0172EAC12724318C00DE1779 /* SteppingDay.swift in Sources */,
 				01651A4F2712131400DC9391 /* ProfileViewController.swift in Sources */,
 				01651A3F27120D2D00DC9391 /* StepsViewController.swift in Sources */,
+				014F5F9D272D9FAE0058132F /* SignUpViewController.swift in Sources */,
 				01651A3B27120D2D00DC9391 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -395,7 +427,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = StepperApp/Info.plist;
+				INFOPLIST_FILE = StepperApp/Support/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -424,7 +456,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = StepperApp/Info.plist;
+				INFOPLIST_FILE = StepperApp/Support/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;

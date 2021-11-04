@@ -10,8 +10,8 @@ protocol StepsService {
     func fetchMonthSteps(for month: Date) -> [SteppingWeek]
 }
 
-final class StepsServiceImplementation: StepsService {
-    func fetchMonthSteps(for month: Date) -> [SteppingWeek] {
-        <#code#>
-    }
-}
+//final class StepsServiceImplementation: StepsService {
+//    func fetchMonthSteps(for month: Date) -> [SteppingWeek] {
+//
+//    }
+//}

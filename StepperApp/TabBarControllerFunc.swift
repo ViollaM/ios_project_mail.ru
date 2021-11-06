@@ -31,7 +31,7 @@ func buildStepsViewController() -> UIViewController {
 
 func buildProfileViewController() -> UIViewController {
     let navigationController = UINavigationController()
-    let viewController = FriendsListViewController()
+    let viewController = ProfileViewController()
     navigationController.viewControllers = [viewController]
     let profileItem = UITabBarItem(title: "Profile", image: UIImage(systemName: "person"), selectedImage: nil)
     viewController.tabBarItem = profileItem
@@ -40,7 +40,7 @@ func buildProfileViewController() -> UIViewController {
 
 func buildFriendsListViewController() -> UIViewController {
     let navigationController = UINavigationController()
-    let viewController = WeekChartViewController()
+    let viewController = FriendsListViewController()
     navigationController.viewControllers = [viewController]
     let friendsListItem = UITabBarItem(title: "Friends", image: UIImage(systemName: "person.3"), selectedImage: nil)
     viewController.tabBarItem = friendsListItem

@@ -11,7 +11,7 @@ import PinLayout
 class StepsViewController: UIViewController {
 
     private lazy var stackView: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [label1, label2, label3])
+        let stack = UIStackView(arrangedSubviews: [stepsLabel, distanceLabel, stepsLeftLabel])
         stack.axis = .vertical
         stack.alignment = .center
         stack.isLayoutMarginsRelativeArrangement = true
@@ -21,45 +21,57 @@ class StepsViewController: UIViewController {
         return stack
     }()
     
-    private lazy var label1: UILabel = {
+    private lazy var stepsLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "7509"
         label.font = .systemFont(ofSize: 36, weight: .bold)
         return label
     }()
-    private lazy var label2: UILabel = {
+    private lazy var distanceLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "distance: 6.0km"
         return label
     }()
-    private lazy var label3: UILabel = {
+    private lazy var stepsLeftLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "left: 2131"
         return label
+    }()
+    
+    private lazy var weekChartButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Week", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.47)
+        button.addTarget(self, action: #selector(weekButtonPressed), for: .touchUpInside)
+        return button
     }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-//        setupBackground()
         setupLayout()
     }
 
     func setupLayout () {
         view.addSubview(stackView)
+        view.addSubview(weekChartButton)
         stackView.pin
             .top(80)
             .height(200)
             .width(200)
-            .left(87)
+            .hCenter()
+        
+        weekChartButton.pin
+            .bottom(100)
+            .horizontally(100)
+            .height(40)
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
         stackView.layer.cornerRadius = stackView.frame.width/2
+        weekChartButton.layer.cornerRadius = 10
     }
     
     private func setupBackground() {
@@ -67,6 +79,11 @@ class StepsViewController: UIViewController {
         backgroundImage.image = UIImage(named: "BG")
         backgroundImage.contentMode = UIView.ContentMode.scaleAspectFill
         self.view.insertSubview(backgroundImage, at: 0)
+    }
+    
+    @objc func weekButtonPressed () {
+        let vc = WeekChartViewController()
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
 }

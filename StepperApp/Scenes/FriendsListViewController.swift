@@ -9,12 +9,6 @@ import UIKit
 
 final class FriendsListViewController: UIViewController {
 
-    private lazy var label: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationItem()

@@ -72,7 +72,6 @@
 				01651A4527120D2E00DC9391 /* LaunchScreen.storyboard */,
 				01651A4827120D2E00DC9391 /* Info.plist */,
 				01651A542712138C00DC9391 /* Scenes */,
-				A124C80F27241D8B00540595 /* WeekChartViewController.swift */,
 			);
 			path = StepperApp;
 			sourceTree = "<group>";
@@ -80,6 +79,7 @@
 		01651A542712138C00DC9391 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				A124C80F27241D8B00540595 /* WeekChartViewController.swift */,
 				01651A3E27120D2D00DC9391 /* StepsViewController.swift */,
 				01651A4E2712131400DC9391 /* ProfileViewController.swift */,
 				01651A502712134000DC9391 /* FriendsListViewController.swift */,

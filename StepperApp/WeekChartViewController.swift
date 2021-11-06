@@ -11,8 +11,8 @@ import Charts
 
 final class WeekChartViewController: UIViewController{
 
-    private lazy var chart: LineChartView = {
-        let chart = LineChartView()
+    private lazy var chart: BarChartView = {
+        let chart = BarChartView()
         chart.translatesAutoresizingMaskIntoConstraints = false
         return chart
     }()
@@ -28,10 +28,11 @@ final class WeekChartViewController: UIViewController{
         view.addSubview(chart)
         NSLayoutConstraint.activate([
             chart.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            chart.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            //chart..constraint(equalTo: view.centerYAnchor),
             chart.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             chart.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            chart.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.5)
+            chart.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.25),
+            chart.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100)
         ])
     }
 
@@ -42,29 +43,51 @@ final class WeekChartViewController: UIViewController{
 
 extension WeekChartViewController {
     func setupChartData(){
-        let values = (0..<7).map { (i) -> ChartDataEntry in
-            let val = Double(arc4random_uniform(100) + 3)
-            return ChartDataEntry(x: Double(i), y: val, icon: nil)
+        var steps = [BarChartDataEntry]()
+        
+        for x in 0..<7{
+            steps.append(BarChartDataEntry(x: Double(x), y: Double(Int.random(in: 0...20000))))
         }
-        let set = LineChartDataSet(entries: values, label: "Week steps")
-        set.drawIconsEnabled = false
-        setupDataSet(set)
-        let value = ChartDataEntry(x: Double(3), y: 3)
-        _ = set.addEntryOrdered(value)
-        let data = LineChartData(dataSet: set)
+        
+        var set: BarChartDataSet! = nil
+       
+        set = BarChartDataSet(entries: steps, label: "Week Steps")
+        set.colors = [
+            NSUIColor(cgColor: UIColor.systemGreen.cgColor),
+        ]
+        
+        set.drawValuesEnabled = {false}()
+        
+        let data = BarChartData(dataSet: set)
+        data.setValueFont(UIFont(name: "HelveticaNeue-Light", size: 10)!)
+        data.barWidth = 0.75
+        data.setDrawValues(false)
         chart.data = data
-    }
-    private func setupDataSet(_ dataSet: LineChartDataSet) {
-        dataSet.lineDashLengths = [5, 2.5]
-        dataSet.highlightLineDashLengths = [5, 2.5]
-        dataSet.setColor(.black)
-        dataSet.setCircleColor(.black)
-        dataSet.lineWidth = 1
-        dataSet.circleRadius = 3
-        dataSet.drawCircleHoleEnabled = false
-        dataSet.valueFont = .systemFont(ofSize: 9)
-        dataSet.formLineDashLengths = [5, 2.5]
-        dataSet.formLineWidth = 1
-        dataSet.formSize = 15
+        
+        chart.doubleTapToZoomEnabled = false
+        chart.legend.enabled = false
+
+        let weekAxis = chart.xAxis
+        let leftAxis = chart.leftAxis
+        let rightAxis = chart.rightAxis
+        
+        //rightAxis.removeAllLimitLines()
+        //rightAxis.axisMaximum = 10000
+        rightAxis.axisMinimum = 0
+        //rightAxis.drawLimitLinesBehindDataEnabled = false
+    
+        leftAxis.drawLabelsEnabled = false
+        leftAxis.gridColor = .clear
+        leftAxis.axisMinimum = 0
+
+        
+        let days = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"]
+        weekAxis.valueFormatter = IndexAxisValueFormatter(values:days)
+        weekAxis.granularity = 1
+        weekAxis.labelPosition = XAxis.LabelPosition.bottom
+        
+        //weekAxis.gridColor = .clear
+        //rightAxis.gridColor = .clear
+        
     }
 }

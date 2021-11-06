@@ -15,6 +15,6 @@ final class CompetitionViewController: UIViewController {
     }
 
     func setupNavigationItem () {
-        self.title = "Challenges"
+        self.title = "Competitions"
     }
 }

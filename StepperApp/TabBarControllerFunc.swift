@@ -9,7 +9,7 @@ import UIKit
 
 func buildAppTabBarController() -> UITabBarController {
     let tabBarController = UITabBarController()
-    let viewcontollers = [buildStepsViewController(), buildFriendsListViewController(), buildChallengeViewController(),  buildProfileViewController()]
+    let viewcontollers = [buildStepsViewController(), buildFriendsListViewController(), buildCompetitionViewController(),  buildProfileViewController()]
     viewcontollers.forEach {
         setupBackground(on: $0)
     }
@@ -31,7 +31,7 @@ func buildStepsViewController() -> UIViewController {
 
 func buildProfileViewController() -> UIViewController {
     let navigationController = UINavigationController()
-    let viewController = ProfileViewController()
+    let viewController = FriendsListViewController()
     navigationController.viewControllers = [viewController]
     let profileItem = UITabBarItem(title: "Profile", image: UIImage(systemName: "person"), selectedImage: nil)
     viewController.tabBarItem = profileItem
@@ -40,18 +40,18 @@ func buildProfileViewController() -> UIViewController {
 
 func buildFriendsListViewController() -> UIViewController {
     let navigationController = UINavigationController()
-    let viewController = FriendsListViewController()
+    let viewController = WeekChartViewController()
     navigationController.viewControllers = [viewController]
     let friendsListItem = UITabBarItem(title: "Friends", image: UIImage(systemName: "person.3"), selectedImage: nil)
     viewController.tabBarItem = friendsListItem
     return navigationController
 }
 
-func buildChallengeViewController() -> UIViewController {
+func buildCompetitionViewController() -> UIViewController {
     let navigationController = UINavigationController()
-    let viewController = ChallengeViewController()
+    let viewController = CompetitionViewController()
     navigationController.viewControllers = [viewController]
-    let challengeItem = UITabBarItem(title: "Challenge", image: UIImage(systemName: "crown"), selectedImage: nil)
+    let challengeItem = UITabBarItem(title: "Competition", image: UIImage(systemName: "crown"), selectedImage: nil)
     viewController.tabBarItem = challengeItem
     return navigationController
 }

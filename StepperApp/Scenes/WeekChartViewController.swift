@@ -13,7 +13,6 @@ final class WeekChartViewController: UIViewController{
 
     private lazy var chart: LineChartView = {
         let chart = LineChartView()
-        chart.translatesAutoresizingMaskIntoConstraints = false
         return chart
     }()
 
@@ -26,13 +25,11 @@ final class WeekChartViewController: UIViewController{
 
     func setupLayout () {
         view.addSubview(chart)
-        NSLayoutConstraint.activate([
-            chart.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            chart.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            chart.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            chart.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            chart.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.5)
-        ])
+        
+        chart.pin
+            .vCenter()
+            .horizontally(32)
+            .height(view.frame.height/2)
     }
 
     func configureUI () {

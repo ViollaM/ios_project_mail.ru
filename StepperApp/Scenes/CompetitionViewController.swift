@@ -7,13 +7,7 @@
 
 import UIKit
 
-final class ChallengeViewController: UIViewController {
-
-    private lazy var label: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+final class CompetitionViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()

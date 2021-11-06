@@ -17,7 +17,7 @@
 		01651A4727120D2E00DC9391 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 01651A4527120D2E00DC9391 /* LaunchScreen.storyboard */; };
 		01651A4F2712131400DC9391 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01651A4E2712131400DC9391 /* ProfileViewController.swift */; };
 		01651A512712134000DC9391 /* FriendsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01651A502712134000DC9391 /* FriendsListViewController.swift */; };
-		01651A532712137100DC9391 /* ChallengeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01651A522712137100DC9391 /* ChallengeViewController.swift */; };
+		01651A532712137100DC9391 /* CompetitionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01651A522712137100DC9391 /* CompetitionViewController.swift */; };
 		0172EABE27242F7000DE1779 /* StepsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0172EABD27242F7000DE1779 /* StepsService.swift */; };
 		0172EAC12724318C00DE1779 /* SteppingDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0172EAC02724318C00DE1779 /* SteppingDay.swift */; };
 		0172EAC52724335900DE1779 /* SteppingWeek.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0172EAC42724335900DE1779 /* SteppingWeek.swift */; };
@@ -38,7 +38,7 @@
 		01651A4827120D2E00DC9391 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		01651A4E2712131400DC9391 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		01651A502712134000DC9391 /* FriendsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsListViewController.swift; sourceTree = "<group>"; };
-		01651A522712137100DC9391 /* ChallengeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeViewController.swift; sourceTree = "<group>"; };
+		01651A522712137100DC9391 /* CompetitionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompetitionViewController.swift; sourceTree = "<group>"; };
 		0172EABD27242F7000DE1779 /* StepsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepsService.swift; sourceTree = "<group>"; };
 		0172EAC02724318C00DE1779 /* SteppingDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SteppingDay.swift; sourceTree = "<group>"; };
 		0172EAC42724335900DE1779 /* SteppingWeek.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SteppingWeek.swift; sourceTree = "<group>"; };
@@ -116,7 +116,7 @@
 				01651A3E27120D2D00DC9391 /* StepsViewController.swift */,
 				A124C80F27241D8B00540595 /* WeekChartViewController.swift */,
 				01651A502712134000DC9391 /* FriendsListViewController.swift */,
-				01651A522712137100DC9391 /* ChallengeViewController.swift */,
+				01651A522712137100DC9391 /* CompetitionViewController.swift */,
 				01651A4E2712131400DC9391 /* ProfileViewController.swift */,
 			);
 			path = Scenes;
@@ -278,7 +278,7 @@
 				014F5F96272D9E960058132F /* TabBarControllerFunc.swift in Sources */,
 				01651A512712134000DC9391 /* FriendsListViewController.swift in Sources */,
 				A124C81027241D8B00540595 /* WeekChartViewController.swift in Sources */,
-				01651A532712137100DC9391 /* ChallengeViewController.swift in Sources */,
+				01651A532712137100DC9391 /* CompetitionViewController.swift in Sources */,
 				0172EABE27242F7000DE1779 /* StepsService.swift in Sources */,
 				0172EAC12724318C00DE1779 /* SteppingDay.swift in Sources */,
 				01651A4F2712131400DC9391 /* ProfileViewController.swift in Sources */,

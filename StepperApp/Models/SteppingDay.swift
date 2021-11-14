@@ -8,6 +8,7 @@
 import Foundation
 
 struct SteppingDay {
-    let steps: Int
-    let date: Date
+    var steps: Int = 0
+    let km: Int? = nil
+    var date: Date = Date()
 }

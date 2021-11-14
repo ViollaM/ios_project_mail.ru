@@ -11,9 +11,19 @@ import PinLayout
 class StepsViewController: UIViewController {
     
     var weekChartViewController: UIViewController!
+    private let stepsService: StepsService
+    
+    init(stepsService: StepsService) {
+        self.stepsService = stepsService
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     private lazy var stackView: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [stepsLabel, distanceLabel, stepsLeftLabel])
+        let stack = UIStackView(arrangedSubviews: [stepsCountLabel, distanceLabel, stepsRemainingLabel])
         stack.axis = .vertical
         stack.alignment = .center
         stack.isLayoutMarginsRelativeArrangement = true
@@ -23,22 +33,27 @@ class StepsViewController: UIViewController {
         return stack
     }()
     
-    private lazy var stepsLabel: UILabel = {
+    private lazy var stepsCountLabel: UILabel = {
         let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "7509"
         label.font = .systemFont(ofSize: 36, weight: .bold)
         return label
     }()
     private lazy var distanceLabel: UILabel = {
         let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "distance: 6.0km"
         return label
     }()
-    private lazy var stepsLeftLabel: UILabel = {
+    private lazy var stepsRemainingLabel: UILabel = {
         let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "left: 2131"
         return label
     }()
+    
+    var week: SteppingWeek = SteppingWeek(steppingDays: [])
     
     private lazy var weekChartButton: UIButton = {
         let button = UIButton()
@@ -51,6 +66,8 @@ class StepsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        stepsServiceAuth()
+        setupNavigation()
         setupLayout()
         getWeekChartView()
         setupWeekChartViewLayout()
@@ -73,6 +90,56 @@ class StepsViewController: UIViewController {
     }
     
     func setupLayout () {
+    private func stepsServiceAuth() {
+        stepsService.authorizeService { [weak self] result in
+            guard let self = self else {
+                return
+            }
+            switch result {
+            case .success(let result):
+                if result {
+                    self.loadStepsData()
+                } else {
+                    print("Alert! Give us permission!")
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    private func updateLabelsData(stepsCount: Int) {
+        stepsCountLabel.text = "\(stepsCount)"
+        if 10000 - stepsCount > 0 {
+            stepsRemainingLabel.text = "left: \(10000-stepsCount)"
+        } else {
+            stepsRemainingLabel.isHidden = true
+        }
+    }
+    
+    private func loadStepsData() {
+        stepsService.fetchLastWeekSteps { [weak self] result in
+            guard let self = self else {
+                return
+            }
+            switch result {
+            case .success(let week):
+                self.week = week
+                DispatchQueue.main.async { [weak self] in
+                    self?.updateLabelsData(stepsCount: week.steppingDays.last!.steps)
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+            print("Week info: \(self.week)")
+        }
+    }
+
+    private func setupNavigation() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(toAuthorization))
+    }
+    
+    private func setupLayout() {
         view.addSubview(stackView)
                 
         stackView.pin
@@ -95,16 +162,19 @@ class StepsViewController: UIViewController {
         weekChartButton.layer.cornerRadius = 10
     }
     
-    private func setupBackground() {
-        let backgroundImage = UIImageView(frame: UIScreen.main.bounds)
-        backgroundImage.image = UIImage(named: "BG")
-        backgroundImage.contentMode = UIView.ContentMode.scaleAspectFill
-        self.view.insertSubview(backgroundImage, at: 0)
-    }
-    
-    @objc func weekButtonPressed () {
+    @objc
+    private func weekButtonPressed () {
         let vc = WeekChartViewController()
         self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    @objc
+    private func toAuthorization() {
+        let rootVC = AuthorizationViewController()
+        let navVC = UINavigationController(rootViewController: rootVC)
+        navVC.navigationBar.isHidden = true
+        navVC.modalPresentationStyle = .fullScreen
+        present(navVC, animated: true)
     }
     
 }

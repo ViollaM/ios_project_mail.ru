@@ -17,12 +17,14 @@
 		01651A4727120D2E00DC9391 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 01651A4527120D2E00DC9391 /* LaunchScreen.storyboard */; };
 		01651A4F2712131400DC9391 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01651A4E2712131400DC9391 /* ProfileViewController.swift */; };
 		01651A512712134000DC9391 /* FriendsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01651A502712134000DC9391 /* FriendsListViewController.swift */; };
-		01651A532712137100DC9391 /* CompetitionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01651A522712137100DC9391 /* CompetitionViewController.swift */; };
 		0172EABE27242F7000DE1779 /* StepsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0172EABD27242F7000DE1779 /* StepsService.swift */; };
 		0172EAC12724318C00DE1779 /* SteppingDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0172EAC02724318C00DE1779 /* SteppingDay.swift */; };
 		0172EAC52724335900DE1779 /* SteppingWeek.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0172EAC42724335900DE1779 /* SteppingWeek.swift */; };
 		3A59D2C09ADB9AA1AAE377E2 /* Pods_StepperApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A924E68D2EAE87E9BC99EBB /* Pods_StepperApp.framework */; };
 		A124C81027241D8B00540595 /* WeekChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A124C80F27241D8B00540595 /* WeekChartViewController.swift */; };
+		F340CE622736E99A0055D87A /* CompetitionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F340CE612736E99A0055D87A /* CompetitionViewCell.swift */; };
+		F3E3B3B9274108A400BD7D83 /* EachCompetitionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E3B3B8274108A400BD7D83 /* EachCompetitionViewController.swift */; };
+		F3E3B3BB27410FF100BD7D83 /* CompetitionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E3B3BA27410FF100BD7D83 /* CompetitionViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,7 +40,6 @@
 		01651A4827120D2E00DC9391 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		01651A4E2712131400DC9391 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		01651A502712134000DC9391 /* FriendsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsListViewController.swift; sourceTree = "<group>"; };
-		01651A522712137100DC9391 /* CompetitionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompetitionViewController.swift; sourceTree = "<group>"; };
 		0172EABD27242F7000DE1779 /* StepsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepsService.swift; sourceTree = "<group>"; };
 		0172EAC02724318C00DE1779 /* SteppingDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SteppingDay.swift; sourceTree = "<group>"; };
 		0172EAC42724335900DE1779 /* SteppingWeek.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SteppingWeek.swift; sourceTree = "<group>"; };
@@ -46,6 +47,9 @@
 		7A924E68D2EAE87E9BC99EBB /* Pods_StepperApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StepperApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A124C80F27241D8B00540595 /* WeekChartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekChartViewController.swift; sourceTree = "<group>"; };
 		CB9D39384BA8490515AF5B40 /* Pods-StepperApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StepperApp.debug.xcconfig"; path = "Target Support Files/Pods-StepperApp/Pods-StepperApp.debug.xcconfig"; sourceTree = "<group>"; };
+		F340CE612736E99A0055D87A /* CompetitionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompetitionViewCell.swift; sourceTree = "<group>"; };
+		F3E3B3B8274108A400BD7D83 /* EachCompetitionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EachCompetitionViewController.swift; sourceTree = "<group>"; };
+		F3E3B3BA27410FF100BD7D83 /* CompetitionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompetitionViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,7 +120,7 @@
 				01651A3E27120D2D00DC9391 /* StepsViewController.swift */,
 				A124C80F27241D8B00540595 /* WeekChartViewController.swift */,
 				01651A502712134000DC9391 /* FriendsListViewController.swift */,
-				01651A522712137100DC9391 /* CompetitionViewController.swift */,
+				F340CE632736E9A30055D87A /* Competition */,
 				01651A4E2712131400DC9391 /* ProfileViewController.swift */,
 			);
 			path = Scenes;
@@ -156,6 +160,16 @@
 				5FF80AFC5EDDD5F3380FACE8 /* Pods-StepperApp.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		F340CE632736E9A30055D87A /* Competition */ = {
+			isa = PBXGroup;
+			children = (
+				F340CE612736E99A0055D87A /* CompetitionViewCell.swift */,
+				F3E3B3B8274108A400BD7D83 /* EachCompetitionViewController.swift */,
+				F3E3B3BA27410FF100BD7D83 /* CompetitionViewController.swift */,
+			);
+			path = Competition;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -278,12 +292,14 @@
 				014F5F96272D9E960058132F /* TabBarControllerFunc.swift in Sources */,
 				01651A512712134000DC9391 /* FriendsListViewController.swift in Sources */,
 				A124C81027241D8B00540595 /* WeekChartViewController.swift in Sources */,
-				01651A532712137100DC9391 /* CompetitionViewController.swift in Sources */,
 				0172EABE27242F7000DE1779 /* StepsService.swift in Sources */,
+				F340CE622736E99A0055D87A /* CompetitionViewCell.swift in Sources */,
 				0172EAC12724318C00DE1779 /* SteppingDay.swift in Sources */,
 				01651A4F2712131400DC9391 /* ProfileViewController.swift in Sources */,
+				F3E3B3BB27410FF100BD7D83 /* CompetitionViewController.swift in Sources */,
 				01651A3F27120D2D00DC9391 /* StepsViewController.swift in Sources */,
 				014F5F9D272D9FAE0058132F /* SignUpViewController.swift in Sources */,
+				F3E3B3B9274108A400BD7D83 /* EachCompetitionViewController.swift in Sources */,
 				01651A3B27120D2D00DC9391 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -426,6 +442,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = TNAJV9TQHF;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = StepperApp/Support/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -455,6 +472,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = TNAJV9TQHF;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = StepperApp/Support/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

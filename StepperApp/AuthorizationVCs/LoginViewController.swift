@@ -55,7 +55,7 @@ final class LoginViewController: UIViewController {
     
     private func setupView() {
         title = "Login"
-        
+        navigationController?.navigationBar.prefersLargeTitles = true
         [loginButton, nameTextField, passwordTextField].forEach {
             view.addSubview($0)
         }

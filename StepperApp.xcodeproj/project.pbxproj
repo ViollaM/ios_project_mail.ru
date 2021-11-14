@@ -92,10 +92,6 @@
 			isa = PBXGroup;
 			children = (
 				01651A3A27120D2D00DC9391 /* AppDelegate.swift */,
-				01651A4327120D2E00DC9391 /* Assets.xcassets */,
-				01651A4527120D2E00DC9391 /* LaunchScreen.storyboard */,
-				01651A4827120D2E00DC9391 /* Info.plist */,
-				01651A542712138C00DC9391 /* Scenes */,
 				014F5F95272D9E960058132F /* TabBarControllerFunc.swift */,
 				01A6B2C92734450600D16DF9 /* Scenes */,
 				0172EABC27242F3200DE1779 /* Services */,
@@ -115,7 +111,6 @@
 			sourceTree = "<group>";
 		};
 		01A6B2C92734450600D16DF9 /* Scenes */ = {
-		01651A542712138C00DC9391 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
 				01651A3E27120D2D00DC9391 /* StepsViewController.swift */,
@@ -431,6 +426,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = StepperApp/Support/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -460,6 +456,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = StepperApp/Support/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

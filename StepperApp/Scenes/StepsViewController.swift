@@ -9,6 +9,8 @@ import UIKit
 import PinLayout
 
 class StepsViewController: UIViewController {
+    
+    var weekChartViewController: UIViewController!
 
     private lazy var stackView: UIStackView = {
         let stack = UIStackView(arrangedSubviews: [stepsLabel, distanceLabel, stepsLeftLabel])
@@ -50,21 +52,40 @@ class StepsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupLayout()
+        getWeekChartView()
+        setupWeekChartViewLayout()
     }
-
+    
+    func getWeekChartView(){
+        weekChartViewController = WeekChartViewController()
+        addChild(weekChartViewController)
+        view.insertSubview(weekChartViewController.view, at: 0)
+        weekChartViewController.didMove(toParent: self)
+    }
+    
+    
+    func setupWeekChartViewLayout(){
+        
+        weekChartViewController.view.pin
+            .horizontally(0)
+            .height(283)
+            .bottom(83)
+    }
+    
     func setupLayout () {
         view.addSubview(stackView)
-        view.addSubview(weekChartButton)
+                
         stackView.pin
             .top(80)
             .height(200)
             .width(200)
             .hCenter()
         
-        weekChartButton.pin
-            .bottom(100)
-            .horizontally(100)
-            .height(40)
+        //view.addSubview(weekChartButton)
+//        weekChartButton.pin
+//            .bottom(100)
+//            .horizontally(100)
+//            .height(40)
     }
     
     override func viewDidLayoutSubviews() {

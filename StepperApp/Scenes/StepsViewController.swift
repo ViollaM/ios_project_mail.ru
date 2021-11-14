@@ -89,7 +89,6 @@ class StepsViewController: UIViewController {
             .bottom(83)
     }
     
-    func setupLayout () {
     private func stepsServiceAuth() {
         stepsService.authorizeService { [weak self] result in
             guard let self = self else {

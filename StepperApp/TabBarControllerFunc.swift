@@ -9,7 +9,8 @@ import UIKit
 
 func buildAppTabBarController() -> UITabBarController {
     let tabBarController = UITabBarController()
-    let viewcontollers = [buildStepsViewController(), buildFriendsListViewController(), buildCompetitionViewController(),  buildProfileViewController()]
+    let profileService = ProfileServiceImplementation()
+    let viewcontollers = [buildStepsViewController(), buildFriendsListViewController(), buildCompetitionViewController(),  buildProfileViewController(profileService: profileService)]
     viewcontollers.forEach {
         setupBackground(on: $0)
     }
@@ -29,9 +30,9 @@ func buildStepsViewController() -> UIViewController {
     return navigationController
 }
 
-func buildProfileViewController() -> UIViewController {
+func buildProfileViewController(profileService: ProfileService) -> UIViewController {
     let navigationController = UINavigationController()
-    let viewController = ProfileViewController()
+    let viewController = ProfileViewController(profileService: profileService)
     navigationController.viewControllers = [viewController]
     let profileItem = UITabBarItem(title: "Profile", image: UIImage(systemName: "person"), selectedImage: nil)
     viewController.tabBarItem = profileItem

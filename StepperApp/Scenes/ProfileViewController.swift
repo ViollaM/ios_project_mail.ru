@@ -7,8 +7,92 @@
 
 import UIKit
 
+enum Alert {
+    case success
+    case failure
+    case error
+}
+enum Valid {
+    case success
+    case failure(Alert, AlertMessages)
+}
+enum ValidationType {
+    case userEmail
+    case userName
+    case userAge
+    case userPassword
+}
+enum RegEx: String {
+    case userEmail = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}"
+    case userPassword = "^.{6,15}$"
+    case userName = "^@[a-zA-Z]*$"
+    case userAge = "^100|[1-9]?[0-9]$"
+}
+enum AlertMessages: String {
+     case inValidEmail = "InvalidEmail"
+     case inValidAge = "Invalid Age"
+     case inValidName = "Invalid Name"
+     case inValidPassword = "Invalid Password"
+    
+     func localized() -> String {
+        return NSLocalizedString(self.rawValue, comment: "")
+     }
+}
 
-class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class Validation: NSObject {
+    
+    public static let shared = Validation()
+    
+    func validate(values: (type: ValidationType, inputValue: String)...) -> (Valid, Character) {
+        for valueToBeChecked in values {
+            switch valueToBeChecked.type {
+            case .userEmail:
+                if let tempValue = isValidString((valueToBeChecked.inputValue, .userEmail, .inValidEmail)) {
+                    return (tempValue, "e")
+                }
+            case .userAge:
+                if let tempValue = isValidString((valueToBeChecked.inputValue, .userAge, .inValidAge)) {
+                    return (tempValue, "a")
+                }
+            case .userName:
+                if let tempValue = isValidString((valueToBeChecked.inputValue, .userName, .inValidName)) {
+                    return (tempValue, "n")
+                }
+            case .userPassword:
+                if let tempValue = isValidString((valueToBeChecked.inputValue, .userPassword, .inValidPassword)) {
+                    return (tempValue, "p")
+                }
+            }
+        }
+        return (.success, "s")
+    }
+    
+    func isValidString(_ input: (text: String, regex: RegEx, invalidAlert: AlertMessages)) -> Valid? {
+        if isValidRegEx(input.text, input.regex) != true {
+            return .failure(.error, input.invalidAlert)
+        }
+        return nil
+    }
+    
+    func isValidRegEx(_ testStr: String, _ regex: RegEx) -> Bool {
+        let stringTest = NSPredicate(format:"SELF MATCHES %@", regex.rawValue)
+        let result = stringTest.evaluate(with: testStr)
+        return result
+    }
+}
+
+class ProfileViewController: UIViewController {
+    
+    private let profileService: ProfileService
+
+    init(profileService: ProfileService) {
+        self.profileService = profileService
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     private lazy var imageCircle: UIImageView = {
         var i = UIImageView(image: UIImage(named: "Photo.png"))
@@ -58,42 +142,41 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         return t
     }()
     
-    private lazy var genderTextView: UIView = {
-       let v = UIView()
-        return v
+    private lazy var genderSegmentedControl: UISegmentedControl = {
+       let sc = UISegmentedControl(items: ["Male", "Female"])
+        //sc.addTarget(self, action: #selector(genderChanged), for: .valueChanged)
+        return sc
     }()
     
-    private lazy var genderLabel: UILabel = {
-        let l = UILabel()
-        return l
-    }()
-    
-    private lazy var genderTextField: UITextField = {
-        let t = UITextField()
-        return t
-    }()
+    private let bgColour = UIColor(red: 204/255, green: 228/255, blue: 225/255, alpha: 1)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationItem()
         setupLayout()
         configureUI()
+
     }
 
+    @objc func genderPress() {
+        let rootVC = GenderTableViewController()
+        let navVC = UINavigationController(rootViewController: rootVC)
+        navVC.navigationBar.isHidden = true
+        present(navVC, animated: true)
+    }
+    
     func setupLayout() {
         
-        [nameTextView, ageTextView, genderTextView, editPhotoButton, imageCircle].forEach {
+        [nameTextView, ageTextView, editPhotoButton, imageCircle].forEach {
             view.addSubview($0)
         }
+        view.addSubview(genderSegmentedControl)
         
         nameTextView.addSubview(nameLabel)
         nameTextView.addSubview(nameTextField)
         
         ageTextView.addSubview(ageLabel)
         ageTextView.addSubview(ageTextField)
-        
-        genderTextView.addSubview(genderLabel)
-        genderTextView.addSubview(genderTextField)
         
         imageCircleLayout()
         editPhotoButtonLayout()
@@ -103,7 +186,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     }
     
     private func imageCircleLayout() {
-        imageCircle.pin.top(120).hCenter().width(220).height(220)
+        imageCircle.pin.top(200).hCenter().width(220).height(220)
     }
     
     private func nameLayout() {
@@ -115,10 +198,9 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         ageTextView.pin.below(of: nameTextView).margin(4).width(220).height(43).hCenter()
         inTextViewConstraints(ageTextView, ageLabel, ageTextField)
     }
-
+    
     private func genderLayout() {
-        genderTextView.pin.below(of: ageTextView).width(220).height(43).hCenter().margin(4)
-        inTextViewConstraints(genderTextView, genderLabel, genderTextField)
+        genderSegmentedControl.pin.below(of: ageTextView).margin(4).height(43).hCenter().width(220)
     }
 
     private func editPhotoButtonLayout() {
@@ -143,13 +225,15 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         ])
     }
     
+    //MARK: configureUI
+    
     func configureUI() {
-        let textViews: [UIView] = [nameTextView, ageTextView, genderTextView]
-        let textFields: [UITextField] = [nameTextField, ageTextField, genderTextField]
-        let textLabels: [UILabel] = [nameLabel, ageLabel, genderLabel]
+        let textViews: [UIView] = [nameTextView, ageTextView]
+        let textFields: [UITextField] = [nameTextField, ageTextField]
+        let textLabels: [UILabel] = [nameLabel, ageLabel]
         
         textViews.forEach {
-            $0.backgroundColor = UIColor(red: 204/255, green: 228/255, blue: 225/255, alpha: 1)
+            $0.backgroundColor = bgColour
             let tapGesture = UITapGestureRecognizer(
                 target: self,
                 action: #selector(handleTap)
@@ -172,14 +256,18 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             $0.isUserInteractionEnabled = false
         }
         
+        nameTextField.placeholder = "@name"
+        ageTextField.placeholder = "age"
+        
         nameTextField.text = UserDefaults.standard.string(forKey: "name") ?? ""
         ageTextField.text = UserDefaults.standard.string(forKey: "age") ?? ""
-        genderTextField.text = UserDefaults.standard.string(forKey: "gender") ?? ""
         
         nameLabel.text = "Name:"
         ageLabel.text = "Age:"
-        genderLabel.text = "Gender:"
         
+        genderSegmentedControl.backgroundColor = bgColour
+        let font = UIFont(name: "Arial", size: 20)
+        genderSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.font: font!], for: .normal)
         
         editButton.semanticContentAttribute = UISemanticContentAttribute.forceRightToLeft
         editButton.setTitleColor(UIColor(red: 12/255, green: 38/255, blue: 36/255, alpha: 0.8), for: .normal)
@@ -205,7 +293,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             let profileTitleFrame = CGRect(x: 24, y: 0, width: navigationBar.frame.width/2, height: navigationBar.frame.height)
             let profileTitleLabel = UILabel(frame: profileTitleFrame)
             profileTitleLabel.text = "Profile"
-            profileTitleLabel.font = .systemFont(ofSize: 20, weight: .bold)
+            profileTitleLabel.font = .systemFont(ofSize: 30, weight: .bold)
             navigationBar.addSubview(profileTitleLabel)
         }
     }
@@ -214,26 +302,61 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         super.viewWillLayoutSubviews()
         nameTextView.layer.cornerRadius = 10
         ageTextView.layer.cornerRadius = 10
-        genderTextView.layer.cornerRadius = 10
     }
     
     @objc func saveButtonClicked() {
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: editButton)
-        [nameTextField, ageTextField, genderTextField].forEach {
-            $0.isUserInteractionEnabled = false
+        
+        if let name = nameTextField.text {
+            if let age = ageTextField.text {
+                let response = Validation.shared.validate(values: (ValidationType.userName, name), (ValidationType.userAge, age))
+                switch response.0 {
+                case .success:
+                    UserDefaults.standard.set(nameTextField.text, forKey: "name")
+                    UserDefaults.standard.set(ageTextField.text, forKey: "age")
+                    //UserDefaults.standard.set(genderSegmentedControl.selectedSegmentIndex, forKey: "gender")
+                    self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: editButton)
+                                [nameTextField, ageTextField].forEach {
+                                    $0.isUserInteractionEnabled = false
+                                }
+                                genderSegmentedControl.isUserInteractionEnabled = false
+                                editPhotoButton.alpha = 0
+                                editPhotoButton.isEnabled = false
+                case .failure:
+                    inputAlert(response.1)
+                }
+            }
+            else {
+                inputAlert("a")
+            }
         }
-        editPhotoButton.alpha = 0
-        editPhotoButton.isEnabled = false
-        UserDefaults.standard.set(nameTextField.text, forKey: "name")
-        UserDefaults.standard.set(ageTextField.text, forKey: "age")
-        UserDefaults.standard.set(genderTextField.text, forKey: "gender")
+        else {
+            inputAlert("n")
+        }
     }
+    
+    private func inputAlert(_ c: Character) {
+        let alert = UIAlertController(title: "Alert", message: "Name should start with @ and contain only lower- or uppercase letters, age should be in the range [0, 100]", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: {(alert: UIAlertAction!) in self.textError(c)}))
+        present(alert, animated: true, completion: nil)
+    }
+        
+        private func textError(_ c: Character) {
+            switch c {
+            case "n":
+                nameTextField.isError(numberOfShakes: 3, revert: true)
+            case "a":
+                ageTextField.isError(numberOfShakes: 3, revert: true)
+            default:
+                fatalError()
+            }
+        }
     
     @objc func editButtonClicked() {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(saveButtonClicked))
-        [nameTextField, ageTextField, genderTextField].forEach {
+        [nameTextField, ageTextField].forEach {
             $0.isUserInteractionEnabled = true
         }
+        genderSegmentedControl.isUserInteractionEnabled = true
         editPhotoButton.alpha = 1
         editPhotoButton.isEnabled = true
     }
@@ -252,6 +375,30 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         present(picker, animated: true)
     }
     
+    func getDocumentsDirectory() -> URL {
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        return paths[0]
+    }
+    
+    func setupNavigationItem () {
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: editButton)
+//        self.title = "Profile"
+//        self.navigationController?.navigationBar.prefersLargeTitles = true
+    }
+}
+
+extension UIImageView {
+
+    func makeRounded() {
+        self.layer.masksToBounds = false
+        self.layer.cornerRadius = self.frame.height / 2
+        self.clipsToBounds = true
+    }
+}
+// MARK: image picker setup
+extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         guard let image = info[.editedImage] as? UIImage else {return}
         let imageName = UUID().uuidString
@@ -267,21 +414,16 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         dismiss(animated: true)
     }
     
-    func getDocumentsDirectory() -> URL {
-        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        return paths[0]
-    }
-    
-    func setupNavigationItem () {
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: editButton)
-    }
 }
 
-extension UIImageView {
-
-    func makeRounded() {
-        self.layer.masksToBounds = false
-        self.layer.cornerRadius = self.frame.height / 2
-        self.clipsToBounds = true
+extension UITextField {
+    func isError(numberOfShakes shakes: Float, revert: Bool) {
+        let shake: CABasicAnimation = CABasicAnimation(keyPath: "position")
+        shake.duration = 0.07
+        shake.repeatCount = shakes
+        if revert { shake.autoreverses = true  } else { shake.autoreverses = false }
+        shake.fromValue = NSValue(cgPoint: CGPoint(x: self.center.x - 10, y: self.center.y))
+        shake.toValue = NSValue(cgPoint: CGPoint(x: self.center.x + 10, y: self.center.y))
+        self.layer.add(shake, forKey: "position")
     }
 }

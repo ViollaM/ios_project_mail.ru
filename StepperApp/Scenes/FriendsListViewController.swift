@@ -31,7 +31,7 @@ final class FriendsListViewController: UIViewController {
     }
     
     func setupLayout () {
-        view.addSubview(toAuthorizationButton)
+        //view.addSubview(toAuthorizationButton)
     }
     
     @objc func toAuthorization() {
@@ -40,14 +40,15 @@ final class FriendsListViewController: UIViewController {
         navVC.navigationBar.isHidden = true
         navVC.modalPresentationStyle = .fullScreen
         present(navVC, animated: true)
+        UserDefaults.standard.set(false, forKey: "isLogged")
     }
 
     override func viewDidLayoutSubviews() {
         super .viewDidLayoutSubviews()
         
-        toAuthorizationButton.pin
-            .bottom(150)
-            .horizontally(24)
-            .height(56)
+//        toAuthorizationButton.pin
+//            .bottom(150)
+//            .horizontally(24)
+//            .height(56)
     }
 }

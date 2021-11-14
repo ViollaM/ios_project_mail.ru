@@ -104,9 +104,10 @@ class SignUpViewController: UIViewController {
     
     @objc func signupButtonToApp() {
         let rootVC = buildAppTabBarController()
-        let navVC = UINavigationController(rootViewController: rootVC)
-        navVC.navigationBar.isHidden = true
-        navVC.modalPresentationStyle = .fullScreen
-        present(navVC, animated: true)
+//        let navVC = UINavigationController(rootViewController: rootVC)
+//        navVC.navigationBar.isHidden = true
+//        navVC.modalPresentationStyle = .fullScreen
+//        present(navVC, animated: true)
+        navigationController?.pushViewController(rootVC, animated: true)
     }
 }

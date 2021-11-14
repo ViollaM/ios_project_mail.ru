@@ -157,13 +157,6 @@ class ProfileViewController: UIViewController {
         configureUI()
 
     }
-
-    @objc func genderPress() {
-        let rootVC = GenderTableViewController()
-        let navVC = UINavigationController(rootViewController: rootVC)
-        navVC.navigationBar.isHidden = true
-        present(navVC, animated: true)
-    }
     
     func setupLayout() {
         
@@ -261,6 +254,7 @@ class ProfileViewController: UIViewController {
         
         nameTextField.text = UserDefaults.standard.string(forKey: "name") ?? ""
         ageTextField.text = UserDefaults.standard.string(forKey: "age") ?? ""
+        genderSegmentedControl.selectedSegmentIndex = UserDefaults.standard.integer(forKey: "gender")
         
         nameLabel.text = "Name:"
         ageLabel.text = "Age:"
@@ -268,6 +262,7 @@ class ProfileViewController: UIViewController {
         genderSegmentedControl.backgroundColor = bgColour
         let font = UIFont(name: "Arial", size: 20)
         genderSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.font: font!], for: .normal)
+        genderSegmentedControl.isUserInteractionEnabled = false
         
         editButton.semanticContentAttribute = UISemanticContentAttribute.forceRightToLeft
         editButton.setTitleColor(UIColor(red: 12/255, green: 38/255, blue: 36/255, alpha: 0.8), for: .normal)
@@ -332,6 +327,7 @@ class ProfileViewController: UIViewController {
         else {
             inputAlert("n")
         }
+        UserDefaults.standard.set(genderSegmentedControl.selectedSegmentIndex, forKey: "gender")
     }
     
     private func inputAlert(_ c: Character) {

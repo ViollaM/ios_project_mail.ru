@@ -8,9 +8,14 @@
 import UIKit
 import Charts
 
+protocol ChartDelegate: AnyObject {
+    func updataData(stepWeek: SteppingWeek)
+}
+
 
 final class WeekChartViewController: UIViewController{
-
+    
+    
     private lazy var chart: LineChartView = {
         let chart = LineChartView()
         chart.dragEnabled = false
@@ -24,7 +29,7 @@ final class WeekChartViewController: UIViewController{
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        setupChartData(week: nil)
         setupLayout()
         configureUI()
         setGradientBackground()
@@ -53,19 +58,43 @@ final class WeekChartViewController: UIViewController{
     }
 
     func configureUI () {
-        setupChartData()
         setupChartUI()
+    }
+    
+    var week: SteppingWeek = SteppingWeek(steppingDays: [])
+    
+
+}
+
+extension WeekChartViewController: ChartDelegate{
+    func updataData(stepWeek: SteppingWeek) {
+        print("Week info: \(stepWeek)")
+        setupChartData(week: stepWeek)
     }
 }
 
 
 extension WeekChartViewController {
-    func setupChartData(){
+    func setupChartData(week: SteppingWeek?){
         var steps = [ChartDataEntry]()
-        
-        for x in 0..<7{
-            steps.append(ChartDataEntry(x: Double(x), y: Double(Int.random(in: 0...40000))))
+        var days = [String]()
+        if week == nil {
+            for x in 0..<7{
+                steps.append(ChartDataEntry(x: Double(x), y: Double(Int.random(in: 0...40000))))
+            }
+            days = ["Sun", "Mod", "Tue", "Wed", "Thu", "Fri", "Sat"]
+        } else {
+            let week = week!
+            
+            for x in 0..<7{
+                steps.append(ChartDataEntry(x: Double(x), y: Double(week.steppingDays[x].steps)))
+                
+                days.append(Convert(date: week.steppingDays[x].date))
+            }
+            
+            print("Week info: \(Convert(date: week.steppingDays[0].date))")
         }
+        
         
         var set: LineChartDataSet! = nil
        
@@ -83,10 +112,12 @@ extension WeekChartViewController {
         data.highlightEnabled = false
         chart.data = data
         
-        let days = ["Sun", "Mod", "Tue", "Wed", "Thu", "Fri", "Sat"]
         chart.xAxis.valueFormatter = IndexAxisValueFormatter(values:days)
         
-        chart.leftAxis.axisMaximum = 40000
+        let maxSteps = set.xMax
+        let roundmaxSteps = (maxSteps/10000).rounded(.up)*10000
+        
+        chart.leftAxis.axisMaximum = roundmaxSteps
     }
     
     func setupChartUI(){
@@ -94,7 +125,7 @@ extension WeekChartViewController {
         let leftAxis = chart.leftAxis
         let rightAxis = chart.rightAxis
         
-        leftAxis.labelCount = 4
+        leftAxis.labelCount = 6
         leftAxis.axisMinimum = 0
         leftAxis.labelFont = .systemFont(ofSize: 12, weight: .regular)
         leftAxis.xOffset = 12
@@ -122,4 +153,17 @@ extension WeekChartViewController {
         weekAxis.gridColor = UIColor(red: 75/255, green: 126/255, blue: 121/255, alpha: 1)
         weekAxis.axisLineColor = UIColor(red: 75/255, green: 126/255, blue: 121/255, alpha: 1)
     }
+}
+
+
+func Convert(date: Date) -> String{
+    
+    let dateFormatter = DateFormatter()
+    dateFormatter.locale = Locale(identifier: "en_EN")
+    dateFormatter.dateFormat = "EEEE"
+    
+    let weekday = dateFormatter.string(from: date)
+    let capitalizedWeekday = weekday.capitalized
+    
+    return String(String(capitalizedWeekday).prefix(3))
 }

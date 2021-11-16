@@ -10,7 +10,8 @@ import UIKit
 func buildAppTabBarController() -> UITabBarController {
     let tabBarController = UITabBarController()
     let stepsService = StepsServiceImplementation()
-    let viewcontollers = [buildStepsViewController(stepsService: stepsService), buildFriendsListViewController(), buildCompetitionViewController(),  buildProfileViewController()]
+    let profileService = ProfileServiceImplementation()
+    let viewcontollers = [buildStepsViewController(stepsService: stepsService), buildFriendsListViewController(), buildCompetitionViewController(),  buildProfileViewController(profileService: profileService)]
     viewcontollers.forEach {
         setupBackground(on: $0)
     }
@@ -19,7 +20,8 @@ func buildAppTabBarController() -> UITabBarController {
     tabBarController.selectedIndex = 0
     tabBarController.tabBar.unselectedItemTintColor = UIColor(red: 122/255, green: 162/255, blue: 153/255, alpha: 1)
     tabBarController.tabBar.tintColor = UIColor(red: 12/255, green: 38/255, blue: 36/255, alpha: 1)
-    tabBarController.tabBar.backgroundColor = UIColor(red: 193/255, green: 216/255, blue: 216/255, alpha: 1)
+    //tabBarController.tabBar.backgroundColor = UIColor(red: 193/255, green: 216/255, blue: 216/255, alpha: 1)
+    tabBarController.tabBar.backgroundColor = .systemBackground
     return tabBarController
 }
 
@@ -32,9 +34,9 @@ func buildStepsViewController(stepsService: StepsService) -> UIViewController {
     return navigationController
 }
 
-func buildProfileViewController() -> UIViewController {
+func buildProfileViewController(profileService: ProfileService) -> UIViewController {
     let navigationController = UINavigationController()
-    let viewController = ProfileViewController()
+    let viewController = ProfileViewController(profileService: profileService)
     navigationController.viewControllers = [viewController]
     let profileItem = UITabBarItem(title: "Profile", image: UIImage(systemName: "person"), selectedImage: nil)
     viewController.tabBarItem = profileItem

@@ -13,9 +13,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         window = UIWindow()
-        let rootVC = AuthorizationViewController()
-        //let rootVC = LoginViewController()
+        let isAuth: Bool = UserDefaults.standard.bool(forKey: "isLogged")
+        var rootVC = UIViewController()
+        if isAuth {
+            rootVC = buildAppTabBarController()
+        }
+        else {
+            rootVC = AuthorizationViewController()
+        }
         let rootNC = UINavigationController(rootViewController: rootVC)
+        rootNC.navigationBar.isHidden = true
         window?.rootViewController = rootNC
         window?.makeKeyAndVisible()
         return true

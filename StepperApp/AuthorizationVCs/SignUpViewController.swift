@@ -15,7 +15,7 @@ class SignUpViewController: UIViewController {
         button.setTitleColor(.black, for: .normal)
         button.backgroundColor = UIColor(red: 0.59, green: 0.75, blue: 0.75, alpha: 1)
         button.titleLabel?.font = .systemFont(ofSize: 24, weight: .bold)
-        button.setTitle("Log in", for: .normal)
+        button.setTitle("Sign Up", for: .normal)
         button.addTarget(self, action: #selector(signupButtonToApp), for: .touchUpInside)
         return button
     }()
@@ -64,8 +64,10 @@ class SignUpViewController: UIViewController {
     }
 
     private func setupView() {
-        title = "Login"
-        
+        title = "Sign Up"
+        navigationController?.navigationBar.isHidden = false
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.navigationBar.tintColor = UIColor(red: 12/255, green: 38/255, blue: 36/255, alpha: 1)
         [emailTextField, signupButton, nameTextField, passwordTextField, ].forEach {
             view.addSubview($0)
         }
@@ -108,5 +110,6 @@ class SignUpViewController: UIViewController {
         navVC.navigationBar.isHidden = true
         navVC.modalPresentationStyle = .fullScreen
         present(navVC, animated: true)
+        UserDefaults.standard.set(true, forKey: "isLogged")
     }
 }

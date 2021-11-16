@@ -7,7 +7,7 @@
 
 import UIKit
 
-class FriendsListCollectionViewCell: UICollectionViewCell {
+final class FriendsListCollectionViewCell: UICollectionViewCell {
     
     var friend: Friend? {
         didSet {

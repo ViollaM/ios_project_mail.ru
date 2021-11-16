@@ -19,6 +19,7 @@
 		0172EABE27242F7000DE1779 /* StepsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0172EABD27242F7000DE1779 /* StepsService.swift */; };
 		0172EAC12724318C00DE1779 /* SteppingDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0172EAC02724318C00DE1779 /* SteppingDay.swift */; };
 		0172EAC52724335900DE1779 /* SteppingWeek.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0172EAC42724335900DE1779 /* SteppingWeek.swift */; };
+		0BD1511C2740176800F15800 /* ProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD1511B2740176800F15800 /* ProfileService.swift */; };
 		3A59D2C09ADB9AA1AAE377E2 /* Pods_StepperApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A924E68D2EAE87E9BC99EBB /* Pods_StepperApp.framework */; };
 		A124C81027241D8B00540595 /* WeekChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A124C80F27241D8B00540595 /* WeekChartViewController.swift */; };
 		F340CE622736E99A0055D87A /* CompetitionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F340CE612736E99A0055D87A /* CompetitionViewCell.swift */; };
@@ -46,6 +47,7 @@
 		0172EABD27242F7000DE1779 /* StepsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepsService.swift; sourceTree = "<group>"; };
 		0172EAC02724318C00DE1779 /* SteppingDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SteppingDay.swift; sourceTree = "<group>"; };
 		0172EAC42724335900DE1779 /* SteppingWeek.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SteppingWeek.swift; sourceTree = "<group>"; };
+		0BD1511B2740176800F15800 /* ProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
 		5FF80AFC5EDDD5F3380FACE8 /* Pods-StepperApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StepperApp.release.xcconfig"; path = "Target Support Files/Pods-StepperApp/Pods-StepperApp.release.xcconfig"; sourceTree = "<group>"; };
 		7A924E68D2EAE87E9BC99EBB /* Pods_StepperApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StepperApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A124C80F27241D8B00540595 /* WeekChartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekChartViewController.swift; sourceTree = "<group>"; };
@@ -122,6 +124,7 @@
 			isa = PBXGroup;
 			children = (
 				0172EABD27242F7000DE1779 /* StepsService.swift */,
+				0BD1511B2740176800F15800 /* ProfileService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -344,6 +347,7 @@
 				014F5F9D272D9FAE0058132F /* SignUpViewController.swift in Sources */,
 				F3E3B3B9274108A400BD7D83 /* EachCompetitionViewController.swift in Sources */,
 				01651A3B27120D2D00DC9391 /* AppDelegate.swift in Sources */,
+				0BD1511C2740176800F15800 /* ProfileService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

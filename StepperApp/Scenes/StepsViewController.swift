@@ -10,6 +10,7 @@ import PinLayout
 
 class StepsViewController: UIViewController {
     
+    var weekChartViewController: UIViewController!
     private let stepsService: StepsService
     
     init(stepsService: StepsService) {
@@ -54,20 +55,30 @@ class StepsViewController: UIViewController {
     
     var week: SteppingWeek = SteppingWeek(steppingDays: [])
     
-    private lazy var weekChartButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Week", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.47)
-        button.addTarget(self, action: #selector(weekButtonPressed), for: .touchUpInside)
-        return button
-    }()
-
     override func viewDidLoad() {
         super.viewDidLoad()
         stepsServiceAuth()
         setupNavigation()
         setupLayout()
+        getWeekChartView()
+        setupWeekChartViewLayout()
+    }
+    
+    func getWeekChartView(){
+        weekChartViewController = WeekChartViewController()
+        addChild(weekChartViewController)
+        view.insertSubview(weekChartViewController.view, at: 0)
+        weekChartViewController.didMove(toParent: self)
+        
+        self.chartDelegate = (weekChartViewController as? ChartDelegate)
+    }
+    
+    
+    func setupWeekChartViewLayout(){
+        weekChartViewController.view.pin
+            .horizontally(0)
+            .height(283)
+            .bottom(83)
     }
     
     private func stepsServiceAuth() {
@@ -97,6 +108,12 @@ class StepsViewController: UIViewController {
         }
     }
     
+    weak var chartDelegate: ChartDelegate?
+    
+    private func updateChartData(stepWeek: SteppingWeek) {
+        
+    }
+    
     private func loadStepsData() {
         stepsService.fetchLastWeekSteps { [weak self] result in
             guard let self = self else {
@@ -107,11 +124,12 @@ class StepsViewController: UIViewController {
                 self.week = week
                 DispatchQueue.main.async { [weak self] in
                     self?.updateLabelsData(stepsCount: week.steppingDays.last!.steps)
+                    self?.chartDelegate?.updataData(stepWeek: week)
                 }
             case .failure(let error):
                 print(error.localizedDescription)
             }
-            print("Week info: \(self.week)")
+            //print("Week info: \(self.week)")
         }
     }
 
@@ -157,11 +175,6 @@ class StepsViewController: UIViewController {
         weekChartButton.layer.cornerRadius = 10
     }
     
-    @objc
-    private func weekButtonPressed () {
-        let vc = WeekChartViewController()
-        self.navigationController?.pushViewController(vc, animated: true)
-    }
     
     @objc
     private func toAuthorization() {

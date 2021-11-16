@@ -16,7 +16,7 @@ final class LoginViewController: UIViewController {
         button.setTitleColor(.black, for: .normal)
         button.backgroundColor = UIColor(red: 0.59, green: 0.75, blue: 0.75, alpha: 1)
         button.titleLabel?.font = .systemFont(ofSize: 24, weight: .bold)
-        button.setTitle("Log in", for: .normal)
+        button.setTitle("Log In", for: .normal)
         button.addTarget(self, action: #selector(loginButtonToApp), for: .touchUpInside)
         return button
     }()
@@ -54,8 +54,10 @@ final class LoginViewController: UIViewController {
     }
     
     private func setupView() {
-        title = "Login"
-        
+        title = "Log In"
+        navigationController?.navigationBar.isHidden = false
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.navigationBar.tintColor = UIColor(red: 12/255, green: 38/255, blue: 36/255, alpha: 1)
         [loginButton, nameTextField, passwordTextField].forEach {
             view.addSubview($0)
         }
@@ -90,18 +92,17 @@ final class LoginViewController: UIViewController {
     
     @objc func loginButtonToApp() {
         guard
-            let name = nameTextField.text,
-            let password = passwordTextField.text
+            let _ = nameTextField.text,
+            let _ = passwordTextField.text
         else {
             return
         }
         UserDefaults.standard.set(true, forKey: "isLogged")
         let rootVC = buildAppTabBarController()
-        //let navVC = UINavigationController(rootViewController: rootVC)
-//        navVC.navigationBar.isHidden = true
-//        navVC.modalPresentationStyle = .fullScreen
-//        present(navVC, animated: true)
-        navigationController?.pushViewController(rootVC, animated: true)
+        let navVC = UINavigationController(rootViewController: rootVC)
+        navVC.navigationBar.isHidden = true
+        navVC.modalPresentationStyle = .fullScreen
+        present(navVC, animated: true)
     }
     
 }

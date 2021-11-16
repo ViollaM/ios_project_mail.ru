@@ -32,7 +32,7 @@ class AuthorizationViewController: UIViewController {
         button.setTitleColor(.black, for: .normal)
         button.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.47)
         button.titleLabel?.font = .systemFont(ofSize: 20, weight: .bold)
-        button.setTitle("Log in", for: .normal)
+        button.setTitle("Log In", for: .normal)
         button.addTarget(self, action: #selector(loginButtonPushed), for: .touchUpInside)
         return button
     }()
@@ -42,7 +42,7 @@ class AuthorizationViewController: UIViewController {
         button.setTitleColor(.black, for: .normal)
         button.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.47)
         button.titleLabel?.font = .systemFont(ofSize: 20, weight: .bold)
-        button.setTitle("Sign up", for: .normal)
+        button.setTitle("Sign Up", for: .normal)
         button.addTarget(self, action: #selector(sigunpButtosPushed), for: .touchUpInside)
         return button
     }()
@@ -89,13 +89,15 @@ class AuthorizationViewController: UIViewController {
         backgroundImage.contentMode = UIView.ContentMode.scaleAspectFill
         self.view.insertSubview(backgroundImage, at: 0)
     }
-    
-    @objc func loginButtonPushed() {
+
+    @objc
+    private func loginButtonPushed() {
         let vc = LoginViewController()
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
-    @objc func sigunpButtosPushed() {
+    @objc
+    private func sigunpButtosPushed() {
         let vc = SignUpViewController()
         navigationController?.pushViewController(vc, animated: true)
     }

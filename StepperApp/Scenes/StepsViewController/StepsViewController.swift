@@ -8,7 +8,7 @@
 import UIKit
 import PinLayout
 
-class StepsViewController: UIViewController {
+final class StepsViewController: UIViewController {
     
     private var weekChartViewController: UIViewController!
     private let stepsService: StepsService
@@ -176,6 +176,7 @@ class StepsViewController: UIViewController {
     
     @objc
     private func toAuthorization() {
+        UserDefaults.standard.set(false, forKey: "isLogged")
         let rootVC = AuthorizationViewController()
         let navVC = UINavigationController(rootViewController: rootVC)
         navVC.navigationBar.isHidden = true

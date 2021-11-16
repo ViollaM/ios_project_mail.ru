@@ -6,12 +6,14 @@
 //
 
 import UIKit
+import IQKeyboardManager
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        IQKeyboardManager.shared().isEnabled = true
         window = UIWindow()
         let isAuth: Bool = UserDefaults.standard.bool(forKey: "isLogged")
         var rootVC = UIViewController()
@@ -25,6 +27,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         rootNC.navigationBar.isHidden = true
         window?.rootViewController = rootNC
         window?.makeKeyAndVisible()
+        
+        
         return true
     }
 }

@@ -9,21 +9,25 @@ import UIKit
 
 func buildAppTabBarController() -> UITabBarController {
     let tabBarController = UITabBarController()
+    let stepsService = StepsServiceImplementation()
+    let viewcontollers = [buildStepsViewController(stepsService: stepsService), buildFriendsListViewController(), buildCompetitionViewController(),  buildProfileViewController()]
     let profileService = ProfileServiceImplementation()
     let viewcontollers = [buildStepsViewController(), buildFriendsListViewController(), buildCompetitionViewController(),  buildProfileViewController(profileService: profileService)]
     viewcontollers.forEach {
         setupBackground(on: $0)
     }
     tabBarController.setViewControllers(viewcontollers, animated: true)
+    tabBarController.tabBar.isTranslucent = false
     tabBarController.selectedIndex = 0
+    tabBarController.tabBar.unselectedItemTintColor = UIColor(red: 122/255, green: 162/255, blue: 153/255, alpha: 1)
     tabBarController.tabBar.tintColor = UIColor(red: 12/255, green: 38/255, blue: 36/255, alpha: 1)
-    tabBarController.tabBar.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.4)
+    tabBarController.tabBar.backgroundColor = UIColor(red: 193/255, green: 216/255, blue: 216/255, alpha: 1)
     return tabBarController
 }
 
-func buildStepsViewController() -> UIViewController {
+func buildStepsViewController(stepsService: StepsService) -> UIViewController {
     let navigationController = UINavigationController()
-    let viewController = StepsViewController()
+    let viewController = StepsViewController(stepsService: stepsService)
     navigationController.viewControllers = [viewController]
     let stepsItem = UITabBarItem(title: "Steps", image: UIImage(systemName: "figure.walk"), selectedImage: nil)
     viewController.tabBarItem = stepsItem

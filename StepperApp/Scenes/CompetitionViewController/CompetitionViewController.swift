@@ -9,24 +9,9 @@ import Foundation
 import UIKit
 import PinLayout
 
-
-
 final class CompetitionViewController: UIViewController {
-
+    private var competitions = allCompetitions
     var timer = Timer()
-    
-    var currentTime = timeData(hour: 23 - hour, minute: 59 - minute, second: 59 - second, time: time)
-    
-    var competitions = [
-        competitionData(name: "Daily step competition", maxValue: 10000, currentValue: Double.random(in: 0...20000.0), remainingTime: time, currentLeader: "@max"),
-        competitionData(name: "10 km per day", maxValue: 10, currentValue: Double.random(in: 0...20.0), remainingTime: time, currentLeader: "@katty"),
-        competitionData(name: "15000 steps per day", maxValue: 15000, currentValue: Double.random(in: 0...20000.0), remainingTime: time, currentLeader: "@violla")
-        /*competitionData(name: "Daily step competition", maxValue: 10000, currentValue: Double.random(in: 0...20000.0), remainingTime: time, currentLeader: "@max"),
-        competitionData(name: "Daily step competition", maxValue: 10000, currentValue: Double.random(in: 0...20000.0), remainingTime: time, currentLeader: "@max"),
-        competitionData(name: "Daily step competition", maxValue: 10000, currentValue: Double.random(in: 0...20000.0), remainingTime: time, currentLeader: "@max"),
-        competitionData(name: "Daily step competition", maxValue: 10000, currentValue: Double.random(in: 0...20000.0), remainingTime: time, currentLeader: "@max"),
-        competitionData(name: "Daily step competition", maxValue: 10000, currentValue: Double.random(in: 0...20000.0), remainingTime: time, currentLeader: "@max")*/
-    ]
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -49,7 +34,6 @@ final class CompetitionViewController: UIViewController {
     
     private lazy var label: UILabel = {
         let label = UILabel()
-        //label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Competitions"
         label.font = .systemFont(ofSize: 28, weight: .bold)
         return label
@@ -58,8 +42,8 @@ final class CompetitionViewController: UIViewController {
     private lazy var currentCompetitionButton: UIButton = {
         let button = UIButton()
         button.setTitle("current", for: .normal)
-        button.setTitleColor(HexColor(rgb: 0xCCE4E1), for: .normal)
-        button.backgroundColor = HexColor(rgb: 0x0C2624)
+        button.setTitleColor(HexColor(rgb: 0x0C2624), for: .normal)
+        button.backgroundColor = HexColor(rgb: 0xCCE4E1)
         button.addTarget(self, action: #selector(currentCompetitionButtonPressed), for: .touchUpInside)
         button.layer.cornerRadius = 10
         return button
@@ -85,40 +69,49 @@ final class CompetitionViewController: UIViewController {
         setupLayout()
     }
     
-    @objc func updateTimeLabel() {
+    @objc
+    private func updateTimeLabel() {
+        date = Date()
         hour = calendar.component(.hour, from: date)
         minute = calendar.component(.minute, from: date)
-        second = calendar.component(.second, from: date)
-        hour = 23 - hour
-        minute = 59 - minute
-        second = 59 - second
-        time = "\(hour)" + ":" + "\(minute)" + ":" + "\(second)"
-        currentTime = timeData(hour: hour, minute: minute, second: second, time: time)
-        
-        //label.text = time
-        
-        let visibleCellsIndexPaths = collectionView.indexPathsForVisibleItems
-        for index in visibleCellsIndexPaths {
-            competitions[index.row].remainingTime = time
-            //collectionView.cellForItem(at: index)
-        }
-        //collectionView.reloadData()
-        //collectionView.cellForItem(at: visibleCellsIndexPaths)
-        //print(competitions)
+        time = currentTime()
+        collectionView.reloadData()
     }
     
-    @objc func currentCompetitionButtonPressed() {
+    @objc
+    private func currentCompetitionButtonPressed() {
         currentCompetitionButton.setTitleColor(HexColor(rgb: 0xCCE4E1), for: .normal)
         currentCompetitionButton.backgroundColor = HexColor(rgb: 0x0C2624)
         finishedCompetitionButton.setTitleColor(HexColor(rgb: 0x0C2624), for: .normal)
         finishedCompetitionButton.backgroundColor = HexColor(rgb: 0xCCE4E1)
+        var t = 0
+        self.competitions = []
+        for i in allCompetitions {
+            if (!i.isFinished) {
+                competitions.append(i)
+                competitions[t].remainingTime = currentTime()
+                t += 1
+            }
+        }
+        collectionView.reloadData()
     }
     
-    @objc func finishedCompetitionButtonPressed() {
+    @objc
+    private func finishedCompetitionButtonPressed() {
         finishedCompetitionButton.setTitleColor(HexColor(rgb: 0xCCE4E1), for: .normal)
         finishedCompetitionButton.backgroundColor = HexColor(rgb: 0x0C2624)
         currentCompetitionButton.setTitleColor(HexColor(rgb: 0x0C2624), for: .normal)
         currentCompetitionButton.backgroundColor = HexColor(rgb: 0xCCE4E1)
+        var t = 0
+        self.competitions = []
+        for i in allCompetitions {
+            if (i.isFinished) {
+                competitions.append(i)
+                competitions[t].remainingTime = currentTime()
+                t += 1
+            }
+        }
+        collectionView.reloadData()
     }
     
     override func viewWillLayoutSubviews() {
@@ -126,7 +119,7 @@ final class CompetitionViewController: UIViewController {
         collectionView.frame = CGRect(x: view.safeAreaInsets.left, y: view.safeAreaInsets.top + 119, width: view.frame.width, height: view.frame.height - view.safeAreaInsets.top - view.safeAreaInsets.bottom - 119)
     }
 
-    func setupLayout () {
+    private func setupLayout () {
         view.addSubview(collectionView)
         view.addSubview(label)
         label.pin
@@ -149,11 +142,6 @@ final class CompetitionViewController: UIViewController {
             .height(28)
         
     }
-    
-
-    func setupNavigationItem () {
-        self.title = "Competition"
-    }
 
 }
 
@@ -164,8 +152,7 @@ extension CompetitionViewController: UICollectionViewDelegate, UICollectionViewD
         }
         
         let comp = competitions[indexPath.row]
-        cell.configure(with: comp)
-        cell.configureUI()
+        cell.competition = comp
         
         return cell
     }
@@ -195,5 +182,14 @@ extension CompetitionViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return cellsOffset
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let competitionVC = EachCompetitionViewController()
+        let comp = competitions[indexPath.row]
+        competitionVC.competition = comp
+        present(competitionVC, animated: true, completion: nil)
+    }
 }
+
+
 

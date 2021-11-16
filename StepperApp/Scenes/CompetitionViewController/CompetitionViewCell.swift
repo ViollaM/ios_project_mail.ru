@@ -9,19 +9,28 @@ import Foundation
 import UIKit
 import PinLayout
 
-
-let date = Date()
+var date = Date()
 let calendar = Calendar.current
 var hour = calendar.component(.hour, from: date)
 var minute = calendar.component(.minute, from: date)
-var second = calendar.component(.second, from: date)
-var time = String(23 - hour) + ":" + String(59 - minute) + ":" + String(59 - second)
+let second = calendar.component(.second, from: date)
+var time = currentTime()
 
-class CompetitionViewCell: UICollectionViewCell {
+final class CompetitionViewCell: UICollectionViewCell {
     
-    var timer = Timer()
-    
-    var currentTime = timeData(hour: hour, minute: minute, second: second, time: time)
+    var competition: competitionData? {
+        didSet {
+            competitionTitleLabel.text = competition?.name
+            competitionTimeLabel.text = currentTime()
+            competitionCurrentLeaderLabel.text = competition?.currentLeader
+            progressBar.progress = Float((competition?.currentValue)! / (competition?.maxValue)!)
+            if (!competition!.isFinished) {
+                isComplete.isHidden = true
+            } else {
+                isComplete.isHidden = false
+            }
+        }
+    }
     
     private lazy var competitionTitleLabel: UILabel = {
         let title = UILabel()
@@ -36,7 +45,6 @@ class CompetitionViewCell: UICollectionViewCell {
         let time = UILabel()
         time.translatesAutoresizingMaskIntoConstraints = false
         time.font = .systemFont(ofSize: 16)
-        time.isHidden = true
         time.text = "9 h 37 min"
         return time
     }()
@@ -62,8 +70,6 @@ class CompetitionViewCell: UICollectionViewCell {
         bar.tintColor = HexColor(rgb: 0x0C2624)
         bar.trackTintColor = HexColor(rgb: 0xA3D2CC)
         bar.progress = 7509 / 10000
-        //bar.transform = bar.transform.scaledBy(x: 1, y: 5)
-        //bar.layer.cornerRadius = 50
         bar.translatesAutoresizingMaskIntoConstraints = false
         bar.clipsToBounds = true
         return bar
@@ -74,41 +80,22 @@ class CompetitionViewCell: UICollectionViewCell {
         image.image = UIImage(systemName: "rosette")
         image.tintColor = HexColor(rgb: 0x0C2624)
         image.backgroundColor = .clear
-        if (progressBar.progress < 1.0) {
-            image.tintColor = .clear
-        } else {
-            image.tintColor = HexColor(rgb: 0x0C2624)
-        }
+        image.isHidden = false
         return image
     }()
-    
-    /*override func awakeFromNib() {
-        super.awakeFromNib()
-        layer.cornerRadius = 10
-        layer.masksToBounds = true
-    }*/
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupCellLayer()
         layoutSubviews()
-        //configureUI()
+        configureUI()
     }
     
     required init?(coder: NSCoder) {
-//        super.init(coder: coder)
-//        setupEl()
         fatalError("init(coder:) has not been implemented")
     }
     
-    
-    
-    func configureUI() {
-        /*if (progressBar.progress < 1.0) {
-            isComplete.tintColor = .clear
-        }*/
-                
-        //contentView.addSubview(competitionTitleLabel)
+    private func configureUI() {
         [competitionTitleLabel, competitionTimeLabel, competitionLeaderLabel, competitionCurrentLeaderLabel, progressBar, isComplete].forEach {
             contentView.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
@@ -145,82 +132,19 @@ class CompetitionViewCell: UICollectionViewCell {
             competitionCurrentLeaderLabel.widthAnchor.constraint(equalToConstant: 80),
             competitionCurrentLeaderLabel.heightAnchor.constraint(equalToConstant: 19)
         ])
-        
-        
-        
-        
-//        competitionTitleLabel.pin
-//            .left(10)
-//            .top(6)
-//            .width(120)
-//            .height(50)
-//
-//        isComplete.pin
-//            .right(6)
-//            .top(8)
-//            .width(25)
-//            .height(28)
-//
-//        competitionTimeLabel.pin
-//            .left(10)
-//            .below(of: competitionTitleLabel).marginTop(8)
-//            .width(100)
-//            .height(18)
-//
-//        competitionLeaderLabel.pin
-//            .left(10)
-//            .bottom(13)
-//            .width(60)
-//            .height(19)
-//
-//        progressBar.pin
-//            .left(10)
-//            .below(of: competitionTimeLabel).marginTop(13)
-//            .width(135)
-//
-//        //progressBar.heightAnchor.constraint(equalToConstant: 25).isActive = true
-//
-//        competitionCurrentLeaderLabel.pin
-//            .right(of: competitionLeaderLabel).marginLeft(10)
-//            .bottom(13)
-//            .width(80)
-//            .height(19)
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        //progressBar.layer.cornerRadius = 10
         progressBar.subviews.forEach { subview in
             subview.layer.masksToBounds = true
             subview.layer.cornerRadius = 10
         }
-        
     }
     
-    
-    func setupCellLayer() {
+    private func setupCellLayer() {
         layer.cornerRadius = 10
         layer.masksToBounds = true
         backgroundColor = HexColor(rgb: 0xCCE4E1)
-    }
-    
-    func configure(with comp: competitionData) {
-        competitionTitleLabel.text = comp.name
-        competitionTimeLabel.text = comp.remainingTime
-        competitionCurrentLeaderLabel.text = comp.currentLeader
-        progressBar.progress = Float(comp.currentValue / comp.maxValue)
-        if (progressBar.progress < 1.0) {
-            isComplete.tintColor = .clear
-        }
-    }
-    
-    func timeConfigure(with time: timeData) {
-        //competitionTitleLabel.text = time.name
-        competitionTimeLabel.text = time.time
-        /*competitionCurrentLeaderLabel.text = time.currentLeader
-        progressBar.progress = Float(time.currentValue / time.maxValue)
-        if (progressBar.progress < 1.0) {
-            isComplete.tintColor = .clear
-        }*/
     }
 }

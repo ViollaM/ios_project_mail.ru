@@ -8,5 +8,5 @@
 import Foundation
 
 struct SteppingWeek {
-    let days: [SteppingDay]
+    let steppingDays: [SteppingDay]
 }

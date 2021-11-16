@@ -9,56 +9,13 @@ import Foundation
 import UIKit
 import PinLayout
 
-extension UIColor {
-    convenience init(rgb: UInt) {
-        self.init(
-            red: CGFloat((rgb & 0xFF0000) >> 16) / 255.0,
-            green: CGFloat((rgb & 0x00FF00) >> 8) / 255.0,
-            blue: CGFloat(rgb & 0x0000FF) / 255.0,
-            alpha: CGFloat(1.0)
-        )
-    }
-}
 
-struct competitionData {
-    var name: String?
-    var maxValue = 10000.0
-    var currentValue = 0.0
-    var remainingTime: String?
-    var currentLeader: String?
-    
-    init(name: String, maxValue: Double, currentValue: Double, remainingTime: String, currentLeader: String)
-        {
-            self.name = name
-            self.maxValue = maxValue
-            self.currentValue = currentValue
-            self.remainingTime = remainingTime
-            self.currentLeader = currentLeader
-        }
-}
-
-struct timeData {
-    var hour = 0
-    var minute = 0
-    var second = 0
-    var time: String = "00:00:00"
-    
-    init(hour: Int, minute: Int, second: Int, time: String)
-        {
-            self.hour = hour
-            self.minute = minute
-            self.second = second
-            self.time = time
-        }
-}
-
-var date = Date()
-var calendar = Calendar.current
+let date = Date()
+let calendar = Calendar.current
 var hour = calendar.component(.hour, from: date)
 var minute = calendar.component(.minute, from: date)
 var second = calendar.component(.second, from: date)
-//    let time = String(hour) + " h " + String(minute) + " min " + String(second) + " sec "
-var time = String(hour) + ":" + String(minute) + ":" + String(second)
+var time = String(23 - hour) + ":" + String(59 - minute) + ":" + String(59 - second)
 
 class CompetitionViewCell: UICollectionViewCell {
     
@@ -75,10 +32,11 @@ class CompetitionViewCell: UICollectionViewCell {
         return title
     }()
     
-    var competitionTimeLabel: UILabel = {
+    private lazy var competitionTimeLabel: UILabel = {
         let time = UILabel()
         time.translatesAutoresizingMaskIntoConstraints = false
         time.font = .systemFont(ofSize: 16)
+        time.isHidden = true
         time.text = "9 h 37 min"
         return time
     }()
@@ -101,8 +59,8 @@ class CompetitionViewCell: UICollectionViewCell {
     
     private lazy var progressBar: UIProgressView = {
         let bar = UIProgressView()
-        bar.tintColor = UIColor(rgb: 0x0C2624)
-        bar.trackTintColor = UIColor(rgb: 0xA3D2CC)
+        bar.tintColor = HexColor(rgb: 0x0C2624)
+        bar.trackTintColor = HexColor(rgb: 0xA3D2CC)
         bar.progress = 7509 / 10000
         //bar.transform = bar.transform.scaledBy(x: 1, y: 5)
         //bar.layer.cornerRadius = 50
@@ -114,8 +72,13 @@ class CompetitionViewCell: UICollectionViewCell {
     private lazy var isComplete: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(systemName: "rosette")
-        image.tintColor = UIColor(rgb: 0x0C2624)
+        image.tintColor = HexColor(rgb: 0x0C2624)
         image.backgroundColor = .clear
+        if (progressBar.progress < 1.0) {
+            image.tintColor = .clear
+        } else {
+            image.tintColor = HexColor(rgb: 0x0C2624)
+        }
         return image
     }()
     
@@ -144,9 +107,7 @@ class CompetitionViewCell: UICollectionViewCell {
         /*if (progressBar.progress < 1.0) {
             isComplete.tintColor = .clear
         }*/
-        
-        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTimeLabel), userInfo: nil, repeats: true);
-        
+                
         //contentView.addSubview(competitionTitleLabel)
         [competitionTitleLabel, competitionTimeLabel, competitionLeaderLabel, competitionCurrentLeaderLabel, progressBar, isComplete].forEach {
             contentView.addSubview($0)
@@ -234,24 +195,13 @@ class CompetitionViewCell: UICollectionViewCell {
             subview.layer.cornerRadius = 10
         }
         
-        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTimeLabel), userInfo: nil, repeats: true);
     }
     
-    @objc func updateTimeLabel() {
-        date = Date()
-        calendar = Calendar.current
-        hour = calendar.component(.hour, from: date)
-        minute = calendar.component(.minute, from: date)
-        second = calendar.component(.second, from: date)
-        time = "\(hour)" + ":" + "\(minute)" + ":" + "\(second)"
-        currentTime = timeData(hour: hour, minute: minute, second: second, time: time)
-        //self.title = time
-    }
     
     func setupCellLayer() {
         layer.cornerRadius = 10
         layer.masksToBounds = true
-        backgroundColor = UIColor(rgb: 0xCCE4E1)
+        backgroundColor = HexColor(rgb: 0xCCE4E1)
     }
     
     func configure(with comp: competitionData) {

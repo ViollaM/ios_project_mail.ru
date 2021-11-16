@@ -15,7 +15,7 @@ final class CompetitionViewController: UIViewController {
 
     var timer = Timer()
     
-    var currentTime = timeData(hour: hour, minute: minute, second: second, time: time)
+    var currentTime = timeData(hour: 23 - hour, minute: 59 - minute, second: 59 - second, time: time)
     
     var competitions = [
         competitionData(name: "Daily step competition", maxValue: 10000, currentValue: Double.random(in: 0...20000.0), remainingTime: time, currentLeader: "@max"),
@@ -58,8 +58,8 @@ final class CompetitionViewController: UIViewController {
     private lazy var currentCompetitionButton: UIButton = {
         let button = UIButton()
         button.setTitle("current", for: .normal)
-        button.setTitleColor(UIColor(rgb: 0xCCE4E1), for: .normal)
-        button.backgroundColor = UIColor(rgb: 0x0C2624)
+        button.setTitleColor(HexColor(rgb: 0xCCE4E1), for: .normal)
+        button.backgroundColor = HexColor(rgb: 0x0C2624)
         button.addTarget(self, action: #selector(currentCompetitionButtonPressed), for: .touchUpInside)
         button.layer.cornerRadius = 10
         return button
@@ -68,8 +68,8 @@ final class CompetitionViewController: UIViewController {
     private lazy var finishedCompetitionButton: UIButton = {
         let button = UIButton()
         button.setTitle("finished", for: .normal)
-        button.setTitleColor(UIColor(rgb: 0x0C2624), for: .normal)
-        button.backgroundColor = UIColor(rgb: 0xCCE4E1)
+        button.setTitleColor(HexColor(rgb: 0x0C2624), for: .normal)
+        button.backgroundColor = HexColor(rgb: 0xCCE4E1)
         button.addTarget(self, action: #selector(finishedCompetitionButtonPressed), for: .touchUpInside)
         button.layer.cornerRadius = 10
         return button
@@ -86,11 +86,12 @@ final class CompetitionViewController: UIViewController {
     }
     
     @objc func updateTimeLabel() {
-        date = Date()
-        calendar = Calendar.current
         hour = calendar.component(.hour, from: date)
         minute = calendar.component(.minute, from: date)
         second = calendar.component(.second, from: date)
+        hour = 23 - hour
+        minute = 59 - minute
+        second = 59 - second
         time = "\(hour)" + ":" + "\(minute)" + ":" + "\(second)"
         currentTime = timeData(hour: hour, minute: minute, second: second, time: time)
         
@@ -101,22 +102,23 @@ final class CompetitionViewController: UIViewController {
             competitions[index.row].remainingTime = time
             //collectionView.cellForItem(at: index)
         }
+        //collectionView.reloadData()
         //collectionView.cellForItem(at: visibleCellsIndexPaths)
         //print(competitions)
     }
     
     @objc func currentCompetitionButtonPressed() {
-        currentCompetitionButton.setTitleColor(UIColor(rgb: 0xCCE4E1), for: .normal)
-        currentCompetitionButton.backgroundColor = UIColor(rgb: 0x0C2624)
-        finishedCompetitionButton.setTitleColor(UIColor(rgb: 0x0C2624), for: .normal)
-        finishedCompetitionButton.backgroundColor = UIColor(rgb: 0xCCE4E1)
+        currentCompetitionButton.setTitleColor(HexColor(rgb: 0xCCE4E1), for: .normal)
+        currentCompetitionButton.backgroundColor = HexColor(rgb: 0x0C2624)
+        finishedCompetitionButton.setTitleColor(HexColor(rgb: 0x0C2624), for: .normal)
+        finishedCompetitionButton.backgroundColor = HexColor(rgb: 0xCCE4E1)
     }
     
     @objc func finishedCompetitionButtonPressed() {
-        finishedCompetitionButton.setTitleColor(UIColor(rgb: 0xCCE4E1), for: .normal)
-        finishedCompetitionButton.backgroundColor = UIColor(rgb: 0x0C2624)
-        currentCompetitionButton.setTitleColor(UIColor(rgb: 0x0C2624), for: .normal)
-        currentCompetitionButton.backgroundColor = UIColor(rgb: 0xCCE4E1)
+        finishedCompetitionButton.setTitleColor(HexColor(rgb: 0xCCE4E1), for: .normal)
+        finishedCompetitionButton.backgroundColor = HexColor(rgb: 0x0C2624)
+        currentCompetitionButton.setTitleColor(HexColor(rgb: 0x0C2624), for: .normal)
+        currentCompetitionButton.backgroundColor = HexColor(rgb: 0xCCE4E1)
     }
     
     override func viewWillLayoutSubviews() {

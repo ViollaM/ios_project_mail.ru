@@ -20,35 +20,35 @@ class StepsViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-    private lazy var stackView: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [stepsCountLabel, distanceLabel, stepsRemainingLabel])
-        stack.axis = .vertical
-        stack.alignment = .center
-        stack.isLayoutMarginsRelativeArrangement = true
-        stack.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 45, leading: 0, bottom: 20, trailing: 0)
-        stack.spacing = 10
-        stack.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.47)
-        return stack
+    
+    private lazy var circleStepContainerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.47)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
     
     private lazy var stepsCountLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "7509"
+        label.textAlignment = .center
+        label.text = "0"
         label.font = .systemFont(ofSize: 36, weight: .bold)
         return label
     }()
     private lazy var distanceLabel: UILabel = {
         let label = UILabel()
+        label.isHidden = true
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "distance: 6.0km"
+        label.textAlignment = .center
+        label.text = "distance: 0 km"
         return label
     }()
     private lazy var stepsRemainingLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "left: 2131"
+        label.textAlignment = .center
+        label.text = "left: 0"
         return label
     }()
     
@@ -116,28 +116,44 @@ class StepsViewController: UIViewController {
     }
 
     private func setupNavigation() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(toAuthorization))
+        let logoutButton = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(toAuthorization))
+        logoutButton.tintColor = UIColor(red: 12/255, green: 38/255, blue: 36/255, alpha: 1)
+        navigationItem.rightBarButtonItem = logoutButton
     }
     
     private func setupLayout() {
-        view.addSubview(stackView)
-        view.addSubview(weekChartButton)
-        stackView.pin
-            .top(80)
-            .height(200)
-            .width(200)
-            .hCenter()
+        view.addSubview(circleStepContainerView)
+        [stepsCountLabel, distanceLabel, stepsRemainingLabel].forEach {
+            circleStepContainerView.addSubview($0)
+        }
         
-        weekChartButton.pin
-            .bottom(100)
-            .horizontally(100)
-            .height(40)
+        NSLayoutConstraint.activate([
+            circleStepContainerView.topAnchor.constraint(equalTo: view.topAnchor, constant: 80),
+            circleStepContainerView.heightAnchor.constraint(equalToConstant: 200),
+            circleStepContainerView.widthAnchor.constraint(equalToConstant: 200),
+            circleStepContainerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            
+            stepsCountLabel.leadingAnchor.constraint(equalTo: circleStepContainerView.leadingAnchor, constant: 28),
+            stepsCountLabel.topAnchor.constraint(equalTo: circleStepContainerView.topAnchor, constant: 70),
+            stepsCountLabel.trailingAnchor.constraint(equalTo: circleStepContainerView.trailingAnchor, constant: -28),
+            stepsCountLabel.heightAnchor.constraint(equalToConstant: 42),
+            
+            distanceLabel.leadingAnchor.constraint(equalTo: circleStepContainerView.leadingAnchor, constant: 30),
+            distanceLabel.topAnchor.constraint(equalTo: stepsCountLabel.bottomAnchor, constant: 8),
+            distanceLabel.trailingAnchor.constraint(equalTo: circleStepContainerView.trailingAnchor, constant: -30),
+            distanceLabel.heightAnchor.constraint(equalToConstant: 22),
+            
+            stepsRemainingLabel.leadingAnchor.constraint(equalTo: circleStepContainerView.leadingAnchor, constant: 50),
+            stepsRemainingLabel.bottomAnchor.constraint(equalTo: circleStepContainerView.bottomAnchor, constant: -25),
+            stepsRemainingLabel.trailingAnchor.constraint(equalTo: circleStepContainerView.trailingAnchor, constant: -50),
+            stepsRemainingLabel.heightAnchor.constraint(equalToConstant: 22),
+        ])
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        stackView.layer.cornerRadius = stackView.frame.width/2
+        circleStepContainerView.layer.cornerRadius = circleStepContainerView.frame.height/2
         weekChartButton.layer.cornerRadius = 10
     }
     

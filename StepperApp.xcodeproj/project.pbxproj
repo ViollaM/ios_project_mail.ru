@@ -22,6 +22,9 @@
 		0BD1511C2740176800F15800 /* ProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD1511B2740176800F15800 /* ProfileService.swift */; };
 		3A59D2C09ADB9AA1AAE377E2 /* Pods_StepperApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A924E68D2EAE87E9BC99EBB /* Pods_StepperApp.framework */; };
 		A124C81027241D8B00540595 /* WeekChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A124C80F27241D8B00540595 /* WeekChartViewController.swift */; };
+		F340CE622736E99A0055D87A /* CompetitionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F340CE612736E99A0055D87A /* CompetitionViewCell.swift */; };
+		F3E3B3B9274108A400BD7D83 /* EachCompetitionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E3B3B8274108A400BD7D83 /* EachCompetitionViewController.swift */; };
+		F3E3B3BB27410FF100BD7D83 /* CompetitionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E3B3BA27410FF100BD7D83 /* CompetitionViewController.swift */; };
 		A15C4D85274195BB005FF7EF /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A15C4D84274195BB005FF7EF /* HealthKit.framework */; };
 		A165E285274419770002A973 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A165E284274419770002A973 /* ProfileViewController.swift */; };
 		A165E288274419880002A973 /* TextValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A165E286274419880002A973 /* TextValidation.swift */; };
@@ -61,6 +64,9 @@
 		A187114127418525001DFAE7 /* FriendsList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsList.swift; sourceTree = "<group>"; };
 		A187114427418553001DFAE7 /* CircleImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleImageView.swift; sourceTree = "<group>"; };
 		CB9D39384BA8490515AF5B40 /* Pods-StepperApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StepperApp.debug.xcconfig"; path = "Target Support Files/Pods-StepperApp/Pods-StepperApp.debug.xcconfig"; sourceTree = "<group>"; };
+		F340CE612736E99A0055D87A /* CompetitionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompetitionViewCell.swift; sourceTree = "<group>"; };
+		F3E3B3B8274108A400BD7D83 /* EachCompetitionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EachCompetitionViewController.swift; sourceTree = "<group>"; };
+		F3E3B3BA27410FF100BD7D83 /* CompetitionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompetitionViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -346,6 +352,7 @@
 				A187114227418525001DFAE7 /* FriendsList.swift in Sources */,
 				01651A3F27120D2D00DC9391 /* StepsViewController.swift in Sources */,
 				014F5F9D272D9FAE0058132F /* SignUpViewController.swift in Sources */,
+				F3E3B3B9274108A400BD7D83 /* EachCompetitionViewController.swift in Sources */,
 				01651A3B27120D2D00DC9391 /* AppDelegate.swift in Sources */,
 				0BD1511C2740176800F15800 /* ProfileService.swift in Sources */,
 			);
@@ -490,7 +497,7 @@
 				CODE_SIGN_ENTITLEMENTS = StepperApp/StepperApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 37UJALBQ5X;
+				DEVELOPMENT_TEAM = TNAJV9TQHF;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = StepperApp/Support/Info.plist;
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "This app requires to access your healt data";
@@ -524,7 +531,7 @@
 				CODE_SIGN_ENTITLEMENTS = StepperApp/StepperApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 37UJALBQ5X;
+				DEVELOPMENT_TEAM = TNAJV9TQHF;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = StepperApp/Support/Info.plist;
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "This app requires to access your healt data";

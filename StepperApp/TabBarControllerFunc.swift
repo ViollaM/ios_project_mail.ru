@@ -17,6 +17,7 @@ func buildAppTabBarController() -> UITabBarController {
     tabBarController.setViewControllers(viewcontollers, animated: true)
     tabBarController.tabBar.isTranslucent = false
     tabBarController.selectedIndex = 0
+    tabBarController.tabBar.unselectedItemTintColor = UIColor(red: 122/255, green: 162/255, blue: 153/255, alpha: 1)
     tabBarController.tabBar.tintColor = UIColor(red: 12/255, green: 38/255, blue: 36/255, alpha: 1)
     tabBarController.tabBar.backgroundColor = UIColor(red: 193/255, green: 216/255, blue: 216/255, alpha: 1)
     return tabBarController

@@ -10,7 +10,7 @@ import PinLayout
 
 class StepsViewController: UIViewController {
     
-    var weekChartViewController: UIViewController!
+    private var weekChartViewController: UIViewController!
     private let stepsService: StepsService
     
     init(stepsService: StepsService) {
@@ -33,6 +33,7 @@ class StepsViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
+        label.textColor = .black
         label.text = "0"
         label.font = .systemFont(ofSize: 36, weight: .bold)
         return label
@@ -42,6 +43,7 @@ class StepsViewController: UIViewController {
         label.isHidden = true
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
+        label.textColor = .black
         label.text = "distance: 0 km"
         return label
     }()
@@ -49,11 +51,12 @@ class StepsViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
+        label.textColor = .black
         label.text = "left: 0"
         return label
     }()
     
-    var week: SteppingWeek = SteppingWeek(steppingDays: [])
+    private var week: SteppingWeek = SteppingWeek(steppingDays: [])
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,7 +67,7 @@ class StepsViewController: UIViewController {
         setupWeekChartViewLayout()
     }
     
-    func getWeekChartView(){
+    private func getWeekChartView(){
         weekChartViewController = WeekChartViewController()
         addChild(weekChartViewController)
         view.insertSubview(weekChartViewController.view, at: 0)
@@ -74,7 +77,7 @@ class StepsViewController: UIViewController {
     }
     
     
-    func setupWeekChartViewLayout(){
+    private func setupWeekChartViewLayout(){
         weekChartViewController.view.pin
             .horizontally(0)
             .height(283)
@@ -105,14 +108,11 @@ class StepsViewController: UIViewController {
             stepsRemainingLabel.text = "left: \(10000-stepsCount)"
         } else {
             stepsRemainingLabel.isHidden = true
+            stepsCountLabel.font = .systemFont(ofSize: 44, weight: .bold)
         }
     }
     
     weak var chartDelegate: ChartDelegate?
-    
-    private func updateChartData(stepWeek: SteppingWeek) {
-        
-    }
     
     private func loadStepsData() {
         stepsService.fetchLastWeekSteps { [weak self] result in
@@ -124,12 +124,11 @@ class StepsViewController: UIViewController {
                 self.week = week
                 DispatchQueue.main.async { [weak self] in
                     self?.updateLabelsData(stepsCount: week.steppingDays.last!.steps)
-                    self?.chartDelegate?.updataData(stepWeek: week)
+                    self?.chartDelegate?.updateData(stepWeek: week)
                 }
             case .failure(let error):
                 print(error.localizedDescription)
             }
-            //print("Week info: \(self.week)")
         }
     }
 
@@ -172,7 +171,6 @@ class StepsViewController: UIViewController {
         super.viewDidLayoutSubviews()
         
         circleStepContainerView.layer.cornerRadius = circleStepContainerView.frame.height/2
-        weekChartButton.layer.cornerRadius = 10
     }
     
     

@@ -53,6 +53,7 @@ class SignUpViewController: UIViewController {
         text.backgroundColor = UIColor(red: 204/255, green: 228/255, blue: 225/255, alpha: 1)
         text.autocapitalizationType = .none
         text.autocorrectionType = .no
+        text.isSecureTextEntry = true
         return text
     }()
 

@@ -15,6 +15,7 @@ protocol ChartDelegate: AnyObject {
 
 final class WeekChartViewController: UIViewController{
     
+    private let marker:BalloonMarker = BalloonMarker(color: UIColor(red: 46/255, green: 85/255, blue: 82/255, alpha: 1), font: .systemFont(ofSize: 15, weight: .regular), textColor: UIColor.white, insets: UIEdgeInsets(top: 7.0, left: 7.0, bottom: 20.0, right: 7.0))
     
     private lazy var chart: LineChartView = {
         let chart = LineChartView()
@@ -22,6 +23,9 @@ final class WeekChartViewController: UIViewController{
         chart.doubleTapToZoomEnabled = false
         chart.legend.enabled = false
         chart.extraRightOffset = 22
+        
+        marker.minimumSize = CGSize(width: 50.0, height: 25.0)
+        chart.marker = marker
         
         chart.translatesAutoresizingMaskIntoConstraints = false
         return chart
@@ -75,11 +79,18 @@ extension WeekChartViewController: ChartDelegate{
 
 extension WeekChartViewController {
     private func setupChartData(week: SteppingWeek?){
+        
+        let getlabelCountByMax = [10000: 5,
+                                  20000: 4,
+                                  30000: 6,
+                                  40000: 4,
+                                  50000: 5,]
+        
         var steps = [ChartDataEntry]()
         var days = [String]()
         if week == nil {
             for x in 0..<7{
-                steps.append(ChartDataEntry(x: Double(x), y: Double(Int.random(in: 0...40000))))
+                steps.append(ChartDataEntry(x: Double(x), y: Double(Int.random(in: 5000...40000))))
             }
             days = ["Sun", "Mod", "Tue", "Wed", "Thu", "Fri", "Sat"]
         } else {
@@ -103,9 +114,11 @@ extension WeekChartViewController {
         set.lineWidth = 3
         set.circleColors.append(UIColor(red: 46/255, green: 85/255, blue: 82/255, alpha: 1))
         set.drawValuesEnabled = {false}()
+        set.drawHorizontalHighlightIndicatorEnabled = false
+        set.drawVerticalHighlightIndicatorEnabled = false
         
         let data = LineChartData(dataSet: set)
-        data.highlightEnabled = false
+//        data.highlightEnabled = false
         chart.data = data
         
         chart.xAxis.valueFormatter = IndexAxisValueFormatter(values:days)
@@ -114,6 +127,7 @@ extension WeekChartViewController {
         let roundmaxSteps = (maxSteps/10000).rounded(.up)*10000
         
         chart.leftAxis.axisMaximum = roundmaxSteps
+        chart.leftAxis.labelCount = getlabelCountByMax[Int(roundmaxSteps)]!
     }
     
     private func setupChartUI(){
@@ -121,7 +135,6 @@ extension WeekChartViewController {
         let leftAxis = chart.leftAxis
         let rightAxis = chart.rightAxis
         
-        leftAxis.labelCount = 4
         leftAxis.axisMinimum = 0
         leftAxis.labelFont = .systemFont(ofSize: 12, weight: .regular)
         leftAxis.xOffset = 12
@@ -163,3 +176,4 @@ private func convertDateToWeekday(date: Date) -> String{
     
     return String(capitalizedWeekday.prefix(3))
 }
+

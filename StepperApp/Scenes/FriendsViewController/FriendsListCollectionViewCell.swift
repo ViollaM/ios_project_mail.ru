@@ -11,21 +11,19 @@ final class FriendsListCollectionViewCell: UICollectionViewCell {
     
     var friend: Friend? {
         didSet {
-            avatarImage.image = UIImage(named: friend?.imageName ?? "AppIcon")
+            avatarImage.image = UIImage(named: friend?.imageName ?? "Photo")
             nameLabel.text = "Hi! I'm @\(friend!.name)"
         }
     }
     
-    var friendName = ""
-    
-    var avatarImage: UIImageView = {
+    private lazy var avatarImage: UIImageView = {
         let image = UIImage()
         let imageView = CircleImageView(image: image)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
-    private let nameLabel: UILabel = {
+    private lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         label.font = .systemFont(ofSize: 16, weight: .regular)
@@ -63,7 +61,6 @@ extension FriendsListCollectionViewCell {
             nameLabel.heightAnchor.constraint(equalTo: avatarImage.heightAnchor),
             nameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -46)
         ])
-        
     }
 }
 

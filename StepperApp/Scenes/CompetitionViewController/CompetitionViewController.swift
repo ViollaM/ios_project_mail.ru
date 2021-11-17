@@ -16,13 +16,12 @@ final class CompetitionViewController: UIViewController {
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        
         collection.translatesAutoresizingMaskIntoConstraints = false
         collection.delegate = self
         collection.dataSource = self
         collection.register(CompetitionViewCell.self, forCellWithReuseIdentifier: String(describing: CompetitionViewCell.self))
+        collection.register(HeaderCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: String(describing: HeaderCollectionReusableView.self))
         collection.frame = view.bounds
         collection.backgroundColor = .clear
         return collection
@@ -30,42 +29,14 @@ final class CompetitionViewController: UIViewController {
     
     private let cellsOffset: CGFloat = 22
     private let numberOfItemsPerRow: CGFloat = 2
-    
-    
-    private lazy var label: UILabel = {
-        let label = UILabel()
-        label.text = "Competitions"
-        label.font = .systemFont(ofSize: 28, weight: .bold)
-        return label
-    }()
-    
-    private lazy var currentCompetitionButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("current", for: .normal)
-        button.setTitleColor(HexColor(rgb: 0x0C2624), for: .normal)
-        button.backgroundColor = HexColor(rgb: 0xCCE4E1)
-        button.addTarget(self, action: #selector(currentCompetitionButtonPressed), for: .touchUpInside)
-        button.layer.cornerRadius = 10
-        return button
-    }()
-    
-    private lazy var finishedCompetitionButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("finished", for: .normal)
-        button.setTitleColor(HexColor(rgb: 0x0C2624), for: .normal)
-        button.backgroundColor = HexColor(rgb: 0xCCE4E1)
-        button.addTarget(self, action: #selector(finishedCompetitionButtonPressed), for: .touchUpInside)
-        button.layer.cornerRadius = 10
-        return button
-    }()
+    private var buttonWidth: CGFloat {
+        return (view.frame.width - cellsOffset * (numberOfItemsPerRow + 1)) / 2
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.navigationBar.isHidden = true
-        
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTimeLabel), userInfo: nil, repeats: true)
         RunLoop.current.add(timer, forMode: .common)
-        
         setupLayout()
     }
     
@@ -80,10 +51,6 @@ final class CompetitionViewController: UIViewController {
     
     @objc
     private func currentCompetitionButtonPressed() {
-        currentCompetitionButton.setTitleColor(HexColor(rgb: 0xCCE4E1), for: .normal)
-        currentCompetitionButton.backgroundColor = HexColor(rgb: 0x0C2624)
-        finishedCompetitionButton.setTitleColor(HexColor(rgb: 0x0C2624), for: .normal)
-        finishedCompetitionButton.backgroundColor = HexColor(rgb: 0xCCE4E1)
         var t = 0
         self.competitions = []
         for i in allCompetitions {
@@ -98,10 +65,6 @@ final class CompetitionViewController: UIViewController {
     
     @objc
     private func finishedCompetitionButtonPressed() {
-        finishedCompetitionButton.setTitleColor(HexColor(rgb: 0xCCE4E1), for: .normal)
-        finishedCompetitionButton.backgroundColor = HexColor(rgb: 0x0C2624)
-        currentCompetitionButton.setTitleColor(HexColor(rgb: 0x0C2624), for: .normal)
-        currentCompetitionButton.backgroundColor = HexColor(rgb: 0xCCE4E1)
         var t = 0
         self.competitions = []
         for i in allCompetitions {
@@ -113,36 +76,16 @@ final class CompetitionViewController: UIViewController {
         }
         collectionView.reloadData()
     }
-    
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        collectionView.frame = CGRect(x: view.safeAreaInsets.left, y: view.safeAreaInsets.top + 119, width: view.frame.width, height: view.frame.height - view.safeAreaInsets.top - view.safeAreaInsets.bottom - 119)
-    }
 
     private func setupLayout () {
         view.addSubview(collectionView)
-        view.addSubview(label)
-        label.pin
-            .horizontally(24)
-            .top(57)
-            .height(50)
-        
-        view.addSubview(currentCompetitionButton)
-        view.addSubview(finishedCompetitionButton)
-        currentCompetitionButton.pin
-            .below(of: label).marginTop(8)
-            .left(cellsOffset)
-            .width((collectionView.frame.width - cellsOffset * (numberOfItemsPerRow + 1)) / 2)
-            .height(28)
-        
-        finishedCompetitionButton.pin
-            .below(of: label).marginTop(8)
-            .right(of: currentCompetitionButton).marginLeft(cellsOffset)
-            .width((collectionView.frame.width - cellsOffset * (numberOfItemsPerRow + 1)) / 2)
-            .height(28)
-        
+        NSLayoutConstraint.activate([
+            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 18),
+            collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+        ])
     }
-
 }
 
 extension CompetitionViewController: UICollectionViewDelegate, UICollectionViewDataSource {
@@ -150,15 +93,13 @@ extension CompetitionViewController: UICollectionViewDelegate, UICollectionViewD
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CompetitionViewCell", for: indexPath) as? CompetitionViewCell else {
             return .init()
         }
-        
         let comp = competitions[indexPath.row]
         cell.competition = comp
         
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
-        return competitions.count
+        competitions.count
     }
 }
 
@@ -176,11 +117,22 @@ extension CompetitionViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return cellsOffset
+        cellsOffset
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return cellsOffset
+        cellsOffset
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: String(describing: HeaderCollectionReusableView.self), for: indexPath) as! HeaderCollectionReusableView
+        header.currentCompetitionButton.addTarget(self, action: #selector(currentCompetitionButtonPressed), for: .touchUpInside)
+        header.finishedCompetitionButton.addTarget(self, action: #selector(finishedCompetitionButtonPressed), for: .touchUpInside)
+        return header
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        CGSize(width: view.frame.width, height: 47)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

@@ -111,12 +111,12 @@ final class EachCompetitionViewController: UIViewController {
             timeEndsLabel.widthAnchor.constraint(equalToConstant: 244),
             timeEndsLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 1),
             
-            remainingTimeLabel.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 33),
-            remainingTimeLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -6),
+            remainingTimeLabel.topAnchor.constraint(equalTo: timeEndsLabel.bottomAnchor, constant: 20),
+            remainingTimeLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 11),
             remainingTimeLabel.widthAnchor.constraint(equalToConstant: 130),
             remainingTimeLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 1),
             
-            yourProgressLabel.topAnchor.constraint(equalTo: timeEndsLabel.bottomAnchor, constant: 25),
+            yourProgressLabel.topAnchor.constraint(equalTo: remainingTimeLabel.bottomAnchor, constant: 25),
             yourProgressLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 11),
             yourProgressLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             yourProgressLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 1),

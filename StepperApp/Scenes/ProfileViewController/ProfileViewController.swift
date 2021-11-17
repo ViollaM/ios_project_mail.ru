@@ -112,13 +112,13 @@ final class ProfileViewController: UIViewController {
         
         setUpUIElements()
         
-        if let navigationBar = self.navigationController?.navigationBar {
-            let profileTitleFrame = CGRect(x: 24, y: 0, width: navigationBar.frame.width/2, height: navigationBar.frame.height)
-            let profileTitleLabel = UILabel(frame: profileTitleFrame)
-            profileTitleLabel.text = "Profile"
-            profileTitleLabel.font = .systemFont(ofSize: 30, weight: .bold)
-            navigationBar.addSubview(profileTitleLabel)
-        }
+//        if let navigationBar = self.navigationController?.navigationBar {
+//            let profileTitleFrame = CGRect(x: 24, y: 0, width: navigationBar.frame.width/2, height: navigationBar.frame.height)
+//            let profileTitleLabel = UILabel(frame: profileTitleFrame)
+//            profileTitleLabel.text = "Profile"
+//            profileTitleLabel.font = .systemFont(ofSize: 30, weight: .bold)
+//            navigationBar.addSubview(profileTitleLabel)
+//        }
     }
     
     override func viewWillLayoutSubviews() {
@@ -178,7 +178,9 @@ final class ProfileViewController: UIViewController {
     
     @objc
     private func editButtonClicked() {
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(saveButtonClicked))
+        let saveButton = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(saveButtonClicked))
+        saveButton.tintColor = UIColor(red: 12/255, green: 38/255, blue: 36/255, alpha: 1)
+        self.navigationItem.rightBarButtonItem = saveButton
         [nameTextField, ageTextField].forEach {
             $0.isUserInteractionEnabled = true
         }

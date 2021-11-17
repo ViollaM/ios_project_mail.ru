@@ -28,23 +28,16 @@ final class FriendsListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.navigationBar.isTranslucent = false
         setupNavigationItem()
         setupLayout()
     }
 
     func setupNavigationItem () {
-        navigationController?.navigationBar.prefersLargeTitles = true
-        self.title = "Friends"
         self.navigationItem.searchController = searchController
     }
     
     func setupLayout () {
         view.addSubview(collectionView)
-//        collectionView.frame = CGRect(x: view.safeAreaInsets.left,
-//                                      y: view.safeAreaInsets.top,
-//                                      width: view.frame.width,
-//                                      height: view.frame.height - 83)
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
@@ -56,7 +49,7 @@ final class FriendsListViewController: UIViewController {
 
 extension FriendsListViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return friends.count
+        friends.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -71,6 +64,6 @@ extension FriendsListViewController: UICollectionViewDataSource, UICollectionVie
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 12
+        12
     }
 }

@@ -27,6 +27,7 @@
 		A13BD97F274448F10030F984 /* CompetitionModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = A13BD97E274448F10030F984 /* CompetitionModels.swift */; };
 		A13BD981274449380030F984 /* EachCompetitionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A13BD980274449380030F984 /* EachCompetitionViewController.swift */; };
 		A15C4D85274195BB005FF7EF /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A15C4D84274195BB005FF7EF /* HealthKit.framework */; };
+		A162C10227451F8F00C1D2BF /* BalloonMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A162C10127451F8F00C1D2BF /* BalloonMarker.swift */; };
 		A165E285274419770002A973 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A165E284274419770002A973 /* ProfileViewController.swift */; };
 		A165E288274419880002A973 /* TextValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A165E286274419880002A973 /* TextValidation.swift */; };
 		A165E289274419880002A973 /* ErrorTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A165E287274419880002A973 /* ErrorTextField.swift */; };
@@ -61,6 +62,7 @@
 		A13BD980274449380030F984 /* EachCompetitionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EachCompetitionViewController.swift; sourceTree = "<group>"; };
 		A15C4D83274195AA005FF7EF /* StepperApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = StepperApp.entitlements; sourceTree = "<group>"; };
 		A15C4D84274195BB005FF7EF /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
+		A162C10127451F8F00C1D2BF /* BalloonMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalloonMarker.swift; sourceTree = "<group>"; };
 		A165E284274419770002A973 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		A165E286274419880002A973 /* TextValidation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextValidation.swift; sourceTree = "<group>"; };
 		A165E287274419880002A973 /* ErrorTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorTextField.swift; sourceTree = "<group>"; };
@@ -230,6 +232,7 @@
 				A165E287274419880002A973 /* ErrorTextField.swift */,
 				A165E286274419880002A973 /* TextValidation.swift */,
 				A187114427418553001DFAE7 /* CircleImageView.swift */,
+				A162C10127451F8F00C1D2BF /* BalloonMarker.swift */,
 			);
 			name = Helpers;
 			path = StepperApp/Helpers;
@@ -364,6 +367,7 @@
 				A165E288274419880002A973 /* TextValidation.swift in Sources */,
 				0172EABE27242F7000DE1779 /* StepsService.swift in Sources */,
 				A187113F274184A8001DFAE7 /* FriendsListViewController.swift in Sources */,
+				A162C10227451F8F00C1D2BF /* BalloonMarker.swift in Sources */,
 				0172EAC12724318C00DE1779 /* SteppingDay.swift in Sources */,
 				A187114227418525001DFAE7 /* FriendsList.swift in Sources */,
 				A13BD981274449380030F984 /* EachCompetitionViewController.swift in Sources */,

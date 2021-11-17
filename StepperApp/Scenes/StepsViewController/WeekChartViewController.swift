@@ -117,7 +117,7 @@ extension WeekChartViewController {
         let maxSteps = set.yMax
         let roundmaxSteps = (maxSteps/10000).rounded(.up)*10000
         chart.leftAxis.axisMaximum = roundmaxSteps
-        chart.leftAxis.labelCount = getlabelCountByMax[Int(roundmaxSteps)]!
+        chart.leftAxis.labelCount = getlabelCountByMax[Int(roundmaxSteps)] ?? 1
     }
     
     private func setupChartUI(){

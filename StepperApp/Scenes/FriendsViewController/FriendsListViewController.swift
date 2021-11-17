@@ -66,4 +66,11 @@ extension FriendsListViewController: UICollectionViewDataSource, UICollectionVie
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         12
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let friendsVC = EachFriendViewController()
+        let friend = friends[indexPath.row]
+        friendsVC.friend = friend
+        present(friendsVC, animated: true, completion: nil)
+    }
 }

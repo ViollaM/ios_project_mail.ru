@@ -111,14 +111,6 @@ final class ProfileViewController: UIViewController {
         }
         
         setUpUIElements()
-        
-//        if let navigationBar = self.navigationController?.navigationBar {
-//            let profileTitleFrame = CGRect(x: 24, y: 0, width: navigationBar.frame.width/2, height: navigationBar.frame.height)
-//            let profileTitleLabel = UILabel(frame: profileTitleFrame)
-//            profileTitleLabel.text = "Profile"
-//            profileTitleLabel.font = .systemFont(ofSize: 30, weight: .bold)
-//            navigationBar.addSubview(profileTitleLabel)
-//        }
     }
     
     override func viewWillLayoutSubviews() {

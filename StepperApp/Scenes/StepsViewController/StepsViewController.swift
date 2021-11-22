@@ -94,7 +94,7 @@ final class StepsViewController: UIViewController {
             case .success(let result):
                 if result {
                     self.loadStepsData()
-//                    self.loadDistanceData()
+                    self.loadDistanceData()
                 } else {
                     print("Alert! Give us permission!")
                 }

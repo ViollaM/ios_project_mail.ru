@@ -24,8 +24,10 @@ final class StepsServiceImplementation: StepsService {
     private var healthStore = HKHealthStore()
     private var stepsCollectionQuery: HKStatisticsCollectionQuery?
     private var distanceCollectionQuery: HKStatisticsCollectionQuery?
-    private var dataValues: [HKStatistics] = []
-    private var datesArray: [Date] = []
+    private var stepsDataValues: [HKStatistics] = []
+    private var distanceDataValues: [HKStatistics] = []
+    private var stepsDatesArray: [Date] = []
+    private var distanceDatesArray: [Date] = []
     private let stepType = HKQuantityType.quantityType(forIdentifier: .stepCount)!
     private let distanceType = HKQuantityType.quantityType(forIdentifier: .distanceWalkingRunning)!
     private let date = Date()
@@ -79,17 +81,17 @@ final class StepsServiceImplementation: StepsService {
                 let startDate = Calendar.current.date(byAdding: .day, value: -6, to: Date())!
                 statisticsCollection.enumerateStatistics(from: startDate,
                                                          to: Date()) { (statistics, stop) in
-                    self.dataValues.append(statistics)
+                    self.stepsDataValues.append(statistics)
                 }
                 var date = startDate
                 for _ in 1...7 {
-                    self.datesArray.append(date)
+                    self.stepsDatesArray.append(date)
                     date = Calendar.current.date(byAdding: .day, value: 1, to: date)!
                 }
                 var days: [SteppingDay] = []
                 
                 for i in 0...6 {
-                    days.append(SteppingDay(steps: Int((self.dataValues[i].sumQuantity()?.doubleValue(for: self.count)) ?? 0), date: self.datesArray[i]))
+                    days.append(SteppingDay(steps: Int((self.stepsDataValues[i].sumQuantity()?.doubleValue(for: self.count)) ?? 0), date: self.stepsDatesArray[i]))
                 }
                 let weekResult = SteppingWeek(steppingDays: days)
                 self.weekData = weekResult
@@ -119,17 +121,17 @@ final class StepsServiceImplementation: StepsService {
                 let startDate = Calendar.current.date(byAdding: .day, value: -6, to: Date())!
                 statisticsCollection.enumerateStatistics(from: startDate,
                                                          to: Date()) { (statistics, stop) in
-                    self.dataValues.append(statistics)
+                    self.distanceDataValues.append(statistics)
                 }
                 var date = startDate
                 for _ in 1...7 {
-                    self.datesArray.append(date)
+                    self.distanceDatesArray.append(date)
                     date = Calendar.current.date(byAdding: .day, value: 1, to: date)!
                 }
                 var days: [SteppingDay] = []
                 let meter = HKUnit.meter()
                 for i in 0...6 {
-                    days.append(SteppingDay(steps: Int((self.dataValues[i].sumQuantity()?.doubleValue(for: meter)) ?? 0), date: self.datesArray[i]))
+                    days.append(SteppingDay(steps: Int((self.distanceDataValues[i].sumQuantity()?.doubleValue(for: meter)) ?? 0), date: self.distanceDatesArray[i]))
                 }
                 let weekResult = SteppingWeek(steppingDays: days)
                 self.distanceWeekData = weekResult

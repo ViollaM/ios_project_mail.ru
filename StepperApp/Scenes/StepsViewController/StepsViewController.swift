@@ -57,6 +57,7 @@ final class StepsViewController: UIViewController {
     }()
     
     private var week: SteppingWeek = SteppingWeek(steppingDays: [])
+    private var week2: SteppingWeek = SteppingWeek(steppingDays: [])
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -93,6 +94,7 @@ final class StepsViewController: UIViewController {
             case .success(let result):
                 if result {
                     self.loadStepsData()
+//                    self.loadDistanceData()
                 } else {
                     print("Alert! Give us permission!")
                 }
@@ -126,6 +128,21 @@ final class StepsViewController: UIViewController {
                     self?.updateLabelsData(stepsCount: week.steppingDays.last!.steps)
                     self?.chartDelegate?.updateData(stepWeek: week)
                 }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    private func loadDistanceData() {
+        stepsService.fetchLastWeekDistance { [weak self] result in
+            guard let self = self else {
+                return
+            }
+            switch result {
+            case .success(let week):
+//                self.week2 = week
+                print(week)
             case .failure(let error):
                 print(error.localizedDescription)
             }

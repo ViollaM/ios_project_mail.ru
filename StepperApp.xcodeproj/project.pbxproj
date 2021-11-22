@@ -16,8 +16,7 @@
 		01651A4427120D2E00DC9391 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 01651A4327120D2E00DC9391 /* Assets.xcassets */; };
 		01651A4727120D2E00DC9391 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 01651A4527120D2E00DC9391 /* LaunchScreen.storyboard */; };
 		0172EABE27242F7000DE1779 /* StepsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0172EABD27242F7000DE1779 /* StepsService.swift */; };
-		0172EAC12724318C00DE1779 /* SteppingDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0172EAC02724318C00DE1779 /* SteppingDay.swift */; };
-		0172EAC52724335900DE1779 /* SteppingWeek.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0172EAC42724335900DE1779 /* SteppingWeek.swift */; };
+		0172EAC52724335900DE1779 /* StepsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0172EAC42724335900DE1779 /* StepsModels.swift */; };
 		01F7D4B4274AA2D4007676CC /* HeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F7D4B3274AA2D4007676CC /* HeaderCollectionReusableView.swift */; };
 		01F7D4B6274AA2FD007676CC /* EachFriendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F7D4B5274AA2FD007676CC /* EachFriendViewController.swift */; };
 		01F7D4B8274BF146007676CC /* StepColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F7D4B7274BF146007676CC /* StepColor.swift */; };
@@ -52,8 +51,7 @@
 		01651A4627120D2E00DC9391 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		01651A4827120D2E00DC9391 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0172EABD27242F7000DE1779 /* StepsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepsService.swift; sourceTree = "<group>"; };
-		0172EAC02724318C00DE1779 /* SteppingDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SteppingDay.swift; sourceTree = "<group>"; };
-		0172EAC42724335900DE1779 /* SteppingWeek.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SteppingWeek.swift; sourceTree = "<group>"; };
+		0172EAC42724335900DE1779 /* StepsModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepsModels.swift; sourceTree = "<group>"; };
 		01F7D4B3274AA2D4007676CC /* HeaderCollectionReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderCollectionReusableView.swift; sourceTree = "<group>"; };
 		01F7D4B5274AA2FD007676CC /* EachFriendViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EachFriendViewController.swift; sourceTree = "<group>"; };
 		01F7D4B7274BF146007676CC /* StepColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepColor.swift; sourceTree = "<group>"; };
@@ -170,8 +168,7 @@
 			children = (
 				A13BD97E274448F10030F984 /* CompetitionModels.swift */,
 				A187114127418525001DFAE7 /* FriendsList.swift */,
-				0172EAC42724335900DE1779 /* SteppingWeek.swift */,
-				0172EAC02724318C00DE1779 /* SteppingDay.swift */,
+				0172EAC42724335900DE1779 /* StepsModels.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -369,7 +366,7 @@
 				014F5F99272D9F880058132F /* AuthorizationViewController.swift in Sources */,
 				A1871140274184A8001DFAE7 /* FriendsListCollectionViewCell.swift in Sources */,
 				A13BD97B2744484A0030F984 /* HexColor.swift in Sources */,
-				0172EAC52724335900DE1779 /* SteppingWeek.swift in Sources */,
+				0172EAC52724335900DE1779 /* StepsModels.swift in Sources */,
 				01F7D4B4274AA2D4007676CC /* HeaderCollectionReusableView.swift in Sources */,
 				014F5F96272D9E960058132F /* TabBarControllerFunc.swift in Sources */,
 				A165E285274419770002A973 /* ProfileViewController.swift in Sources */,
@@ -379,7 +376,6 @@
 				0172EABE27242F7000DE1779 /* StepsService.swift in Sources */,
 				A187113F274184A8001DFAE7 /* FriendsListViewController.swift in Sources */,
 				A162C10227451F8F00C1D2BF /* BalloonMarker.swift in Sources */,
-				0172EAC12724318C00DE1779 /* SteppingDay.swift in Sources */,
 				A187114227418525001DFAE7 /* FriendsList.swift in Sources */,
 				A13BD981274449380030F984 /* EachCompetitionViewController.swift in Sources */,
 				01651A3F27120D2D00DC9391 /* StepsViewController.swift in Sources */,

@@ -15,20 +15,25 @@ enum StepsServiceError: Error {
 
 protocol StepsService {
     func fetchLastWeekSteps(completion: @escaping (Result<SteppingWeek, Error>) -> Void)
+    func fetchLastWeekDistance(completion: @escaping (Result<SteppingWeek, Error>) -> Void)
     func authorizeService(completion: @escaping (Result<Bool,Error>) -> Void)
 }
 
 final class StepsServiceImplementation: StepsService {
     
     private var healthStore = HKHealthStore()
-    private var collectioQuery: HKStatisticsCollectionQuery?
+    private var stepsCollectionQuery: HKStatisticsCollectionQuery?
+    private var distanceCollectionQuery: HKStatisticsCollectionQuery?
     private var dataValues: [HKStatistics] = []
     private var datesArray: [Date] = []
     private let stepType = HKQuantityType.quantityType(forIdentifier: .stepCount)!
     private let distanceType = HKQuantityType.quantityType(forIdentifier: .distanceWalkingRunning)!
     private let date = Date()
     private let calendar = Calendar.current
-    private var isPermissionAllowed = false
+    private let count = HKUnit.count()
+//    private var isPermissionAllowed = false
+    var weekData = SteppingWeek(steppingDays: [])
+    var distanceWeekData = SteppingWeek(steppingDays: [])
     
     
     func authorizeService(completion: @escaping (Result<Bool,Error>) -> Void) {
@@ -60,12 +65,12 @@ final class StepsServiceImplementation: StepsService {
         let predicate = setupSamplePredicate()
         let interval = DateComponents(day: 1)
         
-        self.collectioQuery = HKStatisticsCollectionQuery(quantityType: stepType,
+        self.stepsCollectionQuery = HKStatisticsCollectionQuery(quantityType: stepType,
                                                           quantitySamplePredicate: predicate,
                                                           options: .cumulativeSum,
                                                           anchorDate: anchor,
                                                           intervalComponents: interval)
-        self.collectioQuery?.initialResultsHandler = { query, statisticsCollection, error in
+        self.stepsCollectionQuery?.initialResultsHandler = { query, statisticsCollection, error in
             if let error = error {
                 print("Query handler error:", error.localizedDescription)
             }
@@ -82,16 +87,58 @@ final class StepsServiceImplementation: StepsService {
                     date = Calendar.current.date(byAdding: .day, value: 1, to: date)!
                 }
                 var days: [SteppingDay] = []
-                let count = HKUnit.count()
+                
                 for i in 0...6 {
-                    days.append(SteppingDay(steps: Int((self.dataValues[i].sumQuantity()?.doubleValue(for: count)) ?? 0), date: self.datesArray[i]))
+                    days.append(SteppingDay(steps: Int((self.dataValues[i].sumQuantity()?.doubleValue(for: self.count)) ?? 0), date: self.datesArray[i]))
                 }
                 let weekResult = SteppingWeek(steppingDays: days)
-                completion(.success(weekResult))
+                self.weekData = weekResult
+                completion(.success(self.weekData))
             }
         }
-        healthStore.execute(collectioQuery!)
+        healthStore.execute(stepsCollectionQuery!)
     }
+    
+    func fetchLastWeekDistance(completion: @escaping (Result<SteppingWeek, Error>) -> Void) {
+
+        let anchor = setupLastWeekAnchor()
+        let predicate = setupSamplePredicate()
+        let interval = DateComponents(day: 1)
+        
+        self.distanceCollectionQuery = HKStatisticsCollectionQuery(quantityType: distanceType,
+                                                          quantitySamplePredicate: predicate,
+                                                          options: .cumulativeSum,
+                                                          anchorDate: anchor,
+                                                          intervalComponents: interval)
+        self.distanceCollectionQuery?.initialResultsHandler = { query, statisticsCollection, error in
+            if let error = error {
+                print("Query handler error:", error.localizedDescription)
+            }
+
+            if let statisticsCollection = statisticsCollection {
+                let startDate = Calendar.current.date(byAdding: .day, value: -6, to: Date())!
+                statisticsCollection.enumerateStatistics(from: startDate,
+                                                         to: Date()) { (statistics, stop) in
+                    self.dataValues.append(statistics)
+                }
+                var date = startDate
+                for _ in 1...7 {
+                    self.datesArray.append(date)
+                    date = Calendar.current.date(byAdding: .day, value: 1, to: date)!
+                }
+                var days: [SteppingDay] = []
+                let meter = HKUnit.meter()
+                for i in 0...6 {
+                    days.append(SteppingDay(steps: Int((self.dataValues[i].sumQuantity()?.doubleValue(for: meter)) ?? 0), date: self.datesArray[i]))
+                }
+                let weekResult = SteppingWeek(steppingDays: days)
+                self.distanceWeekData = weekResult
+                completion(.success(self.distanceWeekData))
+            }
+        }
+        healthStore.execute(distanceCollectionQuery!)
+    }
+
 
     
     // MARK: Support functions

@@ -25,19 +25,21 @@ final class StepsServiceImplementation: StepsService {
     private var dataValues: [HKStatistics] = []
     private var datesArray: [Date] = []
     private let stepType = HKQuantityType.quantityType(forIdentifier: .stepCount)!
+    private let distanceType = HKQuantityType.quantityType(forIdentifier: .distanceWalkingRunning)!
     private let date = Date()
     private let calendar = Calendar.current
     private var isPermissionAllowed = false
     
     
     func authorizeService(completion: @escaping (Result<Bool,Error>) -> Void) {
+        let allTypes = Set([stepType, distanceType])
         if !HKHealthStore.isHealthDataAvailable() {
             completion(.failure(StepsServiceError.healthDataUnavailable))
             return
         }
         
         print("Requesting HealthKit authorization...")
-        self.healthStore.requestAuthorization(toShare: [stepType], read: [stepType]) { (success, error) in
+        self.healthStore.requestAuthorization(toShare: allTypes, read: allTypes) { (success, error) in
             if let error = error {
                 completion(.failure(StepsServiceError.authError))
                 print("requestAuthorization error:", error.localizedDescription)

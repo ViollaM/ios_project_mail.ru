@@ -19,7 +19,6 @@ final class EachCompetitionViewController: UIViewController {
             descriptionLabel.text = competition?.text
             remainingTimeLabel.text = currentTime()
             progressLabel.text = "\(Int((competition?.currentValue)!)) / \(Int((competition?.maxValue)!))"
-            
         }
     }
     
@@ -79,7 +78,7 @@ final class EachCompetitionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupLayout()
-        view.backgroundColor = HexColor(rgb: 0xCCE4E1)
+        view.backgroundColor = StepColor.cellBackground
         
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTimeLabel), userInfo: nil, repeats: true)
         RunLoop.current.add(timer, forMode: .common)

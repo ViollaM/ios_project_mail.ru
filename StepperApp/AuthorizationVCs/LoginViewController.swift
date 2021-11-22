@@ -14,20 +14,21 @@ final class LoginViewController: UIViewController {
         let button = UIButton()
         button.layer.cornerRadius = 10
         button.setTitleColor(.black, for: .normal)
-        button.backgroundColor = UIColor(red: 0.59, green: 0.75, blue: 0.75, alpha: 1)
+        button.backgroundColor = StepColor.authButton
         button.titleLabel?.font = .systemFont(ofSize: 24, weight: .bold)
         button.setTitle("Log In", for: .normal)
+        button.setTitleColor(StepColor.darkGreen, for: .normal)
         button.addTarget(self, action: #selector(loginButtonToApp), for: .touchUpInside)
         return button
     }()
     
-    private lazy var nameTextField: UITextField = {
+    private lazy var emailTextField: UITextField = {
         let text = UITextField()
         text.layer.cornerRadius = 10
-        text.placeholder = "name"
+        text.placeholder = "e-mail"
         text.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: text.frame.height))
         text.leftViewMode = .always
-        text.backgroundColor = UIColor(red: 204/255, green: 228/255, blue: 225/255, alpha: 1)
+        text.backgroundColor = StepColor.cellBackground
         text.autocapitalizationType = .none
         text.autocorrectionType = .no
         return text
@@ -39,7 +40,7 @@ final class LoginViewController: UIViewController {
         text.placeholder = "password"
         text.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: text.frame.height))
         text.leftViewMode = .always
-        text.backgroundColor = UIColor(red: 204/255, green: 228/255, blue: 225/255, alpha: 1)
+        text.backgroundColor = StepColor.cellBackground
         text.autocapitalizationType = .none
         text.autocorrectionType = .no
         text.isSecureTextEntry = true
@@ -48,20 +49,14 @@ final class LoginViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         setupView()
         setupBackground()
     }
     
     private func setupView() {
-        title = "Log In"
-        navigationController?.navigationBar.isHidden = false
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationController?.navigationBar.tintColor = UIColor(red: 12/255, green: 38/255, blue: 36/255, alpha: 1)
-        [loginButton, nameTextField, passwordTextField].forEach {
+        [loginButton, emailTextField, passwordTextField].forEach {
             view.addSubview($0)
         }
-
     }
     
     private func setupBackground() {
@@ -74,12 +69,12 @@ final class LoginViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super .viewDidLayoutSubviews()
         
-        nameTextField.pin
+        emailTextField.pin
             .top(159)
             .horizontally(52)
             .height(49)
         passwordTextField.pin
-            .below(of: nameTextField)
+            .below(of: emailTextField)
             .marginTop(18)
             .horizontally(52)
             .height(49)
@@ -92,7 +87,7 @@ final class LoginViewController: UIViewController {
     
     @objc func loginButtonToApp() {
         guard
-            let _ = nameTextField.text,
+            let _ = emailTextField.text,
             let _ = passwordTextField.text
         else {
             return

@@ -51,7 +51,7 @@ final class EachFriendViewController: UIViewController {
         [avatar, name, age, gender].forEach {
             view.addSubview($0)
         }
-        view.backgroundColor = HexColor(rgb: 0xCCE4E1)
+        view.backgroundColor = StepColor.cellBackground
         avatar.pin
             .top(view.safeAreaInsets.top + 20)
             .left(20)

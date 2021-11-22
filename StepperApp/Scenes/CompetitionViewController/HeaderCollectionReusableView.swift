@@ -12,8 +12,8 @@ final class HeaderCollectionReusableView: UICollectionReusableView {
      lazy var currentCompetitionButton: UIButton = {
         let button = UIButton()
         button.setTitle("current", for: .normal)
-        button.setTitleColor(HexColor(rgb: 0x0C2624), for: .normal)
-        button.backgroundColor = HexColor(rgb: 0xCCE4E1)
+        button.setTitleColor(StepColor.darkGreen, for: .normal)
+        button.backgroundColor = StepColor.cellBackground
         button.addTarget(self, action: #selector(currentCompetitionButtonPressed), for: .touchUpInside)
         button.layer.cornerRadius = 10
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -23,8 +23,8 @@ final class HeaderCollectionReusableView: UICollectionReusableView {
      lazy var finishedCompetitionButton: UIButton = {
         let button = UIButton()
         button.setTitle("finished", for: .normal)
-        button.setTitleColor(HexColor(rgb: 0x0C2624), for: .normal)
-        button.backgroundColor = HexColor(rgb: 0xCCE4E1)
+        button.setTitleColor(StepColor.darkGreen, for: .normal)
+        button.backgroundColor = StepColor.cellBackground
         button.addTarget(self, action: #selector(finishedCompetitionButtonPressed), for: .touchUpInside)
         button.layer.cornerRadius = 10
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -33,17 +33,17 @@ final class HeaderCollectionReusableView: UICollectionReusableView {
     
     @objc
     private func currentCompetitionButtonPressed() {
-        currentCompetitionButton.setTitleColor(HexColor(rgb: 0xCCE4E1), for: .normal)
-        currentCompetitionButton.backgroundColor = HexColor(rgb: 0x0C2624)
-        finishedCompetitionButton.setTitleColor(HexColor(rgb: 0x0C2624), for: .normal)
-        finishedCompetitionButton.backgroundColor = HexColor(rgb: 0xCCE4E1)
+        currentCompetitionButton.setTitleColor(StepColor.cellBackground, for: .normal)
+        currentCompetitionButton.backgroundColor = StepColor.darkGreen
+        finishedCompetitionButton.setTitleColor(StepColor.darkGreen, for: .normal)
+        finishedCompetitionButton.backgroundColor = StepColor.cellBackground
     }
     @objc
     private func finishedCompetitionButtonPressed() {
-        finishedCompetitionButton.setTitleColor(HexColor(rgb: 0xCCE4E1), for: .normal)
-        finishedCompetitionButton.backgroundColor = HexColor(rgb: 0x0C2624)
-        currentCompetitionButton.setTitleColor(HexColor(rgb: 0x0C2624), for: .normal)
-        currentCompetitionButton.backgroundColor = HexColor(rgb: 0xCCE4E1)
+        finishedCompetitionButton.setTitleColor(StepColor.cellBackground, for: .normal)
+        finishedCompetitionButton.backgroundColor = StepColor.darkGreen
+        currentCompetitionButton.setTitleColor(StepColor.darkGreen, for: .normal)
+        currentCompetitionButton.backgroundColor = StepColor.cellBackground
      }
 
     override init(frame: CGRect) {

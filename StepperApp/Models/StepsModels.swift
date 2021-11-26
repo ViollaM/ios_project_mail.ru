@@ -13,6 +13,6 @@ struct SteppingWeek {
 
 struct SteppingDay {
     var steps: Int = 0
-    let km: Int? = nil
+    var km: Double = 0
     var date: Date = Date()
 }

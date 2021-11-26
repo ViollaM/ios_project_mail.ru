@@ -12,9 +12,11 @@ final class StepsViewController: UIViewController {
     
     private var weekChartViewController: UIViewController!
     private let stepsService: StepsService
+    private let pedometerService: PedometerService
     
-    init(stepsService: StepsService) {
+    init(stepsService: StepsService, pedometerService: PedometerService) {
         self.stepsService = stepsService
+        self.pedometerService = pedometerService
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -40,7 +42,7 @@ final class StepsViewController: UIViewController {
     }()
     private lazy var distanceLabel: UILabel = {
         let label = UILabel()
-        label.isHidden = true
+//        label.isHidden = true
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
         label.textColor = .black
@@ -57,7 +59,7 @@ final class StepsViewController: UIViewController {
     }()
     
     private var week: SteppingWeek = SteppingWeek(steppingDays: [])
-    private var week2: SteppingWeek = SteppingWeek(steppingDays: [])
+    weak var chartDelegate: ChartDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -93,8 +95,9 @@ final class StepsViewController: UIViewController {
             switch result {
             case .success(let result):
                 if result {
-                    self.loadStepsData()
-                    self.loadDistanceData()
+//                    self.loadStepsData()
+//                    self.loadDistanceData()
+                    self.loadWeekData()
                 } else {
                     print("Alert! Give us permission!")
                 }
@@ -103,21 +106,32 @@ final class StepsViewController: UIViewController {
             }
         }
     }
-    
-    private func updateLabelsData(stepsCount: Int) {
-        stepsCountLabel.text = "\(stepsCount)"
-        if 10000 - stepsCount > 0 {
-            stepsRemainingLabel.text = "left: \(10000-stepsCount)"
+    private func updateLabelsData(lastDay: SteppingDay) {
+        let steps = lastDay.steps
+        let distance = lastDay.km
+        let roundedDistanceLabel = String(format: "%.1f", distance)
+        distanceLabel.text = "distance: " + roundedDistanceLabel + "km"
+        stepsCountLabel.text = "\(steps)"
+        if 10000 - steps > 0 {
+            stepsRemainingLabel.text = "left: \(10000-steps)"
         } else {
             stepsRemainingLabel.isHidden = true
             stepsCountLabel.font = .systemFont(ofSize: 44, weight: .bold)
         }
     }
     
-    weak var chartDelegate: ChartDelegate?
+//    private func updateLabelsData(stepsCount: Int) {
+//        stepsCountLabel.text = "\(stepsCount)"
+//        if 10000 - stepsCount > 0 {
+//            stepsRemainingLabel.text = "left: \(10000-stepsCount)"
+//        } else {
+//            stepsRemainingLabel.isHidden = true
+//            stepsCountLabel.font = .systemFont(ofSize: 44, weight: .bold)
+//        }
+//    }
     
-    private func loadStepsData() {
-        stepsService.fetchLastWeekSteps { [weak self] result in
+    private func loadWeekData() {
+        stepsService.fetchLastWeekInfo { [weak self] result in
             guard let self = self else {
                 return
             }
@@ -125,7 +139,7 @@ final class StepsViewController: UIViewController {
             case .success(let week):
                 self.week = week
                 DispatchQueue.main.async { [weak self] in
-                    self?.updateLabelsData(stepsCount: week.steppingDays.last!.steps)
+                    self?.updateLabelsData(lastDay: week.steppingDays.last!)
                     self?.chartDelegate?.updateData(stepWeek: week)
                 }
             case .failure(let error):
@@ -134,20 +148,37 @@ final class StepsViewController: UIViewController {
         }
     }
     
-    private func loadDistanceData() {
-        stepsService.fetchLastWeekDistance { [weak self] result in
-            guard let self = self else {
-                return
-            }
-            switch result {
-            case .success(let week):
-//                self.week2 = week
-                print(week)
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
-        }
-    }
+//    private func loadStepsData() {
+//        stepsService.fetchLastWeekSteps { [weak self] result in
+//            guard let self = self else {
+//                return
+//            }
+//            switch result {
+//            case .success(let week):
+//                self.week = week
+//                DispatchQueue.main.async { [weak self] in
+//                    self?.updateLabelsData(stepsCount: week.steppingDays.last!.steps)
+//                    self?.chartDelegate?.updateData(stepWeek: week)
+//                }
+//            case .failure(let error):
+//                print(error.localizedDescription)
+//            }
+//        }
+//    }
+    
+//    private func loadDistanceData() {
+//        stepsService.fetchLastWeekDistance { [weak self] result in
+//            guard let self = self else {
+//                return
+//            }
+//            switch result {
+//            case .success(let week):
+//                print(week)
+//            case .failure(let error):
+//                print(error.localizedDescription)
+//            }
+//        }
+//    }
 
     private func setupNavigation() {
         let logoutButton = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(toAuthorization))

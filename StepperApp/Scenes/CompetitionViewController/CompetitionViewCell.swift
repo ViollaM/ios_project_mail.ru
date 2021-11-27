@@ -18,12 +18,17 @@ var time = currentTime()
 
 final class CompetitionViewCell: UICollectionViewCell {
     
+    var a: Float = 0.0
+    
+    
     var competition: competitionData? {
         didSet {
             competitionTitleLabel.text = competition?.name
             competitionTimeLabel.text = currentTime()
             competitionCurrentLeaderLabel.text = competition?.currentLeader
+            competition?.currentValue = Double(currentStepsFunc())
             progressBar.progress = Float((competition?.currentValue)! / (competition?.maxValue)!)
+            print(progressBar.progress)
             if (!competition!.isFinished) {
                 isComplete.isHidden = true
             } else {
@@ -65,11 +70,11 @@ final class CompetitionViewCell: UICollectionViewCell {
         return current
     }()
     
-    private lazy var progressBar: UIProgressView = {
+    lazy var progressBar: UIProgressView = {
         let bar = UIProgressView()
         bar.tintColor = HexColor(rgb: 0x0C2624)
         bar.trackTintColor = HexColor(rgb: 0xA3D2CC)
-        bar.progress = 7509 / 10000
+        //bar.progress = 7509 / 10000
         bar.translatesAutoresizingMaskIntoConstraints = false
         bar.clipsToBounds = true
         return bar

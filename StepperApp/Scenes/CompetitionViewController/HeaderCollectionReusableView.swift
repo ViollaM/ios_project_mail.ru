@@ -8,6 +8,15 @@
 import UIKit
 
 final class HeaderCollectionReusableView: UICollectionReusableView {
+    
+    private lazy var buttonsSegmentedControl: UISegmentedControl = {
+        let sc = UISegmentedControl(items: ["current", "finished"])
+        sc.selectedSegmentTintColor = HexColor(rgb: 0x0C2624)
+        sc.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: HexColor(rgb: 0xCCE4E1)], for: .selected)
+        sc.addTarget(self, action: #selector(currentCompetitionButtonPressed()), for: .touchUpInside)
+        //sc.setAction(currentCompetitionButtonPressed, forSegmentAt: 0)
+        return sc
+    }()
       
      lazy var currentCompetitionButton: UIButton = {
         let button = UIButton()

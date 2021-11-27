@@ -13,6 +13,44 @@ final class CompetitionViewController: UIViewController {
     private var competitions = allCompetitions
     var timer = Timer()
     
+    private let stepsService: StepsService
+    
+    init(stepsService: StepsService) {
+        self.stepsService = stepsService
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private var week: SteppingWeek = SteppingWeek(steppingDays: [])
+    
+    private func loadStepsData() {
+        stepsService.fetchLastWeekSteps { [weak self] result in
+            guard let self = self else {
+                return
+            }
+            switch result {
+            case .success(let week):
+                self.week = week
+                DispatchQueue.main.async { [weak self] in
+                    currentSteps = week.steppingDays.last!.steps
+//                    allCompetitions.forEach { competition in
+//                        competition.currentValue = week.steppingDays.last!.steps
+//                    }
+                    for i in 0..<(allCompetitions.count - 1) {
+                        allCompetitions[i].currentValue = Double(currentSteps)
+                    }
+                    
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+
+    
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -38,6 +76,7 @@ final class CompetitionViewController: UIViewController {
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTimeLabel), userInfo: nil, repeats: true)
         RunLoop.current.add(timer, forMode: .common)
         setupLayout()
+        //loadStepsData()
     }
     
     @objc
@@ -46,6 +85,8 @@ final class CompetitionViewController: UIViewController {
         hour = calendar.component(.hour, from: date)
         minute = calendar.component(.minute, from: date)
         time = currentTime()
+        loadStepsData()
+        //print(currentSteps)
         collectionView.reloadData()
     }
     

@@ -11,7 +11,7 @@ func buildAppTabBarController() -> UITabBarController {
     let tabBarController = UITabBarController()
     let stepsService = StepsServiceImplementation()
     let profileService = ProfileServiceImplementation()
-    let viewcontollers = [buildStepsViewController(stepsService: stepsService), buildFriendsListViewController(), buildCompetitionViewController(),  buildProfileViewController(profileService: profileService)]
+    let viewcontollers = [buildStepsViewController(stepsService: stepsService), buildFriendsListViewController(), buildCompetitionViewController(stepsService: stepsService),  buildProfileViewController(profileService: profileService)]
     viewcontollers.forEach {
         setupBackground(on: $0)
     }
@@ -63,9 +63,9 @@ func buildFriendsListViewController() -> UIViewController {
     return navigationController
 }
 
-func buildCompetitionViewController() -> UIViewController {
+func buildCompetitionViewController(stepsService: StepsService) -> UIViewController {
     let navigationController = UINavigationController()
-    let viewController = CompetitionViewController()
+    let viewController = CompetitionViewController(stepsService: stepsService)
     navigationController.viewControllers = [viewController]
     navigationController.navigationBar.prefersLargeTitles = true
     navigationController.navigationBar.setBackgroundImage(UIImage(), for: .default)

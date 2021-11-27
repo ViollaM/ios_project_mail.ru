@@ -18,7 +18,7 @@ final class EachCompetitionViewController: UIViewController {
             competitionTitleLabel.text = competition?.name
             descriptionLabel.text = competition?.text
             remainingTimeLabel.text = currentTime()
-            progressLabel.text = "\(Int((competition?.currentValue)!)) / \(Int((competition?.maxValue)!))"
+            progressLabel.text = "\(Int((currentStepsFunc()))) / \(Int((competition?.maxValue)!))"
             
         }
     }

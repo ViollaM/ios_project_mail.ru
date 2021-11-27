@@ -12,7 +12,6 @@ protocol ChartDelegate: AnyObject {
     func updateData(stepWeek: SteppingWeek)
 }
 
-
 final class WeekChartViewController: UIViewController{
     
     private let marker:BalloonMarker = BalloonMarker(color: UIColor(red: 46/255, green: 85/255, blue: 82/255, alpha: 1), font: .systemFont(ofSize: 15, weight: .regular), textColor: UIColor.white, insets: UIEdgeInsets(top: 7.0, left: 7.0, bottom: 20.0, right: 7.0))
@@ -50,24 +49,19 @@ final class WeekChartViewController: UIViewController{
         gradientLayer.cornerRadius = 10
         gradientLayer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         
-        
         self.view.layer.insertSublayer(gradientLayer, at:0)
     }
     
-    func setupLayout () {
+    private func setupLayout () {
         view.addSubview(chart)
         chart.pin
             .all()
             .height(283)
     }
     
-    func configureUI () {
+    private func configureUI () {
         setupChartUI()
     }
-    
-    var week: SteppingWeek = SteppingWeek(steppingDays: [])
-    
-    
 }
 
 extension WeekChartViewController: ChartDelegate{
@@ -102,14 +96,12 @@ extension WeekChartViewController {
             }
         }
         
-        
         var set: LineChartDataSet! = nil
         
         set = LineChartDataSet(entries: steps, label: "Week Steps")
         set.colors = [
             UIColor(red: 46/255, green: 85/255, blue: 82/255, alpha: 1),
         ]
-        
         set.circleColors.removeAll(keepingCapacity: false)
         set.lineWidth = 3
         set.circleColors.append(UIColor(red: 46/255, green: 85/255, blue: 82/255, alpha: 1))
@@ -120,14 +112,12 @@ extension WeekChartViewController {
         let data = LineChartData(dataSet: set)
 //        data.highlightEnabled = false
         chart.data = data
-        
         chart.xAxis.valueFormatter = IndexAxisValueFormatter(values:days)
         
         let maxSteps = set.yMax
         let roundmaxSteps = (maxSteps/10000).rounded(.up)*10000
-        
         chart.leftAxis.axisMaximum = roundmaxSteps
-        chart.leftAxis.labelCount = getlabelCountByMax[Int(roundmaxSteps)]!
+        chart.leftAxis.labelCount = getlabelCountByMax[Int(roundmaxSteps)] ?? 1
     }
     
     private func setupChartUI(){
@@ -149,7 +139,6 @@ extension WeekChartViewController {
         rightAxis.axisLineDashLengths = [4]
         rightAxis.axisLineColor = UIColor(red: 75/255, green: 126/255, blue: 121/255, alpha: 1)
         
-        
         weekAxis.granularity = 1
         weekAxis.drawGridLinesEnabled = false
         weekAxis.labelPosition = XAxis.LabelPosition.top
@@ -163,7 +152,6 @@ extension WeekChartViewController {
         weekAxis.axisLineColor = UIColor(red: 75/255, green: 126/255, blue: 121/255, alpha: 1)
     }
 }
-
 
 private func convertDateToWeekday(date: Date) -> String{
     

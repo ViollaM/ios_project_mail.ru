@@ -11,25 +11,23 @@ final class FriendsListCollectionViewCell: UICollectionViewCell {
     
     var friend: Friend? {
         didSet {
-            avatarImage.image = UIImage(named: friend?.imageName ?? "AppIcon")
+            avatarImage.image = UIImage(named: friend?.imageName ?? "Photo")
             nameLabel.text = "Hi! I'm @\(friend!.name)"
         }
     }
     
-    var friendName = ""
-    
-    var avatarImage: UIImageView = {
+    private lazy var avatarImage: UIImageView = {
         let image = UIImage()
         let imageView = CircleImageView(image: image)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
-    private let nameLabel: UILabel = {
+    private lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         label.font = .systemFont(ofSize: 16, weight: .regular)
-        label.textColor = UIColor(red: 12/255, green: 38/255, blue: 36/255, alpha: 1)
+        label.textColor = StepColor.darkGreen
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -50,7 +48,7 @@ extension FriendsListCollectionViewCell {
             contentView.addSubview($0)
         }
         contentView.layer.cornerRadius = 10
-        contentView.backgroundColor = UIColor(red: 204/255, green: 228/255, blue: 225/255, alpha: 1)
+        contentView.backgroundColor = StepColor.cellBackground
         
         NSLayoutConstraint.activate([
             avatarImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
@@ -63,7 +61,6 @@ extension FriendsListCollectionViewCell {
             nameLabel.heightAnchor.constraint(equalTo: avatarImage.heightAnchor),
             nameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -46)
         ])
-        
     }
 }
 

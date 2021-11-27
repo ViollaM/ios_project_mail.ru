@@ -24,7 +24,7 @@ final class StepsViewController: UIViewController {
     
     private lazy var circleStepContainerView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.47)
+        view.backgroundColor = StepColor.alpha5
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -134,7 +134,7 @@ final class StepsViewController: UIViewController {
 
     private func setupNavigation() {
         let logoutButton = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(toAuthorization))
-        logoutButton.tintColor = UIColor(red: 12/255, green: 38/255, blue: 36/255, alpha: 1)
+        logoutButton.tintColor = StepColor.darkGreen
         navigationItem.rightBarButtonItem = logoutButton
     }
     

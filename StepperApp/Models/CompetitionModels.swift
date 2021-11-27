@@ -46,7 +46,28 @@ func currentTime() -> String {
 var allCompetitions = [
     competitionData(name: "Daily step competition", maxValue: 10000, currentValue: Double.random(in: 0...20000.0), remainingTime: currentTime(), currentLeader: "@max", text: "Try to complete 10.000 steps today"),
     competitionData(name: "10 km per day", maxValue: 10, currentValue: Double.random(in: 0...20.0), remainingTime: currentTime(), currentLeader: "@katty", text: "Try to walk 10 km today"),
-    competitionData(name: "15000 steps per day", maxValue: 15000, currentValue: Double.random(in: 0...20000.0), remainingTime: currentTime(), currentLeader: "@violla", text: "Try to complete 15.000 steps today")
+    competitionData(name: "15000 steps per day", maxValue: 15000, currentValue: Double.random(in: 0...20000.0), remainingTime: currentTime(), currentLeader: "@violla", text: "Try to complete 15.000 steps today"),
+    competitionData(name: "Daily step competition", maxValue: 10000, currentValue: Double.random(in: 0...20000.0), remainingTime: currentTime(), currentLeader: "@max", text: "Try to complete 10.000 steps today"),
+    competitionData(name: "10 km per day", maxValue: 10, currentValue: Double.random(in: 0...20.0), remainingTime: currentTime(), currentLeader: "@katty", text: "Try to walk 10 km today"),
+    competitionData(name: "Daily step competition", maxValue: 10000, currentValue: Double.random(in: 0...20000.0), remainingTime: currentTime(), currentLeader: "@max", text: "Try to complete 10.000 steps today"),
+    competitionData(name: "10 km per day", maxValue: 10, currentValue: Double.random(in: 0...20.0), remainingTime: currentTime(), currentLeader: "@katty", text: "Try to walk 10 km today"),
+    competitionData(name: "15000 steps per day", maxValue: 15000, currentValue: Double.random(in: 0...20000.0), remainingTime: currentTime(), currentLeader: "@violla", text: "Try to complete 15.000 steps today"),
+    competitionData(name: "Daily step competition", maxValue: 10000, currentValue: Double.random(in: 0...20000.0), remainingTime: currentTime(), currentLeader: "@max", text: "Try to complete 10.000 steps today"),
+    competitionData(name: "10 km per day", maxValue: 10, currentValue: Double.random(in: 0...20.0), remainingTime: currentTime(), currentLeader: "@katty", text: "Try to walk 10 km today"),
+    competitionData(name: "Daily step competition", maxValue: 10000, currentValue: Double.random(in: 0...20000.0), remainingTime: currentTime(), currentLeader: "@max", text: "Try to complete 10.000 steps today"),
+    competitionData(name: "10 km per day", maxValue: 10, currentValue: Double.random(in: 0...20.0), remainingTime: currentTime(), currentLeader: "@katty", text: "Try to walk 10 km today"),
+    competitionData(name: "15000 steps per day", maxValue: 15000, currentValue: Double.random(in: 0...20000.0), remainingTime: currentTime(), currentLeader: "@violla", text: "Try to complete 15.000 steps today"),
+    competitionData(name: "Daily step competition", maxValue: 10000, currentValue: Double.random(in: 0...20000.0), remainingTime: currentTime(), currentLeader: "@max", text: "Try to complete 10.000 steps today"),
+    competitionData(name: "10 km per day", maxValue: 10, currentValue: Double.random(in: 0...20.0), remainingTime: currentTime(), currentLeader: "@katty", text: "Try to walk 10 km today"),
+    competitionData(name: "Daily step competition", maxValue: 10000, currentValue: Double.random(in: 0...20000.0), remainingTime: currentTime(), currentLeader: "@max", text: "Try to complete 10.000 steps today"),
+    competitionData(name: "10 km per day", maxValue: 10, currentValue: Double.random(in: 0...20.0), remainingTime: currentTime(), currentLeader: "@katty", text: "Try to walk 10 km today"),
+    competitionData(name: "15000 steps per day", maxValue: 15000, currentValue: Double.random(in: 0...20000.0), remainingTime: currentTime(), currentLeader: "@violla", text: "Try to complete 15.000 steps today"),
+    competitionData(name: "Daily step competition", maxValue: 10000, currentValue: Double.random(in: 0...20000.0), remainingTime: currentTime(), currentLeader: "@max", text: "Try to complete 10.000 steps today"),
+    competitionData(name: "10 km per day", maxValue: 10, currentValue: Double.random(in: 0...20.0), remainingTime: currentTime(), currentLeader: "@katty", text: "Try to walk 10 km today"),competitionData(name: "Daily step competition", maxValue: 10000, currentValue: Double.random(in: 0...20000.0), remainingTime: currentTime(), currentLeader: "@max", text: "Try to complete 10.000 steps today"),
+    competitionData(name: "10 km per day", maxValue: 10, currentValue: Double.random(in: 0...20.0), remainingTime: currentTime(), currentLeader: "@katty", text: "Try to walk 10 km today"),
+    competitionData(name: "15000 steps per day", maxValue: 15000, currentValue: Double.random(in: 0...20000.0), remainingTime: currentTime(), currentLeader: "@violla", text: "Try to complete 15.000 steps today"),
+    competitionData(name: "Daily step competition", maxValue: 10000, currentValue: Double.random(in: 0...20000.0), remainingTime: currentTime(), currentLeader: "@max", text: "Try to complete 10.000 steps today"),
+    competitionData(name: "10 km per day", maxValue: 10, currentValue: Double.random(in: 0...20.0), remainingTime: currentTime(), currentLeader: "@katty", text: "Try to walk 10 km today")
 ]
 
 

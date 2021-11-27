@@ -13,9 +13,10 @@ class SignUpViewController: UIViewController {
         let button = UIButton()
         button.layer.cornerRadius = 10
         button.setTitleColor(.black, for: .normal)
-        button.backgroundColor = UIColor(red: 0.59, green: 0.75, blue: 0.75, alpha: 1)
+        button.backgroundColor = StepColor.authButton
         button.titleLabel?.font = .systemFont(ofSize: 24, weight: .bold)
-        button.setTitle("Sign Up", for: .normal)
+        button.setTitle("Create an account", for: .normal)
+        button.setTitleColor(StepColor.darkGreen, for: .normal)
         button.addTarget(self, action: #selector(signupButtonToApp), for: .touchUpInside)
         return button
     }()
@@ -26,7 +27,7 @@ class SignUpViewController: UIViewController {
         text.placeholder = "e-mail"
         text.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: text.frame.height))
         text.leftViewMode = .always
-        text.backgroundColor = UIColor(red: 204/255, green: 228/255, blue: 225/255, alpha: 1)
+        text.backgroundColor = StepColor.cellBackground
         text.autocapitalizationType = .none
         text.autocorrectionType = .no
         return text
@@ -38,7 +39,7 @@ class SignUpViewController: UIViewController {
         text.placeholder = "name"
         text.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: text.frame.height))
         text.leftViewMode = .always
-        text.backgroundColor = UIColor(red: 204/255, green: 228/255, blue: 225/255, alpha: 1)
+        text.backgroundColor = StepColor.cellBackground
         text.autocapitalizationType = .none
         text.autocorrectionType = .no
         return text
@@ -50,24 +51,20 @@ class SignUpViewController: UIViewController {
         text.placeholder = "password"
         text.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: text.frame.height))
         text.leftViewMode = .always
-        text.backgroundColor = UIColor(red: 204/255, green: 228/255, blue: 225/255, alpha: 1)
+        text.backgroundColor = StepColor.cellBackground
         text.autocapitalizationType = .none
         text.autocorrectionType = .no
+        text.isSecureTextEntry = true
         return text
     }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setupView()
         setupBackground()
     }
-
+    
     private func setupView() {
-        title = "Sign Up"
-        navigationController?.navigationBar.isHidden = false
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationController?.navigationBar.tintColor = UIColor(red: 12/255, green: 38/255, blue: 36/255, alpha: 1)
         [emailTextField, signupButton, nameTextField, passwordTextField, ].forEach {
             view.addSubview($0)
         }

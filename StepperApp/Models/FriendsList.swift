@@ -7,18 +7,20 @@
 
 struct Friend {
     let name: String
-    let imageName: String?
+    let imageName: String = "Photo"
+    var age: Int = 0
+    var isMan: Bool = true
 }
 
 let friends: [Friend] = [
-    Friend(name: "John", imageName: nil),
-    Friend(name: "Jack", imageName: nil),
-    Friend(name: "Ann", imageName: nil),
-    Friend(name: "Lisa", imageName: nil),
-    Friend(name: "Winston", imageName: nil),
-    Friend(name: "Rebecca", imageName: nil),
-    Friend(name: "Will", imageName: nil),
-    Friend(name: "Andrew", imageName: nil),
-    Friend(name: "Rose", imageName: nil),
-    Friend(name: "Francis", imageName: nil)
+    Friend(name: "John", age: 25, isMan: true),
+    Friend(name: "Jack", age: 31, isMan: true),
+    Friend(name: "Ann", age: 22, isMan: false),
+    Friend(name: "Lisa", age: 19, isMan: false),
+    Friend(name: "Winston", age: 27, isMan: true),
+    Friend(name: "Rebecca", age: 33, isMan: false),
+    Friend(name: "Will", age: 51, isMan: true),
+    Friend(name: "Andrew", age: 13, isMan: true),
+    Friend(name: "Rose", age: 16, isMan: false),
+    Friend(name: "Francis", age: 35, isMan: false)
 ]

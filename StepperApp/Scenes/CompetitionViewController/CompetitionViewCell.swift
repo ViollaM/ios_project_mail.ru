@@ -67,7 +67,7 @@ final class CompetitionViewCell: UICollectionViewCell {
     
     private lazy var progressBar: UIProgressView = {
         let bar = UIProgressView()
-        bar.tintColor = HexColor(rgb: 0x0C2624)
+        bar.tintColor = StepColor.darkGreen
         bar.trackTintColor = HexColor(rgb: 0xA3D2CC)
         bar.progress = 7509 / 10000
         bar.translatesAutoresizingMaskIntoConstraints = false
@@ -78,7 +78,7 @@ final class CompetitionViewCell: UICollectionViewCell {
     private lazy var isComplete: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(systemName: "rosette")
-        image.tintColor = HexColor(rgb: 0x0C2624)
+        image.tintColor = StepColor.darkGreen
         image.backgroundColor = .clear
         image.isHidden = false
         return image
@@ -145,6 +145,6 @@ final class CompetitionViewCell: UICollectionViewCell {
     private func setupCellLayer() {
         layer.cornerRadius = 10
         layer.masksToBounds = true
-        backgroundColor = HexColor(rgb: 0xCCE4E1)
+        backgroundColor = StepColor.cellBackground
     }
 }

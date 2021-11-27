@@ -43,13 +43,11 @@ final class ProfileViewController: UIViewController {
     private lazy var ageLabel = UILabel()
     
     private lazy var ageTextField = ErrorTextField()
-    
-    private let bgColour = UIColor(red: 204/255, green: 228/255, blue: 225/255, alpha: 1)
-    
+        
     private lazy var genderSegmentedControl: UISegmentedControl = {
         let sc = UISegmentedControl(items: ["Male", "Female"])
         sc.selectedSegmentTintColor = UIColor(red: 99/255, green: 142/255, blue: 135/255, alpha: 1)
-        sc.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: bgColour], for: .selected)
+        sc.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: StepColor.cellBackground], for: .selected)
         return sc
     }()
     
@@ -88,7 +86,7 @@ final class ProfileViewController: UIViewController {
         let textLabels: [UILabel] = [nameLabel, ageLabel]
         
         textViews.forEach {
-            $0.backgroundColor = bgColour
+            $0.backgroundColor = StepColor.cellBackground
             let tapGesture = UITapGestureRecognizer(
                 target: self,
                 action: #selector(handleTap)
@@ -111,14 +109,6 @@ final class ProfileViewController: UIViewController {
         }
         
         setUpUIElements()
-        
-        if let navigationBar = self.navigationController?.navigationBar {
-            let profileTitleFrame = CGRect(x: 24, y: 0, width: navigationBar.frame.width/2, height: navigationBar.frame.height)
-            let profileTitleLabel = UILabel(frame: profileTitleFrame)
-            profileTitleLabel.text = "Profile"
-            profileTitleLabel.font = .systemFont(ofSize: 30, weight: .bold)
-            navigationBar.addSubview(profileTitleLabel)
-        }
     }
     
     override func viewWillLayoutSubviews() {
@@ -178,7 +168,9 @@ final class ProfileViewController: UIViewController {
     
     @objc
     private func editButtonClicked() {
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(saveButtonClicked))
+        let saveButton = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(saveButtonClicked))
+        saveButton.tintColor = StepColor.darkGreen
+        self.navigationItem.rightBarButtonItem = saveButton
         [nameTextField, ageTextField].forEach {
             $0.isUserInteractionEnabled = true
         }
@@ -265,13 +257,13 @@ final class ProfileViewController: UIViewController {
         nameLabel.text = "Name:"
         ageLabel.text = "Age:"
         
-        genderSegmentedControl.backgroundColor = bgColour
+        genderSegmentedControl.backgroundColor = StepColor.cellBackground
         let font = UIFont(name: "Arial", size: 20)
         genderSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.font: font!], for: .normal)
         genderSegmentedControl.isUserInteractionEnabled = false
         
         editButton.semanticContentAttribute = UISemanticContentAttribute.forceRightToLeft
-        editButton.setTitleColor(UIColor(red: 12/255, green: 38/255, blue: 36/255, alpha: 0.8), for: .normal)
+        editButton.setTitleColor(StepColor.darkGreen8, for: .normal)
         editButton.titleLabel?.font = UIFont(name: "Arial", size: 16)
         editButton.setTitle("Edit", for: .normal)
         if let editImage = UIImage(named: "pencil.png") {
@@ -284,7 +276,7 @@ final class ProfileViewController: UIViewController {
         editPhotoButton.alpha = 0
         editPhotoButton.setTitle("Edit photo", for: .normal)
         editPhotoButton.titleLabel?.font = UIFont(name: "Arial", size: 16)
-        editPhotoButton.setTitleColor(UIColor(red: 12/255, green: 38/255, blue: 36/255, alpha: 0.8), for: .normal)
+        editPhotoButton.setTitleColor(StepColor.darkGreen8, for: .normal)
         editPhotoButton.frame = CGRect(x: 0, y: 0, width: 90, height: 16)
         editPhotoButton.addTarget(self, action: #selector(editPhotoButtonClicked), for: .touchUpInside)
     }

@@ -22,7 +22,7 @@ final class ProfileViewController: UIViewController {
     
     private lazy var imageCircle: CircleImageView = {
         var i = CircleImageView(image: UIImage(named: "Photo.png"))
-        if let imPath = UserDefaults.standard.data(forKey: "image") {
+        if let imPath = profileService.getUserInfo().3 {
             i = CircleImageView(image: UIImage(data: imPath))
         }
         return i
@@ -128,9 +128,11 @@ final class ProfileViewController: UIViewController {
                 let response = Validation.shared.validate(values: (ValidationType.userName, name), (ValidationType.userAge, age))
                 switch response.0 {
                 case .success:
-                    UserDefaults.standard.set(nameTextField.text, forKey: "name")
-                    UserDefaults.standard.set(ageTextField.text, forKey: "age")
-                    UserDefaults.standard.set(genderSegmentedControl.selectedSegmentIndex, forKey: "gender")
+                    let name = nameTextField.text ?? ""
+                    let age = ageTextField.text ?? ""
+                    let gender = genderSegmentedControl.selectedSegmentIndex
+                    let img = imageCircle.image
+                    profileService.saveUserInfo(userName: name, userAge: age, userGender: gender, userPicture: img)
                     self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: editButton)
                     [nameTextField, ageTextField].forEach {
                         $0.isUserInteractionEnabled = false
@@ -267,9 +269,9 @@ final class ProfileViewController: UIViewController {
         nameTextField.leftViewMode = .always
         ageTextField.placeholder = "age"
         
-        nameTextField.text = UserDefaults.standard.string(forKey: "name") ?? ""
-        ageTextField.text = UserDefaults.standard.string(forKey: "age") ?? ""
-        genderSegmentedControl.selectedSegmentIndex = UserDefaults.standard.integer(forKey: "gender")
+        nameTextField.text = profileService.getUserInfo().0
+        ageTextField.text = profileService.getUserInfo().1
+        genderSegmentedControl.selectedSegmentIndex = profileService.getUserInfo().2
         
         nameLabel.text = "Name:"
         ageLabel.text = "Age:"
@@ -302,13 +304,6 @@ final class ProfileViewController: UIViewController {
         )
         imageCircle.addGestureRecognizer(tapGesture)
     }
-    
-    @objc func editPhotoCircleButtonClicked() {
-            let picker = UIImagePickerController()
-            picker.allowsEditing = true
-            picker.delegate = self
-            present(picker, animated: true)
-        }
 }
 
 // MARK: image picker setup
@@ -320,7 +315,6 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
         
         if let jpegData = image.jpegData(compressionQuality: 0.8){
             try? jpegData.write(to: imagePath)
-            UserDefaults.standard.set(jpegData, forKey: "image")
             imageCircle.image = UIImage(data: jpegData)
         }
         dismiss(animated: true)

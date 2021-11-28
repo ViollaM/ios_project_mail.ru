@@ -30,13 +30,15 @@ final class ProfileViewController: UIViewController {
     
     private lazy var editButton = UIButton()
     
-    private lazy var editPhotoButton = UIButton()
+    private lazy var logoutButton = UIButton()
     
     private lazy var nameTextView = UIView()
     
     private lazy var nameLabel = UILabel()
     
     private lazy var nameTextField = ErrorTextField()
+    
+    private lazy var nameLeftViewLabel = UILabel()
     
     private lazy var ageTextView = UIView()
     
@@ -60,7 +62,7 @@ final class ProfileViewController: UIViewController {
     
     private func setupLayout() {
         
-        [nameTextView, ageTextView, editPhotoButton, imageCircle].forEach {
+        [nameTextView, ageTextView, imageCircle, logoutButton].forEach {
             view.addSubview($0)
         }
         view.addSubview(genderSegmentedControl)
@@ -72,10 +74,10 @@ final class ProfileViewController: UIViewController {
         ageTextView.addSubview(ageTextField)
         
         imageCircleLayout()
-        editPhotoButtonLayout()
         nameLayout()
         ageLayout()
         genderLayout()
+        logoutLayout()
     }
     
     //MARK: configureUI
@@ -115,6 +117,7 @@ final class ProfileViewController: UIViewController {
         super.viewWillLayoutSubviews()
         nameTextView.layer.cornerRadius = 10
         ageTextView.layer.cornerRadius = 10
+        logoutButton.layer.cornerRadius = 10
     }
     
     @objc
@@ -127,14 +130,14 @@ final class ProfileViewController: UIViewController {
                 case .success:
                     UserDefaults.standard.set(nameTextField.text, forKey: "name")
                     UserDefaults.standard.set(ageTextField.text, forKey: "age")
-                    //UserDefaults.standard.set(genderSegmentedControl.selectedSegmentIndex, forKey: "gender")
+                    UserDefaults.standard.set(genderSegmentedControl.selectedSegmentIndex, forKey: "gender")
                     self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: editButton)
                     [nameTextField, ageTextField].forEach {
                         $0.isUserInteractionEnabled = false
                     }
                     genderSegmentedControl.isUserInteractionEnabled = false
-                    editPhotoButton.alpha = 0
-                    editPhotoButton.isEnabled = false
+                    imageCircle.isUserInteractionEnabled = false
+                    logoutButton.isHidden = true
                 case .failure:
                     inputAlert(response.1)
                 }
@@ -146,11 +149,10 @@ final class ProfileViewController: UIViewController {
         else {
             inputAlert("n")
         }
-        UserDefaults.standard.set(genderSegmentedControl.selectedSegmentIndex, forKey: "gender")
     }
     
     private func inputAlert(_ c: Character) {
-        let alert = UIAlertController(title: "Alert", message: "Name should start with @ and contain only lower- or uppercase letters, age should be in the range [0, 100]", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Alert", message: "Name should contain only lower- or uppercase letters, age should be in the range [0, 100]", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: {(alert: UIAlertAction!) in self.textError(c)}))
         present(alert, animated: true, completion: nil)
     }
@@ -175,8 +177,8 @@ final class ProfileViewController: UIViewController {
             $0.isUserInteractionEnabled = true
         }
         genderSegmentedControl.isUserInteractionEnabled = true
-        editPhotoButton.alpha = 1
-        editPhotoButton.isEnabled = true
+        imageCircle.isUserInteractionEnabled = true
+        logoutButton.isHidden = false
     }
     
     @objc
@@ -188,7 +190,10 @@ final class ProfileViewController: UIViewController {
     }
     
     @objc
-    private func editPhotoButtonClicked() {
+    private func handleImageTap(tapGestureRecognizer: UITapGestureRecognizer) {
+        guard tapGestureRecognizer.state == .ended else {
+            return
+        }
         let picker = UIImagePickerController()
         picker.allowsEditing = true
         picker.delegate = self
@@ -202,6 +207,16 @@ final class ProfileViewController: UIViewController {
     
     private func setupNavigationItem () {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: editButton)
+    }
+    
+    @objc
+    private func toAuthorization() {
+        UserDefaults.standard.set(false, forKey: "isLogged")
+        let rootVC = AuthorizationViewController()
+        let navVC = UINavigationController(rootViewController: rootVC)
+        navVC.navigationBar.isHidden = true
+        navVC.modalPresentationStyle = .fullScreen
+        present(navVC, animated: true)
     }
     
     //MARK: Supporting Functions
@@ -224,11 +239,8 @@ final class ProfileViewController: UIViewController {
         genderSegmentedControl.pin.below(of: ageTextView).margin(4).height(43).hCenter().width(220)
     }
     
-    private func editPhotoButtonLayout() {
-        NSLayoutConstraint.activate([
-            editPhotoButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            editPhotoButton.topAnchor.constraint(equalTo: imageCircle.bottomAnchor, constant: 5)
-        ])
+    private func logoutLayout() {
+        logoutButton.pin.below(of: genderSegmentedControl).margin(8).height(43).hCenter().width(220)
     }
     
     private func inTextViewConstraints(_ textView: UIView, _ label: UILabel, _ text: UITextField) {
@@ -247,7 +259,12 @@ final class ProfileViewController: UIViewController {
     }
     
     private func setUpUIElements() {
-        nameTextField.placeholder = "@name"
+        nameTextField.placeholder = "name"
+        nameLeftViewLabel.text = "@"
+        nameLeftViewLabel.font = UIFont(name: "Arial", size: 20)
+        nameLeftViewLabel.isUserInteractionEnabled = false
+        nameTextField.leftView = nameLeftViewLabel
+        nameTextField.leftViewMode = .always
         ageTextField.placeholder = "age"
         
         nameTextField.text = UserDefaults.standard.string(forKey: "name") ?? ""
@@ -262,6 +279,13 @@ final class ProfileViewController: UIViewController {
         genderSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.font: font!], for: .normal)
         genderSegmentedControl.isUserInteractionEnabled = false
         
+        logoutButton.backgroundColor = UIColor(hue: 1, saturation: 1, brightness: 1, alpha: 0)
+        logoutButton.setTitleColor(StepColor.darkGreen8, for: .normal)
+        logoutButton.titleLabel?.font = UIFont(name: "Arial", size: 20)
+        logoutButton.setTitle("Logout", for: .normal)
+        logoutButton.addTarget(self, action: #selector(toAuthorization), for: .touchUpInside)
+        logoutButton.isHidden = true
+        
         editButton.semanticContentAttribute = UISemanticContentAttribute.forceRightToLeft
         editButton.setTitleColor(StepColor.darkGreen8, for: .normal)
         editButton.titleLabel?.font = UIFont(name: "Arial", size: 16)
@@ -271,15 +295,20 @@ final class ProfileViewController: UIViewController {
         }
         editButton.addTarget(self, action: #selector(editButtonClicked), for: .touchUpInside)
         
-        editPhotoButton.isEnabled = false
-        editPhotoButton.translatesAutoresizingMaskIntoConstraints = false
-        editPhotoButton.alpha = 0
-        editPhotoButton.setTitle("Edit photo", for: .normal)
-        editPhotoButton.titleLabel?.font = UIFont(name: "Arial", size: 16)
-        editPhotoButton.setTitleColor(StepColor.darkGreen8, for: .normal)
-        editPhotoButton.frame = CGRect(x: 0, y: 0, width: 90, height: 16)
-        editPhotoButton.addTarget(self, action: #selector(editPhotoButtonClicked), for: .touchUpInside)
+        imageCircle.isUserInteractionEnabled = false
+        let tapGesture = UITapGestureRecognizer(
+            target: self,
+            action: #selector(handleImageTap)
+        )
+        imageCircle.addGestureRecognizer(tapGesture)
     }
+    
+    @objc func editPhotoCircleButtonClicked() {
+            let picker = UIImagePickerController()
+            picker.allowsEditing = true
+            picker.delegate = self
+            present(picker, animated: true)
+        }
 }
 
 // MARK: image picker setup

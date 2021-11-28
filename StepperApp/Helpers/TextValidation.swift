@@ -25,7 +25,7 @@ enum ValidationType {
 enum RegEx: String {
     case userEmail = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}"
     case userPassword = "^.{6,15}$"
-    case userName = "^@[a-zA-Z]*$"
+    case userName = "^[a-zA-Z]*$"
     case userAge = "^100|[1-9]?[0-9]$"
 }
 enum AlertMessages: String {

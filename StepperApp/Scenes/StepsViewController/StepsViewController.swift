@@ -90,7 +90,23 @@ final class StepsViewController: UIViewController {
     }
     
     private func loadWeekData() {
-        stepsService.fetchLastWeekInfo { [weak self] result in
+//        stepsService.fetchLastWeekInfo { [weak self] result in
+//            guard let self = self else {
+//                return
+//            }
+//            switch result {
+//            case .success(let week):
+//                DispatchQueue.main.async { [weak self] in
+//                    self?.updateLabelsData(lastDay: week.steppingDays.last!)
+//                    self?.chartDelegate?.updateData(stepWeek: week)
+//                }
+//            case .failure(let error):
+//                print(error.localizedDescription)
+//            }
+//        }
+//        let exactlySevenDaysAgo = Calendar.current.date(byAdding: DateComponents(day: -7), to: Date())!
+        let customDate = Calendar.current.date(byAdding: DateComponents(day: -7, hour: -4), to: Date())!
+        stepsService.fetchWeekBefore(day: customDate) { [weak self] result in
             guard let self = self else {
                 return
             }
@@ -99,6 +115,7 @@ final class StepsViewController: UIViewController {
                 DispatchQueue.main.async { [weak self] in
                     self?.updateLabelsData(lastDay: week.steppingDays.last!)
                     self?.chartDelegate?.updateData(stepWeek: week)
+                    print(week)
                 }
             case .failure(let error):
                 print(error.localizedDescription)
@@ -110,7 +127,7 @@ final class StepsViewController: UIViewController {
         self.steps = lastDay.steps
         let distance = lastDay.km
         let roundedDistanceLabel = String(format: "%.1f", distance)
-        distanceLabel.text = "distance: " + roundedDistanceLabel + "km"
+        distanceLabel.text = "distance: " + roundedDistanceLabel + " km"
         stepsCountLabel.text = "\(self.steps)"
         if 10000 - self.steps > 0 {
             stepsRemainingLabel.text = "left: \(10000-steps)"

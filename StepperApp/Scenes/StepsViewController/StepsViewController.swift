@@ -25,6 +25,7 @@ final class StepsViewController: UIViewController {
     }
     
     private var steps = 0
+    private var distance: Double = 0
     
     private lazy var circleStepContainerView: UIView = {
         let view = UIView()
@@ -47,7 +48,7 @@ final class StepsViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
         label.textColor = .black
-        label.text = "distance: 0 km"
+        label.text = "distance: \(distance) km"
         return label
     }()
     private lazy var stepsRemainingLabel: UILabel = {
@@ -128,7 +129,7 @@ final class StepsViewController: UIViewController {
     
     private func updateLabelsData(lastDay: SteppingDay) {
         self.steps = lastDay.steps
-        let distance = lastDay.km
+        self.distance = lastDay.km
         let roundedDistanceLabel = String(format: "%.1f", distance)
         distanceLabel.text = "distance: " + roundedDistanceLabel + " km"
         stepsCountLabel.text = "\(self.steps)"
@@ -141,7 +142,39 @@ final class StepsViewController: UIViewController {
     }
     
     private func pedometerServiceActivation() {
-        pedometerService.updateStepsInfo { [weak self] result in
+//        pedometerService.updateStepsAndDistance { [weak self] result in
+//            guard let self = self else {
+//                return
+//            }
+//            switch result {
+//            case .success(let update):
+//                DispatchQueue.main.async { [weak self] in
+//                    let pedometerDistance = Double(truncating: update.distance) / 1000
+//                    let pedometerSteps = Int(truncating: update.steps)
+//                    let totalSteps = self!.steps + pedometerSteps
+//                    let totalDistance = self!.distance + pedometerDistance
+//                    print("HealthKit Steps: \(self!.steps)")
+//                    print("Pedometer Steps: \(pedometerSteps)")
+//                    print("Total Steps: \(totalSteps)")
+//                    print("--------------------")
+//                    print("HealthKit Distance: \(self!.distance)")
+//                    print("Pedometer Distance: \(pedometerDistance)")
+//                    print("Total Distance: \(totalDistance)")
+//                    self?.stepsCountLabel.text = "\(totalSteps)"
+//                    let roundedDistanceLabel = String(format: "%.1f", totalDistance)
+//                    self?.distanceLabel.text = "distance: " + roundedDistanceLabel + " km"
+//                    if 10000 - totalSteps > 0 {
+//                        self?.stepsRemainingLabel.text = "left: \(10000-totalSteps)"
+//                    } else {
+//                        self?.stepsRemainingLabel.isHidden = true
+//                        self?.stepsCountLabel.font = .systemFont(ofSize: 44, weight: .bold)
+//                    }
+//                }
+//            case .failure(let error):
+//                print(error.localizedDescription)
+//            }
+//        }
+        pedometerService.updateSteps { [weak self] result in
             guard let self = self else {
                 return
             }
@@ -160,6 +193,25 @@ final class StepsViewController: UIViewController {
                         self?.stepsRemainingLabel.isHidden = true
                         self?.stepsCountLabel.font = .systemFont(ofSize: 44, weight: .bold)
                     }
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+        pedometerService.updateDistance { [weak self] result in
+            guard let self = self else {
+                return
+            }
+            switch result {
+            case .success(let distance):
+                DispatchQueue.main.async { [weak self] in
+                    let pedometerDistance = Double(truncating: distance) / 1000
+                    let totalDistance = self!.distance + pedometerDistance
+                    print("HealthKit Distance: \(self!.distance)")
+                    print("Pedometer Distance: \(pedometerDistance)")
+                    print("Total Distance: \(totalDistance)")
+                    let roundedDistanceLabel = String(format: "%.1f", totalDistance)
+                    self?.distanceLabel.text = "distance: " + roundedDistanceLabel + " km"
                 }
             case .failure(let error):
                 print(error.localizedDescription)

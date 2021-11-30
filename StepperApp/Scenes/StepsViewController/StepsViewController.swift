@@ -90,23 +90,7 @@ final class StepsViewController: UIViewController {
     }
     
     private func loadWeekData() {
-//        stepsService.fetchLastWeekInfo { [weak self] result in
-//            guard let self = self else {
-//                return
-//            }
-//            switch result {
-//            case .success(let week):
-//                DispatchQueue.main.async { [weak self] in
-//                    self?.updateLabelsData(lastDay: week.steppingDays.last!)
-//                    self?.chartDelegate?.updateData(stepWeek: week)
-//                }
-//            case .failure(let error):
-//                print(error.localizedDescription)
-//            }
-//        }
-//        let exactlySevenDaysAgo = Calendar.current.date(byAdding: DateComponents(day: -7), to: Date())!
-        let customDate = Calendar.current.date(byAdding: DateComponents(day: -7, hour: -4), to: Date())!
-        stepsService.fetchWeekBefore(day: customDate) { [weak self] result in
+        stepsService.fetchLastWeekInfo { [weak self] result in
             guard let self = self else {
                 return
             }
@@ -115,12 +99,31 @@ final class StepsViewController: UIViewController {
                 DispatchQueue.main.async { [weak self] in
                     self?.updateLabelsData(lastDay: week.steppingDays.last!)
                     self?.chartDelegate?.updateData(stepWeek: week)
-                    print(week)
                 }
             case .failure(let error):
                 print(error.localizedDescription)
             }
         }
+        
+        // MARK: - You can test fetchWeekAfter and fetchWeekBefore in this block
+//        let customDate = Calendar.current.date(byAdding: DateComponents(day: -7, hour: -4), to: Date())!
+//        let anotherCustomDate = Calendar.current.date(byAdding: DateComponents(day: -2, hour: -4), to: Date())!
+//        stepsService.fetchWeekAfter(day: anotherCustomDate) { [weak self] result in
+//            guard let self = self else {
+//                return
+//            }
+//            switch result {
+//            case .success(let week):
+//                DispatchQueue.main.async { [weak self] in
+//                    print("[DEBUG] \(week)")
+//                    self?.updateLabelsData(lastDay: week.steppingDays.last!)
+//                    self?.chartDelegate?.updateData(stepWeek: week)
+//                }
+//            case .failure(let error):
+//                print(error.localizedDescription)
+//            }
+//        }
+        // MARK: -
     }
     
     private func updateLabelsData(lastDay: SteppingDay) {
@@ -145,7 +148,7 @@ final class StepsViewController: UIViewController {
             switch result {
             case .success(let steps):
                 DispatchQueue.main.async { [weak self] in
-                    let pedometerSteps = Int(steps)
+                    let pedometerSteps = Int(truncating: steps)
                     let totalSteps = self!.steps + pedometerSteps
                     print("HealthKit Steps: \(self!.steps)")
                     print("Pedometer Steps: \(pedometerSteps)")
@@ -204,7 +207,6 @@ final class StepsViewController: UIViewController {
         addChild(weekChartViewController)
         view.insertSubview(weekChartViewController.view, at: 0)
         weekChartViewController.didMove(toParent: self)
-        
         self.chartDelegate = (weekChartViewController as? ChartDelegate)
     }
     
@@ -230,5 +232,4 @@ final class StepsViewController: UIViewController {
         navVC.modalPresentationStyle = .fullScreen
         present(navVC, animated: true)
     }
-    
 }

@@ -44,7 +44,9 @@ final class ProfileViewController: UIViewController {
     
     private lazy var ageLabel = UILabel()
     
-    private lazy var ageTextField = ErrorTextField()
+    private lazy var ageTextField = UITextField()
+    
+    private lazy var ageDatePicker = UIDatePicker()
         
     private lazy var genderSegmentedControl: UISegmentedControl = {
         let sc = UISegmentedControl(items: ["Male", "Female"])
@@ -62,10 +64,9 @@ final class ProfileViewController: UIViewController {
     
     private func setupLayout() {
         
-        [nameTextView, ageTextView, imageCircle, logoutButton].forEach {
+        [nameTextView, ageTextView, imageCircle, logoutButton, genderSegmentedControl].forEach {
             view.addSubview($0)
         }
-        view.addSubview(genderSegmentedControl)
         
         nameTextView.addSubview(nameLabel)
         nameTextView.addSubview(nameTextField)
@@ -110,7 +111,16 @@ final class ProfileViewController: UIViewController {
             $0.isUserInteractionEnabled = false
         }
         
+        let viewTapGestureRecogniser = UITapGestureRecognizer(target: self, action: #selector(ProfileViewController.viewTapped(gestureReognizer:)))
+        
+        view.addGestureRecognizer(viewTapGestureRecogniser)
+        
         setUpUIElements()
+    }
+    
+    @objc
+    private func viewTapped(gestureReognizer: UITapGestureRecognizer) {
+        view.endEditing(true)
     }
     
     override func viewWillLayoutSubviews() {
@@ -164,7 +174,7 @@ final class ProfileViewController: UIViewController {
         case "n":
             nameTextField.isError(numberOfShakes: 3, revert: true)
         case "a":
-            ageTextField.isError(numberOfShakes: 3, revert: true)
+            return
         default:
             fatalError()
         }
@@ -202,6 +212,16 @@ final class ProfileViewController: UIViewController {
         present(picker, animated: true)
     }
     
+    @objc
+    private func dateChanged() {
+        let calendar = Calendar.current
+        let now = calendar.dateComponents([.year, .month, .day], from: Date())
+        let birthdate = calendar.dateComponents([.year, .month, .day], from: ageDatePicker.date)
+        let ageComponents = calendar.dateComponents([.year], from: birthdate, to: now)
+        let age = ageComponents.year!
+        ageTextField.text = String(age)
+    }
+    
     private func getDocumentsDirectory() -> URL {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         return paths[0]
@@ -224,7 +244,7 @@ final class ProfileViewController: UIViewController {
     //MARK: Supporting Functions
     
     private func imageCircleLayout() {
-        imageCircle.pin.top(200).hCenter().width(220).height(220)
+        imageCircle.pin.top(150).hCenter().width(220).height(220)
     }
     
     private func nameLayout() {
@@ -267,7 +287,7 @@ final class ProfileViewController: UIViewController {
         nameLeftViewLabel.isUserInteractionEnabled = false
         nameTextField.leftView = nameLeftViewLabel
         nameTextField.leftViewMode = .always
-        ageTextField.placeholder = "age"
+        ageTextField.placeholder = "Выберите дату рождения"
         
         nameTextField.text = profileService.getUserInfo().0
         ageTextField.text = profileService.getUserInfo().1
@@ -303,6 +323,18 @@ final class ProfileViewController: UIViewController {
             action: #selector(handleImageTap)
         )
         imageCircle.addGestureRecognizer(tapGesture)
+        
+        ageDatePicker.backgroundColor = StepColor.cellBackground
+        ageDatePicker.datePickerMode = .date
+        ageDatePicker.addTarget(self, action: #selector(dateChanged), for: .valueChanged)
+        //ageDatePicker.isHidden = true
+        if #available(iOS 14.0, *) {
+            ageDatePicker.preferredDatePickerStyle = .wheels
+        } else {
+            // Fallback on earlier versions
+        }
+        
+        ageTextField.inputView = ageDatePicker
     }
 }
 

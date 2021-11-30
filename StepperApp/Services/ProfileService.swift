@@ -23,11 +23,6 @@ final class ProfileServiceImplementation: ProfileService {
         UserDefaults.standard.set(jpegData, forKey: "image")
     }
     
-    private func getDocumentsDirectory() -> URL {
-        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        return paths[0]
-    }
-    
     func getUserInfo() -> (String, String, Int, Data?) {
         let name = UserDefaults.standard.string(forKey: "name") ?? ""
         let age = UserDefaults.standard.string(forKey: "age") ?? ""

@@ -12,11 +12,16 @@
 		014F5F9B272D9F990058132F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014F5F9A272D9F990058132F /* LoginViewController.swift */; };
 		014F5F9D272D9FAE0058132F /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014F5F9C272D9FAE0058132F /* SignUpViewController.swift */; };
 		01651A3B27120D2D00DC9391 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01651A3A27120D2D00DC9391 /* AppDelegate.swift */; };
-		01651A3F27120D2D00DC9391 /* StepsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01651A3E27120D2D00DC9391 /* StepsViewController.swift */; };
 		01651A4427120D2E00DC9391 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 01651A4327120D2E00DC9391 /* Assets.xcassets */; };
 		01651A4727120D2E00DC9391 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 01651A4527120D2E00DC9391 /* LaunchScreen.storyboard */; };
 		0172EABE27242F7000DE1779 /* StepsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0172EABD27242F7000DE1779 /* StepsService.swift */; };
-		0172EAC52724335900DE1779 /* StepsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0172EAC42724335900DE1779 /* StepsModels.swift */; };
+		0172EAC12724318C00DE1779 /* SteppingDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0172EAC02724318C00DE1779 /* SteppingDay.swift */; };
+		0172EAC52724335900DE1779 /* SteppingWeek.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0172EAC42724335900DE1779 /* SteppingWeek.swift */; };
+		0BA0CDAD2743CFBE00CC7E68 /* StepsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BA0CDAB2743CFBE00CC7E68 /* StepsViewController.swift */; };
+		0BA0CDAE2743CFBE00CC7E68 /* WeekChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BA0CDAC2743CFBE00CC7E68 /* WeekChartViewController.swift */; };
+		0BA0CDB02743D01F00CC7E68 /* ProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BA0CDAF2743D01F00CC7E68 /* ProfileService.swift */; };
+		0BA0CDB32743D20A00CC7E68 /* TextValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BA0CDB22743D20A00CC7E68 /* TextValidation.swift */; };
+		0BA0CDB52743DCB700CC7E68 /* ErrorTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BA0CDB42743DCB700CC7E68 /* ErrorTextField.swift */; };
 		01F7D4B4274AA2D4007676CC /* HeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F7D4B3274AA2D4007676CC /* HeaderCollectionReusableView.swift */; };
 		01F7D4B6274AA2FD007676CC /* EachFriendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F7D4B5274AA2FD007676CC /* EachFriendViewController.swift */; };
 		01F7D4B8274BF146007676CC /* StepColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F7D4B7274BF146007676CC /* StepColor.swift */; };
@@ -46,12 +51,17 @@
 		014F5F9C272D9FAE0058132F /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		01651A3727120D2D00DC9391 /* StepperApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StepperApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		01651A3A27120D2D00DC9391 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		01651A3E27120D2D00DC9391 /* StepsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepsViewController.swift; sourceTree = "<group>"; };
 		01651A4327120D2E00DC9391 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		01651A4627120D2E00DC9391 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		01651A4827120D2E00DC9391 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0172EABD27242F7000DE1779 /* StepsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepsService.swift; sourceTree = "<group>"; };
-		0172EAC42724335900DE1779 /* StepsModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepsModels.swift; sourceTree = "<group>"; };
+		0172EAC02724318C00DE1779 /* SteppingDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SteppingDay.swift; sourceTree = "<group>"; };
+		0172EAC42724335900DE1779 /* SteppingWeek.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SteppingWeek.swift; sourceTree = "<group>"; };
+		0BA0CDAB2743CFBE00CC7E68 /* StepsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StepsViewController.swift; sourceTree = "<group>"; };
+		0BA0CDAC2743CFBE00CC7E68 /* WeekChartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeekChartViewController.swift; sourceTree = "<group>"; };
+		0BA0CDAF2743D01F00CC7E68 /* ProfileService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
+		0BA0CDB22743D20A00CC7E68 /* TextValidation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextValidation.swift; sourceTree = "<group>"; };
+		0BA0CDB42743DCB700CC7E68 /* ErrorTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorTextField.swift; sourceTree = "<group>"; };
 		01F7D4B3274AA2D4007676CC /* HeaderCollectionReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderCollectionReusableView.swift; sourceTree = "<group>"; };
 		01F7D4B5274AA2FD007676CC /* EachFriendViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EachFriendViewController.swift; sourceTree = "<group>"; };
 		01F7D4B7274BF146007676CC /* StepColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepColor.swift; sourceTree = "<group>"; };
@@ -137,19 +147,10 @@
 		0172EABC27242F3200DE1779 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				0BA0CDAF2743D01F00CC7E68 /* ProfileService.swift */,
 				0172EABD27242F7000DE1779 /* StepsService.swift */,
-				0BD1511B2740176800F15800 /* ProfileService.swift */,
 			);
 			path = Services;
-			sourceTree = "<group>";
-		};
-		019F379D2743C0DD006E3346 /* StepsViewController */ = {
-			isa = PBXGroup;
-			children = (
-				01651A3E27120D2D00DC9391 /* StepsViewController.swift */,
-				A124C80F27241D8B00540595 /* WeekChartViewController.swift */,
-			);
-			path = StepsViewController;
 			sourceTree = "<group>";
 		};
 		01A6B2C92734450600D16DF9 /* Scenes */ = {
@@ -181,6 +182,23 @@
 				01651A4827120D2E00DC9391 /* Info.plist */,
 			);
 			path = Support;
+			sourceTree = "<group>";
+		};
+		0BA0CDAA2743CFBE00CC7E68 /* StepsViewController */ = {
+			isa = PBXGroup;
+			children = (
+				0BA0CDAB2743CFBE00CC7E68 /* StepsViewController.swift */,
+				0BA0CDAC2743CFBE00CC7E68 /* WeekChartViewController.swift */,
+			);
+			path = StepsViewController;
+			sourceTree = "<group>";
+		};
+		0BA0CDB12743D15200CC7E68 /* ProfileViewController */ = {
+			isa = PBXGroup;
+			children = (
+				01651A4E2712131400DC9391 /* ProfileViewController.swift */,
+			);
+			path = ProfileViewController;
 			sourceTree = "<group>";
 		};
 		1A219C7BD864A22EE30861FF /* Frameworks */ = {
@@ -363,6 +381,7 @@
 				A13BD97F274448F10030F984 /* CompetitionModels.swift in Sources */,
 				A187114527418553001DFAE7 /* CircleImageView.swift in Sources */,
 				014F5F9B272D9F990058132F /* LoginViewController.swift in Sources */,
+				0BA0CDB32743D20A00CC7E68 /* TextValidation.swift in Sources */,
 				014F5F99272D9F880058132F /* AuthorizationViewController.swift in Sources */,
 				A1871140274184A8001DFAE7 /* FriendsListCollectionViewCell.swift in Sources */,
 				A13BD97B2744484A0030F984 /* HexColor.swift in Sources */,
@@ -374,6 +393,7 @@
 				A124C81027241D8B00540595 /* WeekChartViewController.swift in Sources */,
 				A165E288274419880002A973 /* TextValidation.swift in Sources */,
 				0172EABE27242F7000DE1779 /* StepsService.swift in Sources */,
+				0BA0CDAD2743CFBE00CC7E68 /* StepsViewController.swift in Sources */,
 				A187113F274184A8001DFAE7 /* FriendsListViewController.swift in Sources */,
 				A162C10227451F8F00C1D2BF /* BalloonMarker.swift in Sources */,
 				A187114227418525001DFAE7 /* FriendsList.swift in Sources */,
@@ -527,7 +547,7 @@
 				CODE_SIGN_ENTITLEMENTS = StepperApp/StepperApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 37UJALBQ5X;
+				DEVELOPMENT_TEAM = 27P5AR5H92;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = StepperApp/Support/Info.plist;
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "This app requires to access your health data";
@@ -545,7 +565,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.rubenegikian.;
+				PRODUCT_BUNDLE_IDENTIFIER = com.olyagalyagina.StepperApp1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -563,7 +583,7 @@
 				CODE_SIGN_ENTITLEMENTS = StepperApp/StepperApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 37UJALBQ5X;
+				DEVELOPMENT_TEAM = 27P5AR5H92;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = StepperApp/Support/Info.plist;
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "This app requires to access your health data";
@@ -581,7 +601,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.rubenegikian.;
+				PRODUCT_BUNDLE_IDENTIFIER = com.olyagalyagina.StepperApp1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

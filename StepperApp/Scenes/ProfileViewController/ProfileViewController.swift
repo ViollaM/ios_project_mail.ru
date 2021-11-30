@@ -22,7 +22,7 @@ final class ProfileViewController: UIViewController {
     
     private lazy var imageCircle: CircleImageView = {
         var i = CircleImageView(image: UIImage(named: "Photo.png"))
-        if let imPath = UserDefaults.standard.data(forKey: "image") {
+        if let imPath = profileService.getUserInfo().3 {
             i = CircleImageView(image: UIImage(data: imPath))
         }
         return i
@@ -30,7 +30,7 @@ final class ProfileViewController: UIViewController {
     
     private lazy var editButton = UIButton()
     
-    private lazy var editPhotoButton = UIButton()
+    private lazy var logoutButton = UIButton()
     
     private lazy var nameTextView = UIView()
     
@@ -38,11 +38,15 @@ final class ProfileViewController: UIViewController {
     
     private lazy var nameTextField = ErrorTextField()
     
+    private lazy var nameLeftViewLabel = UILabel()
+    
     private lazy var ageTextView = UIView()
     
     private lazy var ageLabel = UILabel()
     
-    private lazy var ageTextField = ErrorTextField()
+    private lazy var ageTextField = UITextField()
+    
+    private lazy var ageDatePicker = UIDatePicker()
         
     private lazy var genderSegmentedControl: UISegmentedControl = {
         let sc = UISegmentedControl(items: ["Male", "Female"])
@@ -60,10 +64,9 @@ final class ProfileViewController: UIViewController {
     
     private func setupLayout() {
         
-        [nameTextView, ageTextView, editPhotoButton, imageCircle].forEach {
+        [nameTextView, ageTextView, imageCircle, logoutButton, genderSegmentedControl].forEach {
             view.addSubview($0)
         }
-        view.addSubview(genderSegmentedControl)
         
         nameTextView.addSubview(nameLabel)
         nameTextView.addSubview(nameTextField)
@@ -72,10 +75,10 @@ final class ProfileViewController: UIViewController {
         ageTextView.addSubview(ageTextField)
         
         imageCircleLayout()
-        editPhotoButtonLayout()
         nameLayout()
         ageLayout()
         genderLayout()
+        logoutLayout()
     }
     
     //MARK: configureUI
@@ -108,13 +111,23 @@ final class ProfileViewController: UIViewController {
             $0.isUserInteractionEnabled = false
         }
         
+        let viewTapGestureRecogniser = UITapGestureRecognizer(target: self, action: #selector(ProfileViewController.viewTapped(gestureReognizer:)))
+        
+        view.addGestureRecognizer(viewTapGestureRecogniser)
+        
         setUpUIElements()
+    }
+    
+    @objc
+    private func viewTapped(gestureReognizer: UITapGestureRecognizer) {
+        view.endEditing(true)
     }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         nameTextView.layer.cornerRadius = 10
         ageTextView.layer.cornerRadius = 10
+        logoutButton.layer.cornerRadius = 10
     }
     
     @objc
@@ -125,16 +138,18 @@ final class ProfileViewController: UIViewController {
                 let response = Validation.shared.validate(values: (ValidationType.userName, name), (ValidationType.userAge, age))
                 switch response.0 {
                 case .success:
-                    UserDefaults.standard.set(nameTextField.text, forKey: "name")
-                    UserDefaults.standard.set(ageTextField.text, forKey: "age")
-                    //UserDefaults.standard.set(genderSegmentedControl.selectedSegmentIndex, forKey: "gender")
+                    let name = nameTextField.text ?? ""
+                    let age = ageTextField.text ?? ""
+                    let gender = genderSegmentedControl.selectedSegmentIndex
+                    let img = imageCircle.image
+                    profileService.saveUserInfo(userName: name, userAge: age, userGender: gender, userPicture: img)
                     self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: editButton)
                     [nameTextField, ageTextField].forEach {
                         $0.isUserInteractionEnabled = false
                     }
                     genderSegmentedControl.isUserInteractionEnabled = false
-                    editPhotoButton.alpha = 0
-                    editPhotoButton.isEnabled = false
+                    imageCircle.isUserInteractionEnabled = false
+                    logoutButton.isHidden = true
                 case .failure:
                     inputAlert(response.1)
                 }
@@ -146,11 +161,10 @@ final class ProfileViewController: UIViewController {
         else {
             inputAlert("n")
         }
-        UserDefaults.standard.set(genderSegmentedControl.selectedSegmentIndex, forKey: "gender")
     }
     
     private func inputAlert(_ c: Character) {
-        let alert = UIAlertController(title: "Alert", message: "Name should start with @ and contain only lower- or uppercase letters, age should be in the range [0, 100]", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Alert", message: "Name should contain only lower- or uppercase letters, age should be in the range [0, 100]", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: {(alert: UIAlertAction!) in self.textError(c)}))
         present(alert, animated: true, completion: nil)
     }
@@ -160,7 +174,7 @@ final class ProfileViewController: UIViewController {
         case "n":
             nameTextField.isError(numberOfShakes: 3, revert: true)
         case "a":
-            ageTextField.isError(numberOfShakes: 3, revert: true)
+            return
         default:
             fatalError()
         }
@@ -175,8 +189,8 @@ final class ProfileViewController: UIViewController {
             $0.isUserInteractionEnabled = true
         }
         genderSegmentedControl.isUserInteractionEnabled = true
-        editPhotoButton.alpha = 1
-        editPhotoButton.isEnabled = true
+        imageCircle.isUserInteractionEnabled = true
+        logoutButton.isHidden = false
     }
     
     @objc
@@ -188,11 +202,24 @@ final class ProfileViewController: UIViewController {
     }
     
     @objc
-    private func editPhotoButtonClicked() {
+    private func handleImageTap(tapGestureRecognizer: UITapGestureRecognizer) {
+        guard tapGestureRecognizer.state == .ended else {
+            return
+        }
         let picker = UIImagePickerController()
         picker.allowsEditing = true
         picker.delegate = self
         present(picker, animated: true)
+    }
+    
+    @objc
+    private func dateChanged() {
+        let calendar = Calendar.current
+        let now = calendar.dateComponents([.year, .month, .day], from: Date())
+        let birthdate = calendar.dateComponents([.year, .month, .day], from: ageDatePicker.date)
+        let ageComponents = calendar.dateComponents([.year], from: birthdate, to: now)
+        let age = ageComponents.year!
+        ageTextField.text = String(age)
     }
     
     private func getDocumentsDirectory() -> URL {
@@ -204,10 +231,20 @@ final class ProfileViewController: UIViewController {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: editButton)
     }
     
+    @objc
+    private func toAuthorization() {
+        UserDefaults.standard.set(false, forKey: "isLogged")
+        let rootVC = AuthorizationViewController()
+        let navVC = UINavigationController(rootViewController: rootVC)
+        navVC.navigationBar.isHidden = true
+        navVC.modalPresentationStyle = .fullScreen
+        present(navVC, animated: true)
+    }
+    
     //MARK: Supporting Functions
     
     private func imageCircleLayout() {
-        imageCircle.pin.top(200).hCenter().width(220).height(220)
+        imageCircle.pin.top(150).hCenter().width(220).height(220)
     }
     
     private func nameLayout() {
@@ -224,11 +261,8 @@ final class ProfileViewController: UIViewController {
         genderSegmentedControl.pin.below(of: ageTextView).margin(4).height(43).hCenter().width(220)
     }
     
-    private func editPhotoButtonLayout() {
-        NSLayoutConstraint.activate([
-            editPhotoButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            editPhotoButton.topAnchor.constraint(equalTo: imageCircle.bottomAnchor, constant: 5)
-        ])
+    private func logoutLayout() {
+        logoutButton.pin.below(of: genderSegmentedControl).margin(8).height(43).hCenter().width(220)
     }
     
     private func inTextViewConstraints(_ textView: UIView, _ label: UILabel, _ text: UITextField) {
@@ -247,12 +281,17 @@ final class ProfileViewController: UIViewController {
     }
     
     private func setUpUIElements() {
-        nameTextField.placeholder = "@name"
-        ageTextField.placeholder = "age"
+        nameTextField.placeholder = "name"
+        nameLeftViewLabel.text = "@"
+        nameLeftViewLabel.font = UIFont(name: "Arial", size: 20)
+        nameLeftViewLabel.isUserInteractionEnabled = false
+        nameTextField.leftView = nameLeftViewLabel
+        nameTextField.leftViewMode = .always
+        ageTextField.placeholder = "Выберите дату рождения"
         
-        nameTextField.text = UserDefaults.standard.string(forKey: "name") ?? ""
-        ageTextField.text = UserDefaults.standard.string(forKey: "age") ?? ""
-        genderSegmentedControl.selectedSegmentIndex = UserDefaults.standard.integer(forKey: "gender")
+        nameTextField.text = profileService.getUserInfo().0
+        ageTextField.text = profileService.getUserInfo().1
+        genderSegmentedControl.selectedSegmentIndex = profileService.getUserInfo().2
         
         nameLabel.text = "Name:"
         ageLabel.text = "Age:"
@@ -261,6 +300,13 @@ final class ProfileViewController: UIViewController {
         let font = UIFont(name: "Arial", size: 20)
         genderSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.font: font!], for: .normal)
         genderSegmentedControl.isUserInteractionEnabled = false
+        
+        logoutButton.backgroundColor = UIColor(hue: 1, saturation: 1, brightness: 1, alpha: 0)
+        logoutButton.setTitleColor(StepColor.darkGreen8, for: .normal)
+        logoutButton.titleLabel?.font = UIFont(name: "Arial", size: 20)
+        logoutButton.setTitle("Logout", for: .normal)
+        logoutButton.addTarget(self, action: #selector(toAuthorization), for: .touchUpInside)
+        logoutButton.isHidden = true
         
         editButton.semanticContentAttribute = UISemanticContentAttribute.forceRightToLeft
         editButton.setTitleColor(StepColor.darkGreen8, for: .normal)
@@ -271,14 +317,24 @@ final class ProfileViewController: UIViewController {
         }
         editButton.addTarget(self, action: #selector(editButtonClicked), for: .touchUpInside)
         
-        editPhotoButton.isEnabled = false
-        editPhotoButton.translatesAutoresizingMaskIntoConstraints = false
-        editPhotoButton.alpha = 0
-        editPhotoButton.setTitle("Edit photo", for: .normal)
-        editPhotoButton.titleLabel?.font = UIFont(name: "Arial", size: 16)
-        editPhotoButton.setTitleColor(StepColor.darkGreen8, for: .normal)
-        editPhotoButton.frame = CGRect(x: 0, y: 0, width: 90, height: 16)
-        editPhotoButton.addTarget(self, action: #selector(editPhotoButtonClicked), for: .touchUpInside)
+        imageCircle.isUserInteractionEnabled = false
+        let tapGesture = UITapGestureRecognizer(
+            target: self,
+            action: #selector(handleImageTap)
+        )
+        imageCircle.addGestureRecognizer(tapGesture)
+        
+        ageDatePicker.backgroundColor = StepColor.cellBackground
+        ageDatePicker.datePickerMode = .date
+        ageDatePicker.addTarget(self, action: #selector(dateChanged), for: .valueChanged)
+        //ageDatePicker.isHidden = true
+        if #available(iOS 14.0, *) {
+            ageDatePicker.preferredDatePickerStyle = .wheels
+        } else {
+            // Fallback on earlier versions
+        }
+        
+        ageTextField.inputView = ageDatePicker
     }
 }
 
@@ -291,7 +347,6 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
         
         if let jpegData = image.jpegData(compressionQuality: 0.8){
             try? jpegData.write(to: imagePath)
-            UserDefaults.standard.set(jpegData, forKey: "image")
             imageCircle.image = UIImage(data: jpegData)
         }
         dismiss(animated: true)

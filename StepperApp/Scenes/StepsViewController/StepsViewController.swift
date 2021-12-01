@@ -60,6 +60,16 @@ final class StepsViewController: UIViewController {
         return label
     }()
     
+    private lazy var dateIntervalSegmentedControl: UISegmentedControl = {
+        let sc = UISegmentedControl(items: ["Day", "Week", "Month"])
+        sc.translatesAutoresizingMaskIntoConstraints = false
+        sc.selectedSegmentTintColor = StepColor.darkGreen8
+        sc.selectedSegmentIndex = 0
+        sc.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: StepColor.cellBackground], for: .selected)
+        sc.addTarget(self, action: #selector(segmentedControlValueChanged(_:)), for: .valueChanged)
+        return sc
+    }()
+    
     weak var chartDelegate: ChartDelegate?
     
     override func viewDidLoad() {
@@ -178,7 +188,13 @@ final class StepsViewController: UIViewController {
     }
     
     private func setupNavigation() {
-        // Here will be button for changing the goal of user
+        navigationController?.navigationBar.addSubview(dateIntervalSegmentedControl)
+        NSLayoutConstraint.activate([
+            dateIntervalSegmentedControl.centerXAnchor.constraint(equalTo: navigationController!.navigationBar.centerXAnchor),
+            dateIntervalSegmentedControl.centerYAnchor.constraint(equalTo: navigationController!.navigationBar.centerYAnchor),
+            dateIntervalSegmentedControl.heightAnchor.constraint(equalToConstant: navigationController!.navigationBar.frame.height/1.5),
+            dateIntervalSegmentedControl.widthAnchor.constraint(equalToConstant: navigationController!.navigationBar.frame.width/1.5)
+        ])
     }
     
     private func setupLayout() {
@@ -188,7 +204,7 @@ final class StepsViewController: UIViewController {
         }
         
         NSLayoutConstraint.activate([
-            circleStepContainerView.topAnchor.constraint(equalTo: view.topAnchor, constant: 80),
+            circleStepContainerView.topAnchor.constraint(equalTo: view.topAnchor, constant: 110),
             circleStepContainerView.heightAnchor.constraint(equalToConstant: 200),
             circleStepContainerView.widthAnchor.constraint(equalToConstant: 200),
             circleStepContainerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -230,4 +246,29 @@ final class StepsViewController: UIViewController {
         
         circleStepContainerView.layer.cornerRadius = circleStepContainerView.frame.height/2
     }
+    
+    @objc
+    private func segmentedControlValueChanged(_ sender: UISegmentedControl) {
+        switch sender.selectedSegmentIndex {
+        case 0: print("Day")
+//        case 1: case1()
+        case 1: print("Week")
+        case 2: print("Month")
+        default:
+            print("default")
+        }
+    }
+    
+//    private func case1() {
+//        [circleStepContainerView, distanceLabel, stepsCountLabel, stepsRemainingLabel].forEach {
+//            $0.isHidden = true
+//        }
+//        weekChartViewController.view.pin
+//            .horizontally(0)
+//            .top(view.safeAreaInsets.top + 20)
+//            .bottom(view.safeAreaInsets.bottom)
+//        print("Week")
+//        let vc = CalendarViewController()
+//        present(vc, animated: true)
+//    }
 }

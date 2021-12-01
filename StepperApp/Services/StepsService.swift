@@ -18,6 +18,7 @@ protocol StepsService {
     func authorizeService(completion: @escaping (Result<Bool,Error>) -> Void)
     func fetchWeekBefore(day: Date, completion: @escaping (Result<SteppingWeek, Error>) -> Void)
     func fetchWeekAfter(day: Date, completion: @escaping (Result<SteppingWeek, Error>) -> Void)
+    func fetchWeekContains(day: Date, completion: @escaping (Result<SteppingWeek, Error>) -> Void)
 }
 
 final class StepsServiceImplementation: StepsService {
@@ -25,7 +26,7 @@ final class StepsServiceImplementation: StepsService {
     private var healthStore = HKHealthStore()
     private let stepType = HKQuantityType.quantityType(forIdentifier: .stepCount)!
     private let distanceType = HKQuantityType.quantityType(forIdentifier: .distanceWalkingRunning)!
-    private let calendar = Calendar.current
+    private let calendar = Calendar.iso8601
     
     func authorizeService(completion: @escaping (Result<Bool,Error>) -> Void) {
         let allTypes = Set([stepType, distanceType])
@@ -57,7 +58,7 @@ final class StepsServiceImplementation: StepsService {
         var weekSteps: [Int] = []
         var weekDistance: [Double] = []
         let group = DispatchGroup()
-        let anchor = setupLastWeekAnchor(date: Date(), daysBefore: 6)
+        let anchor = setupWeekAnchorFor(date: Date(), daysBefore: 6)
         let predicate = setupLastWeekPredicate()
         let interval = DateComponents(day: 1)
         
@@ -134,7 +135,7 @@ final class StepsServiceImplementation: StepsService {
         var weekSteps: [Int] = []
         var weekDistance: [Double] = []
         let group = DispatchGroup()
-        let anchor = setupLastWeekAnchor(date: day, daysBefore: 6)
+        let anchor = setupWeekAnchorFor(date: day, daysBefore: 6)
         let predicate = setupWeekPredicateBefore(day: setupDayEndFrom(date: day))
         let interval = DateComponents(day: 1)
         
@@ -211,7 +212,7 @@ final class StepsServiceImplementation: StepsService {
         var weekSteps: [Int] = []
         var weekDistance: [Double] = []
         let group = DispatchGroup()
-        let anchor = setupLastWeekAnchor(date: day)
+        let anchor = setupWeekAnchorFor(date: day)
         let predicate = setupWeekPredicateAfter(day: day)
         let interval = DateComponents(day: 1)
         
@@ -291,37 +292,126 @@ final class StepsServiceImplementation: StepsService {
         }
     }
     
+    func fetchWeekContains(day: Date, completion: @escaping (Result<SteppingWeek, Error>) -> Void) {
+        var stepsDataValues: [HKStatistics] = []
+        var distanceDataValues: [HKStatistics] = []
+        var weekDates: [Date] = []
+        var weekSteps: [Int] = []
+        var weekDistance: [Double] = []
+        let group = DispatchGroup()
+        let calendar = Calendar.iso8601UTC
+        let monday = day.mondayOfTheSameWeekAtUTC
+        let anchor = setupWeekAnchorFor(date: monday)
+        let predicate = setupWeekPredicateAfter(day: monday)
+        let interval = DateComponents(day: 1)
+        
+        let stepsCollectionQuery = HKStatisticsCollectionQuery(quantityType: stepType,
+                                                               quantitySamplePredicate: predicate,
+                                                               options: .cumulativeSum,
+                                                               anchorDate: anchor,
+                                                               intervalComponents: interval)
+        group.enter()
+        stepsCollectionQuery.initialResultsHandler = { query, statisticsCollection, error in
+            if let error = error {
+                print("Query handler error:", error.localizedDescription)
+            }
+            
+            if let statisticsCollection = statisticsCollection {
+                let endDate = calendar.date(byAdding: .day, value: 6, to: monday) ?? Date()
+                statisticsCollection.enumerateStatistics(from: monday,
+                                                         to: endDate) { (statistics, stop) in
+                    stepsDataValues.append(statistics)
+                }
+                let count = HKUnit.count()
+                var daysCount = 0
+                for i in 0...6 {
+                    if let data = stepsDataValues[i].sumQuantity() {
+                        daysCount += 1
+                        weekSteps.append(Int(data.doubleValue(for: count)))
+                    } else {
+                        break
+                    }
+                }
+                var date = monday
+                for _ in 0..<daysCount {
+                    weekDates.append(date)
+                    date = calendar.date(byAdding: .day, value: 1, to: date)!
+                }
+                group.leave()
+            }
+        }
+        healthStore.execute(stepsCollectionQuery)
+        
+        let distanceCollectionQuery = HKStatisticsCollectionQuery(quantityType: distanceType,
+                                                                  quantitySamplePredicate: predicate,
+                                                                  options: .cumulativeSum,
+                                                                  anchorDate: anchor,
+                                                                  intervalComponents: interval)
+        group.enter()
+        distanceCollectionQuery.initialResultsHandler = { query, statisticsCollection, error in
+            if let error = error {
+                print("Query handler error:", error.localizedDescription)
+            }
+            
+            if let statisticsCollection = statisticsCollection {
+                let endDate = calendar.date(byAdding: .day, value: 6, to: monday) ?? Date()
+                statisticsCollection.enumerateStatistics(from: monday,
+                                                         to: endDate) { (statistics, stop) in
+                    distanceDataValues.append(statistics)
+                }
+                let meter = HKUnit.meter()
+                for i in 0...6 {
+                    if let data = distanceDataValues[i].sumQuantity() {
+                        weekDistance.append(data.doubleValue(for: meter)/1000)
+                    } else {
+                        break
+                    }
+                }
+                group.leave()
+            }
+        }
+        healthStore.execute(distanceCollectionQuery)
+        group.notify(queue: .main) {
+            var days: [SteppingDay] = []
+            for i in 0..<weekSteps.count {
+                days.append(SteppingDay(steps: weekSteps[i], km: weekDistance[i], date: weekDates[i]))
+            }
+            let weekData = SteppingWeek(steppingDays: days)
+            completion(.success(weekData))
+        }
+    }
+    
     
     // MARK: - Support functions
     
     private func setupLastWeekPredicate() -> NSPredicate {
-        let exactlySevenDaysAgo = Calendar.current.date(byAdding: DateComponents(day: -7), to: Date())!
+        let exactlySevenDaysAgo = calendar.date(byAdding: DateComponents(day: -7), to: Date())!
         let week = HKQuery.predicateForSamples(withStart: exactlySevenDaysAgo, end: nil, options: .strictStartDate)
         return week
     }
     
     private func setupWeekPredicateBefore(day: Date) -> NSPredicate {
-        let exactlySevenDaysAgo = Calendar.current.date(byAdding: DateComponents(day: -7), to: day)!
+        let exactlySevenDaysAgo = calendar.date(byAdding: DateComponents(day: -7), to: day)!
         let week = HKQuery.predicateForSamples(withStart: exactlySevenDaysAgo, end: day, options: .strictStartDate)
         return week
     }
     
     private func setupWeekPredicateAfter(day: Date) -> NSPredicate {
         let dayComponents = getDateComponents(date: day)
-        let startDate = Calendar.current.date(byAdding: DateComponents(hour: -dayComponents.hour, minute: -dayComponents.minute, second: -dayComponents.second), to: day)
-        let exactlySevenDaysAfter = Calendar.current.date(byAdding: DateComponents(day: 7), to: day) ?? Date()
+        let startDate = calendar.date(byAdding: DateComponents(hour: -dayComponents.hour, minute: -dayComponents.minute, second: -dayComponents.second), to: day)
+        let exactlySevenDaysAfter = calendar.date(byAdding: DateComponents(day: 7), to: day) ?? Date()
         let week = HKQuery.predicateForSamples(withStart: startDate, end: exactlySevenDaysAfter, options: .strictStartDate)
         return week
     }
     
-    private func setupLastWeekAnchor(date: Date, daysBefore: Int = 0) -> Date {
+    private func setupWeekAnchorFor(date: Date, daysBefore: Int = 0) -> Date {
         let dayComponents = getDateComponents(date: date)
         var components = DateComponents()
         components.day = -daysBefore
         components.hour = -dayComponents.hour
         components.minute = -dayComponents.minute
         components.second = -dayComponents.second
-        let anchor = Calendar.current.date(byAdding: components, to: date) ?? Date()
+        let anchor = calendar.date(byAdding: components, to: date) ?? Date()
         return anchor
     }
     

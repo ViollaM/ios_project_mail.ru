@@ -105,11 +105,12 @@ final class StepsViewController: UIViewController {
                 print(error.localizedDescription)
             }
         }
-        
+
         // MARK: - You can test fetchWeekAfter and fetchWeekBefore in this block
 //        let customDate = Calendar.current.date(byAdding: DateComponents(day: -7, hour: -4), to: Date())!
-//        let anotherCustomDate = Calendar.current.date(byAdding: DateComponents(day: -2, hour: -4), to: Date())!
-//        stepsService.fetchWeekAfter(day: anotherCustomDate) { [weak self] result in
+//        let anotherCustomDate = Calendar.current.date(byAdding: DateComponents(day: 5), to: Date())!
+//        print(anotherCustomDate)
+//        stepsService.fetchWeekContains(day: Date()) { [weak self] result in
 //            guard let self = self else {
 //                return
 //            }

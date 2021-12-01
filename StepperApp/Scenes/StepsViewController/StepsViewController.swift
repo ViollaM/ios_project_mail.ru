@@ -142,51 +142,27 @@ final class StepsViewController: UIViewController {
     }
     
     private func pedometerServiceActivation() {
-//        pedometerService.updateStepsAndDistance { [weak self] result in
-//            guard let self = self else {
-//                return
-//            }
-//            switch result {
-//            case .success(let update):
-//                DispatchQueue.main.async { [weak self] in
-//                    let pedometerDistance = Double(truncating: update.distance) / 1000
-//                    let pedometerSteps = Int(truncating: update.steps)
-//                    let totalSteps = self!.steps + pedometerSteps
-//                    let totalDistance = self!.distance + pedometerDistance
-//                    print("HealthKit Steps: \(self!.steps)")
-//                    print("Pedometer Steps: \(pedometerSteps)")
-//                    print("Total Steps: \(totalSteps)")
-//                    print("--------------------")
-//                    print("HealthKit Distance: \(self!.distance)")
-//                    print("Pedometer Distance: \(pedometerDistance)")
-//                    print("Total Distance: \(totalDistance)")
-//                    self?.stepsCountLabel.text = "\(totalSteps)"
-//                    let roundedDistanceLabel = String(format: "%.1f", totalDistance)
-//                    self?.distanceLabel.text = "distance: " + roundedDistanceLabel + " km"
-//                    if 10000 - totalSteps > 0 {
-//                        self?.stepsRemainingLabel.text = "left: \(10000-totalSteps)"
-//                    } else {
-//                        self?.stepsRemainingLabel.isHidden = true
-//                        self?.stepsCountLabel.font = .systemFont(ofSize: 44, weight: .bold)
-//                    }
-//                }
-//            case .failure(let error):
-//                print(error.localizedDescription)
-//            }
-//        }
-        pedometerService.updateSteps { [weak self] result in
+        pedometerService.updateStepsAndDistance { [weak self] result in
             guard let self = self else {
                 return
             }
             switch result {
-            case .success(let steps):
+            case .success(let update):
                 DispatchQueue.main.async { [weak self] in
-                    let pedometerSteps = Int(truncating: steps)
+                    let pedometerDistance = Double(truncating: update.distance) / 1000
+                    let pedometerSteps = Int(truncating: update.steps)
                     let totalSteps = self!.steps + pedometerSteps
+                    let totalDistance = self!.distance + pedometerDistance
                     print("HealthKit Steps: \(self!.steps)")
                     print("Pedometer Steps: \(pedometerSteps)")
                     print("Total Steps: \(totalSteps)")
+                    print("--------------------")
+                    print("HealthKit Distance: \(self!.distance)")
+                    print("Pedometer Distance: \(pedometerDistance)")
+                    print("Total Distance: \(totalDistance)")
                     self?.stepsCountLabel.text = "\(totalSteps)"
+                    let roundedDistanceLabel = String(format: "%.1f", totalDistance)
+                    self?.distanceLabel.text = "distance: " + roundedDistanceLabel + " km"
                     if 10000 - totalSteps > 0 {
                         self?.stepsRemainingLabel.text = "left: \(10000-totalSteps)"
                     } else {
@@ -198,25 +174,10 @@ final class StepsViewController: UIViewController {
                 print(error.localizedDescription)
             }
         }
-        pedometerService.updateDistance { [weak self] result in
-            guard let self = self else {
-                return
-            }
-            switch result {
-            case .success(let distance):
-                DispatchQueue.main.async { [weak self] in
-                    let pedometerDistance = Double(truncating: distance) / 1000
-                    let totalDistance = self!.distance + pedometerDistance
-                    print("HealthKit Distance: \(self!.distance)")
-                    print("Pedometer Distance: \(pedometerDistance)")
-                    print("Total Distance: \(totalDistance)")
-                    let roundedDistanceLabel = String(format: "%.1f", totalDistance)
-                    self?.distanceLabel.text = "distance: " + roundedDistanceLabel + " km"
-                }
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
-        }
+    }
+    
+    private func setupNavigation() {
+        // Here will be button for changing the goal of user
     }
     
     private func setupLayout() {

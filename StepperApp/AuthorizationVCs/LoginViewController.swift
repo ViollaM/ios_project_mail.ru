@@ -9,6 +9,8 @@ import UIKit
 import PinLayout
 
 final class LoginViewController: UIViewController {
+    
+    private let authService = AuthServiceImplementation()
 
     private lazy var loginButton: UIButton = {
         let button = UIButton()
@@ -46,6 +48,25 @@ final class LoginViewController: UIViewController {
         text.isSecureTextEntry = true
         return text
     }()
+    
+    private lazy var resetPasswordTLable: UILabel = {
+        let label = UILabel()
+        let attributedString = NSMutableAttributedString.init(string: "Reset password")
+        attributedString.addAttribute(NSAttributedString.Key.underlineStyle, value: 1, range:
+            NSRange.init(location: 0, length: attributedString.length));
+        label.attributedText = attributedString
+        label.numberOfLines = 1
+        label.textAlignment = .center
+        label.font = .systemFont(ofSize: 18, weight: .regular)
+        label.isUserInteractionEnabled = true
+        
+        let guestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(resetPasswordToApp))
+        label.addGestureRecognizer(guestureRecognizer)
+        label.translatesAutoresizingMaskIntoConstraints = false
+
+        //text.backgroundColor = StepColor.cellBackground
+        return label
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,7 +75,7 @@ final class LoginViewController: UIViewController {
     }
     
     private func setupView() {
-        [loginButton, emailTextField, passwordTextField].forEach {
+        [loginButton, emailTextField, passwordTextField, resetPasswordTLable].forEach {
             view.addSubview($0)
         }
     }
@@ -83,6 +104,25 @@ final class LoginViewController: UIViewController {
             .marginTop(32)
             .horizontally(52)
             .height(72)
+        resetPasswordTLable.pin
+            .below(of: loginButton)
+            .marginTop(16)
+            .horizontally(52)
+            .height(30)
+    }
+    
+    @objc func resetPasswordToApp(sender: UITapGestureRecognizer) {
+        authService.resetPassword(email: emailTextField.text!) { [weak self] result in
+            guard let self = self else {
+                return
+            }
+            switch result {
+            case nil:
+                print("Отправили письмо о смене пароля")
+            default :
+                print(result!.localizedDescription)
+            }
+        }
     }
     
     @objc func loginButtonToApp() {
@@ -92,12 +132,31 @@ final class LoginViewController: UIViewController {
         else {
             return
         }
-        UserDefaults.standard.set(true, forKey: "isLogged")
-        let rootVC = buildAppTabBarController()
-        let navVC = UINavigationController(rootViewController: rootVC)
-        navVC.navigationBar.isHidden = true
-        navVC.modalPresentationStyle = .fullScreen
-        present(navVC, animated: true)
+        
+        authService.loginUser(email: emailTextField.text!, password: passwordTextField.text!){ [weak self] result in
+            guard let self = self else {
+                return
+            }
+            switch result {
+            case nil:
+                UserDefaults.standard.set(true, forKey: "isLogged")
+                let rootVC = buildAppTabBarController()
+                let navVC = UINavigationController(rootViewController: rootVC)
+                navVC.navigationBar.isHidden = true
+                navVC.modalPresentationStyle = .fullScreen
+                self.present(navVC, animated: true)
+            default :
+                print(result!.localizedDescription)
+            }
+        }
+        
+        
+//        UserDefaults.standard.set(true, forKey: "isLogged")
+//        let rootVC = buildAppTabBarController()
+//        let navVC = UINavigationController(rootViewController: rootVC)
+//        navVC.navigationBar.isHidden = true
+//        navVC.modalPresentationStyle = .fullScreen
+//        present(navVC, animated: true)
     }
     
 }

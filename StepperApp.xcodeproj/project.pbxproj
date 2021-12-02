@@ -29,11 +29,14 @@
 		A13BD97B2744484A0030F984 /* HexColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A13BD97A2744484A0030F984 /* HexColor.swift */; };
 		A13BD97F274448F10030F984 /* CompetitionModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = A13BD97E274448F10030F984 /* CompetitionModels.swift */; };
 		A13BD981274449380030F984 /* EachCompetitionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A13BD980274449380030F984 /* EachCompetitionViewController.swift */; };
+		A153C5472753D7BA00F9871E /* UsersService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A153C5462753D7BA00F9871E /* UsersService.swift */; };
 		A15C4D85274195BB005FF7EF /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A15C4D84274195BB005FF7EF /* HealthKit.framework */; };
 		A162C10227451F8F00C1D2BF /* BalloonMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A162C10127451F8F00C1D2BF /* BalloonMarker.swift */; };
 		A165E285274419770002A973 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A165E284274419770002A973 /* ProfileViewController.swift */; };
 		A165E288274419880002A973 /* TextValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A165E286274419880002A973 /* TextValidation.swift */; };
 		A165E289274419880002A973 /* ErrorTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A165E287274419880002A973 /* ErrorTextField.swift */; };
+		A17AB33E274D07BF007EC89F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A17AB33D274D07BF007EC89F /* GoogleService-Info.plist */; };
+		A17AB340274D3DAB007EC89F /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A17AB33F274D3DAB007EC89F /* AuthService.swift */; };
 		A187113F274184A8001DFAE7 /* FriendsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A187113D274184A8001DFAE7 /* FriendsListViewController.swift */; };
 		A1871140274184A8001DFAE7 /* FriendsListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A187113E274184A8001DFAE7 /* FriendsListCollectionViewCell.swift */; };
 		A187114227418525001DFAE7 /* FriendsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = A187114127418525001DFAE7 /* FriendsList.swift */; };
@@ -66,12 +69,15 @@
 		A13BD97A2744484A0030F984 /* HexColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HexColor.swift; sourceTree = "<group>"; };
 		A13BD97E274448F10030F984 /* CompetitionModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompetitionModels.swift; sourceTree = "<group>"; };
 		A13BD980274449380030F984 /* EachCompetitionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EachCompetitionViewController.swift; sourceTree = "<group>"; };
+		A153C5462753D7BA00F9871E /* UsersService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersService.swift; sourceTree = "<group>"; };
 		A15C4D83274195AA005FF7EF /* StepperApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = StepperApp.entitlements; sourceTree = "<group>"; };
 		A15C4D84274195BB005FF7EF /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		A162C10127451F8F00C1D2BF /* BalloonMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalloonMarker.swift; sourceTree = "<group>"; };
 		A165E284274419770002A973 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		A165E286274419880002A973 /* TextValidation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextValidation.swift; sourceTree = "<group>"; };
 		A165E287274419880002A973 /* ErrorTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorTextField.swift; sourceTree = "<group>"; };
+		A17AB33D274D07BF007EC89F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		A17AB33F274D3DAB007EC89F /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		A187113D274184A8001DFAE7 /* FriendsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsListViewController.swift; sourceTree = "<group>"; };
 		A187113E274184A8001DFAE7 /* FriendsListCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsListCollectionViewCell.swift; sourceTree = "<group>"; };
 		A187114127418525001DFAE7 /* FriendsList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsList.swift; sourceTree = "<group>"; };
@@ -123,6 +129,7 @@
 		01651A3927120D2D00DC9391 /* StepperApp */ = {
 			isa = PBXGroup;
 			children = (
+				A17AB33D274D07BF007EC89F /* GoogleService-Info.plist */,
 				A15C4D83274195AA005FF7EF /* StepperApp.entitlements */,
 				01651A3A27120D2D00DC9391 /* AppDelegate.swift */,
 				014F5F95272D9E960058132F /* TabBarControllerFunc.swift */,
@@ -141,6 +148,8 @@
 			children = (
 				0172EABD27242F7000DE1779 /* StepsService.swift */,
 				0BD1511B2740176800F15800 /* ProfileService.swift */,
+				A17AB33F274D3DAB007EC89F /* AuthService.swift */,
+				A153C5462753D7BA00F9871E /* UsersService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -309,6 +318,7 @@
 			files = (
 				01651A4727120D2E00DC9391 /* LaunchScreen.storyboard in Resources */,
 				01651A4427120D2E00DC9391 /* Assets.xcassets in Resources */,
+				A17AB33E274D07BF007EC89F /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -368,11 +378,13 @@
 				014F5F9B272D9F990058132F /* LoginViewController.swift in Sources */,
 				014F5F99272D9F880058132F /* AuthorizationViewController.swift in Sources */,
 				A1871140274184A8001DFAE7 /* FriendsListCollectionViewCell.swift in Sources */,
+				A17AB340274D3DAB007EC89F /* AuthService.swift in Sources */,
 				A13BD97B2744484A0030F984 /* HexColor.swift in Sources */,
 				0172EAC52724335900DE1779 /* SteppingWeek.swift in Sources */,
 				01F7D4B4274AA2D4007676CC /* HeaderCollectionReusableView.swift in Sources */,
 				014F5F96272D9E960058132F /* TabBarControllerFunc.swift in Sources */,
 				A165E285274419770002A973 /* ProfileViewController.swift in Sources */,
+				A153C5472753D7BA00F9871E /* UsersService.swift in Sources */,
 				A165E289274419880002A973 /* ErrorTextField.swift in Sources */,
 				A124C81027241D8B00540595 /* WeekChartViewController.swift in Sources */,
 				A165E288274419880002A973 /* TextValidation.swift in Sources */,
@@ -529,9 +541,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ALLOW_ENTITLEMENTS_MODIFICATION = YES;
 				CODE_SIGN_ENTITLEMENTS = StepperApp/StepperApp.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 37UJALBQ5X;
+				DEVELOPMENT_TEAM = 98T2DZ6L6Z;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = StepperApp/Support/Info.plist;
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "This app requires to access your healt data";
@@ -542,14 +555,16 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.rubenegikian.;
+				PRODUCT_BUNDLE_IDENTIFIER = com.stepteam.stepbeat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -564,9 +579,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ALLOW_ENTITLEMENTS_MODIFICATION = YES;
 				CODE_SIGN_ENTITLEMENTS = StepperApp/StepperApp.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 37UJALBQ5X;
+				DEVELOPMENT_TEAM = 98T2DZ6L6Z;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = StepperApp/Support/Info.plist;
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "This app requires to access your healt data";
@@ -577,14 +593,16 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.rubenegikian.;
+				PRODUCT_BUNDLE_IDENTIFIER = com.stepteam.stepbeat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;

@@ -9,6 +9,8 @@ import UIKit
 
 class SignUpViewController: UIViewController {
 
+    private let authService = AuthServiceImplementation()
+
     private lazy var signupButton: UIButton = {
         let button = UIButton()
         button.layer.cornerRadius = 10
@@ -62,6 +64,7 @@ class SignUpViewController: UIViewController {
         super.viewDidLoad()
         setupView()
         setupBackground()
+        
     }
     
     private func setupView() {
@@ -102,11 +105,29 @@ class SignUpViewController: UIViewController {
     }
     
     @objc func signupButtonToApp() {
-        let rootVC = buildAppTabBarController()
-        let navVC = UINavigationController(rootViewController: rootVC)
-        navVC.navigationBar.isHidden = true
-        navVC.modalPresentationStyle = .fullScreen
-        present(navVC, animated: true)
-        UserDefaults.standard.set(true, forKey: "isLogged")
+        
+        authService.registrationUser(email: emailTextField.text!, name: nameTextField.text!, password: passwordTextField.text!) { [weak self] result in
+            guard let self = self else {
+                return
+            }
+            switch result {
+            case nil:
+                let rootVC = buildAppTabBarController()
+                let navVC = UINavigationController(rootViewController: rootVC)
+                navVC.navigationBar.isHidden = true
+                navVC.modalPresentationStyle = .fullScreen
+                self.present(navVC, animated: true)
+                UserDefaults.standard.set(true, forKey: "isLogged")
+            default:
+                print(result!.localizedDescription)
+            }
+        }
+        
+//        let rootVC = buildAppTabBarController()
+//        let navVC = UINavigationController(rootViewController: rootVC)
+//        navVC.navigationBar.isHidden = true
+//        navVC.modalPresentationStyle = .fullScreen
+//        present(navVC, animated: true)
+//        UserDefaults.standard.set(true, forKey: "isLogged")
     }
 }

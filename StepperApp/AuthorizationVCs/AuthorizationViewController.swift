@@ -53,7 +53,6 @@ class AuthorizationViewController: UIViewController {
         super.viewDidLoad()
         setupView()
         setupBackground()
-
     }
     
     private func setupView() {

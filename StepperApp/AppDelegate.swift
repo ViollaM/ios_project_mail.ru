@@ -22,7 +22,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if isAuth {
             rootVC = buildAppTabBarController()
         } else {
-            rootVC = AuthorizationViewController()
+            let authService = AuthServiceImplementation()
+            let signUpVC = SignUpViewController(authService: authService)
+            let loginVc = LoginViewController(authService: authService)
+            rootVC = AuthorizationViewController(loginVc: loginVc, signUpVc: signUpVC)
         }
         let rootNC = UINavigationController(rootViewController: rootVC)
         rootNC.navigationBar.isHidden = true

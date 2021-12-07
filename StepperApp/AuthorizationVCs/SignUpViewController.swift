@@ -9,7 +9,16 @@ import UIKit
 
 class SignUpViewController: UIViewController {
 
-    private let authService = AuthServiceImplementation()
+    private let authService: AuthService
+    
+    init(authService: AuthService) {
+        self.authService = authService
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     private lazy var signupButton: UIButton = {
         let button = UIButton()

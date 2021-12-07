@@ -45,7 +45,7 @@ final class AuthServiceImplementation: AuthService {
                 print(error?.localizedDescription )
                 completion(error)
             } else {
-                self.db.collection("users").document(name).setData([
+                self.db.collection("users").document(result!.user.uid).setData([
                     "uid": result!.user.uid,
                     "name": name
                 ]) { (error) in

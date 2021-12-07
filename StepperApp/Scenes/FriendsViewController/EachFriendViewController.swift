@@ -10,11 +10,11 @@ import PinLayout
 
 final class EachFriendViewController: UIViewController {
 
-    var friend: Friend? {
+    var friend: User? {
         didSet {
             avatar = CircleImageView(image: UIImage(named: friend?.imageName ?? "Photo"))
-            name.text = "Name: @\(friend?.name ?? "user")"
-            age.text = "Age: \(friend?.age ?? 20)"
+            name.text = "Name: @\(friend?.login ?? "user")"
+            age.text = "Age: \(ConvertBrithDayToAge(birthDate: friend?.birthDate ?? Date()) )"
             if let a = friend?.isMan {
                 if a {
                     gender.text = "Gender: Male"

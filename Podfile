@@ -11,4 +11,5 @@ target 'StepperApp' do
   pod 'IQKeyboardManager'
   pod 'Firebase/Auth'
   pod 'Firebase/Firestore'
+  pod 'Firebase/Storage'
 end

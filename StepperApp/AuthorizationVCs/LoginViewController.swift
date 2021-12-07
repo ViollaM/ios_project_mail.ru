@@ -10,8 +10,17 @@ import PinLayout
 
 final class LoginViewController: UIViewController {
     
-    private let authService = AuthServiceImplementation()
-
+    private let authService: AuthService
+    
+    init(authService: AuthService) {
+        self.authService = authService
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     private lazy var loginButton: UIButton = {
         let button = UIButton()
         button.layer.cornerRadius = 10
@@ -113,7 +122,7 @@ final class LoginViewController: UIViewController {
     
     @objc func resetPasswordToApp(sender: UITapGestureRecognizer) {
         authService.resetPassword(email: emailTextField.text!) { [weak self] result in
-            guard let self = self else {
+            guard self != nil else {
                 return
             }
             switch result {

@@ -7,22 +7,29 @@
 
 import Foundation
 import Firebase
+import UIKit
 
 
 protocol UsersService {
-    func updateUser(id_user: String, name: String, birthdate: String, male: String, completion: @escaping (Error?) -> Void)
+    func updateUser(user: User, completion: @escaping (Error?) -> Void)
 }
 
 
 final class UsersServiceImplementation: UsersService {
     
+    private let userConvector = UserConvector()
+    
+    private let imageLoaderService = ImageLoaderServiceImplementation()
+    
     private let db = Firestore.firestore()
     
-    func updateUser(id_user: String, name: String, birthdate: String, male: String, completion: @escaping (Error?) -> Void) {
-        self.db.collection("users").document(name).setData([
-            "name": name,
-            "birthdate": birthdate,
-            "male": male,
+    func updateUser(user: User,  completion: @escaping (Error?) -> Void) {
+        
+        self.db.collection("users").document(user.id).setData([
+            "name": user.login,
+            "birthdate": user.birthDate,
+            "male": user.isMan,
+            "image": user.imageName,
         ], merge: true){ (error) in
                 if error != nil{
                     completion(error)

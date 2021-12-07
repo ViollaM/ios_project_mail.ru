@@ -11,6 +11,8 @@ func buildAppTabBarController() -> UITabBarController {
     let tabBarController = UITabBarController()
     let stepsService = StepsServiceImplementation()
     let profileService = ProfileServiceImplementation()
+    let userService = ImageLoaderServiceImplementation()
+    let imageService = ImageLoaderServiceImplementation()
     let viewcontollers = [buildStepsViewController(stepsService: stepsService), buildFriendsListViewController(), buildCompetitionViewController(),  buildProfileViewController(profileService: profileService)]
     viewcontollers.forEach {
         setupBackground(on: $0)

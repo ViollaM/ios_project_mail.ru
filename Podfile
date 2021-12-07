@@ -10,4 +10,5 @@ target 'StepperApp' do
   pod 'PinLayout'
   pod 'IQKeyboardManager'
   pod 'FSCalendar'
+  pod 'PanModal'
 end

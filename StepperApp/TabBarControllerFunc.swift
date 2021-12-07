@@ -32,6 +32,7 @@ func buildStepsViewController(stepsService: StepsService, pedometerService: Pedo
     let navigationController = UINavigationController()
     let viewController = StepsViewController(stepsService: stepsService, pedometerService: pedometerService)
     navigationController.viewControllers = [viewController]
+    navigationController.navigationBar.tintColor = StepColor.darkGreen
     let stepsItem = UITabBarItem(title: "Steps", image: UIImage(systemName: "figure.walk"), selectedImage: nil)
     viewController.tabBarItem = stepsItem
     return navigationController

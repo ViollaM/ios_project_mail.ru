@@ -74,3 +74,9 @@ extension FriendsListViewController: UICollectionViewDataSource, UICollectionVie
         present(friendsVC, animated: true, completion: nil)
     }
 }
+
+extension FriendsListViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        
+    }
+}

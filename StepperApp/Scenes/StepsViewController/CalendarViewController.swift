@@ -8,42 +8,87 @@
 import Foundation
 import UIKit
 import FSCalendar
+import PanModal
+
+protocol CalendarDelegate: AnyObject {
+    func didSelect(_ date: Date)
+}
 
 final class CalendarViewController: UIViewController {
+    var delegate: CalendarDelegate?
+    
     private lazy var calendar: FSCalendar = {
         let cal = FSCalendar()
         cal.translatesAutoresizingMaskIntoConstraints = false
-        cal.firstWeekday = 2
+        cal.firstWeekday = 1
         cal.delegate = self
         cal.dataSource = self
         cal.backgroundColor = .clear
-        let darkGreen = UIColor(red: 12/255, green: 38/255, blue: 36/255, alpha: 1)
-        cal.appearance.headerTitleColor = darkGreen
-        cal.appearance.weekdayTextColor = darkGreen
-        cal.appearance.todayColor = darkGreen
-        cal.appearance.selectionColor = darkGreen
-        cal.appearance.titleDefaultColor = darkGreen.withAlphaComponent(0.8)
-        cal.appearance.titleWeekendColor = darkGreen
+        cal.appearance.headerTitleColor = StepColor.darkGreen
+        cal.appearance.weekdayTextColor = StepColor.darkGreen
+        cal.appearance.todayColor = StepColor.darkGreen
+        cal.appearance.selectionColor = StepColor.darkGreen
+        cal.appearance.titleDefaultColor = StepColor.darkGreen.withAlphaComponent(0.8)
+        cal.appearance.titleWeekendColor = StepColor.darkGreen
+        cal.appearance.titlePlaceholderColor = StepColor.darkGreen.withAlphaComponent(0.5)
         return cal
     }()
     
+    let screenHeight = UIScreen.main.bounds.height
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(red: 204/255, green: 228/255, blue: 225/255, alpha: 1)
+        setupLayout()
+    }
+        
+    private func setupLayout() {
+        view.layer.cornerRadius = 12
+        view.backgroundColor = StepColor.cellBackground
         view.addSubview(calendar)
         NSLayoutConstraint.activate([
             calendar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             calendar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             calendar.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            calendar.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20)
+            calendar.heightAnchor.constraint(equalToConstant: screenHeight * 0.41)
         ])
     }
 }
 
-extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource {
+extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance {
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-        print(date)
+        let newDate = date.addingTimeInterval(TimeInterval(TimeZone.current.secondsFromGMT(for: date)))
+        print(newDate)
         dismiss(animated: true, completion: nil)
+    }
+    
+    func calendar(_ calendar: FSCalendar, shouldSelect date: Date, at monthPosition: FSCalendarMonthPosition) -> Bool {
+        let newDate = date.addingTimeInterval(TimeInterval(TimeZone.current.secondsFromGMT(for: date)))
+        if newDate <= Date() {
+            delegate?.didSelect(newDate)
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, titleDefaultColorFor date: Date) -> UIColor? {
+        var color: UIColor?
+        let newDate = date.addingTimeInterval(TimeInterval(TimeZone.current.secondsFromGMT(for: date)))
+        if newDate >= Date() {
+            color = StepColor.darkGreen.withAlphaComponent(0.2)
+        } else {
+            color = nil
+        }
+        return color
+    }
+}
+
+extension CalendarViewController: PanModalPresentable {
+    var panScrollable: UIScrollView? {
+        nil
+    }
+    
+    var longFormHeight: PanModalHeight {
+        .contentHeight(screenHeight * 0.41)
     }
 }

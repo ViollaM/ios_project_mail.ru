@@ -7,11 +7,34 @@
 
 import UIKit
 
-class CircleImageView: UIImageView {
-
+final class CircleImageView: UIImageView {
     override func layoutSubviews() {
         super.layoutSubviews()
         self.layer.cornerRadius = self.frame.size.height/2
+        self.clipsToBounds = true
+    }
+}
+
+final class CircleView: UIImageView {
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        self.layer.cornerRadius = self.frame.size.height/2
+        self.clipsToBounds = true
+    }
+}
+
+final class RoundedImageView: UIImageView {
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        self.layer.cornerRadius = 10
+        self.clipsToBounds = true
+    }
+}
+
+final class RoundView: UIImageView {
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        self.layer.cornerRadius = 10
         self.clipsToBounds = true
     }
 }

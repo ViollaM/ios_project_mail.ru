@@ -45,7 +45,7 @@ final class WeekChartViewController: UIViewController{
         let gradientLayer = CAGradientLayer()
         gradientLayer.colors = [colorTop, colorBottom]
         gradientLayer.locations = [0.0, 1.0]
-        gradientLayer.frame = chart.frame
+        gradientLayer.frame = view.frame
         gradientLayer.cornerRadius = 10
         gradientLayer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         
@@ -54,9 +54,12 @@ final class WeekChartViewController: UIViewController{
     
     private func setupLayout () {
         view.addSubview(chart)
-        chart.pin
-            .all()
-            .height(283)
+        NSLayoutConstraint.activate([
+            chart.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            chart.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            chart.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            chart.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+        ])
     }
     
     private func configureUI () {

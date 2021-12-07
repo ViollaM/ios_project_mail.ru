@@ -21,4 +21,7 @@ final class StepColor: UIColor {
     // Tab Bar
     static var unselected = UIColor(red: 122/255, green: 162/255, blue: 153/255, alpha: 1)
     static var tabBarBackground = UIColor(red: 193/255, green: 216/255, blue: 216/255, alpha: 1)
+    
+    // Slider
+    static var minimumTrack = UIColor(red: 163/255, green: 210/255, blue: 204/255, alpha: 1)
 }

@@ -12,7 +12,7 @@ final class FriendsListCollectionViewCell: UICollectionViewCell {
     var friend: Friend? {
         didSet {
             avatarImage.image = UIImage(named: friend?.imageName ?? "Photo")
-            nameLabel.text = "Hi! I'm @\(friend!.name)"
+            nameLabel.text = "Hi! I'm @\(friend?.name ?? "User")"
         }
     }
     

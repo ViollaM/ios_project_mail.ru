@@ -16,8 +16,6 @@ enum StepsServiceError: Error {
 protocol StepsService {
     func fetchLastWeekInfo(completion: @escaping (Result<SteppingWeek, Error>) -> Void)
     func authorizeService(completion: @escaping (Result<Bool,Error>) -> Void)
-    func fetchWeekBefore(day: Date, completion: @escaping (Result<SteppingWeek, Error>) -> Void)
-    func fetchWeekAfter(day: Date, completion: @escaping (Result<SteppingWeek, Error>) -> Void)
     func fetchWeekContains(day: Date, completion: @escaping (Result<SteppingWeek, Error>) -> Void)
 }
 
@@ -56,7 +54,8 @@ final class StepsServiceImplementation: StepsService {
         var distanceDataValues: [HKStatistics] = []
         var weekDates: [Date] = []
         var weekSteps: [Int] = []
-        var weekDistance: [Double] = []
+        var weekDistanceInKM: [Double] = []
+        var weekDistanceInMiles: [Double] = []
         let group = DispatchGroup()
         let anchor = setupWeekAnchorFor(date: Date(), daysBefore: 6)
         let predicate = setupLastWeekPredicate()
@@ -110,9 +109,11 @@ final class StepsServiceImplementation: StepsService {
                                                          to: Date()) { (statistics, stop) in
                     distanceDataValues.append(statistics)
                 }
+                let miles = HKUnit.mile()
                 let meter = HKUnit.meter()
                 for i in 0...6 {
-                    weekDistance.append((distanceDataValues[i].sumQuantity()?.doubleValue(for: meter) ?? 0) / 1000)
+                    weekDistanceInKM.append((distanceDataValues[i].sumQuantity()?.doubleValue(for: meter) ?? 0) / 1000)
+                    weekDistanceInMiles.append(distanceDataValues[i].sumQuantity()?.doubleValue(for: miles) ?? 0)
                 }
                 group.leave()
             }
@@ -121,171 +122,7 @@ final class StepsServiceImplementation: StepsService {
         group.notify(queue: .main) {
             var days: [SteppingDay] = []
             for i in 0...6 {
-                days.append(SteppingDay(steps: weekSteps[i], km: weekDistance[i], date: weekDates[i]))
-            }
-            let weekData = SteppingWeek(steppingDays: days)
-            completion(.success(weekData))
-        }
-    }
-    
-    func fetchWeekBefore(day: Date, completion: @escaping (Result<SteppingWeek, Error>) -> Void) {
-        var stepsDataValues: [HKStatistics] = []
-        var distanceDataValues: [HKStatistics] = []
-        var weekDates: [Date] = []
-        var weekSteps: [Int] = []
-        var weekDistance: [Double] = []
-        let group = DispatchGroup()
-        let anchor = setupWeekAnchorFor(date: day, daysBefore: 6)
-        let predicate = setupWeekPredicateBefore(day: setupDayEndFrom(date: day))
-        let interval = DateComponents(day: 1)
-        
-        let stepsCollectionQuery = HKStatisticsCollectionQuery(quantityType: stepType,
-                                                               quantitySamplePredicate: predicate,
-                                                               options: .cumulativeSum,
-                                                               anchorDate: anchor,
-                                                               intervalComponents: interval)
-        group.enter()
-        stepsCollectionQuery.initialResultsHandler = { query, statisticsCollection, error in
-            if let error = error {
-                print("Query handler error:", error.localizedDescription)
-            }
-            
-            if let statisticsCollection = statisticsCollection {
-                let startDate = Calendar.current.date(byAdding: .day, value: -6, to: day)!
-                statisticsCollection.enumerateStatistics(from: startDate,
-                                                         to: day) { (statistics, stop) in
-                    stepsDataValues.append(statistics)
-                }
-                var date = startDate
-                for _ in 1...7 {
-                    weekDates.append(date)
-                    date = Calendar.current.date(byAdding: .day, value: 1, to: date)!
-                }
-                let count = HKUnit.count()
-                for i in 0...6 {
-                    weekSteps.append(Int((stepsDataValues[i].sumQuantity()?.doubleValue(for: count)) ?? 0))
-                }
-                group.leave()
-            }
-        }
-        healthStore.execute(stepsCollectionQuery)
-        
-        let distanceCollectionQuery = HKStatisticsCollectionQuery(quantityType: distanceType,
-                                                                  quantitySamplePredicate: predicate,
-                                                                  options: .cumulativeSum,
-                                                                  anchorDate: anchor,
-                                                                  intervalComponents: interval)
-        group.enter()
-        distanceCollectionQuery.initialResultsHandler = { query, statisticsCollection, error in
-            if let error = error {
-                print("Query handler error:", error.localizedDescription)
-            }
-            
-            if let statisticsCollection = statisticsCollection {
-                let startDate = Calendar.current.date(byAdding: .day, value: -6, to: day)!
-                statisticsCollection.enumerateStatistics(from: startDate,
-                                                         to: day) { (statistics, stop) in
-                    distanceDataValues.append(statistics)
-                }
-                let meter = HKUnit.meter()
-                for i in 0...6 {
-                    weekDistance.append((distanceDataValues[i].sumQuantity()?.doubleValue(for: meter) ?? 0) / 1000)
-                }
-                group.leave()
-            }
-        }
-        healthStore.execute(distanceCollectionQuery)
-        group.notify(queue: .main) {
-            var days: [SteppingDay] = []
-            for i in 0...6 {
-                days.append(SteppingDay(steps: weekSteps[i], km: weekDistance[i], date: weekDates[i]))
-            }
-            let weekData = SteppingWeek(steppingDays: days)
-            completion(.success(weekData))
-        }
-    }
-    
-    func fetchWeekAfter(day: Date, completion: @escaping (Result<SteppingWeek, Error>) -> Void) {
-        var stepsDataValues: [HKStatistics] = []
-        var distanceDataValues: [HKStatistics] = []
-        var weekDates: [Date] = []
-        var weekSteps: [Int] = []
-        var weekDistance: [Double] = []
-        let group = DispatchGroup()
-        let anchor = setupWeekAnchorFor(date: day)
-        let predicate = setupWeekPredicateAfter(day: day)
-        let interval = DateComponents(day: 1)
-        
-        let stepsCollectionQuery = HKStatisticsCollectionQuery(quantityType: stepType,
-                                                               quantitySamplePredicate: predicate,
-                                                               options: .cumulativeSum,
-                                                               anchorDate: anchor,
-                                                               intervalComponents: interval)
-        group.enter()
-        stepsCollectionQuery.initialResultsHandler = { query, statisticsCollection, error in
-            if let error = error {
-                print("Query handler error:", error.localizedDescription)
-            }
-            
-            if let statisticsCollection = statisticsCollection {
-                let endDate = Calendar.current.date(byAdding: .day, value: 6, to: day) ?? Date()
-                statisticsCollection.enumerateStatistics(from: day,
-                                                         to: endDate) { (statistics, stop) in
-                    stepsDataValues.append(statistics)
-                }
-                let count = HKUnit.count()
-                var daysCount = 0
-                for i in 0...6 {
-                    if let data = stepsDataValues[i].sumQuantity() {
-                        daysCount += 1
-                        weekSteps.append(Int(data.doubleValue(for: count)))
-                    } else {
-                        break
-                    }
-                }
-                var date = day
-                for _ in 0..<daysCount {
-                    weekDates.append(date)
-                    date = Calendar.current.date(byAdding: .day, value: 1, to: date)!
-                }
-                group.leave()
-            }
-        }
-        healthStore.execute(stepsCollectionQuery)
-        
-        let distanceCollectionQuery = HKStatisticsCollectionQuery(quantityType: distanceType,
-                                                                  quantitySamplePredicate: predicate,
-                                                                  options: .cumulativeSum,
-                                                                  anchorDate: anchor,
-                                                                  intervalComponents: interval)
-        group.enter()
-        distanceCollectionQuery.initialResultsHandler = { query, statisticsCollection, error in
-            if let error = error {
-                print("Query handler error:", error.localizedDescription)
-            }
-            
-            if let statisticsCollection = statisticsCollection {
-                let endDate = Calendar.current.date(byAdding: .day, value: 6, to: day) ?? Date()
-                statisticsCollection.enumerateStatistics(from: day,
-                                                         to: endDate) { (statistics, stop) in
-                    distanceDataValues.append(statistics)
-                }
-                let meter = HKUnit.meter()
-                for i in 0...6 {
-                    if let data = distanceDataValues[i].sumQuantity() {
-                        weekDistance.append(data.doubleValue(for: meter)/1000)
-                    } else {
-                        break
-                    }
-                }
-                group.leave()
-            }
-        }
-        healthStore.execute(distanceCollectionQuery)
-        group.notify(queue: .main) {
-            var days: [SteppingDay] = []
-            for i in 0..<weekSteps.count {
-                days.append(SteppingDay(steps: weekSteps[i], km: weekDistance[i], date: weekDates[i]))
+                days.append(SteppingDay(steps: weekSteps[i], km: weekDistanceInKM[i], miles: weekDistanceInMiles[i], date: weekDates[i]))
             }
             let weekData = SteppingWeek(steppingDays: days)
             completion(.success(weekData))
@@ -297,7 +134,8 @@ final class StepsServiceImplementation: StepsService {
         var distanceDataValues: [HKStatistics] = []
         var weekDates: [Date] = []
         var weekSteps: [Int] = []
-        var weekDistance: [Double] = []
+        var weekDistanceInKM: [Double] = []
+        var weekDistanceInMiles: [Double] = []
         let group = DispatchGroup()
         let calendar = Calendar.iso8601UTC
         let monday = day.mondayOfTheSameWeekAtUTC
@@ -360,9 +198,11 @@ final class StepsServiceImplementation: StepsService {
                     distanceDataValues.append(statistics)
                 }
                 let meter = HKUnit.meter()
+                let miles = HKUnit.mile()
                 for i in 0...6 {
                     if let data = distanceDataValues[i].sumQuantity() {
-                        weekDistance.append(data.doubleValue(for: meter)/1000)
+                        weekDistanceInKM.append(data.doubleValue(for: meter)/1000)
+                        weekDistanceInMiles.append(data.doubleValue(for: miles))
                     } else {
                         break
                     }
@@ -374,7 +214,7 @@ final class StepsServiceImplementation: StepsService {
         group.notify(queue: .main) {
             var days: [SteppingDay] = []
             for i in 0..<weekSteps.count {
-                days.append(SteppingDay(steps: weekSteps[i], km: weekDistance[i], date: weekDates[i]))
+                days.append(SteppingDay(steps: weekSteps[i], km: weekDistanceInKM[i], miles: weekDistanceInMiles[i], date: weekDates[i]))
             }
             let weekData = SteppingWeek(steppingDays: days)
             completion(.success(weekData))

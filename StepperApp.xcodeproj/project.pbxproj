@@ -27,17 +27,24 @@
 		01F7D4B8274BF146007676CC /* StepColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F7D4B7274BF146007676CC /* StepColor.swift */; };
 		0BD1511C2740176800F15800 /* ProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD1511B2740176800F15800 /* ProfileService.swift */; };
 		3A59D2C09ADB9AA1AAE377E2 /* Pods_StepperApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A924E68D2EAE87E9BC99EBB /* Pods_StepperApp.framework */; };
+		A1160098275B93C0000A5518 /* UserConvector.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1160097275B93C0000A5518 /* UserConvector.swift */; };
+		A116009A275B9697000A5518 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1160099275B9697000A5518 /* UserModel.swift */; };
+		A116009C275EB911000A5518 /* ConvertBrithDayToAge.swift in Sources */ = {isa = PBXBuildFile; fileRef = A116009B275EB911000A5518 /* ConvertBrithDayToAge.swift */; };
 		A124C81027241D8B00540595 /* WeekChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A124C80F27241D8B00540595 /* WeekChartViewController.swift */; };
 		A13BD977274448380030F984 /* CompetitionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A13BD974274448380030F984 /* CompetitionViewController.swift */; };
 		A13BD979274448380030F984 /* CompetitionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A13BD976274448380030F984 /* CompetitionViewCell.swift */; };
 		A13BD97B2744484A0030F984 /* HexColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A13BD97A2744484A0030F984 /* HexColor.swift */; };
 		A13BD97F274448F10030F984 /* CompetitionModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = A13BD97E274448F10030F984 /* CompetitionModels.swift */; };
 		A13BD981274449380030F984 /* EachCompetitionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A13BD980274449380030F984 /* EachCompetitionViewController.swift */; };
+		A153C5472753D7BA00F9871E /* UsersService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A153C5462753D7BA00F9871E /* UsersService.swift */; };
+		A1548E24275945710017BDA4 /* ImageLoaderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1548E23275945710017BDA4 /* ImageLoaderService.swift */; };
 		A15C4D85274195BB005FF7EF /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A15C4D84274195BB005FF7EF /* HealthKit.framework */; };
 		A162C10227451F8F00C1D2BF /* BalloonMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A162C10127451F8F00C1D2BF /* BalloonMarker.swift */; };
 		A165E285274419770002A973 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A165E284274419770002A973 /* ProfileViewController.swift */; };
 		A165E288274419880002A973 /* TextValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A165E286274419880002A973 /* TextValidation.swift */; };
 		A165E289274419880002A973 /* ErrorTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A165E287274419880002A973 /* ErrorTextField.swift */; };
+		A17AB33E274D07BF007EC89F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A17AB33D274D07BF007EC89F /* GoogleService-Info.plist */; };
+		A17AB340274D3DAB007EC89F /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A17AB33F274D3DAB007EC89F /* AuthService.swift */; };
 		A187113F274184A8001DFAE7 /* FriendsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A187113D274184A8001DFAE7 /* FriendsListViewController.swift */; };
 		A1871140274184A8001DFAE7 /* FriendsListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A187113E274184A8001DFAE7 /* FriendsListCollectionViewCell.swift */; };
 		A187114227418525001DFAE7 /* FriendsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = A187114127418525001DFAE7 /* FriendsList.swift */; };
@@ -68,18 +75,25 @@
 		0BD1511B2740176800F15800 /* ProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
 		5FF80AFC5EDDD5F3380FACE8 /* Pods-StepperApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StepperApp.release.xcconfig"; path = "Target Support Files/Pods-StepperApp/Pods-StepperApp.release.xcconfig"; sourceTree = "<group>"; };
 		7A924E68D2EAE87E9BC99EBB /* Pods_StepperApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StepperApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A1160097275B93C0000A5518 /* UserConvector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserConvector.swift; sourceTree = "<group>"; };
+		A1160099275B9697000A5518 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
+		A116009B275EB911000A5518 /* ConvertBrithDayToAge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvertBrithDayToAge.swift; sourceTree = "<group>"; };
 		A124C80F27241D8B00540595 /* WeekChartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekChartViewController.swift; sourceTree = "<group>"; };
 		A13BD974274448380030F984 /* CompetitionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompetitionViewController.swift; sourceTree = "<group>"; };
 		A13BD976274448380030F984 /* CompetitionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompetitionViewCell.swift; sourceTree = "<group>"; };
 		A13BD97A2744484A0030F984 /* HexColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HexColor.swift; sourceTree = "<group>"; };
 		A13BD97E274448F10030F984 /* CompetitionModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompetitionModels.swift; sourceTree = "<group>"; };
 		A13BD980274449380030F984 /* EachCompetitionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EachCompetitionViewController.swift; sourceTree = "<group>"; };
+		A153C5462753D7BA00F9871E /* UsersService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersService.swift; sourceTree = "<group>"; };
+		A1548E23275945710017BDA4 /* ImageLoaderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoaderService.swift; sourceTree = "<group>"; };
 		A15C4D83274195AA005FF7EF /* StepperApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = StepperApp.entitlements; sourceTree = "<group>"; };
 		A15C4D84274195BB005FF7EF /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		A162C10127451F8F00C1D2BF /* BalloonMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalloonMarker.swift; sourceTree = "<group>"; };
 		A165E284274419770002A973 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		A165E286274419880002A973 /* TextValidation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextValidation.swift; sourceTree = "<group>"; };
 		A165E287274419880002A973 /* ErrorTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorTextField.swift; sourceTree = "<group>"; };
+		A17AB33D274D07BF007EC89F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		A17AB33F274D3DAB007EC89F /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		A187113D274184A8001DFAE7 /* FriendsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsListViewController.swift; sourceTree = "<group>"; };
 		A187113E274184A8001DFAE7 /* FriendsListCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsListCollectionViewCell.swift; sourceTree = "<group>"; };
 		A187114127418525001DFAE7 /* FriendsList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsList.swift; sourceTree = "<group>"; };
@@ -131,6 +145,7 @@
 		01651A3927120D2D00DC9391 /* StepperApp */ = {
 			isa = PBXGroup;
 			children = (
+				A17AB33D274D07BF007EC89F /* GoogleService-Info.plist */,
 				A15C4D83274195AA005FF7EF /* StepperApp.entitlements */,
 				01651A3A27120D2D00DC9391 /* AppDelegate.swift */,
 				014F5F95272D9E960058132F /* TabBarControllerFunc.swift */,
@@ -171,6 +186,7 @@
 				A187114127418525001DFAE7 /* FriendsList.swift */,
 				0172EAC42724335900DE1779 /* SteppingWeek.swift */,
 				0172EAC02724318C00DE1779 /* SteppingDay.swift */,
+				A1160099275B9697000A5518 /* UserModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -258,6 +274,8 @@
 				A187114427418553001DFAE7 /* CircleImageView.swift */,
 				A162C10127451F8F00C1D2BF /* BalloonMarker.swift */,
 				01F7D4B7274BF146007676CC /* StepColor.swift */,
+				A1160097275B93C0000A5518 /* UserConvector.swift */,
+				A116009B275EB911000A5518 /* ConvertBrithDayToAge.swift */,
 			);
 			name = Helpers;
 			path = StepperApp/Helpers;
@@ -325,6 +343,7 @@
 			files = (
 				01651A4727120D2E00DC9391 /* LaunchScreen.storyboard in Resources */,
 				01651A4427120D2E00DC9391 /* Assets.xcassets in Resources */,
+				A17AB33E274D07BF007EC89F /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -384,12 +403,15 @@
 				014F5F9B272D9F990058132F /* LoginViewController.swift in Sources */,
 				0BA0CDB32743D20A00CC7E68 /* TextValidation.swift in Sources */,
 				014F5F99272D9F880058132F /* AuthorizationViewController.swift in Sources */,
+				A116009C275EB911000A5518 /* ConvertBrithDayToAge.swift in Sources */,
 				A1871140274184A8001DFAE7 /* FriendsListCollectionViewCell.swift in Sources */,
+				A17AB340274D3DAB007EC89F /* AuthService.swift in Sources */,
 				A13BD97B2744484A0030F984 /* HexColor.swift in Sources */,
 				0172EAC52724335900DE1779 /* SteppingWeek.swift in Sources */,
 				01F7D4B4274AA2D4007676CC /* HeaderCollectionReusableView.swift in Sources */,
 				014F5F96272D9E960058132F /* TabBarControllerFunc.swift in Sources */,
 				A165E285274419770002A973 /* ProfileViewController.swift in Sources */,
+				A153C5472753D7BA00F9871E /* UsersService.swift in Sources */,
 				A165E289274419880002A973 /* ErrorTextField.swift in Sources */,
 				A124C81027241D8B00540595 /* WeekChartViewController.swift in Sources */,
 				A165E288274419880002A973 /* TextValidation.swift in Sources */,
@@ -400,7 +422,10 @@
 				0172EAC12724318C00DE1779 /* SteppingDay.swift in Sources */,
 				A187114227418525001DFAE7 /* FriendsList.swift in Sources */,
 				A13BD981274449380030F984 /* EachCompetitionViewController.swift in Sources */,
+				A1160098275B93C0000A5518 /* UserConvector.swift in Sources */,
 				01651A3F27120D2D00DC9391 /* StepsViewController.swift in Sources */,
+				A1548E24275945710017BDA4 /* ImageLoaderService.swift in Sources */,
+				A116009A275B9697000A5518 /* UserModel.swift in Sources */,
 				014F5F9D272D9FAE0058132F /* SignUpViewController.swift in Sources */,
 				01651A3B27120D2D00DC9391 /* AppDelegate.swift in Sources */,
 				A13BD979274448380030F984 /* CompetitionViewCell.swift in Sources */,
@@ -547,6 +572,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ALLOW_ENTITLEMENTS_MODIFICATION = YES;
 				CODE_SIGN_ENTITLEMENTS = StepperApp/StepperApp.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 27P5AR5H92;
@@ -560,6 +586,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -568,6 +595,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.olyagalyagina.StepperApp1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -582,6 +610,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ALLOW_ENTITLEMENTS_MODIFICATION = YES;
 				CODE_SIGN_ENTITLEMENTS = StepperApp/StepperApp.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 27P5AR5H92;
@@ -595,6 +624,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -603,6 +633,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.olyagalyagina.StepperApp1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;

@@ -12,15 +12,15 @@ struct Friend {
     var isMan: Bool = true
 }
 
-let friends: [Friend] = [
-    Friend(name: "John", age: 25, isMan: true),
-    Friend(name: "Jack", age: 31, isMan: true),
-    Friend(name: "Ann", age: 22, isMan: false),
-    Friend(name: "Lisa", age: 19, isMan: false),
-    Friend(name: "Winston", age: 27, isMan: true),
-    Friend(name: "Rebecca", age: 33, isMan: false),
-    Friend(name: "Will", age: 51, isMan: true),
-    Friend(name: "Andrew", age: 13, isMan: true),
-    Friend(name: "Rose", age: 16, isMan: false),
-    Friend(name: "Francis", age: 35, isMan: false)
+let friends: [User] = [
+    User(login: "John", isMan: true),
+    User(login: "Jack", isMan: true),
+    User(login: "Ann", isMan: false),
+    User(login: "Lisa",  isMan: false),
+    User(login: "Winston",  isMan: true),
+    User(login: "Rebecca",  isMan: false),
+    User(login: "Will", isMan: true),
+    User(login: "Andrew",  isMan: true),
+    User(login: "Rose", isMan: false),
+    User(login: "Francis", isMan: false)
 ]

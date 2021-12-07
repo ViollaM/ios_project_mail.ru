@@ -9,6 +9,17 @@ import UIKit
 
 class SignUpViewController: UIViewController {
 
+    private let authService: AuthService
+    
+    init(authService: AuthService) {
+        self.authService = authService
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     private lazy var signupButton: UIButton = {
         let button = UIButton()
         button.layer.cornerRadius = 10
@@ -62,6 +73,7 @@ class SignUpViewController: UIViewController {
         super.viewDidLoad()
         setupView()
         setupBackground()
+        
     }
     
     private func setupView() {
@@ -75,6 +87,12 @@ class SignUpViewController: UIViewController {
         backgroundImage.image = UIImage(named: "BG")
         backgroundImage.contentMode = UIView.ContentMode.scaleAspectFill
         self.view.insertSubview(backgroundImage, at: 0)
+    }
+    
+    private func displayAlert(message: String) {
+        let alert = UIAlertController(title: "Alert", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
     }
     
     override func viewDidLayoutSubviews() {
@@ -102,11 +120,36 @@ class SignUpViewController: UIViewController {
     }
     
     @objc func signupButtonToApp() {
-        let rootVC = buildAppTabBarController()
-        let navVC = UINavigationController(rootViewController: rootVC)
-        navVC.navigationBar.isHidden = true
-        navVC.modalPresentationStyle = .fullScreen
-        present(navVC, animated: true)
-        UserDefaults.standard.set(true, forKey: "isLogged")
+        guard
+            let emailText = emailTextField.text,
+            let nameText = nameTextField.text,
+            let passwordText = passwordTextField.text
+        else {
+            return
+        }
+        
+        authService.registrationUser(email: emailText, name: nameText, password: passwordText) { [weak self] result in
+            guard let self = self else {
+                return
+            }
+            switch result {
+            case nil:
+                let rootVC = buildAppTabBarController()
+                let navVC = UINavigationController(rootViewController: rootVC)
+                navVC.navigationBar.isHidden = true
+                navVC.modalPresentationStyle = .fullScreen
+                self.present(navVC, animated: true)
+                UserDefaults.standard.set(true, forKey: "isLogged")
+            default:
+                self.displayAlert(message: result!.localizedDescription)
+            }
+        }
+        
+//        let rootVC = buildAppTabBarController()
+//        let navVC = UINavigationController(rootViewController: rootVC)
+//        navVC.navigationBar.isHidden = true
+//        navVC.modalPresentationStyle = .fullScreen
+//        present(navVC, animated: true)
+//        UserDefaults.standard.set(true, forKey: "isLogged")
     }
 }

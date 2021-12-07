@@ -165,4 +165,19 @@ final class StepsViewController: UIViewController {
         
         circleStepContainerView.layer.cornerRadius = circleStepContainerView.frame.height/2
     }
+    
+    
+    @objc
+    private func toAuthorization() {
+        UserDefaults.standard.set(false, forKey: "isLogged")
+        let authService = AuthServiceImplementation()
+        let signUpVC = SignUpViewController(authService: authService)
+        let loginVc = LoginViewController(authService: authService)
+        let rootVC = AuthorizationViewController(loginVc: loginVc, signUpVc: signUpVC)
+        let navVC = UINavigationController(rootViewController: rootVC)
+        navVC.navigationBar.isHidden = true
+        navVC.modalPresentationStyle = .fullScreen
+        present(navVC, animated: true)
+    }
+    
 }

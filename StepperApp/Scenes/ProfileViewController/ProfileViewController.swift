@@ -359,6 +359,7 @@ final class ProfileViewController: UIViewController {
         imageCircle.addGestureRecognizer(tapGesture)
         
         ageDatePicker.backgroundColor = StepColor.cellBackground
+        ageDatePicker.maximumDate = Date()
         ageDatePicker.datePickerMode = .date
         ageDatePicker.addTarget(self, action: #selector(dateChanged), for: .valueChanged)
         //ageDatePicker.isHidden = true

@@ -21,14 +21,13 @@ final class CompetitionViewCell: UICollectionViewCell {
     var a: Float = 0.0
     
     
-    var competition: competitionData? {
+    var competition: CompetitionData? {
         didSet {
             competitionTitleLabel.text = competition?.name
             competitionTimeLabel.text = currentTime()
             competitionCurrentLeaderLabel.text = competition?.currentLeader
             competition?.currentValue = Double(currentStepsFunc())
             progressBar.progress = Float((competition?.currentValue)! / (competition?.maxValue)!)
-            print(progressBar.progress)
             if (!competition!.isFinished) {
                 isComplete.isHidden = true
             } else {
@@ -72,9 +71,8 @@ final class CompetitionViewCell: UICollectionViewCell {
     
     lazy var progressBar: UIProgressView = {
         let bar = UIProgressView()
-        bar.tintColor = HexColor(rgb: 0x0C2624)
+        bar.tintColor = StepColor.darkGreen
         bar.trackTintColor = HexColor(rgb: 0xA3D2CC)
-        //bar.progress = 7509 / 10000
         bar.translatesAutoresizingMaskIntoConstraints = false
         bar.clipsToBounds = true
         return bar
@@ -83,7 +81,7 @@ final class CompetitionViewCell: UICollectionViewCell {
     private lazy var isComplete: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(systemName: "rosette")
-        image.tintColor = HexColor(rgb: 0x0C2624)
+        image.tintColor = StepColor.darkGreen
         image.backgroundColor = .clear
         image.isHidden = false
         return image
@@ -150,6 +148,6 @@ final class CompetitionViewCell: UICollectionViewCell {
     private func setupCellLayer() {
         layer.cornerRadius = 10
         layer.masksToBounds = true
-        backgroundColor = HexColor(rgb: 0xCCE4E1)
+        backgroundColor = StepColor.cellBackground
     }
 }

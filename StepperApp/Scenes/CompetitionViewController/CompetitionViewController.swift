@@ -8,9 +8,11 @@
 import Foundation
 import UIKit
 import PinLayout
+import Charts
 
 final class CompetitionViewController: UIViewController {
-    private var competitions = allCompetitions
+    private var competitions: [CompetitionData] = []
+    
     var timer = Timer()
     
     private let stepsService: StepsService
@@ -36,9 +38,6 @@ final class CompetitionViewController: UIViewController {
                 self.week = week
                 DispatchQueue.main.async { [weak self] in
                     currentSteps = week.steppingDays.last!.steps
-//                    allCompetitions.forEach { competition in
-//                        competition.currentValue = week.steppingDays.last!.steps
-//                    }
                     for i in 0..<(allCompetitions.count - 1) {
                         allCompetitions[i].currentValue = Double(currentSteps)
                     }
@@ -49,7 +48,6 @@ final class CompetitionViewController: UIViewController {
             }
         }
     }
-
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -71,12 +69,41 @@ final class CompetitionViewController: UIViewController {
         return (view.frame.width - cellsOffset * (numberOfItemsPerRow + 1)) / 2
     }
     
+    private var plusButton: UIButton = {
+        let plus = UIButton()
+        let config = UIImage.SymbolConfiguration(weight: .bold)
+        if let plusImage = UIImage(systemName: "plus", withConfiguration: config) {
+            plus.setImage(plusImage, for: .normal)
+        }
+        plus.tintColor = StepColor.darkGreen
+        plus.layer.cornerRadius = 10
+        plus.backgroundColor = StepColor.cellBackground
+        plus.frame.size = CGSize(width: 28, height: 28)
+        plus.addTarget(self, action: #selector(addNewCompetitionButtonPressed), for: .touchUpInside)
+        return plus
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTimeLabel), userInfo: nil, repeats: true)
         RunLoop.current.add(timer, forMode: .common)
         setupLayout()
-        //loadStepsData()
+        competitions = fetchCompetitions(state: .current)
+        plusButton.addTarget(self, action: #selector(addNewCompetitionButtonPressed), for: .touchUpInside)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        competitions = fetchCompetitions(state: .current)
+    }
+    
+    private func fetchCompetitions(state : CompetitionsState) -> [CompetitionData] {
+        var competitions = state.fetch()
+        for i in 0..<competitions.count {
+            competitions[i].remainingTime = currentTime()
+        }
+        return competitions
     }
     
     @objc
@@ -86,8 +113,21 @@ final class CompetitionViewController: UIViewController {
         minute = calendar.component(.minute, from: date)
         time = currentTime()
         loadStepsData()
-        //print(currentSteps)
         collectionView.reloadData()
+    }
+    
+    @objc
+    private func segmentedControlValueChanged(_ sender: UISegmentedControl) {
+        let state: CompetitionsState = sender.selectedSegmentIndex == 0 ? .current : .finished
+        self.competitions = fetchCompetitions(state: state)
+        collectionView.reloadData()
+    }
+    
+    @objc
+    private func addNewCompetitionButtonPressed() {
+        let newVC = AddNewCompetitionViewController()
+        present(newVC, animated: true)
+        print("+")
     }
     
     @objc
@@ -126,6 +166,8 @@ final class CompetitionViewController: UIViewController {
             collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
         ])
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: plusButton)
     }
 }
 
@@ -167,8 +209,7 @@ extension CompetitionViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: String(describing: HeaderCollectionReusableView.self), for: indexPath) as! HeaderCollectionReusableView
-        header.currentCompetitionButton.addTarget(self, action: #selector(currentCompetitionButtonPressed), for: .touchUpInside)
-        header.finishedCompetitionButton.addTarget(self, action: #selector(finishedCompetitionButtonPressed), for: .touchUpInside)
+        header.buttonsSegmentedControl.addTarget(self, action: #selector(segmentedControlValueChanged(_:)), for: .valueChanged)
         return header
     }
     

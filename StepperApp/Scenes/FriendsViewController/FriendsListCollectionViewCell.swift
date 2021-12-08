@@ -27,7 +27,7 @@ final class FriendsListCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.textAlignment = .center
         label.font = .systemFont(ofSize: 16, weight: .regular)
-        label.textColor = UIColor(red: 12/255, green: 38/255, blue: 36/255, alpha: 1)
+        label.textColor = StepColor.darkGreen
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -48,7 +48,7 @@ extension FriendsListCollectionViewCell {
             contentView.addSubview($0)
         }
         contentView.layer.cornerRadius = 10
-        contentView.backgroundColor = UIColor(red: 204/255, green: 228/255, blue: 225/255, alpha: 1)
+        contentView.backgroundColor = StepColor.cellBackground
         
         NSLayoutConstraint.activate([
             avatarImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),

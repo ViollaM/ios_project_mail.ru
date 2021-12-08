@@ -9,20 +9,42 @@ import UIKit
 
 final class HeaderCollectionReusableView: UICollectionReusableView {
     
-    private lazy var buttonsSegmentedControl: UISegmentedControl = {
+    lazy var buttonsSegmentedControl: UISegmentedControl = {
         let sc = UISegmentedControl(items: ["current", "finished"])
         sc.selectedSegmentTintColor = HexColor(rgb: 0x0C2624)
+        sc.backgroundColor = HexColor(rgb: 0xCCE4E1)
         sc.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: HexColor(rgb: 0xCCE4E1)], for: .selected)
-        sc.addTarget(self, action: #selector(currentCompetitionButtonPressed()), for: .touchUpInside)
-        //sc.setAction(currentCompetitionButtonPressed, forSegmentAt: 0)
+        sc.selectedSegmentIndex = 0
+        sc.isUserInteractionEnabled = true
+        sc.translatesAutoresizingMaskIntoConstraints = false
+        sc.layer.cornerRadius = 10
         return sc
     }()
-      
+    
+//    lazy var plusButton: UIButton = {
+//        let plus = UIButton()
+//        plus.semanticContentAttribute = UISemanticContentAttribute.forceRightToLeft
+//        plus.setTitleColor(StepColor.darkGreen8, for: .normal)
+//        if let plusImage = UIImage(named: "plus.png") {
+//            plus.setImage(plusImage, for: .normal)
+//        }
+//        plus.layer.cornerRadius = 10
+//        plus.backgroundColor = StepColor.cellBackground
+//        //plus.addTarget(self, action: #selector(editButtonClicked), for: .touchUpInside)
+//        return plus
+//    }()
+    
+    
+    
+//    lazy var newCompetitionButton: UIBarButtonItem = {
+//        let plus = UIBarButtonItem(customView: plusButton)
+//    }()
+    
      lazy var currentCompetitionButton: UIButton = {
         let button = UIButton()
         button.setTitle("current", for: .normal)
-        button.setTitleColor(HexColor(rgb: 0x0C2624), for: .normal)
-        button.backgroundColor = HexColor(rgb: 0xCCE4E1)
+        button.setTitleColor(StepColor.darkGreen, for: .normal)
+        button.backgroundColor = StepColor.cellBackground
         button.addTarget(self, action: #selector(currentCompetitionButtonPressed), for: .touchUpInside)
         button.layer.cornerRadius = 10
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -32,8 +54,8 @@ final class HeaderCollectionReusableView: UICollectionReusableView {
      lazy var finishedCompetitionButton: UIButton = {
         let button = UIButton()
         button.setTitle("finished", for: .normal)
-        button.setTitleColor(HexColor(rgb: 0x0C2624), for: .normal)
-        button.backgroundColor = HexColor(rgb: 0xCCE4E1)
+        button.setTitleColor(StepColor.darkGreen, for: .normal)
+        button.backgroundColor = StepColor.cellBackground
         button.addTarget(self, action: #selector(finishedCompetitionButtonPressed), for: .touchUpInside)
         button.layer.cornerRadius = 10
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -42,17 +64,17 @@ final class HeaderCollectionReusableView: UICollectionReusableView {
     
     @objc
     private func currentCompetitionButtonPressed() {
-        currentCompetitionButton.setTitleColor(HexColor(rgb: 0xCCE4E1), for: .normal)
-        currentCompetitionButton.backgroundColor = HexColor(rgb: 0x0C2624)
-        finishedCompetitionButton.setTitleColor(HexColor(rgb: 0x0C2624), for: .normal)
-        finishedCompetitionButton.backgroundColor = HexColor(rgb: 0xCCE4E1)
+        currentCompetitionButton.setTitleColor(StepColor.cellBackground, for: .normal)
+        currentCompetitionButton.backgroundColor = StepColor.darkGreen
+        finishedCompetitionButton.setTitleColor(StepColor.darkGreen, for: .normal)
+        finishedCompetitionButton.backgroundColor = StepColor.cellBackground
     }
     @objc
     private func finishedCompetitionButtonPressed() {
-        finishedCompetitionButton.setTitleColor(HexColor(rgb: 0xCCE4E1), for: .normal)
-        finishedCompetitionButton.backgroundColor = HexColor(rgb: 0x0C2624)
-        currentCompetitionButton.setTitleColor(HexColor(rgb: 0x0C2624), for: .normal)
-        currentCompetitionButton.backgroundColor = HexColor(rgb: 0xCCE4E1)
+        finishedCompetitionButton.setTitleColor(StepColor.cellBackground, for: .normal)
+        finishedCompetitionButton.backgroundColor = StepColor.darkGreen
+        currentCompetitionButton.setTitleColor(StepColor.darkGreen, for: .normal)
+        currentCompetitionButton.backgroundColor = StepColor.cellBackground
      }
 
     override init(frame: CGRect) {
@@ -64,20 +86,30 @@ final class HeaderCollectionReusableView: UICollectionReusableView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func setupPlusNavigationItem() {
+        //self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: plusButton)
+    }
+    
     private func setup() {
-        addSubview(currentCompetitionButton)
-        addSubview(finishedCompetitionButton)
+//        addSubview(currentCompetitionButton)
+//        addSubview(finishedCompetitionButton)
+        addSubview(buttonsSegmentedControl)
+        //addSubview(plusButton)
         
         NSLayoutConstraint.activate([
-            currentCompetitionButton.topAnchor.constraint(equalTo: self.topAnchor),
-            currentCompetitionButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -19),
-            currentCompetitionButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 22),
-            currentCompetitionButton.widthAnchor.constraint(equalToConstant: (self.frame.width - 22 * (2 + 1)) / 2),
-
-            finishedCompetitionButton.topAnchor.constraint(equalTo: self.topAnchor),
-            finishedCompetitionButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -19),
-            finishedCompetitionButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -22),
-            finishedCompetitionButton.widthAnchor.constraint(equalToConstant: (self.frame.width - 22 * (2 + 1)) / 2)
+//            currentCompetitionButton.topAnchor.constraint(equalTo: self.topAnchor),
+//            currentCompetitionButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -19),
+//            currentCompetitionButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 22),
+//            currentCompetitionButton.widthAnchor.constraint(equalToConstant: (self.frame.width - 22 * (2 + 1)) / 2),
+//
+//            finishedCompetitionButton.topAnchor.constraint(equalTo: self.topAnchor),
+//            finishedCompetitionButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -19),
+//            finishedCompetitionButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -22),
+//            finishedCompetitionButton.widthAnchor.constraint(equalToConstant: (self.frame.width - 22 * (2 + 1)) / 2)
+            buttonsSegmentedControl.topAnchor.constraint(equalTo: self.topAnchor),
+            buttonsSegmentedControl.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -19),
+            buttonsSegmentedControl.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 22),
+            buttonsSegmentedControl.widthAnchor.constraint(equalToConstant: (self.frame.width - 22 * 2))
         ])
     }
 }

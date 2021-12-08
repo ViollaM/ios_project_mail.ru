@@ -14,7 +14,7 @@ class AuthorizationViewController: UIViewController {
         let label = UILabel()
         label.text = "Welcome to"
         label.textAlignment = .center
-        label.textColor = UIColor(red: 0.047, green: 0.15, blue: 0.141, alpha: 0.8)
+        label.textColor = StepColor.darkGreen8
         label.font = .systemFont(ofSize: 30, weight: .bold)
         return label
     }()
@@ -22,7 +22,7 @@ class AuthorizationViewController: UIViewController {
         let label = UILabel()
         label.text = "StepBeat"
         label.textAlignment = .center
-        label.textColor = UIColor(red: 0.047, green: 0.15, blue: 0.141, alpha: 1)
+        label.textColor = StepColor.darkGreen
         label.font = .systemFont(ofSize: 70, weight: .medium)
         return label
     }()
@@ -30,9 +30,10 @@ class AuthorizationViewController: UIViewController {
         let button = UIButton()
         button.layer.cornerRadius = 10
         button.setTitleColor(.black, for: .normal)
-        button.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.47)
+        button.backgroundColor = StepColor.alpha5
         button.titleLabel?.font = .systemFont(ofSize: 20, weight: .bold)
         button.setTitle("Log In", for: .normal)
+        button.setTitleColor(StepColor.darkGreen, for: .normal)
         button.addTarget(self, action: #selector(loginButtonPushed), for: .touchUpInside)
         return button
     }()
@@ -40,9 +41,10 @@ class AuthorizationViewController: UIViewController {
         let button = UIButton()
         button.layer.cornerRadius = 10
         button.setTitleColor(.black, for: .normal)
-        button.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.47)
+        button.backgroundColor = StepColor.alpha5
         button.titleLabel?.font = .systemFont(ofSize: 20, weight: .bold)
         button.setTitle("Sign Up", for: .normal)
+        button.setTitleColor(StepColor.darkGreen, for: .normal)
         button.addTarget(self, action: #selector(sigunpButtosPushed), for: .touchUpInside)
         return button
     }()
@@ -93,13 +95,24 @@ class AuthorizationViewController: UIViewController {
     @objc
     private func loginButtonPushed() {
         let vc = LoginViewController()
-        self.navigationController?.pushViewController(vc, animated: true)
+        let title = "Log In"
+        pushVC(vc, title: title)
     }
     
     @objc
     private func sigunpButtosPushed() {
         let vc = SignUpViewController()
+        let title = "Sign Up"
+        pushVC(vc, title: title)
+    }
+    
+    private func pushVC(_ vc: UIViewController, title: String) {
         navigationController?.pushViewController(vc, animated: true)
+        vc.title = title
+        vc.navigationController?.navigationBar.isHidden = false
+        vc.navigationController?.navigationBar.prefersLargeTitles = true
+        vc.navigationController?.navigationBar.tintColor = StepColor.darkGreen
+        vc.navigationController?.navigationBar.largeTitleTextAttributes = [.foregroundColor: StepColor.darkGreen]
     }
 
 }

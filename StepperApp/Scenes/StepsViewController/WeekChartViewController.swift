@@ -89,13 +89,19 @@ extension WeekChartViewController {
             for x in 0..<7{
                 steps.append(ChartDataEntry(x: Double(x), y: Double(Int.random(in: 5000...40000))))
             }
-            days = ["Sun", "Mod", "Tue", "Wed", "Thu", "Fri", "Sat"]
+            days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
         } else {
             let week = week!
-            
-            for x in 0..<7{
-                steps.append(ChartDataEntry(x: Double(x), y: Double(week.steppingDays[x].steps)))
-                days.append(convertDateToWeekday(date: week.steppingDays[x].date))
+            if week.steppingDays.count == 7 {
+                for x in 0..<week.steppingDays.count{
+                    steps.append(ChartDataEntry(x: Double(x), y: Double(week.steppingDays[x].steps)))
+                    days.append(convertDateToWeekday(date: week.steppingDays[x].date))
+                }
+            } else {
+                for x in 0..<week.steppingDays.count{
+                    steps.append(ChartDataEntry(x: Double(x), y: Double(week.steppingDays[x].steps)))
+                }
+                days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
             }
         }
         

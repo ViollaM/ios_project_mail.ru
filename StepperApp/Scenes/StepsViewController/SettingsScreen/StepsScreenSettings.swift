@@ -25,7 +25,7 @@ final class StepsScreenSettings: UIViewController {
     }()
     
     private let appIconNames = ["wog", "wob", "gob", "gow"]
-    private let themeNames = [UIColor.systemPink, StepColor.darkGreen, UIColor.systemBlue]
+    private let themeNames = ["BG", "BG2", "BG3"]
     private let sectionTitles = ["Daily goal", "Unit measure", "Icons", "Theme"]
     
     override func viewDidLoad() {

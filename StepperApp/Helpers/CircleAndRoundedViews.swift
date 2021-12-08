@@ -38,3 +38,11 @@ final class RoundView: UIImageView {
         self.clipsToBounds = true
     }
 }
+
+final class RoundButton: UIButton {
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        self.layer.cornerRadius = 10
+        self.clipsToBounds = true
+    }
+}

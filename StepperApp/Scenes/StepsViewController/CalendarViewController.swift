@@ -16,11 +16,12 @@ protocol CalendarDelegate: AnyObject {
 
 final class CalendarViewController: UIViewController {
     var delegate: CalendarDelegate?
+    var height: CGFloat?
     
     private lazy var calendar: FSCalendar = {
         let cal = FSCalendar()
         cal.translatesAutoresizingMaskIntoConstraints = false
-        cal.firstWeekday = 1
+        cal.firstWeekday = 2
         cal.delegate = self
         cal.dataSource = self
         cal.backgroundColor = .clear
@@ -49,15 +50,13 @@ final class CalendarViewController: UIViewController {
             calendar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             calendar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             calendar.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            calendar.heightAnchor.constraint(equalToConstant: screenHeight * 0.41)
+            calendar.heightAnchor.constraint(equalToConstant: height!)
         ])
     }
 }
 
 extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance {
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-        let newDate = date.addingTimeInterval(TimeInterval(TimeZone.current.secondsFromGMT(for: date)))
-        print(newDate)
         dismiss(animated: true, completion: nil)
     }
     
@@ -89,6 +88,6 @@ extension CalendarViewController: PanModalPresentable {
     }
     
     var longFormHeight: PanModalHeight {
-        .contentHeight(screenHeight * 0.41)
+        .contentHeight(height ?? screenHeight * 0.45)
     }
 }

@@ -89,12 +89,6 @@ class SignUpViewController: UIViewController {
         self.view.insertSubview(backgroundImage, at: 0)
     }
     
-    private func displayAlert(message: String) {
-        let alert = UIAlertController(title: "Alert", message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        present(alert, animated: true, completion: nil)
-    }
-    
     override func viewDidLayoutSubviews() {
         super .viewDidLayoutSubviews()
         
@@ -141,7 +135,7 @@ class SignUpViewController: UIViewController {
                 self.present(navVC, animated: true)
                 UserDefaults.standard.set(true, forKey: "isLogged")
             default:
-                self.displayAlert(message: result!.localizedDescription)
+                displayAlert(message: result!.localizedDescription, viewController: self)
             }
         }
         

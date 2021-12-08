@@ -163,7 +163,7 @@ final class ProfileViewController: UIViewController {
                         case nil:
                             print("success add user")
                         default:
-                            self?.displayAlert(message: result?.localizedDescription ?? "")
+                            displayAlert(message: result?.localizedDescription ?? "", viewController: self ?? UIViewController())
                         }
                     }
                     
@@ -185,12 +185,6 @@ final class ProfileViewController: UIViewController {
         else {
             inputAlert("n")
         }
-    }
-    
-    private func displayAlert(message: String) {
-        let alert = UIAlertController(title: "Alert", message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        present(alert, animated: true, completion: nil)
     }
     
     private func inputAlert(_ c: Character) {

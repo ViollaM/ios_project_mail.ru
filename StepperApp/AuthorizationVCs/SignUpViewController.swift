@@ -44,6 +44,14 @@ class SignUpViewController: UIViewController {
         return text
     }()
     
+    private let nameLeftViewLabel: UILabel = {
+        let label = UILabel()
+        label.text = " @"
+        label.font = UIFont(name: "Arial", size: 20)
+        label.isUserInteractionEnabled = false
+        return label
+    }()
+    
     private lazy var nameTextField: UITextField = {
         let text = UITextField()
         text.layer.cornerRadius = 10
@@ -53,6 +61,8 @@ class SignUpViewController: UIViewController {
         text.backgroundColor = StepColor.cellBackground
         text.autocapitalizationType = .none
         text.autocorrectionType = .no
+        text.leftView = nameLeftViewLabel
+        text.leftViewMode = .always
         return text
     }()
     

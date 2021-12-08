@@ -32,7 +32,7 @@ final class ProfileViewController: UIViewController {
     
     private lazy var imageCircle: CircleImageView = {
         var i = CircleImageView(image: UIImage(named: "Photo.png"))
-        if let imPath = profileService.getUserInfo().3 {
+        if let imPath = profileService.getImage() {
             i = CircleImageView(image: UIImage(data: imPath))
         }
         return i
@@ -150,10 +150,11 @@ final class ProfileViewController: UIViewController {
                 case .success:
                     let name = nameTextField.text ?? ""
                     let age = profileService.getDate() ?? Date()
-                    let gender = genderSegmentedControl.selectedSegmentIndex
+                    let gender = Bool(genderSegmentedControl.selectedSegmentIndex as NSNumber)
                     let img = imageCircle.image
-                    let user = User(id: "12", login: name, birthDate: age, isMan: false, imageName: localImageName)
-                    profileService.saveUserInfo(userName: name, userGender: gender, userPicture: img)
+                    let user = User(id: "12", login: name, birthDate: age, isMan: gender, imageName: localImageName)
+                    profileService.saveUser(user: user)
+                    profileService.saveImage(image: img)
                     usersService.updateUser(user: user) { [weak self] result in
                         guard self != nil else {
                             return
@@ -322,10 +323,10 @@ final class ProfileViewController: UIViewController {
         nameTextField.leftViewMode = .always
         ageTextField.placeholder = "Выберите дату рождения"
         
-        nameTextField.text = profileService.getUserInfo().0
-        let date = profileService.getUserInfo().1 ?? Date()
+        nameTextField.text = profileService.getUser().login
+        let date = profileService.getUser().birthDate
         ageTextField.text = String(getAge(birthdate: date))
-        genderSegmentedControl.selectedSegmentIndex = profileService.getUserInfo().2
+        genderSegmentedControl.selectedSegmentIndex = profileService.getUser().isMan ? 1 : 0
         
         nameLabel.text = "Name:"
         ageLabel.text = "Age:"

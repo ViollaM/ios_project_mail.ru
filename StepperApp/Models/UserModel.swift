@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct User {
+struct User: Codable {
     var id: String = ""
     let login: String
     var birthDate: Date = Date()

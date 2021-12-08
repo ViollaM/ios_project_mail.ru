@@ -15,6 +15,8 @@ final class ProfileViewController: UIViewController {
     
     private let usersService: UsersService
     
+    private let userOperations = UserOperations()
+    
     init(profileService: ProfileService, usersService: UsersService, imageLoaderService: ImageLoaderService) {
         self.profileService = profileService
         self.imageLoaderService = imageLoaderService
@@ -25,8 +27,6 @@ final class ProfileViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    
     
     private var localImageName: String = "Photo.png"
     
@@ -153,7 +153,7 @@ final class ProfileViewController: UIViewController {
                     let gender = Bool(genderSegmentedControl.selectedSegmentIndex as NSNumber)
                     let img = imageCircle.image
                     let user = User(id: "12", login: name, birthDate: age, isMan: gender, imageName: localImageName)
-                    profileService.saveUser(user: user)
+                    userOperations.saveUser(user: user)
                     profileService.saveImage(image: img)
                     usersService.updateUser(user: user) { [weak self] result in
                         guard self != nil else {
@@ -323,10 +323,10 @@ final class ProfileViewController: UIViewController {
         nameTextField.leftViewMode = .always
         ageTextField.placeholder = "Выберите дату рождения"
         
-        nameTextField.text = profileService.getUser().login
-        let date = profileService.getUser().birthDate
+        nameTextField.text = userOperations.getUser().login
+        let date = userOperations.getUser().birthDate
         ageTextField.text = String(getAge(birthdate: date))
-        genderSegmentedControl.selectedSegmentIndex = profileService.getUser().isMan ? 1 : 0
+        genderSegmentedControl.selectedSegmentIndex = userOperations.getUser().isMan ? 1 : 0
         
         nameLabel.text = "Name:"
         ageLabel.text = "Age:"

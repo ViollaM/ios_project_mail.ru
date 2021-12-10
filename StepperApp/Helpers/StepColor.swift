@@ -21,8 +21,12 @@ final class StepColor: UIColor {
     static let buttonBackground = UIColor(red: 55/255, green: 95/255, blue: 87/255, alpha: 1)
     
     // Tab Bar
-    static let unselected = UIColor(red: 122/255, green: 162/255, blue: 153/255, alpha: 1)
-    static let tabBarBackground = UIColor(red: 193/255, green: 216/255, blue: 216/255, alpha: 1)
+    static var unselected = UIColor(red: 122/255, green: 162/255, blue: 153/255, alpha: 1)
+    static var tabBarBackground = UIColor(red: 193/255, green: 216/255, blue: 216/255, alpha: 1)
+    
+    // Chart
+    static var gridChart = UIColor(red: 75/255, green: 126/255, blue: 121/255, alpha: 1)
+    static var lineAndPointsChart = UIColor(red: 46/255, green: 85/255, blue: 82/255, alpha: 1)
     
     // Slider
     static let minimumTrack = UIColor(red: 163/255, green: 210/255, blue: 204/255, alpha: 1)

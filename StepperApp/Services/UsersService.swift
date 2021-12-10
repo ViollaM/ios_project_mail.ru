@@ -1,0 +1,85 @@
+//
+//  UsersDBService.swift
+//  StepperApp
+//
+//  Created by Стас Чебыкин on 28.11.2021.
+//
+
+import Foundation
+import Firebase
+import UIKit
+
+enum userError: Error {
+    case networkProblem
+}
+
+protocol UsersService {
+    func updateUser(user: User, completion: @escaping (Error?) -> Void)
+    func getUserByUid(uid: String, completion: @escaping (Result<User,Error>) -> Void)
+    func getUserByName(name: String, completion: @escaping (Result<User,Error>) -> Void)
+}
+
+
+final class UsersServiceImplementation: UsersService {
+    
+    private let userConvector = UserConvector()
+    
+    private let db = Firestore.firestore()
+    
+    func updateUser(user: User,  completion: @escaping (Error?) -> Void) {
+        
+        self.db.collection("users").document(user.id).setData([
+            "uid": user.id,
+            "name": user.name,
+            "birthDate": user.birthDate,
+            "isMan": user.isMan,
+            "imageName": user.imageName,
+        ], merge: true){ (error) in
+            if error != nil{
+                completion(error)
+            } else {
+                completion(nil)
+            }
+        }
+    }
+    
+    
+    func getUserByUid(uid: String, completion: @escaping (Result<User,Error>) -> Void){
+        self.db.collection("users").document(uid).getDocument { (documentSnapshot, error) in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            guard let document = documentSnapshot else {
+                completion(.failure(userError.networkProblem))
+                return
+            }
+            
+            let user = self.userConvector.dictToUser(from: document)
+            guard let user = user else {
+                completion(.failure(userError.networkProblem))
+                return
+            }
+            
+            completion(.success(user))
+        }
+    }
+    
+    func getUserByName(name: String, completion: @escaping (Result<User,Error>) -> Void){
+        self.db.collection("users").whereField("name", isEqualTo: name).getDocuments { [weak self] (querySnapshot, error) in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            guard let documents = querySnapshot?.documents else {
+                completion(.failure(userError.networkProblem))
+                return
+            }
+            
+            let users = documents.compactMap{ self?.userConvector.dictToUser(from: $0)}
+            
+            completion(.success(users[0]))
+        }
+    }
+}
+

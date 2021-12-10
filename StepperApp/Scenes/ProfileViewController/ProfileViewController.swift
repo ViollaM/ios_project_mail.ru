@@ -11,8 +11,16 @@ final class ProfileViewController: UIViewController {
     
     private let profileService: ProfileService
     
-    init(profileService: ProfileService) {
+    private let imageLoaderService: ImageLoaderService
+    
+    private let usersService: UsersService
+    
+    private let userOperations = UserOperations()
+    
+    init(profileService: ProfileService, usersService: UsersService, imageLoaderService: ImageLoaderService) {
         self.profileService = profileService
+        self.imageLoaderService = imageLoaderService
+        self.usersService = usersService
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -20,9 +28,11 @@ final class ProfileViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    private var localImageName: String = "Photo.png"
+    
     private lazy var imageCircle: CircleImageView = {
         var i = CircleImageView(image: UIImage(named: "Photo.png"))
-        if let imPath = profileService.getUserInfo().3 {
+        if let imPath = profileService.getImage() {
             i = CircleImageView(image: UIImage(data: imPath))
         }
         return i
@@ -138,11 +148,26 @@ final class ProfileViewController: UIViewController {
                 let response = Validation.shared.validate(values: (ValidationType.userName, name), (ValidationType.userAge, age))
                 switch response.0 {
                 case .success:
+                    let id = userOperations.getUser()!.id
                     let name = nameTextField.text ?? ""
-                    let age = ageTextField.text ?? ""
-                    let gender = genderSegmentedControl.selectedSegmentIndex
+                    let age = profileService.getDate() ?? Date()
+                    let gender = Bool(truncating: genderSegmentedControl.selectedSegmentIndex as NSNumber)
                     let img = imageCircle.image
-                    profileService.saveUserInfo(userName: name, userAge: age, userGender: gender, userPicture: img)
+                    let user = User(id: id, name: name, birthDate: age, isMan: gender, imageName: localImageName)
+                    userOperations.saveUser(user: user)
+                    profileService.saveImage(image: img)
+                    usersService.updateUser(user: user) { [weak self] result in
+                        guard self != nil else {
+                            return
+                        }
+                        switch result {
+                        case nil:
+                            print("success add user")
+                        default:
+                            displayAlert(message: result?.localizedDescription ?? "", viewController: self ?? UIViewController())
+                        }
+                    }
+                    
                     self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: editButton)
                     [nameTextField, ageTextField].forEach {
                         $0.isUserInteractionEnabled = false
@@ -214,12 +239,18 @@ final class ProfileViewController: UIViewController {
     
     @objc
     private func dateChanged() {
+        let age = getAge(birthdate: ageDatePicker.date)
+        profileService.saveDate(birthdate: ageDatePicker.date)
+        ageTextField.text = String(age)
+    }
+    
+    private func getAge(birthdate: Date) -> Int {
         let calendar = Calendar.current
         let now = calendar.dateComponents([.year, .month, .day], from: Date())
-        let birthdate = calendar.dateComponents([.year, .month, .day], from: ageDatePicker.date)
+        let birthdate = calendar.dateComponents([.year, .month, .day], from: birthdate)
         let ageComponents = calendar.dateComponents([.year], from: birthdate, to: now)
         let age = ageComponents.year!
-        ageTextField.text = String(age)
+        return age
     }
     
     private func getDocumentsDirectory() -> URL {
@@ -234,7 +265,10 @@ final class ProfileViewController: UIViewController {
     @objc
     private func toAuthorization() {
         UserDefaults.standard.set(false, forKey: "isLogged")
-        let rootVC = AuthorizationViewController()
+        let authService = AuthServiceImplementation()
+        let signUpVC = SignUpViewController(authService: authService)
+        let loginVc = LoginViewController(authService: authService)
+        let rootVC = AuthorizationViewController(loginVc: loginVc, signUpVc: signUpVC)
         let navVC = UINavigationController(rootViewController: rootVC)
         navVC.navigationBar.isHidden = true
         navVC.modalPresentationStyle = .fullScreen
@@ -287,12 +321,18 @@ final class ProfileViewController: UIViewController {
         nameLeftViewLabel.isUserInteractionEnabled = false
         nameTextField.leftView = nameLeftViewLabel
         nameTextField.leftViewMode = .always
-        ageTextField.placeholder = "Выберите дату рождения"
+        ageTextField.placeholder = "Date of birth"
         
-        nameTextField.text = profileService.getUserInfo().0
-        ageTextField.text = profileService.getUserInfo().1
-        genderSegmentedControl.selectedSegmentIndex = profileService.getUserInfo().2
+        nameTextField.text = userOperations.getUser()?.name
         
+        if let date = userOperations.getUser()?.birthDate {
+            print(date)
+            ageTextField.text = String(ConvertBrithDayToAge(birthDate: date))
+        }
+        if let isMan = userOperations.getUser()?.isMan {
+            genderSegmentedControl.selectedSegmentIndex = isMan ? 1 : 0
+        }
+                
         nameLabel.text = "Name:"
         ageLabel.text = "Age:"
         
@@ -325,6 +365,7 @@ final class ProfileViewController: UIViewController {
         imageCircle.addGestureRecognizer(tapGesture)
         
         ageDatePicker.backgroundColor = StepColor.cellBackground
+        ageDatePicker.maximumDate = Date()
         ageDatePicker.datePickerMode = .date
         ageDatePicker.addTarget(self, action: #selector(dateChanged), for: .valueChanged)
         //ageDatePicker.isHidden = true
@@ -342,9 +383,22 @@ final class ProfileViewController: UIViewController {
 extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         guard let image = info[.editedImage] as? UIImage else {return}
-        let imageName = UUID().uuidString
-        let imagePath = getDocumentsDirectory().appendingPathComponent(imageName)
+        var imageName = UUID().uuidString
         
+        imageLoaderService.upload(image: image) { [weak self] result in
+            guard self != nil else {
+                return
+            }
+            switch result{
+            case .success(let Id):
+                imageName = Id
+            case.failure(let error):
+                print(error.localizedDescription)
+                return
+            }
+        }
+        localImageName = imageName
+        let imagePath = getDocumentsDirectory().appendingPathComponent(imageName)
         if let jpegData = image.jpegData(compressionQuality: 0.8){
             try? jpegData.write(to: imagePath)
             imageCircle.image = UIImage(data: jpegData)
@@ -352,3 +406,4 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
         dismiss(animated: true)
     }
 }
+

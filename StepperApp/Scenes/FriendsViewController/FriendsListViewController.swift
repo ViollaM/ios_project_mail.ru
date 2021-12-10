@@ -27,7 +27,7 @@ final class FriendsListViewController: UIViewController {
     }()
     private let newFriendVC = NewFriendViewController()
     private var allUsers = friends
-    private var filteredUsers: [Friend] = []
+    private var filteredUsers: [User] = []
     
     private let searchController: UISearchController = {
         let search = UISearchController()

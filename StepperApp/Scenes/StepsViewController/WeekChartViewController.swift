@@ -14,7 +14,7 @@ protocol ChartDelegate: AnyObject {
 
 final class WeekChartViewController: UIViewController{
     
-    private let marker:BalloonMarker = BalloonMarker(color: UIColor(red: 46/255, green: 85/255, blue: 82/255, alpha: 1), font: .systemFont(ofSize: 15, weight: .regular), textColor: UIColor.white, insets: UIEdgeInsets(top: 7.0, left: 7.0, bottom: 20.0, right: 7.0))
+    private let marker:BalloonMarker = BalloonMarker(color: StepColor.lineAndPointsChart, font: .systemFont(ofSize: 15, weight: .regular), textColor: UIColor.white, insets: UIEdgeInsets(top: 7.0, left: 7.0, bottom: 20.0, right: 7.0))
     
     private lazy var chart: LineChartView = {
         let chart = LineChartView()
@@ -92,34 +92,36 @@ extension WeekChartViewController {
             days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
         } else {
             let week = week!
-            if week.steppingDays.count == 7 {
-                for x in 0..<week.steppingDays.count{
+            
+            if week.steppingDays.count == 7{
+                for x in 0..<7{
                     steps.append(ChartDataEntry(x: Double(x), y: Double(week.steppingDays[x].steps)))
                     days.append(convertDateToWeekday(date: week.steppingDays[x].date))
                 }
             } else {
                 for x in 0..<week.steppingDays.count{
                     steps.append(ChartDataEntry(x: Double(x), y: Double(week.steppingDays[x].steps)))
+                    days.append(convertDateToWeekday(date: week.steppingDays[x].date))
                 }
-                days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+                days = getRightDays(days: days)
             }
+            
         }
         
         var set: LineChartDataSet! = nil
         
         set = LineChartDataSet(entries: steps, label: "Week Steps")
         set.colors = [
-            UIColor(red: 46/255, green: 85/255, blue: 82/255, alpha: 1),
+            StepColor.lineAndPointsChart,
         ]
         set.circleColors.removeAll(keepingCapacity: false)
         set.lineWidth = 3
-        set.circleColors.append(UIColor(red: 46/255, green: 85/255, blue: 82/255, alpha: 1))
+        set.circleColors.append(StepColor.lineAndPointsChart)
         set.drawValuesEnabled = {false}()
         set.drawHorizontalHighlightIndicatorEnabled = false
         set.drawVerticalHighlightIndicatorEnabled = false
         
         let data = LineChartData(dataSet: set)
-//        data.highlightEnabled = false
         chart.data = data
         chart.xAxis.valueFormatter = IndexAxisValueFormatter(values:days)
         
@@ -140,13 +142,13 @@ extension WeekChartViewController {
         leftAxis.gridLineDashLengths = [4]
         leftAxis.axisLineDashLengths = [4]
         leftAxis.labelTextColor = UIColor(red: 32/255, green: 58/255, blue: 56/255, alpha: 1)
-        leftAxis.gridColor = UIColor(red: 75/255, green: 126/255, blue: 121/255, alpha: 1)
-        leftAxis.axisLineColor = UIColor(red: 75/255, green: 126/255, blue: 121/255, alpha: 1)
+        leftAxis.gridColor = StepColor.gridChart
+        leftAxis.axisLineColor = StepColor.gridChart
         
         rightAxis.drawLabelsEnabled = false
         rightAxis.drawGridLinesEnabled = false
         rightAxis.axisLineDashLengths = [4]
-        rightAxis.axisLineColor = UIColor(red: 75/255, green: 126/255, blue: 121/255, alpha: 1)
+        rightAxis.axisLineColor = StepColor.gridChart
         
         weekAxis.granularity = 1
         weekAxis.drawGridLinesEnabled = false
@@ -157,8 +159,8 @@ extension WeekChartViewController {
         weekAxis.gridLineDashLengths = [4]
         weekAxis.axisLineDashLengths = [4]
         weekAxis.labelTextColor = UIColor(red: 32/255, green: 58/255, blue: 56/255, alpha: 1)
-        weekAxis.gridColor = UIColor(red: 75/255, green: 126/255, blue: 121/255, alpha: 1)
-        weekAxis.axisLineColor = UIColor(red: 75/255, green: 126/255, blue: 121/255, alpha: 1)
+        weekAxis.gridColor = StepColor.gridChart
+        weekAxis.axisLineColor = StepColor.gridChart
     }
 }
 
@@ -172,5 +174,20 @@ private func convertDateToWeekday(date: Date) -> String{
     let capitalizedWeekday = weekday.capitalized
     
     return String(capitalizedWeekday.prefix(3))
+}
+
+
+private func getRightDays(days: [String]) -> [String]{
+    var new_days = days
+    let days_list = ["Mod", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun", "Mod", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+    
+    let last_day_inx = days_list.firstIndex(of: days.last!)!
+
+    for i in 1...(7-days.count){
+        print(days_list[last_day_inx+i])
+        new_days.append(days_list[last_day_inx+i])
+    }
+    
+    return new_days
 }
 

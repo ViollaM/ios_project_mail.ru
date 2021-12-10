@@ -7,6 +7,7 @@
 
 import UIKit
 import IQKeyboardManager
+import Firebase
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -14,14 +15,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         IQKeyboardManager.shared().isEnabled = true
+        FirebaseApp.configure()
         window = UIWindow()
         let isAuth: Bool = UserDefaults.standard.bool(forKey: "isLogged")
         var rootVC = UIViewController()
         if isAuth {
             rootVC = buildAppTabBarController()
-        }
-        else {
-            rootVC = AuthorizationViewController()
+        } else {
+            let authService = AuthServiceImplementation()
+            let signUpVC = SignUpViewController(authService: authService)
+            let loginVc = LoginViewController(authService: authService)
+            rootVC = AuthorizationViewController(loginVc: loginVc, signUpVc: signUpVC)
         }
         let rootNC = UINavigationController(rootViewController: rootVC)
         rootNC.navigationBar.isHidden = true

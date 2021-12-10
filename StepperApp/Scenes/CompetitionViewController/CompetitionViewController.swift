@@ -29,7 +29,7 @@ final class CompetitionViewController: UIViewController {
     private var week: SteppingWeek = SteppingWeek(steppingDays: [])
     
     private func loadStepsData() {
-        stepsService.fetchLastWeekSteps { [weak self] result in
+        stepsService.fetchLastWeekInfo { [weak self] result in
             guard let self = self else {
                 return
             }

@@ -59,21 +59,4 @@ final class ImageLoaderServiceImplementation: ImageLoaderService {
         }
     }
     
-
-    
 }
-
-
-//var imageId: String = ""
-//imageLoaderService.upload(usimage: image) { [weak self] result in
-//    guard self != nil else {
-//        return
-//    }
-//    switch result{
-//    case .success(let Id):
-//        imageId = Id
-//    case.failure(let error):
-//        completion(error)
-//        return
-//    }
-//}

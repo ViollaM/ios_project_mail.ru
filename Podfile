@@ -14,4 +14,5 @@ target 'StepperApp' do
   pod 'Firebase/Storage'
   pod 'FSCalendar'
   pod 'PanModal'
+  pod 'Presentr'
 end

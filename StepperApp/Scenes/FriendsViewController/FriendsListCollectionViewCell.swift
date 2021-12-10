@@ -12,7 +12,7 @@ final class FriendsListCollectionViewCell: UICollectionViewCell {
     var friend: User? {
         didSet {
             avatarImage.image = UIImage(named: friend?.imageName ?? "Photo")
-            nameLabel.text = "Hi! I'm @\(friend?.login ?? "Username")"
+            nameLabel.text = "@\(friend?.name ?? "User")"
         }
     }
     
@@ -25,8 +25,8 @@ final class FriendsListCollectionViewCell: UICollectionViewCell {
     
     private lazy var nameLabel: UILabel = {
         let label = UILabel()
-        label.textAlignment = .center
-        label.font = .systemFont(ofSize: 16, weight: .regular)
+        label.textAlignment = .left
+        label.font = .systemFont(ofSize: 20, weight: .regular)
         label.textColor = StepColor.darkGreen
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -56,7 +56,7 @@ extension FriendsListCollectionViewCell {
             avatarImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
             avatarImage.heightAnchor.constraint(equalTo: avatarImage.widthAnchor),
             
-            nameLabel.leadingAnchor.constraint(equalTo: avatarImage.trailingAnchor),
+            nameLabel.leadingAnchor.constraint(equalTo: avatarImage.trailingAnchor, constant: 25),
             nameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
             nameLabel.heightAnchor.constraint(equalTo: avatarImage.heightAnchor),
             nameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -46)

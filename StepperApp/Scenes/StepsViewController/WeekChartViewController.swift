@@ -92,17 +92,20 @@ extension WeekChartViewController {
             days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
         } else {
             let week = week!
-            if week.steppingDays.count == 7 {
-                for x in 0..<week.steppingDays.count{
+            
+            if week.steppingDays.count == 7{
+                for x in 0..<7{
                     steps.append(ChartDataEntry(x: Double(x), y: Double(week.steppingDays[x].steps)))
                     days.append(convertDateToWeekday(date: week.steppingDays[x].date))
                 }
             } else {
                 for x in 0..<week.steppingDays.count{
                     steps.append(ChartDataEntry(x: Double(x), y: Double(week.steppingDays[x].steps)))
+                    days.append(convertDateToWeekday(date: week.steppingDays[x].date))
                 }
-                days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+                days = getRightDays(days: days)
             }
+            
         }
         
         var set: LineChartDataSet! = nil
@@ -171,5 +174,20 @@ private func convertDateToWeekday(date: Date) -> String{
     let capitalizedWeekday = weekday.capitalized
     
     return String(capitalizedWeekday.prefix(3))
+}
+
+
+private func getRightDays(days: [String]) -> [String]{
+    var new_days = days
+    let days_list = ["Mod", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun", "Mod", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+    
+    let last_day_inx = days_list.firstIndex(of: days.last!)!
+
+    for i in 1...(7-days.count){
+        print(days_list[last_day_inx+i])
+        new_days.append(days_list[last_day_inx+i])
+    }
+    
+    return new_days
 }
 

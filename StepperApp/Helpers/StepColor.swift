@@ -10,13 +10,15 @@ import UIKit
 final class StepColor: UIColor {
     
     // Title and lable
-    static var darkGreen = UIColor(red: 12/255, green: 38/255, blue: 36/255, alpha: 1)
-    static var darkGreen8 = UIColor(red: 12/255, green: 38/255, blue: 36/255, alpha: 0.8)
+    static let darkGreen = UIColor(red: 12/255, green: 38/255, blue: 36/255, alpha: 1)
+    static let darkGreen8 = UIColor(red: 12/255, green: 38/255, blue: 36/255, alpha: 0.8)
     
     // Backgrounds
-    static var alpha5 = UIColor(red: 1, green: 1, blue: 1, alpha: 0.5)
-    static var authButton = UIColor(red: 151/255, green: 191/255, blue: 191/255, alpha: 1)
-    static var cellBackground = UIColor(red: 204/255, green: 228/255, blue: 225/255, alpha: 1)
+    static let alpha5 = UIColor(red: 1, green: 1, blue: 1, alpha: 0.5)
+    static let authButton = UIColor(red: 151/255, green: 191/255, blue: 191/255, alpha: 1)
+    static let cellBackground = UIColor(red: 204/255, green: 228/255, blue: 225/255, alpha: 1)
+    static let background = UIColor(red: 167/255, green: 205/255, blue: 204/255, alpha: 1)
+    static let buttonBackground = UIColor(red: 55/255, green: 95/255, blue: 87/255, alpha: 1)
     
     // Tab Bar
     static var unselected = UIColor(red: 122/255, green: 162/255, blue: 153/255, alpha: 1)
@@ -25,6 +27,7 @@ final class StepColor: UIColor {
     // Chart
     static var gridChart = UIColor(red: 75/255, green: 126/255, blue: 121/255, alpha: 1)
     static var lineAndPointsChart = UIColor(red: 46/255, green: 85/255, blue: 82/255, alpha: 1)
+    
     // Slider
-    static var minimumTrack = UIColor(red: 163/255, green: 210/255, blue: 204/255, alpha: 1)
+    static let minimumTrack = UIColor(red: 163/255, green: 210/255, blue: 204/255, alpha: 1)
 }

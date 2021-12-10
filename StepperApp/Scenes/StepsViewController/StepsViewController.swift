@@ -164,8 +164,10 @@ final class StepsViewController: UIViewController {
         dateFormatter.dateStyle = .medium
         dateFormatter.timeStyle = .none
         dateFormatter.locale = Locale(identifier: "en_US")
-        self.firstDay = dateFormatter.string(from: week.steppingDays.first!.date)
-        self.lastDay = dateFormatter.string(from: week.steppingDays.last!.date)
+        let first = week.steppingDays.first ?? SteppingDay()
+        let last = week.steppingDays.last ?? SteppingDay()
+        self.firstDay = dateFormatter.string(from: first.date)
+        self.lastDay = dateFormatter.string(from: last.date)
         weekDaysRange.text = "\(firstDay) - \(lastDay)"
         self.total = week.totalStepsForWeek
         weekTotalSteps.text = "Total: \(total)"

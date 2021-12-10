@@ -24,7 +24,6 @@ final class LoginViewController: UIViewController {
     private lazy var loginButton: UIButton = {
         let button = UIButton()
         button.layer.cornerRadius = 10
-        button.setTitleColor(.black, for: .normal)
         button.backgroundColor = StepColor.authButton
         button.titleLabel?.font = .systemFont(ofSize: 24, weight: .bold)
         button.setTitle("Log In", for: .normal)
@@ -41,6 +40,7 @@ final class LoginViewController: UIViewController {
         text.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: text.frame.height))
         text.leftViewMode = .always
         text.backgroundColor = StepColor.cellBackground
+        text.tintColor = StepColor.darkGreen
         text.autocapitalizationType = .none
         text.autocorrectionType = .no
         return text
@@ -53,6 +53,7 @@ final class LoginViewController: UIViewController {
         text.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: text.frame.height))
         text.leftViewMode = .always
         text.backgroundColor = StepColor.cellBackground
+        text.tintColor = StepColor.darkGreen
         text.autocapitalizationType = .none
         text.autocorrectionType = .no
         text.isSecureTextEntry = true
@@ -129,7 +130,7 @@ final class LoginViewController: UIViewController {
             }
             switch result {
             case nil:
-                print("Отправили письмо о смене пароля")
+                displayAlert(message: "We have sent you an email to recover your password", viewController: self ?? UIViewController())
             default :
                 displayAlert(message: result!.localizedDescription, viewController: self ?? UIViewController())
             }

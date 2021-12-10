@@ -148,17 +148,17 @@ final class ProfileViewController: UIViewController {
                 let response = Validation.shared.validate(values: (ValidationType.userName, name), (ValidationType.userAge, age))
                 switch response.0 {
                 case .success:
+                    let id = userOperations.getUser()!.id
                     let name = nameTextField.text ?? ""
                     let age = profileService.getDate() ?? Date()
-                    let gender = Bool(genderSegmentedControl.selectedSegmentIndex as NSNumber)
+                    let gender = Bool(truncating: genderSegmentedControl.selectedSegmentIndex as NSNumber)
                     let img = imageCircle.image
-                    let user = User(id: "12", login: name, birthDate: age, isMan: gender, imageName: localImageName)
+                    let user = User(id: id, name: name, birthDate: age, isMan: gender, imageName: localImageName)
                     userOperations.saveUser(user: user)
                     profileService.saveImage(image: img)
                     usersService.updateUser(user: user) { [weak self] result in
                         guard self != nil else {
                             return
-                            
                         }
                         switch result {
                         case nil:
@@ -321,13 +321,18 @@ final class ProfileViewController: UIViewController {
         nameLeftViewLabel.isUserInteractionEnabled = false
         nameTextField.leftView = nameLeftViewLabel
         nameTextField.leftViewMode = .always
-        ageTextField.placeholder = "Choose your date of birth"
+        ageTextField.placeholder = "Date of birth"
         
-        nameTextField.text = userOperations.getUser().login
-        let date = userOperations.getUser().birthDate
-        ageTextField.text = String(getAge(birthdate: date))
-        genderSegmentedControl.selectedSegmentIndex = userOperations.getUser().isMan ? 1 : 0
+        nameTextField.text = userOperations.getUser()?.name
         
+        if let date = userOperations.getUser()?.birthDate {
+            print(date)
+            ageTextField.text = String(ConvertBrithDayToAge(birthDate: date))
+        }
+        if let isMan = userOperations.getUser()?.isMan {
+            genderSegmentedControl.selectedSegmentIndex = isMan ? 1 : 0
+        }
+                
         nameLabel.text = "Name:"
         ageLabel.text = "Age:"
         

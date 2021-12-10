@@ -58,7 +58,7 @@ class SignUpViewController: UIViewController {
     private lazy var nameTextField: UITextField = {
         let text = UITextField()
         text.layer.cornerRadius = 10
-        text.placeholder = "  nickname"
+        text.placeholder = "nickname"
         text.textColor = StepColor.darkGreen
         text.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: text.frame.height))
         text.backgroundColor = StepColor.cellBackground

@@ -13,7 +13,6 @@ final class LoginViewController: UIViewController {
     private lazy var loginButton: UIButton = {
         let button = UIButton()
         button.layer.cornerRadius = 10
-        button.setTitleColor(.black, for: .normal)
         button.backgroundColor = StepColor.authButton
         button.titleLabel?.font = .systemFont(ofSize: 24, weight: .bold)
         button.setTitle("Log In", for: .normal)

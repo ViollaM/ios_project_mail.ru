@@ -31,7 +31,11 @@ struct SteppingWeek {
         return total
     }
     var averageStepsForWeek: Int {
-        Int(totalStepsForWeek/steppingDays.count)
+        var result = 0
+        if steppingDays.count != 0 {
+            result = Int(totalStepsForWeek/steppingDays.count)
+        }
+        return result
     }
 }
 

@@ -25,4 +25,6 @@ final class StepColor: UIColor {
     // Chart
     static var gridChart = UIColor(red: 75/255, green: 126/255, blue: 121/255, alpha: 1)
     static var lineAndPointsChart = UIColor(red: 46/255, green: 85/255, blue: 82/255, alpha: 1)
+    // Slider
+    static var minimumTrack = UIColor(red: 163/255, green: 210/255, blue: 204/255, alpha: 1)
 }

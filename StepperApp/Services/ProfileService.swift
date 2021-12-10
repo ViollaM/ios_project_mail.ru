@@ -17,8 +17,6 @@ protocol ProfileService {
 
 final class ProfileServiceImplementation: ProfileService {
     
-    private let defaultUser = User(id: "0", login: "", birthDate: Date(), isMan: true, imageName: "")
-    
     func saveDate(birthdate: Date?)  {
         UserDefaults.standard.set(birthdate, forKey: "age")
     }

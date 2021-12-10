@@ -37,6 +37,7 @@ final class LoginViewController: UIViewController {
         let text = UITextField()
         text.layer.cornerRadius = 10
         text.placeholder = "e-mail"
+        text.textColor = StepColor.darkGreen
         text.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: text.frame.height))
         text.leftViewMode = .always
         text.backgroundColor = StepColor.cellBackground
@@ -67,6 +68,7 @@ final class LoginViewController: UIViewController {
         label.numberOfLines = 1
         label.textAlignment = .center
         label.font = .systemFont(ofSize: 18, weight: .regular)
+        label.textColor = StepColor.darkGreen
         label.isUserInteractionEnabled = true
         
         let guestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(resetPasswordToApp))

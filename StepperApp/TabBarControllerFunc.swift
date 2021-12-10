@@ -11,7 +11,9 @@ func buildAppTabBarController() -> UITabBarController {
     let tabBarController = UITabBarController()
     let stepsService = StepsServiceImplementation()
     let profileService = ProfileServiceImplementation()
-    let viewcontollers = [buildStepsViewController(stepsService: stepsService), buildFriendsListViewController(), buildCompetitionViewController(stepsService: stepsService),  buildProfileViewController(profileService: profileService)]
+    let usersService = UsersServiceImplementation()
+    let imageService = ImageLoaderServiceImplementation()
+    let viewcontollers = [buildStepsViewController(stepsService: stepsService), buildFriendsListViewController(), buildCompetitionViewController(),  buildProfileViewController(profileService: profileService, usersService: usersService, imageService: imageService)]
     viewcontollers.forEach {
         setupBackground(on: $0)
     }
@@ -36,9 +38,9 @@ func buildStepsViewController(stepsService: StepsService) -> UIViewController {
     return navigationController
 }
 
-func buildProfileViewController(profileService: ProfileService) -> UIViewController {
+func buildProfileViewController(profileService: ProfileService, usersService: UsersService, imageService: ImageLoaderService) -> UIViewController {
     let navigationController = UINavigationController()
-    let viewController = ProfileViewController(profileService: profileService)
+    let viewController = ProfileViewController(profileService: profileService, usersService: usersService, imageLoaderService: imageService)
     navigationController.viewControllers = [viewController]
     navigationController.navigationBar.prefersLargeTitles = true
     navigationController.navigationBar.largeTitleTextAttributes = [.foregroundColor: StepColor.darkGreen]

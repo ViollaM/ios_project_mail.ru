@@ -9,7 +9,20 @@ import UIKit
 import PinLayout
 
 class AuthorizationViewController: UIViewController {
-
+    
+    private let loginVc: LoginViewController
+    private let signUpVc: SignUpViewController
+    
+    init(loginVc: LoginViewController, signUpVc: SignUpViewController) {
+        self.loginVc = loginVc
+        self.signUpVc = signUpVc
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     private lazy var welcomeLabel: UILabel = {
         let label = UILabel()
         label.text = "Welcome to"
@@ -53,7 +66,6 @@ class AuthorizationViewController: UIViewController {
         super.viewDidLoad()
         setupView()
         setupBackground()
-
     }
     
     private func setupView() {
@@ -94,16 +106,14 @@ class AuthorizationViewController: UIViewController {
 
     @objc
     private func loginButtonPushed() {
-        let vc = LoginViewController()
         let title = "Log In"
-        pushVC(vc, title: title)
+        pushVC(loginVc, title: title)
     }
     
     @objc
     private func sigunpButtosPushed() {
-        let vc = SignUpViewController()
         let title = "Sign Up"
-        pushVC(vc, title: title)
+        pushVC(signUpVc, title: title)
     }
     
     private func pushVC(_ vc: UIViewController, title: String) {

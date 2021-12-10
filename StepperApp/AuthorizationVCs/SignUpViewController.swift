@@ -9,6 +9,17 @@ import UIKit
 
 class SignUpViewController: UIViewController {
 
+    private let authService: AuthService
+    
+    init(authService: AuthService) {
+        self.authService = authService
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     private lazy var signupButton: UIButton = {
         let button = UIButton()
         button.layer.cornerRadius = 10
@@ -33,6 +44,14 @@ class SignUpViewController: UIViewController {
         return text
     }()
     
+    private let nameLeftViewLabel: UILabel = {
+        let label = UILabel()
+        label.text = " @"
+        label.font = UIFont(name: "Arial", size: 20)
+        label.isUserInteractionEnabled = false
+        return label
+    }()
+    
     private lazy var nameTextField: UITextField = {
         let text = UITextField()
         text.layer.cornerRadius = 10
@@ -42,6 +61,8 @@ class SignUpViewController: UIViewController {
         text.backgroundColor = StepColor.cellBackground
         text.autocapitalizationType = .none
         text.autocorrectionType = .no
+        text.leftView = nameLeftViewLabel
+        text.leftViewMode = .always
         return text
     }()
     
@@ -62,6 +83,7 @@ class SignUpViewController: UIViewController {
         super.viewDidLoad()
         setupView()
         setupBackground()
+        
     }
     
     private func setupView() {
@@ -102,11 +124,36 @@ class SignUpViewController: UIViewController {
     }
     
     @objc func signupButtonToApp() {
-        let rootVC = buildAppTabBarController()
-        let navVC = UINavigationController(rootViewController: rootVC)
-        navVC.navigationBar.isHidden = true
-        navVC.modalPresentationStyle = .fullScreen
-        present(navVC, animated: true)
-        UserDefaults.standard.set(true, forKey: "isLogged")
+        guard
+            let emailText = emailTextField.text,
+            let nameText = nameTextField.text,
+            let passwordText = passwordTextField.text
+        else {
+            return
+        }
+        
+        authService.registrationUser(email: emailText, name: nameText, password: passwordText) { [weak self] result in
+            guard let self = self else {
+                return
+            }
+            switch result {
+            case nil:
+                let rootVC = buildAppTabBarController()
+                let navVC = UINavigationController(rootViewController: rootVC)
+                navVC.navigationBar.isHidden = true
+                navVC.modalPresentationStyle = .fullScreen
+                self.present(navVC, animated: true)
+                UserDefaults.standard.set(true, forKey: "isLogged")
+            default:
+                displayAlert(message: result!.localizedDescription, viewController: self)
+            }
+        }
+        
+//        let rootVC = buildAppTabBarController()
+//        let navVC = UINavigationController(rootViewController: rootVC)
+//        navVC.navigationBar.isHidden = true
+//        navVC.modalPresentationStyle = .fullScreen
+//        present(navVC, animated: true)
+//        UserDefaults.standard.set(true, forKey: "isLogged")
     }
 }

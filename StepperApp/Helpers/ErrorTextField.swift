@@ -19,3 +19,9 @@ class ErrorTextField: UITextField {
         self.layer.add(shake, forKey: "position")
     }
 }
+
+func displayAlert(message: String, viewController: UIViewController) {
+    let alert = UIAlertController(title: "Alert", message: message, preferredStyle: .alert)
+    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+    viewController.present(alert, animated: true, completion: nil)
+}

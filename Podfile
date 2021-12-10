@@ -9,4 +9,7 @@ target 'StepperApp' do
   pod 'Charts'
   pod 'PinLayout'
   pod 'IQKeyboardManager'
+  pod 'Firebase/Auth'
+  pod 'Firebase/Firestore'
+  pod 'Firebase/Storage'
 end

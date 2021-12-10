@@ -61,7 +61,6 @@ final class StepsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         stepsServiceAuth()
-        setupNavigation()
         setupLayout()
         getWeekChartView()
         setupWeekChartViewLayout()
@@ -131,12 +130,6 @@ final class StepsViewController: UIViewController {
             }
         }
     }
-
-    private func setupNavigation() {
-        let logoutButton = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(toAuthorization))
-        logoutButton.tintColor = StepColor.darkGreen
-        navigationItem.rightBarButtonItem = logoutButton
-    }
     
     private func setupLayout() {
         view.addSubview(circleStepContainerView)
@@ -177,7 +170,10 @@ final class StepsViewController: UIViewController {
     @objc
     private func toAuthorization() {
         UserDefaults.standard.set(false, forKey: "isLogged")
-        let rootVC = AuthorizationViewController()
+        let authService = AuthServiceImplementation()
+        let signUpVC = SignUpViewController(authService: authService)
+        let loginVc = LoginViewController(authService: authService)
+        let rootVC = AuthorizationViewController(loginVc: loginVc, signUpVc: signUpVC)
         let navVC = UINavigationController(rootViewController: rootVC)
         navVC.navigationBar.isHidden = true
         navVC.modalPresentationStyle = .fullScreen

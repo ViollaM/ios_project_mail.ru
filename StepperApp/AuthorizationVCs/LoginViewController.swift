@@ -24,7 +24,6 @@ final class LoginViewController: UIViewController {
     private lazy var loginButton: UIButton = {
         let button = UIButton()
         button.layer.cornerRadius = 10
-        button.setTitleColor(.black, for: .normal)
         button.backgroundColor = StepColor.authButton
         button.titleLabel?.font = .systemFont(ofSize: 24, weight: .bold)
         button.setTitle("Log In", for: .normal)
@@ -40,6 +39,7 @@ final class LoginViewController: UIViewController {
         text.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: text.frame.height))
         text.leftViewMode = .always
         text.backgroundColor = StepColor.cellBackground
+        text.tintColor = StepColor.darkGreen
         text.autocapitalizationType = .none
         text.autocorrectionType = .no
         return text
@@ -52,6 +52,7 @@ final class LoginViewController: UIViewController {
         text.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: text.frame.height))
         text.leftViewMode = .always
         text.backgroundColor = StepColor.cellBackground
+        text.tintColor = StepColor.darkGreen
         text.autocapitalizationType = .none
         text.autocorrectionType = .no
         text.isSecureTextEntry = true

@@ -9,11 +9,12 @@ import UIKit
 
 func buildAppTabBarController() -> UITabBarController {
     let tabBarController = UITabBarController()
+    let pedometerService = PedometerServiceImplementation()
     let stepsService = StepsServiceImplementation()
     let profileService = ProfileServiceImplementation()
     let usersService = UsersServiceImplementation()
     let imageService = ImageLoaderServiceImplementation()
-    let viewcontollers = [buildStepsViewController(stepsService: stepsService), buildFriendsListViewController(), buildCompetitionViewController(),  buildProfileViewController(profileService: profileService, usersService: usersService, imageService: imageService)]
+    let viewcontollers = [buildStepsViewController(stepsService: stepsService, pedometerService: pedometerService), buildFriendsListViewController(), buildCompetitionViewController(),  buildProfileViewController(profileService: profileService, usersService: usersService, imageService: imageService)]
     viewcontollers.forEach {
         setupBackground(on: $0)
     }
@@ -29,10 +30,11 @@ func buildAppTabBarController() -> UITabBarController {
     return tabBarController
 }
 
-func buildStepsViewController(stepsService: StepsService) -> UIViewController {
+func buildStepsViewController(stepsService: StepsService, pedometerService: PedometerService) -> UIViewController {
     let navigationController = UINavigationController()
-    let viewController = StepsViewController(stepsService: stepsService)
+    let viewController = StepsViewController(stepsService: stepsService, pedometerService: pedometerService)
     navigationController.viewControllers = [viewController]
+    navigationController.navigationBar.tintColor = StepColor.darkGreen
     let stepsItem = UITabBarItem(title: "Steps", image: UIImage(systemName: "figure.walk"), selectedImage: nil)
     viewController.tabBarItem = stepsItem
     return navigationController

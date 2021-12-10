@@ -321,7 +321,7 @@ final class ProfileViewController: UIViewController {
         nameLeftViewLabel.isUserInteractionEnabled = false
         nameTextField.leftView = nameLeftViewLabel
         nameTextField.leftViewMode = .always
-        ageTextField.placeholder = "Выберите дату рождения"
+        ageTextField.placeholder = "Date of birth"
         
         nameTextField.text = userOperations.getUser()?.name
         

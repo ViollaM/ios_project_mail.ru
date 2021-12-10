@@ -13,7 +13,7 @@ final class EachFriendViewController: UIViewController {
     var friend: User? {
         didSet {
             avatar = CircleImageView(image: UIImage(named: friend?.imageName ?? "Photo"))
-            name.text = "Name: @\(friend?.login ?? "user")"
+            name.text = "Name: @\(friend?.name ?? "user")"
             age.text = "Age: \(ConvertBrithDayToAge(birthDate: friend?.birthDate ?? Date()) )"
             if let a = friend?.isMan {
                 if a {

@@ -127,7 +127,7 @@ final class LoginViewController: UIViewController {
             }
             switch result {
             case nil:
-                print("Отправили письмо о смене пароля")
+                displayAlert(message: "We have sent you an email to recover your password", viewController: self ?? UIViewController())
             default :
                 displayAlert(message: result!.localizedDescription, viewController: self ?? UIViewController())
             }

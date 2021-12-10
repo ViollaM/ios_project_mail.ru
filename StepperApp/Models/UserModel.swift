@@ -8,9 +8,9 @@
 import Foundation
 
 struct User: Codable {
-    var id: String = ""
-    let login: String
-    var birthDate: Date = Date()
-    var isMan: Bool = true
-    var imageName: String = "Photo"
+    let id: String
+    let name: String
+    var birthDate: Date? = Date()
+    var isMan: Bool? = true
+    var imageName: String? = "Photo"
 }

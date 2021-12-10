@@ -17,11 +17,6 @@
 		0172EABE27242F7000DE1779 /* StepsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0172EABD27242F7000DE1779 /* StepsService.swift */; };
 		0172EAC12724318C00DE1779 /* SteppingDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0172EAC02724318C00DE1779 /* SteppingDay.swift */; };
 		0172EAC52724335900DE1779 /* SteppingWeek.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0172EAC42724335900DE1779 /* SteppingWeek.swift */; };
-		0BA0CDAD2743CFBE00CC7E68 /* StepsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BA0CDAB2743CFBE00CC7E68 /* StepsViewController.swift */; };
-		0BA0CDAE2743CFBE00CC7E68 /* WeekChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BA0CDAC2743CFBE00CC7E68 /* WeekChartViewController.swift */; };
-		0BA0CDB02743D01F00CC7E68 /* ProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BA0CDAF2743D01F00CC7E68 /* ProfileService.swift */; };
-		0BA0CDB32743D20A00CC7E68 /* TextValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BA0CDB22743D20A00CC7E68 /* TextValidation.swift */; };
-		0BA0CDB52743DCB700CC7E68 /* ErrorTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BA0CDB42743DCB700CC7E68 /* ErrorTextField.swift */; };
 		01F7D4B4274AA2D4007676CC /* HeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F7D4B3274AA2D4007676CC /* HeaderCollectionReusableView.swift */; };
 		01F7D4B6274AA2FD007676CC /* EachFriendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F7D4B5274AA2FD007676CC /* EachFriendViewController.swift */; };
 		01F7D4B8274BF146007676CC /* StepColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F7D4B7274BF146007676CC /* StepColor.swift */; };
@@ -30,7 +25,6 @@
 		A1160098275B93C0000A5518 /* UserConvector.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1160097275B93C0000A5518 /* UserConvector.swift */; };
 		A116009A275B9697000A5518 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1160099275B9697000A5518 /* UserModel.swift */; };
 		A116009C275EB911000A5518 /* ConvertBrithDayToAge.swift in Sources */ = {isa = PBXBuildFile; fileRef = A116009B275EB911000A5518 /* ConvertBrithDayToAge.swift */; };
-		A124C81027241D8B00540595 /* WeekChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A124C80F27241D8B00540595 /* WeekChartViewController.swift */; };
 		A13BD977274448380030F984 /* CompetitionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A13BD974274448380030F984 /* CompetitionViewController.swift */; };
 		A13BD979274448380030F984 /* CompetitionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A13BD976274448380030F984 /* CompetitionViewCell.swift */; };
 		A13BD97B2744484A0030F984 /* HexColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A13BD97A2744484A0030F984 /* HexColor.swift */; };
@@ -49,6 +43,10 @@
 		A1871140274184A8001DFAE7 /* FriendsListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A187113E274184A8001DFAE7 /* FriendsListCollectionViewCell.swift */; };
 		A187114227418525001DFAE7 /* FriendsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = A187114127418525001DFAE7 /* FriendsList.swift */; };
 		A187114527418553001DFAE7 /* CircleImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A187114427418553001DFAE7 /* CircleImageView.swift */; };
+		A19E9EA72760F77B009576A1 /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = A19E9EA62760F77B009576A1 /* UserDefaults.swift */; };
+		A19E9EAB2760F797009576A1 /* StepsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A19E9EA92760F797009576A1 /* StepsViewController.swift */; };
+		A19E9EAC2760F797009576A1 /* WeekChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A19E9EAA2760F797009576A1 /* WeekChartViewController.swift */; };
+		A1BBC544275F7C91009BFD17 /* FriendsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1BBC543275F7C91009BFD17 /* FriendsService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -64,14 +62,11 @@
 		0172EABD27242F7000DE1779 /* StepsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepsService.swift; sourceTree = "<group>"; };
 		0172EAC02724318C00DE1779 /* SteppingDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SteppingDay.swift; sourceTree = "<group>"; };
 		0172EAC42724335900DE1779 /* SteppingWeek.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SteppingWeek.swift; sourceTree = "<group>"; };
-		0BA0CDAB2743CFBE00CC7E68 /* StepsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StepsViewController.swift; sourceTree = "<group>"; };
-		0BA0CDAC2743CFBE00CC7E68 /* WeekChartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeekChartViewController.swift; sourceTree = "<group>"; };
-		0BA0CDAF2743D01F00CC7E68 /* ProfileService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
-		0BA0CDB22743D20A00CC7E68 /* TextValidation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextValidation.swift; sourceTree = "<group>"; };
-		0BA0CDB42743DCB700CC7E68 /* ErrorTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorTextField.swift; sourceTree = "<group>"; };
 		01F7D4B3274AA2D4007676CC /* HeaderCollectionReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderCollectionReusableView.swift; sourceTree = "<group>"; };
 		01F7D4B5274AA2FD007676CC /* EachFriendViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EachFriendViewController.swift; sourceTree = "<group>"; };
 		01F7D4B7274BF146007676CC /* StepColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepColor.swift; sourceTree = "<group>"; };
+		0BA0CDAB2743CFBE00CC7E68 /* StepsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StepsViewController.swift; sourceTree = "<group>"; };
+		0BA0CDB22743D20A00CC7E68 /* TextValidation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextValidation.swift; sourceTree = "<group>"; };
 		0BD1511B2740176800F15800 /* ProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
 		5FF80AFC5EDDD5F3380FACE8 /* Pods-StepperApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StepperApp.release.xcconfig"; path = "Target Support Files/Pods-StepperApp/Pods-StepperApp.release.xcconfig"; sourceTree = "<group>"; };
 		7A924E68D2EAE87E9BC99EBB /* Pods_StepperApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StepperApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -98,6 +93,10 @@
 		A187113E274184A8001DFAE7 /* FriendsListCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsListCollectionViewCell.swift; sourceTree = "<group>"; };
 		A187114127418525001DFAE7 /* FriendsList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsList.swift; sourceTree = "<group>"; };
 		A187114427418553001DFAE7 /* CircleImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleImageView.swift; sourceTree = "<group>"; };
+		A19E9EA62760F77B009576A1 /* UserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
+		A19E9EA92760F797009576A1 /* StepsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StepsViewController.swift; sourceTree = "<group>"; };
+		A19E9EAA2760F797009576A1 /* WeekChartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeekChartViewController.swift; sourceTree = "<group>"; };
+		A1BBC543275F7C91009BFD17 /* FriendsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsService.swift; sourceTree = "<group>"; };
 		CB9D39384BA8490515AF5B40 /* Pods-StepperApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StepperApp.debug.xcconfig"; path = "Target Support Files/Pods-StepperApp/Pods-StepperApp.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -131,6 +130,7 @@
 				01651A3827120D2D00DC9391 /* Products */,
 				7F695EEC87C4F13BB1496FA7 /* Pods */,
 				1A219C7BD864A22EE30861FF /* Frameworks */,
+				A19E9EA52760F749009576A1 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -162,8 +162,12 @@
 		0172EABC27242F3200DE1779 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				0BA0CDAF2743D01F00CC7E68 /* ProfileService.swift */,
 				0172EABD27242F7000DE1779 /* StepsService.swift */,
+				0BD1511B2740176800F15800 /* ProfileService.swift */,
+				A17AB33F274D3DAB007EC89F /* AuthService.swift */,
+				A153C5462753D7BA00F9871E /* UsersService.swift */,
+				A1548E23275945710017BDA4 /* ImageLoaderService.swift */,
+				A1BBC543275F7C91009BFD17 /* FriendsService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -171,9 +175,9 @@
 		01A6B2C92734450600D16DF9 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				A19E9EA82760F797009576A1 /* StepsViewController */,
 				A13BD973274448380030F984 /* CompetitionViewController */,
 				A165E283274419770002A973 /* ProfileViewController */,
-				019F379D2743C0DD006E3346 /* StepsViewController */,
 				A187113C274184A8001DFAE7 /* FriendsViewController */,
 			);
 			path = Scenes;
@@ -199,23 +203,6 @@
 				01651A4827120D2E00DC9391 /* Info.plist */,
 			);
 			path = Support;
-			sourceTree = "<group>";
-		};
-		0BA0CDAA2743CFBE00CC7E68 /* StepsViewController */ = {
-			isa = PBXGroup;
-			children = (
-				0BA0CDAB2743CFBE00CC7E68 /* StepsViewController.swift */,
-				0BA0CDAC2743CFBE00CC7E68 /* WeekChartViewController.swift */,
-			);
-			path = StepsViewController;
-			sourceTree = "<group>";
-		};
-		0BA0CDB12743D15200CC7E68 /* ProfileViewController */ = {
-			isa = PBXGroup;
-			children = (
-				01651A4E2712131400DC9391 /* ProfileViewController.swift */,
-			);
-			path = ProfileViewController;
 			sourceTree = "<group>";
 		};
 		1A219C7BD864A22EE30861FF /* Frameworks */ = {
@@ -268,6 +255,7 @@
 		A187114327418553001DFAE7 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				A19E9EA62760F77B009576A1 /* UserDefaults.swift */,
 				A13BD97A2744484A0030F984 /* HexColor.swift */,
 				A165E287274419880002A973 /* ErrorTextField.swift */,
 				A165E286274419880002A973 /* TextValidation.swift */,
@@ -280,6 +268,25 @@
 			name = Helpers;
 			path = StepperApp/Helpers;
 			sourceTree = SOURCE_ROOT;
+		};
+		A19E9EA52760F749009576A1 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				0BA0CDB22743D20A00CC7E68 /* TextValidation.swift */,
+				A124C80F27241D8B00540595 /* WeekChartViewController.swift */,
+				0BA0CDAB2743CFBE00CC7E68 /* StepsViewController.swift */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
+		A19E9EA82760F797009576A1 /* StepsViewController */ = {
+			isa = PBXGroup;
+			children = (
+				A19E9EA92760F797009576A1 /* StepsViewController.swift */,
+				A19E9EAA2760F797009576A1 /* WeekChartViewController.swift */,
+			);
+			path = StepsViewController;
+			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
@@ -401,7 +408,6 @@
 				A13BD97F274448F10030F984 /* CompetitionModels.swift in Sources */,
 				A187114527418553001DFAE7 /* CircleImageView.swift in Sources */,
 				014F5F9B272D9F990058132F /* LoginViewController.swift in Sources */,
-				0BA0CDB32743D20A00CC7E68 /* TextValidation.swift in Sources */,
 				014F5F99272D9F880058132F /* AuthorizationViewController.swift in Sources */,
 				A116009C275EB911000A5518 /* ConvertBrithDayToAge.swift in Sources */,
 				A1871140274184A8001DFAE7 /* FriendsListCollectionViewCell.swift in Sources */,
@@ -409,26 +415,27 @@
 				A13BD97B2744484A0030F984 /* HexColor.swift in Sources */,
 				0172EAC52724335900DE1779 /* SteppingWeek.swift in Sources */,
 				01F7D4B4274AA2D4007676CC /* HeaderCollectionReusableView.swift in Sources */,
+				A19E9EAC2760F797009576A1 /* WeekChartViewController.swift in Sources */,
 				014F5F96272D9E960058132F /* TabBarControllerFunc.swift in Sources */,
 				A165E285274419770002A973 /* ProfileViewController.swift in Sources */,
 				A153C5472753D7BA00F9871E /* UsersService.swift in Sources */,
 				A165E289274419880002A973 /* ErrorTextField.swift in Sources */,
-				A124C81027241D8B00540595 /* WeekChartViewController.swift in Sources */,
 				A165E288274419880002A973 /* TextValidation.swift in Sources */,
 				0172EABE27242F7000DE1779 /* StepsService.swift in Sources */,
-				0BA0CDAD2743CFBE00CC7E68 /* StepsViewController.swift in Sources */,
 				A187113F274184A8001DFAE7 /* FriendsListViewController.swift in Sources */,
 				A162C10227451F8F00C1D2BF /* BalloonMarker.swift in Sources */,
 				0172EAC12724318C00DE1779 /* SteppingDay.swift in Sources */,
 				A187114227418525001DFAE7 /* FriendsList.swift in Sources */,
 				A13BD981274449380030F984 /* EachCompetitionViewController.swift in Sources */,
+				A19E9EAB2760F797009576A1 /* StepsViewController.swift in Sources */,
 				A1160098275B93C0000A5518 /* UserConvector.swift in Sources */,
-				01651A3F27120D2D00DC9391 /* StepsViewController.swift in Sources */,
 				A1548E24275945710017BDA4 /* ImageLoaderService.swift in Sources */,
 				A116009A275B9697000A5518 /* UserModel.swift in Sources */,
 				014F5F9D272D9FAE0058132F /* SignUpViewController.swift in Sources */,
 				01651A3B27120D2D00DC9391 /* AppDelegate.swift in Sources */,
 				A13BD979274448380030F984 /* CompetitionViewCell.swift in Sources */,
+				A19E9EA72760F77B009576A1 /* UserDefaults.swift in Sources */,
+				A1BBC544275F7C91009BFD17 /* FriendsService.swift in Sources */,
 				0BD1511C2740176800F15800 /* ProfileService.swift in Sources */,
 				01F7D4B6274AA2FD007676CC /* EachFriendViewController.swift in Sources */,
 			);

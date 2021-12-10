@@ -20,6 +20,10 @@ final class AuthServiceImplementation: AuthService {
     
     private let db = Firestore.firestore()
     
+    private let userOperations = UserOperations()
+    
+    private let usersService = UsersServiceImplementation()
+    
     func resetPassword(email: String, completion: @escaping (Error?) -> Void) {
         FirebaseAuth.Auth.auth().sendPasswordReset(withEmail: email) { (error) in
             if error != nil {
@@ -36,6 +40,19 @@ final class AuthServiceImplementation: AuthService {
                 completion(error)
             } else {
                 completion(nil)
+                self.usersService.getUserByUid(uid: result!.user.uid) { [weak self] result_request in
+                    guard self != nil else {
+                        return
+                    }
+                    switch result_request {
+                    case .success(let user):
+                        completion(nil)
+                        print(user.birthDate)
+                        self?.userOperations.saveUser(user: user)
+                    case .failure(let error):
+                        completion(error)
+                    }
+                }
             }
         }
     }
@@ -43,7 +60,6 @@ final class AuthServiceImplementation: AuthService {
     func registrationUser(email: String, name: String, password: String,completion: @escaping (Error?) -> Void) {
         FirebaseAuth.Auth.auth().createUser(withEmail: email, password: password) { (result, error) in
             if error != nil {
-                print(error?.localizedDescription )
                 completion(error)
             } else {
                 self.db.collection("users").document(result!.user.uid).setData([
@@ -54,6 +70,8 @@ final class AuthServiceImplementation: AuthService {
                         completion(error)
                     } else {
                         completion(nil)
+                        let newUser = User(id: result!.user.uid, name: name)
+                        self.userOperations.saveUser(user: newUser)
                     }
                 }
             }

@@ -188,6 +188,9 @@
 			children = (
 				A13BD97E274448F10030F984 /* CompetitionModels.swift */,
 				A187114127418525001DFAE7 /* FriendsList.swift */,
+				0172EAC42724335900DE1779 /* SteppingWeek.swift */,
+				0172EAC02724318C00DE1779 /* SteppingDay.swift */,
+				A1160099275B9697000A5518 /* UserModel.swift */,
 				0172EAC42724335900DE1779 /* StepsModels.swift */,
 			);
 			path = Models;

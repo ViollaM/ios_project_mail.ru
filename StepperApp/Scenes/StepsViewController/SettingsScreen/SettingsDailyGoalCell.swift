@@ -18,7 +18,7 @@ final class SettingsDailyGoalCell: UICollectionViewCell {
         let sc = UISegmentedControl(items: ["Steps", "Distance"])
         sc.translatesAutoresizingMaskIntoConstraints = false
         sc.selectedSegmentTintColor = StepColor.darkGreen8
-        sc.selectedSegmentIndex = 0
+        sc.selectedSegmentIndex = UserDefaults.standard.integer(forKey: "steps_distance")
         sc.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: StepColor.cellBackground], for: .selected)
         sc.addTarget(self, action: #selector(segmentedControlValueChanged(_:)), for: .valueChanged)
         return sc
@@ -66,17 +66,20 @@ final class SettingsDailyGoalCell: UICollectionViewCell {
         return button
     }()
     
-    private var goalStepsCount = 10000
-    private var goalDistanceCount: Double = 10
+    
+    private var goalStepsCount = UserDefaults.standard.integer(forKey: "stepsGoal")
+    private var goalDistanceCount: Double = UserDefaults.standard.double(forKey: "distanceGoal")
     
     @objc
     private func minusButtonPressed() {
-        if stepsOrDistanceSegmentedControl.selectedSegmentIndex == 0 && goalStepsCount > 0 {
+        if stepsOrDistanceSegmentedControl.selectedSegmentIndex == 0 && goalStepsCount > 500 {
             goalStepsCount -= 500
+            UserDefaults.standard.set(goalStepsCount, forKey: "stepsGoal")
             goalCountLabel.text = goalStepsCount.formattedWithSeparator
             delegate?.newGoalIs(goal: Double(goalStepsCount))
-        } else if stepsOrDistanceSegmentedControl.selectedSegmentIndex == 1 && goalDistanceCount > 0 {
+        } else if stepsOrDistanceSegmentedControl.selectedSegmentIndex == 1 && goalDistanceCount > 0.5 {
             goalDistanceCount -= 0.5
+            UserDefaults.standard.set(goalDistanceCount, forKey: "distanceGoal")
             goalCountLabel.text = goalDistanceCount.formattedWithSeparator
             delegate?.newGoalIs(goal: goalDistanceCount)
         }
@@ -86,9 +89,11 @@ final class SettingsDailyGoalCell: UICollectionViewCell {
     private func plusButtonPressed() {
         if stepsOrDistanceSegmentedControl.selectedSegmentIndex == 0 {
             goalStepsCount += 500
+            UserDefaults.standard.set(goalStepsCount, forKey: "stepsGoal")
             goalCountLabel.text = goalStepsCount.formattedWithSeparator
         } else {
             goalDistanceCount += 0.5
+            UserDefaults.standard.set(goalDistanceCount, forKey: "distanceGoal")
             goalCountLabel.text = goalDistanceCount.formattedWithSeparator
         }
     }
@@ -96,8 +101,11 @@ final class SettingsDailyGoalCell: UICollectionViewCell {
     @objc
     private func segmentedControlValueChanged(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
-        case 0: goalCountLabel.text = goalStepsCount.formattedWithSeparator
+        case 0:
+            goalCountLabel.text = goalStepsCount.formattedWithSeparator
+            UserDefaults.standard.set(0, forKey: "steps_distance")
         case 1: goalCountLabel.text = goalDistanceCount.formattedWithSeparator
+            UserDefaults.standard.set(1, forKey: "steps_distance")
         default:
             break
         }

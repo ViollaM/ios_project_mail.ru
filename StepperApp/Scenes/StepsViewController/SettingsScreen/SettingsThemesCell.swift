@@ -41,6 +41,8 @@ final class SettingsThemesCell: UICollectionViewCell {
     @objc
     private func themeButtonClicked() {
         themeButton.layer.borderColor = StepColor.darkGreen.cgColor
+        let jpegData = themeButton.backgroundImage(for: .normal)?.jpegData(compressionQuality: 0.8)
+        UserDefaults.standard.set(jpegData, forKey: "theme")
     }
     
     private func setupViews() {

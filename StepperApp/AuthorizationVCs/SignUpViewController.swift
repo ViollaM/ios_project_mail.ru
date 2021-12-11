@@ -36,6 +36,7 @@ class SignUpViewController: UIViewController {
         let text = UITextField()
         text.layer.cornerRadius = 10
         text.placeholder = "e-mail"
+        text.textColor = StepColor.darkGreen
         text.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: text.frame.height))
         text.leftViewMode = .always
         text.backgroundColor = StepColor.cellBackground
@@ -49,6 +50,7 @@ class SignUpViewController: UIViewController {
         let label = UILabel()
         label.text = " @"
         label.font = UIFont(name: "Arial", size: 20)
+        label.textColor = StepColor.darkGreen
         label.isUserInteractionEnabled = false
         return label
     }()
@@ -57,14 +59,15 @@ class SignUpViewController: UIViewController {
         let text = UITextField()
         text.layer.cornerRadius = 10
         text.placeholder = "nickname"
+        text.textColor = StepColor.darkGreen
         text.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: text.frame.height))
-        text.leftViewMode = .always
         text.backgroundColor = StepColor.cellBackground
         text.tintColor = StepColor.darkGreen
         text.autocapitalizationType = .none
         text.autocorrectionType = .no
-        text.leftView = nameLeftViewLabel
         text.leftViewMode = .always
+        text.addTarget(self, action: #selector(self.changeLeftViewBegin), for: .editingDidBegin)
+        text.addTarget(self, action: #selector(self.changeLeftViewEnd), for: .editingDidEnd)
         return text
     }()
     
@@ -125,6 +128,16 @@ class SignUpViewController: UIViewController {
             .height(72)
     }
     
+    @objc
+    func changeLeftViewBegin() {
+        self.nameTextField.leftView = nameLeftViewLabel
+    }
+    
+    @objc
+    func changeLeftViewEnd() {
+        self.nameTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: self.nameTextField.frame.height))
+    }
+    
     @objc func signupButtonToApp() {
         guard
             let emailText = emailTextField.text,
@@ -134,6 +147,9 @@ class SignUpViewController: UIViewController {
             return
         }
         
+        let response = Validation.shared.validate(values: (ValidationType.userName, nameText), (ValidationType.userPassword, passwordText))
+        switch response.0 {
+        case .success:
         authService.registrationUser(email: emailText, name: nameText, password: passwordText) { [weak self] result in
             guard let self = self else {
                 return
@@ -149,6 +165,9 @@ class SignUpViewController: UIViewController {
             default:
                 displayAlert(message: result!.localizedDescription, viewController: self)
             }
+        }
+        case .failure:
+            displayAlert(message: "Name should contain only lower- or uppercase letters, digits or -, pasasword should contain from 6 to 15 symbols", viewController: self)
         }
     }
 }

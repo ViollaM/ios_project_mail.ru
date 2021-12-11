@@ -9,10 +9,10 @@ target 'StepperApp' do
   pod 'Charts'
   pod 'PinLayout'
   pod 'IQKeyboardManager'
-  pod 'FSCalendar'
-  pod 'PanModal'
-  pod 'Presentr'
   pod 'Firebase/Auth'
   pod 'Firebase/Firestore'
   pod 'Firebase/Storage'
+  pod 'FSCalendar'
+  pod 'PanModal'
+  pod 'Presentr'
 end

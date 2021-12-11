@@ -42,6 +42,8 @@ final class SettingsIconsCell: UICollectionViewCell {
     @objc
     private func iconButtonClicked() {
         iconButton.layer.borderColor = StepColor.darkGreen.cgColor
+        let jpegData = iconButton.backgroundImage(for: .normal)?.jpegData(compressionQuality: 0.8)
+        UserDefaults.standard.set(jpegData, forKey: "icon")
     }
     
     private func setupViews() {

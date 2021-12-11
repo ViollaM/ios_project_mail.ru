@@ -12,7 +12,7 @@ final class SettingsUnitMeasureCell: UICollectionViewCell {
         let sc = UISegmentedControl(items: ["km", "miles"])
         sc.translatesAutoresizingMaskIntoConstraints = false
         sc.selectedSegmentTintColor = StepColor.darkGreen8
-        sc.selectedSegmentIndex = 0
+        sc.selectedSegmentIndex = UserDefaults.standard.integer(forKey: "km_miles")
         sc.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: StepColor.cellBackground], for: .selected)
         sc.addTarget(self, action: #selector(segmentedControlValueChanged(_:)), for: .valueChanged)
         return sc
@@ -30,10 +30,12 @@ final class SettingsUnitMeasureCell: UICollectionViewCell {
     
     private func kmSelected() {
         print("steps")
+        UserDefaults.standard.set(0, forKey: "km_miles")
     }
     
     private func milesSelected() {
         print("distance")
+        UserDefaults.standard.set(1, forKey: "km_miles")
     }
     override init(frame: CGRect) {
         super.init(frame: frame)

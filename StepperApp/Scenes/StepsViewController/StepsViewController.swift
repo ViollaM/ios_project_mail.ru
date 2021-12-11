@@ -292,6 +292,7 @@ final class StepsViewController: UIViewController {
         setupBackground(on: vc)
         vc.navigationController?.navigationBar.tintColor = StepColor.darkGreen
         navigationController?.pushViewController(vc, animated: true)
+        UserDefaults.standard.register(defaults: ["stepsGoal": 10000, "distanceGoal": 10])
     }
 }
 
@@ -314,17 +315,17 @@ extension StepsViewController: CalendarDelegate {
     }
     
     
-    @objc
-    private func toAuthorization() {
-        UserDefaults.standard.set(false, forKey: "isLogged")
-        let authService = AuthServiceImplementation()
-        let signUpVC = SignUpViewController(authService: authService)
-        let loginVc = LoginViewController(authService: authService)
-        let rootVC = AuthorizationViewController(loginVc: loginVc, signUpVc: signUpVC)
-        let navVC = UINavigationController(rootViewController: rootVC)
-        navVC.navigationBar.isHidden = true
-        navVC.modalPresentationStyle = .fullScreen
-        present(navVC, animated: true)
-    }
+//    @objc
+//    private func toAuthorization() {
+//        UserDefaults.standard.set(false, forKey: "isLogged")
+//        let authService = AuthServiceImplementation()
+//        let signUpVC = SignUpViewController(authService: authService)
+//        let loginVc = LoginViewController(authService: authService)
+//        let rootVC = AuthorizationViewController(loginVc: loginVc, signUpVc: signUpVC)
+//        let navVC = UINavigationController(rootViewController: rootVC)
+//        navVC.navigationBar.isHidden = true
+//        navVC.modalPresentationStyle = .fullScreen
+//        present(navVC, animated: true)
+//    }
     
 }

@@ -9,7 +9,7 @@ import Foundation
 import Firebase
 
 protocol FriendsService {
-    func addFriend(for userId: String, to friendUserId: String, completion: @escaping (Error?) -> Void)
+    func addFriend(for userId: String, to friendUserName: String, completion: @escaping (Error?) -> Void)
     func getFriends(for userId: String, completion: @escaping (Result<[User], Error>) -> Void)
 }
 
@@ -19,24 +19,35 @@ final class FriendsServiceImplementation: FriendsService {
     
     private let db = Firestore.firestore()
     
-    func addFriend(for userId: String, to friendUserId: String, completion: @escaping (Error?) -> Void) {
-        self.db.collection("friends").document(userId).setData([
-            friendUserId: true,
-        ], merge: true){ (error) in
-            if error != nil{
-                completion(error)
+    func addFriend(for userId: String, to friendUserName: String, completion: @escaping (Error?) -> Void) {
+        
+        self.usersService.getUserByName(name: friendUserName) {  [weak self] result_request in
+            guard self != nil else {
                 return
             }
-        }
-        self.db.collection("friends").document(friendUserId).setData([
-            userId: true,
-        ], merge: true){ (error) in
-            if error != nil{
+            switch result_request {
+            case .success(let friend):
+                self?.db.collection("friends").document(userId).setData([
+                    friend.id : true,
+                ], merge: true){ (error) in
+                    if error != nil{
+                        completion(error)
+                        return
+                    }
+                }
+                self?.db.collection("friends").document(friend.id).setData([
+                    userId: true,
+                ], merge: true){ (error) in
+                    if error != nil{
+                        completion(error)
+                        return
+                    }
+                }
+                completion(nil)
+            case .failure(let error):
                 completion(error)
-                return
             }
         }
-        completion(nil)
     }
     
     

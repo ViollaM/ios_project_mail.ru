@@ -5,8 +5,10 @@
 	<key>com.apple.developer.healthkit</key>
 	<true/>
 	<key>com.apple.developer.healthkit.access</key>
+	<array/>
+	<key>keychain-access-groups</key>
 	<array>
-		<string>health-records</string>
+		<string>$(AppIdentifierPrefix)com.stepteam.stepbeat</string>
 	</array>
 </dict>
 </plist>

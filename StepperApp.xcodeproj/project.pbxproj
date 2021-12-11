@@ -7,6 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		012440DD2765127500676D03 /* LockedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012440DC2765127500676D03 /* LockedImage.swift */; };
+		012440DF2765127C00676D03 /* IntSeparatorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012440DE2765127C00676D03 /* IntSeparatorExtension.swift */; };
+		012440E12765128C00676D03 /* CustomErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012440E02765128B00676D03 /* CustomErrors.swift */; };
+		012440E32765129A00676D03 /* CircleAndRoundedViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012440E22765129900676D03 /* CircleAndRoundedViews.swift */; };
+		012440E52765129F00676D03 /* CalendarISO8601.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012440E42765129F00676D03 /* CalendarISO8601.swift */; };
+		012440ED276512AE00676D03 /* SettingsHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012440E7276512AD00676D03 /* SettingsHeader.swift */; };
+		012440EE276512AE00676D03 /* SettingsUnitMeasureCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012440E8276512AD00676D03 /* SettingsUnitMeasureCell.swift */; };
+		012440EF276512AE00676D03 /* StepsScreenSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012440E9276512AD00676D03 /* StepsScreenSettings.swift */; };
+		012440F0276512AE00676D03 /* SettingsDailyGoalCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012440EA276512AD00676D03 /* SettingsDailyGoalCell.swift */; };
+		012440F1276512AE00676D03 /* SettingsIconsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012440EB276512AD00676D03 /* SettingsIconsCell.swift */; };
+		012440F2276512AE00676D03 /* SettingsThemesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012440EC276512AD00676D03 /* SettingsThemesCell.swift */; };
+		012440F4276512BB00676D03 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012440F3276512BA00676D03 /* CalendarViewController.swift */; };
+		012440F6276512D800676D03 /* AddNewCompetitionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012440F5276512D800676D03 /* AddNewCompetitionViewController.swift */; };
+		012440F8276512F600676D03 /* NewFriendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012440F7276512F600676D03 /* NewFriendViewController.swift */; };
+		012440FA2765131D00676D03 /* StepsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012440F92765131D00676D03 /* StepsModels.swift */; };
+		012440FC2765137600676D03 /* PedometerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012440FB2765137500676D03 /* PedometerService.swift */; };
 		014F5F96272D9E960058132F /* TabBarControllerFunc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014F5F95272D9E960058132F /* TabBarControllerFunc.swift */; };
 		014F5F99272D9F880058132F /* AuthorizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014F5F98272D9F880058132F /* AuthorizationViewController.swift */; };
 		014F5F9B272D9F990058132F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014F5F9A272D9F990058132F /* LoginViewController.swift */; };
@@ -15,8 +31,6 @@
 		01651A4427120D2E00DC9391 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 01651A4327120D2E00DC9391 /* Assets.xcassets */; };
 		01651A4727120D2E00DC9391 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 01651A4527120D2E00DC9391 /* LaunchScreen.storyboard */; };
 		0172EABE27242F7000DE1779 /* StepsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0172EABD27242F7000DE1779 /* StepsService.swift */; };
-		0172EAC12724318C00DE1779 /* SteppingDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0172EAC02724318C00DE1779 /* SteppingDay.swift */; };
-		0172EAC52724335900DE1779 /* SteppingWeek.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0172EAC42724335900DE1779 /* SteppingWeek.swift */; };
 		01F7D4B4274AA2D4007676CC /* HeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F7D4B3274AA2D4007676CC /* HeaderCollectionReusableView.swift */; };
 		01F7D4B6274AA2FD007676CC /* EachFriendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F7D4B5274AA2FD007676CC /* EachFriendViewController.swift */; };
 		01F7D4B8274BF146007676CC /* StepColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F7D4B7274BF146007676CC /* StepColor.swift */; };
@@ -42,7 +56,6 @@
 		A187113F274184A8001DFAE7 /* FriendsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A187113D274184A8001DFAE7 /* FriendsListViewController.swift */; };
 		A1871140274184A8001DFAE7 /* FriendsListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A187113E274184A8001DFAE7 /* FriendsListCollectionViewCell.swift */; };
 		A187114227418525001DFAE7 /* FriendsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = A187114127418525001DFAE7 /* FriendsList.swift */; };
-		A187114527418553001DFAE7 /* CircleImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A187114427418553001DFAE7 /* CircleImageView.swift */; };
 		A19E9EA72760F77B009576A1 /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = A19E9EA62760F77B009576A1 /* UserDefaults.swift */; };
 		A19E9EAB2760F797009576A1 /* StepsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A19E9EA92760F797009576A1 /* StepsViewController.swift */; };
 		A19E9EAC2760F797009576A1 /* WeekChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A19E9EAA2760F797009576A1 /* WeekChartViewController.swift */; };
@@ -50,6 +63,22 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		012440DC2765127500676D03 /* LockedImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LockedImage.swift; sourceTree = "<group>"; };
+		012440DE2765127C00676D03 /* IntSeparatorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntSeparatorExtension.swift; sourceTree = "<group>"; };
+		012440E02765128B00676D03 /* CustomErrors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomErrors.swift; sourceTree = "<group>"; };
+		012440E22765129900676D03 /* CircleAndRoundedViews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleAndRoundedViews.swift; sourceTree = "<group>"; };
+		012440E42765129F00676D03 /* CalendarISO8601.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarISO8601.swift; sourceTree = "<group>"; };
+		012440E7276512AD00676D03 /* SettingsHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsHeader.swift; sourceTree = "<group>"; };
+		012440E8276512AD00676D03 /* SettingsUnitMeasureCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsUnitMeasureCell.swift; sourceTree = "<group>"; };
+		012440E9276512AD00676D03 /* StepsScreenSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StepsScreenSettings.swift; sourceTree = "<group>"; };
+		012440EA276512AD00676D03 /* SettingsDailyGoalCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsDailyGoalCell.swift; sourceTree = "<group>"; };
+		012440EB276512AD00676D03 /* SettingsIconsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsIconsCell.swift; sourceTree = "<group>"; };
+		012440EC276512AD00676D03 /* SettingsThemesCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsThemesCell.swift; sourceTree = "<group>"; };
+		012440F3276512BA00676D03 /* CalendarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CalendarViewController.swift; path = StepperApp/Scenes/StepsViewController/CalendarViewController.swift; sourceTree = SOURCE_ROOT; };
+		012440F5276512D800676D03 /* AddNewCompetitionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddNewCompetitionViewController.swift; sourceTree = "<group>"; };
+		012440F7276512F600676D03 /* NewFriendViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewFriendViewController.swift; sourceTree = "<group>"; };
+		012440F92765131D00676D03 /* StepsModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StepsModels.swift; sourceTree = "<group>"; };
+		012440FB2765137500676D03 /* PedometerService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PedometerService.swift; sourceTree = "<group>"; };
 		014F5F95272D9E960058132F /* TabBarControllerFunc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarControllerFunc.swift; sourceTree = "<group>"; };
 		014F5F98272D9F880058132F /* AuthorizationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationViewController.swift; sourceTree = "<group>"; };
 		014F5F9A272D9F990058132F /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -60,8 +89,6 @@
 		01651A4627120D2E00DC9391 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		01651A4827120D2E00DC9391 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0172EABD27242F7000DE1779 /* StepsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepsService.swift; sourceTree = "<group>"; };
-		0172EAC02724318C00DE1779 /* SteppingDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SteppingDay.swift; sourceTree = "<group>"; };
-		0172EAC42724335900DE1779 /* SteppingWeek.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SteppingWeek.swift; sourceTree = "<group>"; };
 		01F7D4B3274AA2D4007676CC /* HeaderCollectionReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderCollectionReusableView.swift; sourceTree = "<group>"; };
 		01F7D4B5274AA2FD007676CC /* EachFriendViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EachFriendViewController.swift; sourceTree = "<group>"; };
 		01F7D4B7274BF146007676CC /* StepColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepColor.swift; sourceTree = "<group>"; };
@@ -92,7 +119,6 @@
 		A187113D274184A8001DFAE7 /* FriendsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsListViewController.swift; sourceTree = "<group>"; };
 		A187113E274184A8001DFAE7 /* FriendsListCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsListCollectionViewCell.swift; sourceTree = "<group>"; };
 		A187114127418525001DFAE7 /* FriendsList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsList.swift; sourceTree = "<group>"; };
-		A187114427418553001DFAE7 /* CircleImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleImageView.swift; sourceTree = "<group>"; };
 		A19E9EA62760F77B009576A1 /* UserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
 		A19E9EA92760F797009576A1 /* StepsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StepsViewController.swift; sourceTree = "<group>"; };
 		A19E9EAA2760F797009576A1 /* WeekChartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeekChartViewController.swift; sourceTree = "<group>"; };
@@ -113,6 +139,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		012440E6276512AD00676D03 /* SettingsScreen */ = {
+			isa = PBXGroup;
+			children = (
+				012440E7276512AD00676D03 /* SettingsHeader.swift */,
+				012440E8276512AD00676D03 /* SettingsUnitMeasureCell.swift */,
+				012440E9276512AD00676D03 /* StepsScreenSettings.swift */,
+				012440EA276512AD00676D03 /* SettingsDailyGoalCell.swift */,
+				012440EB276512AD00676D03 /* SettingsIconsCell.swift */,
+				012440EC276512AD00676D03 /* SettingsThemesCell.swift */,
+			);
+			path = SettingsScreen;
+			sourceTree = "<group>";
+		};
 		014F5F97272D9F280058132F /* AuthorizationVCs */ = {
 			isa = PBXGroup;
 			children = (
@@ -167,6 +206,7 @@
 				A17AB33F274D3DAB007EC89F /* AuthService.swift */,
 				A153C5462753D7BA00F9871E /* UsersService.swift */,
 				A1548E23275945710017BDA4 /* ImageLoaderService.swift */,
+				012440FB2765137500676D03 /* PedometerService.swift */,
 				A1BBC543275F7C91009BFD17 /* FriendsService.swift */,
 			);
 			path = Services;
@@ -187,11 +227,9 @@
 			isa = PBXGroup;
 			children = (
 				A13BD97E274448F10030F984 /* CompetitionModels.swift */,
+				012440F92765131D00676D03 /* StepsModels.swift */,
 				A187114127418525001DFAE7 /* FriendsList.swift */,
-				0172EAC42724335900DE1779 /* SteppingWeek.swift */,
-				0172EAC02724318C00DE1779 /* SteppingDay.swift */,
 				A1160099275B9697000A5518 /* UserModel.swift */,
-				0172EAC42724335900DE1779 /* StepsModels.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -228,6 +266,7 @@
 			isa = PBXGroup;
 			children = (
 				01F7D4B3274AA2D4007676CC /* HeaderCollectionReusableView.swift */,
+				012440F5276512D800676D03 /* AddNewCompetitionViewController.swift */,
 				A13BD974274448380030F984 /* CompetitionViewController.swift */,
 				A13BD980274449380030F984 /* EachCompetitionViewController.swift */,
 				A13BD976274448380030F984 /* CompetitionViewCell.swift */,
@@ -248,6 +287,7 @@
 			children = (
 				01F7D4B5274AA2FD007676CC /* EachFriendViewController.swift */,
 				A187113D274184A8001DFAE7 /* FriendsListViewController.swift */,
+				012440F7276512F600676D03 /* NewFriendViewController.swift */,
 				A187113E274184A8001DFAE7 /* FriendsListCollectionViewCell.swift */,
 			);
 			path = FriendsViewController;
@@ -260,7 +300,11 @@
 				A13BD97A2744484A0030F984 /* HexColor.swift */,
 				A165E287274419880002A973 /* ErrorTextField.swift */,
 				A165E286274419880002A973 /* TextValidation.swift */,
-				A187114427418553001DFAE7 /* CircleImageView.swift */,
+				012440DE2765127C00676D03 /* IntSeparatorExtension.swift */,
+				012440E22765129900676D03 /* CircleAndRoundedViews.swift */,
+				012440E42765129F00676D03 /* CalendarISO8601.swift */,
+				012440E02765128B00676D03 /* CustomErrors.swift */,
+				012440DC2765127500676D03 /* LockedImage.swift */,
 				A162C10127451F8F00C1D2BF /* BalloonMarker.swift */,
 				01F7D4B7274BF146007676CC /* StepColor.swift */,
 				A1160097275B93C0000A5518 /* UserConvector.swift */,
@@ -283,6 +327,8 @@
 		A19E9EA82760F797009576A1 /* StepsViewController */ = {
 			isa = PBXGroup;
 			children = (
+				012440E6276512AD00676D03 /* SettingsScreen */,
+				012440F3276512BA00676D03 /* CalendarViewController.swift */,
 				A19E9EA92760F797009576A1 /* StepsViewController.swift */,
 				A19E9EAA2760F797009576A1 /* WeekChartViewController.swift */,
 			);
@@ -405,39 +451,53 @@
 			buildActionMask = 2147483647;
 			files = (
 				A13BD977274448380030F984 /* CompetitionViewController.swift in Sources */,
+				012440E12765128C00676D03 /* CustomErrors.swift in Sources */,
 				01F7D4B8274BF146007676CC /* StepColor.swift in Sources */,
+				012440F6276512D800676D03 /* AddNewCompetitionViewController.swift in Sources */,
+				012440F8276512F600676D03 /* NewFriendViewController.swift in Sources */,
+				012440F0276512AE00676D03 /* SettingsDailyGoalCell.swift in Sources */,
 				A13BD97F274448F10030F984 /* CompetitionModels.swift in Sources */,
-				A187114527418553001DFAE7 /* CircleImageView.swift in Sources */,
 				014F5F9B272D9F990058132F /* LoginViewController.swift in Sources */,
+				012440F2276512AE00676D03 /* SettingsThemesCell.swift in Sources */,
 				014F5F99272D9F880058132F /* AuthorizationViewController.swift in Sources */,
 				A116009C275EB911000A5518 /* ConvertBrithDayToAge.swift in Sources */,
 				A1871140274184A8001DFAE7 /* FriendsListCollectionViewCell.swift in Sources */,
 				A17AB340274D3DAB007EC89F /* AuthService.swift in Sources */,
 				A13BD97B2744484A0030F984 /* HexColor.swift in Sources */,
-				0172EAC52724335900DE1779 /* StepsModels.swift in Sources */,
 				01F7D4B4274AA2D4007676CC /* HeaderCollectionReusableView.swift in Sources */,
 				A19E9EAC2760F797009576A1 /* WeekChartViewController.swift in Sources */,
+				012440F4276512BB00676D03 /* CalendarViewController.swift in Sources */,
 				014F5F96272D9E960058132F /* TabBarControllerFunc.swift in Sources */,
 				A165E285274419770002A973 /* ProfileViewController.swift in Sources */,
 				A153C5472753D7BA00F9871E /* UsersService.swift in Sources */,
 				A165E289274419880002A973 /* ErrorTextField.swift in Sources */,
 				A165E288274419880002A973 /* TextValidation.swift in Sources */,
+				012440FA2765131D00676D03 /* StepsModels.swift in Sources */,
 				0172EABE27242F7000DE1779 /* StepsService.swift in Sources */,
+				012440EE276512AE00676D03 /* SettingsUnitMeasureCell.swift in Sources */,
 				A187113F274184A8001DFAE7 /* FriendsListViewController.swift in Sources */,
+				012440F1276512AE00676D03 /* SettingsIconsCell.swift in Sources */,
+				012440DD2765127500676D03 /* LockedImage.swift in Sources */,
+				012440E32765129A00676D03 /* CircleAndRoundedViews.swift in Sources */,
 				A162C10227451F8F00C1D2BF /* BalloonMarker.swift in Sources */,
 				A187114227418525001DFAE7 /* FriendsList.swift in Sources */,
 				A13BD981274449380030F984 /* EachCompetitionViewController.swift in Sources */,
+				012440EF276512AE00676D03 /* StepsScreenSettings.swift in Sources */,
 				A19E9EAB2760F797009576A1 /* StepsViewController.swift in Sources */,
 				A1160098275B93C0000A5518 /* UserConvector.swift in Sources */,
 				A1548E24275945710017BDA4 /* ImageLoaderService.swift in Sources */,
 				A116009A275B9697000A5518 /* UserModel.swift in Sources */,
 				014F5F9D272D9FAE0058132F /* SignUpViewController.swift in Sources */,
 				01651A3B27120D2D00DC9391 /* AppDelegate.swift in Sources */,
+				012440FC2765137600676D03 /* PedometerService.swift in Sources */,
 				A13BD979274448380030F984 /* CompetitionViewCell.swift in Sources */,
 				A19E9EA72760F77B009576A1 /* UserDefaults.swift in Sources */,
 				A1BBC544275F7C91009BFD17 /* FriendsService.swift in Sources */,
+				012440E52765129F00676D03 /* CalendarISO8601.swift in Sources */,
 				0BD1511C2740176800F15800 /* ProfileService.swift in Sources */,
+				012440DF2765127C00676D03 /* IntSeparatorExtension.swift in Sources */,
 				01F7D4B6274AA2FD007676CC /* EachFriendViewController.swift in Sources */,
+				012440ED276512AE00676D03 /* SettingsHeader.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -582,7 +642,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 27P5AR5H92;
+				DEVELOPMENT_TEAM = 37UJALBQ5X;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = StepperApp/Support/Info.plist;
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "This app requires to access your health data";
@@ -600,7 +660,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.olyagalyagina.StepperApp1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.stepteam.stepbeat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -620,7 +680,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 27P5AR5H92;
+				DEVELOPMENT_TEAM = 37UJALBQ5X;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = StepperApp/Support/Info.plist;
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "This app requires to access your health data";
@@ -638,7 +698,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.olyagalyagina.StepperApp1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.stepteam.stepbeat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;

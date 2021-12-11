@@ -58,19 +58,39 @@ final class AuthServiceImplementation: AuthService {
     }
     
     func registrationUser(email: String, name: String, password: String,completion: @escaping (Error?) -> Void) {
+        
+        self.usersService.getUserByName(name: name) {  [weak self] result_request in
+            guard self != nil else {
+                return
+            }
+            switch result_request {
+            case .success(_):
+                completion(CustomError.userNameTaken)
+            case .failure(let error):
+                if error as! CustomError == CustomError.noSuchUser{
+                    print("Имя свободно")
+                } else {
+                    completion(error)
+                }
+            }
+        }
+        
+        
         FirebaseAuth.Auth.auth().createUser(withEmail: email, password: password) { (result, error) in
             if error != nil {
                 completion(error)
             } else {
+                let defaultImage = "E4E874E6-AB4E-4F2C-8F9C-C0762F58D6A5"
                 self.db.collection("users").document(result!.user.uid).setData([
                     "uid": result!.user.uid,
-                    "name": name
+                    "name": name,
+                    "image": defaultImage
                 ]) { (error) in
                     if error != nil{
                         completion(error)
                     } else {
                         completion(nil)
-                        let newUser = User(id: result!.user.uid, name: name)
+                        let newUser = User(id: result!.user.uid, name: name, imageName: defaultImage)
                         self.userOperations.saveUser(user: newUser)
                     }
                 }

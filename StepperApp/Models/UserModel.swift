@@ -12,5 +12,5 @@ struct User: Codable {
     let name: String
     var birthDate: Date? = Date()
     var isMan: Bool? = true
-    var imageName: String? = "Photo"
+    var imageName: String 
 }

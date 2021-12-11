@@ -21,14 +21,15 @@ final class UserConvector {
     func dictToUser(from document: DocumentSnapshot) -> User? {
         guard let dict = document.data(),
               let uid = dict[Key.uid.rawValue] as? String,
-              let name = dict[Key.name.rawValue] as? String
+              let name = dict[Key.name.rawValue] as? String,
+              let imageName = dict[Key.imageName.rawValue] as? String
         else {
             return nil
         }
         
         let birthDate = dict[Key.birthDate.rawValue] as? Date
         let isMan = dict[Key.isMan.rawValue] as? Bool
-        let imageName = dict[Key.imageName.rawValue] as? String
+        
         
         return User(id: uid,
                     name: name,

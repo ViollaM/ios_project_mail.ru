@@ -103,6 +103,9 @@ extension WeekChartViewController {
                     steps.append(ChartDataEntry(x: Double(x), y: Double(week.steppingDays[x].steps)))
                     days.append(convertDateToWeekday(date: week.steppingDays[x].date))
                 }
+                for x in week.steppingDays.count..<7{
+                    steps.append(ChartDataEntry(x: Double(x), y: Double(0)))
+                }
                 days = getRightDays(days: days)
             }
             

@@ -28,6 +28,26 @@ final class UsersServiceImplementation: UsersService {
     
     func updateUser(user: User,  completion: @escaping (Error?) -> Void) {
         
+        self.getUserByName(name: user.name) {  [weak self] result_request in
+            guard self != nil else {
+                return
+            }
+            switch result_request {
+            case .success(let base_user):
+                if base_user.id != user.id{
+                    completion(CustomError.userNameTaken)
+                    return
+                } 
+            case .failure(let error):
+                if error as! CustomError == CustomError.noSuchUser{
+                    print("Имя свободно")
+                } else {
+                    completion(error)
+                    return
+                }
+            }
+        }
+        
         self.db.collection("users").document(user.id).setData([
             "uid": user.id,
             "name": user.name,
@@ -51,16 +71,15 @@ final class UsersServiceImplementation: UsersService {
                 return
             }
             guard let document = documentSnapshot else {
-                completion(.failure(userError.networkProblem))
+                completion(.failure(CustomError.parseDBProblem))
                 return
             }
             
             let user = self.userConvector.dictToUser(from: document)
             guard let user = user else {
-                completion(.failure(userError.networkProblem))
+                completion(.failure(CustomError.noSuchUser))
                 return
             }
-            
             completion(.success(user))
         }
     }
@@ -72,12 +91,16 @@ final class UsersServiceImplementation: UsersService {
                 return
             }
             guard let documents = querySnapshot?.documents else {
-                completion(.failure(userError.networkProblem))
+                completion(.failure(CustomError.parseDBProblem))
                 return
             }
             
             let users = documents.compactMap{ self?.userConvector.dictToUser(from: $0)}
             
+            if users.count == 0{
+                completion(.failure(CustomError.noSuchUser))
+                return
+            }
             completion(.success(users[0]))
         }
     }

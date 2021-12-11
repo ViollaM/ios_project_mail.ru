@@ -79,7 +79,6 @@ final class CompetitionViewController: UIViewController {
         plus.layer.cornerRadius = 10
         plus.backgroundColor = StepColor.cellBackground
         plus.frame.size = CGSize(width: 28, height: 28)
-        plus.addTarget(self, action: #selector(addNewCompetitionButtonPressed), for: .touchUpInside)
         return plus
     }()
     
@@ -93,10 +92,10 @@ final class CompetitionViewController: UIViewController {
         plusButton.addTarget(self, action: #selector(addNewCompetitionButtonPressed), for: .touchUpInside)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        competitions = fetchCompetitions(state: .current)
-    }
+//    override func viewWillAppear(_ animated: Bool) {
+//        super.viewWillAppear(animated)
+//        competitions = fetchCompetitions(state: .current)
+//    }
     
     private func fetchCompetitions(state : CompetitionsState) -> [CompetitionData] {
         var competitions = state.fetch()
@@ -129,33 +128,33 @@ final class CompetitionViewController: UIViewController {
         present(newVC, animated: true)
     }
     
-    @objc
-    private func currentCompetitionButtonPressed() {
-        var t = 0
-        self.competitions = []
-        for i in allCompetitions {
-            if (!i.isFinished) {
-                competitions.append(i)
-                competitions[t].remainingTime = currentTime()
-                t += 1
-            }
-        }
-        collectionView.reloadData()
-    }
-    
-    @objc
-    private func finishedCompetitionButtonPressed() {
-        var t = 0
-        self.competitions = []
-        for i in allCompetitions {
-            if (i.isFinished) {
-                competitions.append(i)
-                competitions[t].remainingTime = currentTime()
-                t += 1
-            }
-        }
-        collectionView.reloadData()
-    }
+//    @objc
+//    private func currentCompetitionButtonPressed() {
+//        var t = 0
+//        self.competitions = []
+//        for i in allCompetitions {
+//            if (!i.isFinished) {
+//                competitions.append(i)
+//                competitions[t].remainingTime = currentTime()
+//                t += 1
+//            }
+//        }
+//        collectionView.reloadData()
+//    }
+//
+//    @objc
+//    private func finishedCompetitionButtonPressed() {
+//        var t = 0
+//        self.competitions = []
+//        for i in allCompetitions {
+//            if (i.isFinished) {
+//                competitions.append(i)
+//                competitions[t].remainingTime = currentTime()
+//                t += 1
+//            }
+//        }
+//        collectionView.reloadData()
+//    }
     
     private func setupLayout () {
         view.addSubview(collectionView)

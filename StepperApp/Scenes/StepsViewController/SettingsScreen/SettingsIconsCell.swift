@@ -11,6 +11,13 @@ final class SettingsIconsCell: UICollectionViewCell {
     var icon: String? {
         didSet {
             iconButton.setBackgroundImage(UIImage(named: icon ?? "gow"), for: .normal)
+            let image = UIImage(named: icon ?? "gow")
+            let lockedImage = image?.mergeWith(topImage: UIImage(systemName: "lock")!)
+            iconButton.setBackgroundImage(lockedImage, for: .disabled)
+            iconButton.setBackgroundImage(image, for: .normal)
+            if icon == "gow" {
+                iconButton.isEnabled = true
+            }
         }
     }
     private var iconButton: RoundButton = {

@@ -20,6 +20,9 @@ final class EachCompetitionViewController: UIViewController {
             remainingTimeLabel.text = currentTime()
             progressLabel.text = "\(Int((currentStepsFunc()))) / \(Int((competition?.maxValue)!))"
             progressBar.progress  = Float((competition?.currentValue)! / (competition?.maxValue)!)
+            if progressBar.progress > 1 {
+                progressBar.isHidden = true
+            }
         }
     }
     
@@ -79,8 +82,8 @@ final class EachCompetitionViewController: UIViewController {
     
     lazy var progressBar: UIProgressView = {
         let bar = UIProgressView()
-        bar.tintColor = StepColor.cellBackground
-        bar.trackTintColor = HexColor(rgb: 0x375F57)
+        bar.tintColor = HexColor(rgb: 0x375F57)
+        bar.trackTintColor = StepColor.cellBackground
         bar.translatesAutoresizingMaskIntoConstraints = false
         bar.clipsToBounds = true
         return bar
@@ -127,18 +130,18 @@ final class EachCompetitionViewController: UIViewController {
             timeEndsLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 1),
             
             remainingTimeLabel.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 11),
-            remainingTimeLabel.leadingAnchor.constraint(equalTo: descriptionLabel.leadingAnchor, constant: 192),
-            remainingTimeLabel.widthAnchor.constraint(equalToConstant: 100),
+            remainingTimeLabel.leadingAnchor.constraint(equalTo: progressLabel.leadingAnchor),
+            remainingTimeLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 1),
             remainingTimeLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 1),
             
             yourProgressLabel.topAnchor.constraint(equalTo: timeEndsLabel.bottomAnchor, constant: 4),
             yourProgressLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: (view.frame.width - 315) / 2),
-            yourProgressLabel.widthAnchor.constraint(equalToConstant: 244),
+            yourProgressLabel.widthAnchor.constraint(equalToConstant: 150),
             yourProgressLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 1),
             
             progressLabel.topAnchor.constraint(equalTo: timeEndsLabel.bottomAnchor, constant: 4),
-            progressLabel.leadingAnchor.constraint(equalTo: yourProgressLabel.leadingAnchor, constant: 192),
-            progressLabel.widthAnchor.constraint(equalToConstant: 100),
+            progressLabel.trailingAnchor.constraint(equalTo: progressBar.trailingAnchor),
+            progressLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 1),
             progressLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 1),
             
             progressBar.topAnchor.constraint(equalTo: yourProgressLabel.bottomAnchor, constant: 14),

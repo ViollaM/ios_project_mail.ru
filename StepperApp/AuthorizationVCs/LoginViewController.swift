@@ -74,7 +74,6 @@ final class LoginViewController: UIViewController {
         label.addGestureRecognizer(guestureRecognizer)
         label.translatesAutoresizingMaskIntoConstraints = false
 
-        //text.backgroundColor = StepColor.cellBackground
         return label
     }()
 
@@ -159,15 +158,6 @@ final class LoginViewController: UIViewController {
                 displayAlert(message: result!.localizedDescription, viewController: self)
             }
         }
-        
-        
-//        UserDefaults.standard.set(true, forKey: "isLogged")
-//        let rootVC = buildAppTabBarController()
-//        let navVC = UINavigationController(rootViewController: rootVC)
-//        navVC.navigationBar.isHidden = true
-//        navVC.modalPresentationStyle = .fullScreen
-//        present(navVC, animated: true)
     }
-    
 }
 

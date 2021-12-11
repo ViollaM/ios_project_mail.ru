@@ -86,7 +86,6 @@ class SignUpViewController: UIViewController {
         super.viewDidLoad()
         setupView()
         setupBackground()
-        
     }
     
     private func setupView() {
@@ -151,12 +150,5 @@ class SignUpViewController: UIViewController {
                 displayAlert(message: result!.localizedDescription, viewController: self)
             }
         }
-        
-//        let rootVC = buildAppTabBarController()
-//        let navVC = UINavigationController(rootViewController: rootVC)
-//        navVC.navigationBar.isHidden = true
-//        navVC.modalPresentationStyle = .fullScreen
-//        present(navVC, animated: true)
-//        UserDefaults.standard.set(true, forKey: "isLogged")
     }
 }

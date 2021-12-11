@@ -6,22 +6,35 @@
 //
 
 import UIKit
-import PinLayout
 
 final class EachFriendViewController: UIViewController {
+    private let imageLoaderService = ImageLoaderServiceImplementation()
     
     var friend: User? {
         didSet {
-            avatar = CircleImageView(image: UIImage(named: friend?.imageName ?? "Photo"))
+            imageLoaderService.getImage(with: friend!.imageName) {[weak self] image in
+                guard let image = image else {
+                    return
+                }
+                DispatchQueue.main.async {
+                    self?.avatarImage.image = image
+                }
+            }
             nameTitle.text = "Hi! I'm @\(friend?.name ?? "user")"
             competitionLabel.text = "@\(friend?.name ?? "user")'s competitions:"
         }
     }
     
-    private lazy var avatar = CircleImageView()
+    private lazy var avatarImage: UIImageView = {
+        let image = UIImage()
+        let imageView = CircleImageView(image: image)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
     
     private lazy var nameTitle: UILabel = {
         let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
         label.textColor = StepColor.darkGreen
         label.font = .systemFont(ofSize: 30, weight: .bold)
@@ -29,6 +42,7 @@ final class EachFriendViewController: UIViewController {
     }()
     private lazy var competitionLabel: UILabel = {
         let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .left
         label.textColor = StepColor.darkGreen
         label.font = .systemFont(ofSize: 20, weight: .regular)
@@ -37,27 +51,27 @@ final class EachFriendViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        [avatar, nameTitle, competitionLabel].forEach {
+        [avatarImage, nameTitle, competitionLabel].forEach {
             view.addSubview($0)
         }
         view.backgroundColor = StepColor.cellBackground
-        nameTitle.pin
-            .top(view.safeAreaInsets.top + 10)
-            .horizontally()
-            .height(34)
         
-        avatar.pin
-            .below(of: nameTitle)
-            .marginTop(24)
-            .width(220)
-            .height(220)
-            .hCenter()
-        
-        competitionLabel.pin
-            .below(of: avatar)
-            .marginTop(24)
-            .horizontally(40)
-            .height(24)
-        
+        NSLayoutConstraint.activate([
+            nameTitle.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
+            nameTitle.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            nameTitle.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            nameTitle.heightAnchor.constraint(equalToConstant: 34),
+            
+            avatarImage.topAnchor.constraint(equalTo: nameTitle.bottomAnchor, constant: 24),
+            avatarImage.widthAnchor.constraint(equalToConstant: 220),
+            avatarImage.heightAnchor.constraint(equalToConstant: 220),
+            avatarImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            
+            competitionLabel.topAnchor.constraint(equalTo: avatarImage.bottomAnchor, constant: 24),
+            competitionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
+            competitionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 40),
+            competitionLabel.heightAnchor.constraint(equalToConstant: 24)
+            
+        ])
     }
 }

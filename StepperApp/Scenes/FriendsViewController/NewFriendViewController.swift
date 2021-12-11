@@ -9,10 +9,12 @@ import UIKit
 import PanModal
 
 protocol NewFriendDelegate {
-    
+    func searchForUser(nickname: String)
 }
 
-final class NewFriendViewController: UIViewController, NewFriendDelegate {
+final class NewFriendViewController: UIViewController {
+    var delegate: NewFriendDelegate?
+    
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -95,6 +97,9 @@ final class NewFriendViewController: UIViewController, NewFriendDelegate {
     
     @objc
     private func addButtonTap() {
+        let nickname = newFriendTextField.text ?? ""
+        delegate?.searchForUser(nickname: nickname)
+        newFriendTextField.text = ""
         dismiss(animated: true, completion: nil)
     }
     

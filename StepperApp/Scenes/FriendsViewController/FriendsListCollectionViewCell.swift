@@ -9,13 +9,22 @@ import UIKit
 
 final class FriendsListCollectionViewCell: UICollectionViewCell {
     
+    private let imageLoaderService = ImageLoaderServiceImplementation()
+    
     var friend: User? {
         didSet {
-            avatarImage.image = UIImage(named: friend?.imageName ?? "Photo")
+            imageLoaderService.getImage(with: friend!.imageName) {[weak self] image in
+                guard let image = image else {
+                    return
+                }
+                DispatchQueue.main.async {
+                    self?.avatarImage.image = image
+                }
+            }
             nameLabel.text = "@\(friend?.name ?? "User")"
         }
     }
-    
+        
     private lazy var avatarImage: UIImageView = {
         let image = UIImage()
         let imageView = CircleImageView(image: image)

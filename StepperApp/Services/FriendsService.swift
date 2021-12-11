@@ -78,9 +78,10 @@ final class FriendsServiceImplementation: FriendsService {
                     case .failure(let error):
                         print(error.localizedDescription)
                     }
+                    completion(.success(friends))
                 }
             }
-            completion(.success(friends))
+//            completion(.success(friends))
         }
     }
 }

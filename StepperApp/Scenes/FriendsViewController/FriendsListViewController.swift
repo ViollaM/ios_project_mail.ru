@@ -12,6 +12,17 @@ import Presentr
 
 final class FriendsListViewController: UIViewController {
     
+    private let friendsService: FriendsService
+    
+    init(friendsService: FriendsService) {
+        self.friendsService = friendsService
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     private let presenter: Presentr = {
         let width = ModalSize.custom(size: Float(UIScreen.main.bounds.width - 60))
         let height = ModalSize.fluid(percentage: 0.25)
@@ -26,11 +37,13 @@ final class FriendsListViewController: UIViewController {
         return presentr
     }()
     private let newFriendVC = NewFriendViewController()
-    private var allUsers = friends
-    private var filteredUsers: [User] = []
+    private var allFriends: [User] = []
+    private var filteredFriends: [User] = []
     
     private let searchController: UISearchController = {
         let search = UISearchController()
+        search.searchBar.autocorrectionType = .no
+        search.searchBar.autocapitalizationType = .none
         search.searchBar.tintColor = StepColor.darkGreen
         return search
     }()
@@ -70,9 +83,30 @@ final class FriendsListViewController: UIViewController {
     private let cellHeight = CGFloat(70)
 
     override func viewDidLoad() {
+        getFriends()
         setupData()
         setupNavigationItem()
         setupLayout()
+    }
+    
+    private func getFriends() {
+        if let id = UserOperations().getUser()?.id {
+            friendsService.getFriends(for: id) { [weak self] result in
+                guard let self = self else {
+                    return
+                }
+                switch result {
+                case .success(let friends):
+                    DispatchQueue.main.async {
+                        self.allFriends = friends
+                        self.filteredFriends = friends
+                        self.collectionView.reloadData()
+                    }
+                case .failure(let error):
+                    displayAlert(message: error.localizedDescription, viewController: self)
+                }
+            }
+        }
     }
 
     private func setupNavigationItem () {
@@ -95,23 +129,24 @@ final class FriendsListViewController: UIViewController {
     
     private func setupData() {
         searchController.searchResultsUpdater = self
-        filteredUsers = allUsers
+        filteredFriends = allFriends
     }
     
     @objc
     private func addingNewFriend() {
+        newFriendVC.delegate = self
         customPresentViewController(presenter, viewController: newFriendVC, animated: true, completion: nil)
     }
 }
 
 extension FriendsListViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        filteredUsers.count
+        filteredFriends.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: FriendsListCollectionViewCell.self), for: indexPath) as! FriendsListCollectionViewCell
-        cell.friend = filteredUsers[indexPath.row]
+        cell.friend = filteredFriends[indexPath.row]
         return cell
     }
     
@@ -126,7 +161,7 @@ extension FriendsListViewController: UICollectionViewDataSource, UICollectionVie
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let friendsVC = EachFriendViewController()
-        let friend = filteredUsers[indexPath.row]
+        let friend = filteredFriends[indexPath.row]
         friendsVC.friend = friend
         present(friendsVC, animated: true, completion: nil)
     }
@@ -136,14 +171,32 @@ extension FriendsListViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         if let searchText = searchController.searchBar.text?.lowercased(){
                 if searchText.count == 0 {
-                    filteredUsers = allUsers
+                    filteredFriends = allFriends
                 }
                 else {
-                    filteredUsers = allUsers.filter {
+                    filteredFriends = allFriends.filter {
                         return $0.name.lowercased().contains(searchText)
                     }
                 }
             }
             self.collectionView.reloadData()
+    }
+}
+
+extension FriendsListViewController: NewFriendDelegate {
+    func searchForUser(nickname: String) {
+        let userId = UserOperations().getUser()!.id
+        friendsService.addFriend(for: userId, to: nickname) { [weak self] error in
+            guard let self = self else {
+                return
+            }
+            switch error {
+            case nil:
+                displayAlert(message: "\(nickname) is your friend!", viewController: self)
+                    self.getFriends()
+            default:
+                displayAlert(message: error!.localizedDescription, viewController: self)
+            }
+        }
     }
 }

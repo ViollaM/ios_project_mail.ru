@@ -7,22 +7,21 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		012440DD2765127500676D03 /* LockedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012440DC2765127500676D03 /* LockedImage.swift */; };
-		012440DF2765127C00676D03 /* IntSeparatorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012440DE2765127C00676D03 /* IntSeparatorExtension.swift */; };
-		012440E12765128C00676D03 /* CustomErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012440E02765128B00676D03 /* CustomErrors.swift */; };
-		012440E32765129A00676D03 /* CircleAndRoundedViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012440E22765129900676D03 /* CircleAndRoundedViews.swift */; };
-		012440E52765129F00676D03 /* CalendarISO8601.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012440E42765129F00676D03 /* CalendarISO8601.swift */; };
-		012440ED276512AE00676D03 /* SettingsHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012440E7276512AD00676D03 /* SettingsHeader.swift */; };
-		012440EE276512AE00676D03 /* SettingsUnitMeasureCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012440E8276512AD00676D03 /* SettingsUnitMeasureCell.swift */; };
-		012440EF276512AE00676D03 /* StepsScreenSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012440E9276512AD00676D03 /* StepsScreenSettings.swift */; };
-		012440F0276512AE00676D03 /* SettingsDailyGoalCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012440EA276512AD00676D03 /* SettingsDailyGoalCell.swift */; };
-		012440F1276512AE00676D03 /* SettingsIconsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012440EB276512AD00676D03 /* SettingsIconsCell.swift */; };
-		012440F2276512AE00676D03 /* SettingsThemesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012440EC276512AD00676D03 /* SettingsThemesCell.swift */; };
-		012440F4276512BB00676D03 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012440F3276512BA00676D03 /* CalendarViewController.swift */; };
-		012440F6276512D800676D03 /* AddNewCompetitionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012440F5276512D800676D03 /* AddNewCompetitionViewController.swift */; };
-		012440F8276512F600676D03 /* NewFriendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012440F7276512F600676D03 /* NewFriendViewController.swift */; };
-		012440FA2765131D00676D03 /* StepsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012440F92765131D00676D03 /* StepsModels.swift */; };
-		012440FC2765137600676D03 /* PedometerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012440FB2765137500676D03 /* PedometerService.swift */; };
+		012440BE2764BDF300676D03 /* CircleAndRoundedViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012440BD2764BDF300676D03 /* CircleAndRoundedViews.swift */; };
+		012440C02764BDFB00676D03 /* CalendarISO8601.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012440BF2764BDFB00676D03 /* CalendarISO8601.swift */; };
+		012440C22764BE0400676D03 /* IntSeparatorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012440C12764BE0400676D03 /* IntSeparatorExtension.swift */; };
+		012440CA2764BE2C00676D03 /* SettingsHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012440C42764BE2C00676D03 /* SettingsHeader.swift */; };
+		012440CB2764BE2C00676D03 /* SettingsUnitMeasureCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012440C52764BE2C00676D03 /* SettingsUnitMeasureCell.swift */; };
+		012440CC2764BE2C00676D03 /* StepsScreenSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012440C62764BE2C00676D03 /* StepsScreenSettings.swift */; };
+		012440CD2764BE2C00676D03 /* SettingsDailyGoalCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012440C72764BE2C00676D03 /* SettingsDailyGoalCell.swift */; };
+		012440CE2764BE2C00676D03 /* SettingsIconsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012440C82764BE2C00676D03 /* SettingsIconsCell.swift */; };
+		012440CF2764BE2C00676D03 /* SettingsThemesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012440C92764BE2C00676D03 /* SettingsThemesCell.swift */; };
+		012440D12764BE3300676D03 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012440D02764BE3300676D03 /* CalendarViewController.swift */; };
+		012440D32764BE4600676D03 /* AddNewCompetitionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012440D22764BE4600676D03 /* AddNewCompetitionViewController.swift */; };
+		012440D52764BE5300676D03 /* NewFriendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012440D42764BE5300676D03 /* NewFriendViewController.swift */; };
+		012440D72764BE6600676D03 /* PedometerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012440D62764BE6600676D03 /* PedometerService.swift */; };
+		012440D92764BE7D00676D03 /* StepsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012440D82764BE7D00676D03 /* StepsModels.swift */; };
+		012440DB2764FEA500676D03 /* LockedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012440DA2764FEA400676D03 /* LockedImage.swift */; };
 		014F5F96272D9E960058132F /* TabBarControllerFunc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014F5F95272D9E960058132F /* TabBarControllerFunc.swift */; };
 		014F5F99272D9F880058132F /* AuthorizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014F5F98272D9F880058132F /* AuthorizationViewController.swift */; };
 		014F5F9B272D9F990058132F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014F5F9A272D9F990058132F /* LoginViewController.swift */; };
@@ -63,22 +62,21 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		012440DC2765127500676D03 /* LockedImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LockedImage.swift; sourceTree = "<group>"; };
-		012440DE2765127C00676D03 /* IntSeparatorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntSeparatorExtension.swift; sourceTree = "<group>"; };
-		012440E02765128B00676D03 /* CustomErrors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomErrors.swift; sourceTree = "<group>"; };
-		012440E22765129900676D03 /* CircleAndRoundedViews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleAndRoundedViews.swift; sourceTree = "<group>"; };
-		012440E42765129F00676D03 /* CalendarISO8601.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarISO8601.swift; sourceTree = "<group>"; };
-		012440E7276512AD00676D03 /* SettingsHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsHeader.swift; sourceTree = "<group>"; };
-		012440E8276512AD00676D03 /* SettingsUnitMeasureCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsUnitMeasureCell.swift; sourceTree = "<group>"; };
-		012440E9276512AD00676D03 /* StepsScreenSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StepsScreenSettings.swift; sourceTree = "<group>"; };
-		012440EA276512AD00676D03 /* SettingsDailyGoalCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsDailyGoalCell.swift; sourceTree = "<group>"; };
-		012440EB276512AD00676D03 /* SettingsIconsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsIconsCell.swift; sourceTree = "<group>"; };
-		012440EC276512AD00676D03 /* SettingsThemesCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsThemesCell.swift; sourceTree = "<group>"; };
-		012440F3276512BA00676D03 /* CalendarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CalendarViewController.swift; path = StepperApp/Scenes/StepsViewController/CalendarViewController.swift; sourceTree = SOURCE_ROOT; };
-		012440F5276512D800676D03 /* AddNewCompetitionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddNewCompetitionViewController.swift; sourceTree = "<group>"; };
-		012440F7276512F600676D03 /* NewFriendViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewFriendViewController.swift; sourceTree = "<group>"; };
-		012440F92765131D00676D03 /* StepsModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StepsModels.swift; sourceTree = "<group>"; };
-		012440FB2765137500676D03 /* PedometerService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PedometerService.swift; sourceTree = "<group>"; };
+		012440BD2764BDF300676D03 /* CircleAndRoundedViews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleAndRoundedViews.swift; sourceTree = "<group>"; };
+		012440BF2764BDFB00676D03 /* CalendarISO8601.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarISO8601.swift; sourceTree = "<group>"; };
+		012440C12764BE0400676D03 /* IntSeparatorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntSeparatorExtension.swift; sourceTree = "<group>"; };
+		012440C42764BE2C00676D03 /* SettingsHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsHeader.swift; sourceTree = "<group>"; };
+		012440C52764BE2C00676D03 /* SettingsUnitMeasureCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsUnitMeasureCell.swift; sourceTree = "<group>"; };
+		012440C62764BE2C00676D03 /* StepsScreenSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StepsScreenSettings.swift; sourceTree = "<group>"; };
+		012440C72764BE2C00676D03 /* SettingsDailyGoalCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsDailyGoalCell.swift; sourceTree = "<group>"; };
+		012440C82764BE2C00676D03 /* SettingsIconsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsIconsCell.swift; sourceTree = "<group>"; };
+		012440C92764BE2C00676D03 /* SettingsThemesCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsThemesCell.swift; sourceTree = "<group>"; };
+		012440D02764BE3300676D03 /* CalendarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
+		012440D22764BE4600676D03 /* AddNewCompetitionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddNewCompetitionViewController.swift; sourceTree = "<group>"; };
+		012440D42764BE5300676D03 /* NewFriendViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewFriendViewController.swift; sourceTree = "<group>"; };
+		012440D62764BE6600676D03 /* PedometerService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PedometerService.swift; sourceTree = "<group>"; };
+		012440D82764BE7D00676D03 /* StepsModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StepsModels.swift; sourceTree = "<group>"; };
+		012440DA2764FEA400676D03 /* LockedImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockedImage.swift; sourceTree = "<group>"; };
 		014F5F95272D9E960058132F /* TabBarControllerFunc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarControllerFunc.swift; sourceTree = "<group>"; };
 		014F5F98272D9F880058132F /* AuthorizationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationViewController.swift; sourceTree = "<group>"; };
 		014F5F9A272D9F990058132F /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -139,15 +137,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		012440E6276512AD00676D03 /* SettingsScreen */ = {
+		012440C32764BE2C00676D03 /* SettingsScreen */ = {
 			isa = PBXGroup;
 			children = (
-				012440E7276512AD00676D03 /* SettingsHeader.swift */,
-				012440E8276512AD00676D03 /* SettingsUnitMeasureCell.swift */,
-				012440E9276512AD00676D03 /* StepsScreenSettings.swift */,
-				012440EA276512AD00676D03 /* SettingsDailyGoalCell.swift */,
-				012440EB276512AD00676D03 /* SettingsIconsCell.swift */,
-				012440EC276512AD00676D03 /* SettingsThemesCell.swift */,
+				012440C42764BE2C00676D03 /* SettingsHeader.swift */,
+				012440C52764BE2C00676D03 /* SettingsUnitMeasureCell.swift */,
+				012440C62764BE2C00676D03 /* StepsScreenSettings.swift */,
+				012440C72764BE2C00676D03 /* SettingsDailyGoalCell.swift */,
+				012440C82764BE2C00676D03 /* SettingsIconsCell.swift */,
+				012440C92764BE2C00676D03 /* SettingsThemesCell.swift */,
 			);
 			path = SettingsScreen;
 			sourceTree = "<group>";
@@ -203,6 +201,7 @@
 			children = (
 				0172EABD27242F7000DE1779 /* StepsService.swift */,
 				0BD1511B2740176800F15800 /* ProfileService.swift */,
+				012440D62764BE6600676D03 /* PedometerService.swift */,
 				A17AB33F274D3DAB007EC89F /* AuthService.swift */,
 				A153C5462753D7BA00F9871E /* UsersService.swift */,
 				A1548E23275945710017BDA4 /* ImageLoaderService.swift */,
@@ -226,6 +225,7 @@
 		01A6B2CA2734454F00D16DF9 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				012440D82764BE7D00676D03 /* StepsModels.swift */,
 				A13BD97E274448F10030F984 /* CompetitionModels.swift */,
 				012440F92765131D00676D03 /* StepsModels.swift */,
 				A187114127418525001DFAE7 /* FriendsList.swift */,
@@ -265,6 +265,7 @@
 		A13BD973274448380030F984 /* CompetitionViewController */ = {
 			isa = PBXGroup;
 			children = (
+				012440D22764BE4600676D03 /* AddNewCompetitionViewController.swift */,
 				01F7D4B3274AA2D4007676CC /* HeaderCollectionReusableView.swift */,
 				012440F5276512D800676D03 /* AddNewCompetitionViewController.swift */,
 				A13BD974274448380030F984 /* CompetitionViewController.swift */,
@@ -285,6 +286,7 @@
 		A187113C274184A8001DFAE7 /* FriendsViewController */ = {
 			isa = PBXGroup;
 			children = (
+				012440D42764BE5300676D03 /* NewFriendViewController.swift */,
 				01F7D4B5274AA2FD007676CC /* EachFriendViewController.swift */,
 				A187113D274184A8001DFAE7 /* FriendsListViewController.swift */,
 				012440F7276512F600676D03 /* NewFriendViewController.swift */,
@@ -297,18 +299,17 @@
 			isa = PBXGroup;
 			children = (
 				A19E9EA62760F77B009576A1 /* UserDefaults.swift */,
+				012440BF2764BDFB00676D03 /* CalendarISO8601.swift */,
+				012440BD2764BDF300676D03 /* CircleAndRoundedViews.swift */,
+				012440C12764BE0400676D03 /* IntSeparatorExtension.swift */,
 				A13BD97A2744484A0030F984 /* HexColor.swift */,
 				A165E287274419880002A973 /* ErrorTextField.swift */,
 				A165E286274419880002A973 /* TextValidation.swift */,
-				012440DE2765127C00676D03 /* IntSeparatorExtension.swift */,
-				012440E22765129900676D03 /* CircleAndRoundedViews.swift */,
-				012440E42765129F00676D03 /* CalendarISO8601.swift */,
-				012440E02765128B00676D03 /* CustomErrors.swift */,
-				012440DC2765127500676D03 /* LockedImage.swift */,
 				A162C10127451F8F00C1D2BF /* BalloonMarker.swift */,
 				01F7D4B7274BF146007676CC /* StepColor.swift */,
 				A1160097275B93C0000A5518 /* UserConvector.swift */,
 				A116009B275EB911000A5518 /* ConvertBrithDayToAge.swift */,
+				012440DA2764FEA400676D03 /* LockedImage.swift */,
 			);
 			name = Helpers;
 			path = StepperApp/Helpers;
@@ -327,10 +328,10 @@
 		A19E9EA82760F797009576A1 /* StepsViewController */ = {
 			isa = PBXGroup;
 			children = (
-				012440E6276512AD00676D03 /* SettingsScreen */,
-				012440F3276512BA00676D03 /* CalendarViewController.swift */,
+				012440C32764BE2C00676D03 /* SettingsScreen */,
 				A19E9EA92760F797009576A1 /* StepsViewController.swift */,
 				A19E9EAA2760F797009576A1 /* WeekChartViewController.swift */,
+				012440D02764BE3300676D03 /* CalendarViewController.swift */,
 			);
 			path = StepsViewController;
 			sourceTree = "<group>";
@@ -460,6 +461,7 @@
 				014F5F9B272D9F990058132F /* LoginViewController.swift in Sources */,
 				012440F2276512AE00676D03 /* SettingsThemesCell.swift in Sources */,
 				014F5F99272D9F880058132F /* AuthorizationViewController.swift in Sources */,
+				012440DB2764FEA500676D03 /* LockedImage.swift in Sources */,
 				A116009C275EB911000A5518 /* ConvertBrithDayToAge.swift in Sources */,
 				A1871140274184A8001DFAE7 /* FriendsListCollectionViewCell.swift in Sources */,
 				A17AB340274D3DAB007EC89F /* AuthService.swift in Sources */,
@@ -471,10 +473,11 @@
 				A165E285274419770002A973 /* ProfileViewController.swift in Sources */,
 				A153C5472753D7BA00F9871E /* UsersService.swift in Sources */,
 				A165E289274419880002A973 /* ErrorTextField.swift in Sources */,
+				012440C02764BDFB00676D03 /* CalendarISO8601.swift in Sources */,
 				A165E288274419880002A973 /* TextValidation.swift in Sources */,
 				012440FA2765131D00676D03 /* StepsModels.swift in Sources */,
 				0172EABE27242F7000DE1779 /* StepsService.swift in Sources */,
-				012440EE276512AE00676D03 /* SettingsUnitMeasureCell.swift in Sources */,
+				012440D72764BE6600676D03 /* PedometerService.swift in Sources */,
 				A187113F274184A8001DFAE7 /* FriendsListViewController.swift in Sources */,
 				012440F1276512AE00676D03 /* SettingsIconsCell.swift in Sources */,
 				012440DD2765127500676D03 /* LockedImage.swift in Sources */,
@@ -485,19 +488,30 @@
 				012440EF276512AE00676D03 /* StepsScreenSettings.swift in Sources */,
 				A19E9EAB2760F797009576A1 /* StepsViewController.swift in Sources */,
 				A1160098275B93C0000A5518 /* UserConvector.swift in Sources */,
+				012440CA2764BE2C00676D03 /* SettingsHeader.swift in Sources */,
+				012440BE2764BDF300676D03 /* CircleAndRoundedViews.swift in Sources */,
 				A1548E24275945710017BDA4 /* ImageLoaderService.swift in Sources */,
+				012440D52764BE5300676D03 /* NewFriendViewController.swift in Sources */,
 				A116009A275B9697000A5518 /* UserModel.swift in Sources */,
+				012440CE2764BE2C00676D03 /* SettingsIconsCell.swift in Sources */,
+				012440CD2764BE2C00676D03 /* SettingsDailyGoalCell.swift in Sources */,
+				012440CB2764BE2C00676D03 /* SettingsUnitMeasureCell.swift in Sources */,
+				012440CF2764BE2C00676D03 /* SettingsThemesCell.swift in Sources */,
+				012440D32764BE4600676D03 /* AddNewCompetitionViewController.swift in Sources */,
 				014F5F9D272D9FAE0058132F /* SignUpViewController.swift in Sources */,
+				012440CC2764BE2C00676D03 /* StepsScreenSettings.swift in Sources */,
 				01651A3B27120D2D00DC9391 /* AppDelegate.swift in Sources */,
 				012440FC2765137600676D03 /* PedometerService.swift in Sources */,
 				A13BD979274448380030F984 /* CompetitionViewCell.swift in Sources */,
+				012440D12764BE3300676D03 /* CalendarViewController.swift in Sources */,
+				012440C22764BE0400676D03 /* IntSeparatorExtension.swift in Sources */,
 				A19E9EA72760F77B009576A1 /* UserDefaults.swift in Sources */,
 				A1BBC544275F7C91009BFD17 /* FriendsService.swift in Sources */,
 				012440E52765129F00676D03 /* CalendarISO8601.swift in Sources */,
 				0BD1511C2740176800F15800 /* ProfileService.swift in Sources */,
 				012440DF2765127C00676D03 /* IntSeparatorExtension.swift in Sources */,
 				01F7D4B6274AA2FD007676CC /* EachFriendViewController.swift in Sources */,
-				012440ED276512AE00676D03 /* SettingsHeader.swift in Sources */,
+				012440D92764BE7D00676D03 /* StepsModels.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -660,7 +674,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.stepteam.stepbeat;
+				PRODUCT_BUNDLE_IDENTIFIER = com.stepteam.;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -698,7 +712,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.stepteam.stepbeat;
+				PRODUCT_BUNDLE_IDENTIFIER = com.stepteam.;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;

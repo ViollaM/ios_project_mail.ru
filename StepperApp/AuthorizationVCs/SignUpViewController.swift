@@ -136,7 +136,10 @@ class SignUpViewController: UIViewController {
     
     @objc
     func changeLeftViewEnd() {
-        self.nameTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: self.nameTextField.frame.height))
+        if nameTextField.text == "" {
+            self.nameTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: self.nameTextField.frame.height))
+            
+        }
     }
     
     @objc func signupButtonToApp() {
@@ -168,7 +171,7 @@ class SignUpViewController: UIViewController {
             }
         }
         case .failure:
-            displayAlert(message: "Name should contain only lower- or uppercase letters, digits or -, pasasword should contain from 6 to 15 symbols", viewController: self)
+            displayAlert(message: "Name should contain from 1 to 6 lower- or uppercase letters, digits or -; password should be 6-15 symbols long", viewController: self)
             
         }
         

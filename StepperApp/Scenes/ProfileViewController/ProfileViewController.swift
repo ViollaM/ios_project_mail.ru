@@ -189,7 +189,7 @@ final class ProfileViewController: UIViewController {
     }
     
     private func inputAlert(_ c: Character) {
-        let alert = UIAlertController(title: "Alert", message: "Name should contain only lower- or uppercase letters, digits or -, age should be in the range [0, 100]", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Alert", message: "Name should contain from 1 to 6 lower- or uppercase letters, digits or -; age should be in the range [0, 100]", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: {(alert: UIAlertAction!) in self.textError(c)}))
         present(alert, animated: true, completion: nil)
     }

@@ -127,7 +127,6 @@ final class CompetitionViewController: UIViewController {
     private func addNewCompetitionButtonPressed() {
         let newVC = AddNewCompetitionViewController()
         present(newVC, animated: true)
-        print("+")
     }
     
     @objc
@@ -157,7 +156,7 @@ final class CompetitionViewController: UIViewController {
         }
         collectionView.reloadData()
     }
-
+    
     private func setupLayout () {
         view.addSubview(collectionView)
         NSLayoutConstraint.activate([

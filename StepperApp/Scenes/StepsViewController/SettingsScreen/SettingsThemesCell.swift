@@ -11,22 +11,24 @@ final class SettingsThemesCell: UICollectionViewCell {
     var theme: String? {
         didSet {
             themeButton.setBackgroundImage(UIImage(named: theme ?? "BG"), for: .normal)
+            let image = UIImage(named: theme ?? "BG")
+            let lockedImage = image?.mergeWith(topImage: UIImage(systemName: "lock")!)
+            themeButton.setBackgroundImage(lockedImage, for: .disabled)
+            themeButton.setBackgroundImage(image, for: .normal)
+            if theme == "BG" {
+                themeButton.isEnabled = true
+            }
         }
     }
     
     private var themeButton: RoundButton = {
         let button = RoundButton()
+        button.isEnabled = false
         button.layer.borderWidth = 2
         button.layer.borderColor = UIColor.white.cgColor
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(themeButtonClicked), for: .touchUpInside)
         return button
-    }()
-    
-    private var themeView: RoundView = {
-        let view = RoundView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
     }()
     
     override init(frame: CGRect) {

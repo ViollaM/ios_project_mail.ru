@@ -85,7 +85,7 @@ final class EachCompetitionViewController: UIViewController {
         bar.clipsToBounds = true
         return bar
     }()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupLayout()
@@ -109,7 +109,7 @@ final class EachCompetitionViewController: UIViewController {
         [competitionTitleLabel, descriptionLabel, remainingTimeLabel, timeEndsLabel, yourProgressLabel, progressLabel, progressBar].forEach {
             view.addSubview($0)
         }
-
+        
         NSLayoutConstraint.activate([
             competitionTitleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 24),
             competitionTitleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: (view.frame.width - 315) / 2),

@@ -21,26 +21,26 @@ final class HeaderCollectionReusableView: UICollectionReusableView {
         return sc
     }()
     
-//    lazy var plusButton: UIButton = {
-//        let plus = UIButton()
-//        plus.semanticContentAttribute = UISemanticContentAttribute.forceRightToLeft
-//        plus.setTitleColor(StepColor.darkGreen8, for: .normal)
-//        if let plusImage = UIImage(named: "plus.png") {
-//            plus.setImage(plusImage, for: .normal)
-//        }
-//        plus.layer.cornerRadius = 10
-//        plus.backgroundColor = StepColor.cellBackground
-//        //plus.addTarget(self, action: #selector(editButtonClicked), for: .touchUpInside)
-//        return plus
-//    }()
+    //    lazy var plusButton: UIButton = {
+    //        let plus = UIButton()
+    //        plus.semanticContentAttribute = UISemanticContentAttribute.forceRightToLeft
+    //        plus.setTitleColor(StepColor.darkGreen8, for: .normal)
+    //        if let plusImage = UIImage(named: "plus.png") {
+    //            plus.setImage(plusImage, for: .normal)
+    //        }
+    //        plus.layer.cornerRadius = 10
+    //        plus.backgroundColor = StepColor.cellBackground
+    //        //plus.addTarget(self, action: #selector(editButtonClicked), for: .touchUpInside)
+    //        return plus
+    //    }()
     
     
     
-//    lazy var newCompetitionButton: UIBarButtonItem = {
-//        let plus = UIBarButtonItem(customView: plusButton)
-//    }()
+    //    lazy var newCompetitionButton: UIBarButtonItem = {
+    //        let plus = UIBarButtonItem(customView: plusButton)
+    //    }()
     
-     lazy var currentCompetitionButton: UIButton = {
+    lazy var currentCompetitionButton: UIButton = {
         let button = UIButton()
         button.setTitle("current", for: .normal)
         button.setTitleColor(StepColor.darkGreen, for: .normal)
@@ -51,7 +51,7 @@ final class HeaderCollectionReusableView: UICollectionReusableView {
         return button
     }()
     
-     lazy var finishedCompetitionButton: UIButton = {
+    lazy var finishedCompetitionButton: UIButton = {
         let button = UIButton()
         button.setTitle("finished", for: .normal)
         button.setTitleColor(StepColor.darkGreen, for: .normal)
@@ -75,8 +75,8 @@ final class HeaderCollectionReusableView: UICollectionReusableView {
         finishedCompetitionButton.backgroundColor = StepColor.darkGreen
         currentCompetitionButton.setTitleColor(StepColor.darkGreen, for: .normal)
         currentCompetitionButton.backgroundColor = StepColor.cellBackground
-     }
-
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
@@ -91,21 +91,21 @@ final class HeaderCollectionReusableView: UICollectionReusableView {
     }
     
     private func setup() {
-//        addSubview(currentCompetitionButton)
-//        addSubview(finishedCompetitionButton)
+        //        addSubview(currentCompetitionButton)
+        //        addSubview(finishedCompetitionButton)
         addSubview(buttonsSegmentedControl)
         //addSubview(plusButton)
         
         NSLayoutConstraint.activate([
-//            currentCompetitionButton.topAnchor.constraint(equalTo: self.topAnchor),
-//            currentCompetitionButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -19),
-//            currentCompetitionButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 22),
-//            currentCompetitionButton.widthAnchor.constraint(equalToConstant: (self.frame.width - 22 * (2 + 1)) / 2),
-//
-//            finishedCompetitionButton.topAnchor.constraint(equalTo: self.topAnchor),
-//            finishedCompetitionButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -19),
-//            finishedCompetitionButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -22),
-//            finishedCompetitionButton.widthAnchor.constraint(equalToConstant: (self.frame.width - 22 * (2 + 1)) / 2)
+            //            currentCompetitionButton.topAnchor.constraint(equalTo: self.topAnchor),
+            //            currentCompetitionButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -19),
+            //            currentCompetitionButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 22),
+            //            currentCompetitionButton.widthAnchor.constraint(equalToConstant: (self.frame.width - 22 * (2 + 1)) / 2),
+            //
+            //            finishedCompetitionButton.topAnchor.constraint(equalTo: self.topAnchor),
+            //            finishedCompetitionButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -19),
+            //            finishedCompetitionButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -22),
+            //            finishedCompetitionButton.widthAnchor.constraint(equalToConstant: (self.frame.width - 22 * (2 + 1)) / 2)
             buttonsSegmentedControl.topAnchor.constraint(equalTo: self.topAnchor),
             buttonsSegmentedControl.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -19),
             buttonsSegmentedControl.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 22),

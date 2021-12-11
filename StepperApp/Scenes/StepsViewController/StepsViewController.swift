@@ -30,7 +30,6 @@ final class StepsViewController: UIViewController {
     private var averageSteps = 0
     private var firstDay = ""
     private var lastDay = ""
-    private var toggle = true
     
     private lazy var circleStepContainerView: CircleView = {
         let view = CircleView()
@@ -38,7 +37,6 @@ final class StepsViewController: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-    
     private lazy var stepsCountLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -64,39 +62,63 @@ final class StepsViewController: UIViewController {
         label.text = "left: 0"
         return label
     }()
+    private lazy var weekInfoView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = StepColor.cellBackground.withAlphaComponent(0.8)
+        view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        view.layer.cornerRadius = 12
+        return view
+    }()
     private lazy var weekTotalSteps: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .left
-        label.textColor = StepColor.alpha5
-        label.font = .systemFont(ofSize: 32, weight: .bold)
-        label.text = "Total: \(total)"
-        label.isUserInteractionEnabled = true
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(totalLabelTap))
-        label.addGestureRecognizer(tapGesture)
+        label.textColor = StepColor.weekTotalAndAverage
+        label.font = .systemFont(ofSize: 16, weight: .regular)
+        return label
+    }()
+    private lazy var weekAverageSteps: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .left
+        label.textColor = StepColor.weekTotalAndAverage
+        label.font = .systemFont(ofSize: 16, weight: .regular)
+        return label
+    }()
+    private lazy var weekLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .left
+        label.textColor = StepColor.weekRange
+        label.text = "Week"
+        label.font = .systemFont(ofSize: 20, weight: .bold)
         return label
     }()
     private lazy var weekDaysRange: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textAlignment = .left
-        label.textColor = StepColor.alpha5
-        label.font = .systemFont(ofSize: 20, weight: .regular)
+        label.textAlignment = .center
+        label.textColor = StepColor.weekRange
+        label.font = .systemFont(ofSize: 20, weight: .semibold)
+        label.clipsToBounds = true
+        label.layer.cornerRadius = 10
+        label.backgroundColor = StepColor.cellBackground
         label.isUserInteractionEnabled = true
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dateLabelTap))
         label.addGestureRecognizer(tapGesture)
         return label
     }()
-    
     private lazy var settingsButton: UIBarButtonItem = {
         let button = UIBarButtonItem(image: UIImage(systemName: "gearshape.fill"), style: .plain, target: self, action: #selector(settingsButtonPressed))
         button.tintColor = StepColor.darkGreen
         return button
     }()
-        
+    
     private let weekChartViewController = WeekChartViewController()
     private let calendarViewController = CalendarViewController()
     weak var chartDelegate: ChartDelegate?
+    private var selectedWeek = SteppingWeek(steppingDays: [])
     
     private let widthOfUIElements = UIScreen.main.bounds.width / 1.8
     
@@ -139,6 +161,7 @@ final class StepsViewController: UIViewController {
                     self?.updateWeekLabels(week: week)
                     self?.chartDelegate?.updateData(stepWeek: week)
                 }
+                self.selectedWeek = week
             case .failure(let error):
                 print(error.localizedDescription)
             }
@@ -160,18 +183,28 @@ final class StepsViewController: UIViewController {
     }
     
     private func updateWeekLabels(week: SteppingWeek) {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .medium
-        dateFormatter.timeStyle = .none
-        dateFormatter.locale = Locale(identifier: "en_US")
+        let firstDateFormatter = DateFormatter()
+        let lastDateFormatter = DateFormatter()
+        lastDateFormatter.dateFormat = "d MMM yyyy"
         let first = week.steppingDays.first ?? SteppingDay()
         let last = week.steppingDays.last ?? SteppingDay()
-        self.firstDay = dateFormatter.string(from: first.date)
-        self.lastDay = dateFormatter.string(from: last.date)
+        if Calendar.iso8601UTC.component(.month, from: first.date) == Calendar.iso8601UTC.component(.month, from: last.date) {
+            firstDateFormatter.dateFormat = "d"
+            weekDaysRange.widthAnchor.constraint(greaterThanOrEqualToConstant: 160).isActive = true
+        } else if Calendar.iso8601UTC.component(.year, from: first.date) == Calendar.iso8601UTC.component(.year, from: last.date) {
+            firstDateFormatter.dateFormat = "d MMM"
+            weekDaysRange.widthAnchor.constraint(greaterThanOrEqualToConstant: 200).isActive = true
+        } else {
+            firstDateFormatter.dateFormat = "d MMM yyyy"
+            weekDaysRange.widthAnchor.constraint(greaterThanOrEqualToConstant: 250).isActive = true
+        }
+        self.firstDay = firstDateFormatter.string(from: first.date)
+        self.lastDay = lastDateFormatter.string(from: last.date)
         weekDaysRange.text = "\(firstDay) - \(lastDay)"
         self.total = week.totalStepsForWeek
         weekTotalSteps.text = "Total: \(total)"
         self.averageSteps = week.averageStepsForWeek
+        weekAverageSteps.text = "Average: \(averageSteps)"
     }
     
     private func pedometerServiceActivation() {
@@ -210,7 +243,10 @@ final class StepsViewController: UIViewController {
         [stepsCountLabel, distanceLabel, stepsRemainingLabel].forEach {
             circleStepContainerView.addSubview($0)
         }
-        [circleStepContainerView, weekTotalSteps, weekDaysRange].forEach {
+        [weekLabel, weekTotalSteps, weekAverageSteps, weekDaysRange].forEach {
+            weekInfoView.addSubview($0)
+        }
+        [circleStepContainerView, weekInfoView].forEach {
             view.addSubview($0)
         }
         
@@ -229,21 +265,35 @@ final class StepsViewController: UIViewController {
             distanceLabel.topAnchor.constraint(equalTo: stepsCountLabel.bottomAnchor, constant: widthOfUIElements * 0.04),
             distanceLabel.widthAnchor.constraint(equalTo: stepsCountLabel.widthAnchor),
             distanceLabel.heightAnchor.constraint(equalTo: circleStepContainerView.heightAnchor, multiplier: 0.11),
-
+            
             stepsRemainingLabel.centerXAnchor.constraint(equalTo: circleStepContainerView.centerXAnchor),
             stepsRemainingLabel.topAnchor.constraint(equalTo: distanceLabel.bottomAnchor, constant: widthOfUIElements * 0.04),
             stepsRemainingLabel.widthAnchor.constraint(equalTo: circleStepContainerView.widthAnchor, multiplier: 0.5),
             stepsRemainingLabel.heightAnchor.constraint(equalTo: distanceLabel.heightAnchor),
             
-            weekTotalSteps.topAnchor.constraint(equalTo: circleStepContainerView.bottomAnchor, constant: 60),
-            weekTotalSteps.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
-            weekTotalSteps.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12),
-            weekTotalSteps.heightAnchor.constraint(equalToConstant: 36),
+            weekInfoView.topAnchor.constraint(equalTo: circleStepContainerView.bottomAnchor, constant: 106),
+            weekInfoView.heightAnchor.constraint(equalToConstant: 80),
+            weekInfoView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            weekInfoView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             
-            weekDaysRange.topAnchor.constraint(equalTo: weekTotalSteps.bottomAnchor, constant: 8),
-            weekDaysRange.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
-            weekDaysRange.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12),
-            weekDaysRange.heightAnchor.constraint(equalToConstant: 20),
+            weekLabel.topAnchor.constraint(equalTo: weekInfoView.topAnchor, constant: 6),
+            weekLabel.leadingAnchor.constraint(equalTo: weekInfoView.leadingAnchor, constant: 8),
+            weekLabel.widthAnchor.constraint(equalToConstant: 58),
+            weekLabel.heightAnchor.constraint(equalToConstant: 24),
+            
+            weekDaysRange.centerYAnchor.constraint(equalTo: weekLabel.centerYAnchor),
+            weekDaysRange.leadingAnchor.constraint(equalTo: weekLabel.trailingAnchor, constant: 2),
+            weekDaysRange.heightAnchor.constraint(equalToConstant: 24),
+            
+            weekTotalSteps.topAnchor.constraint(equalTo: weekLabel.bottomAnchor, constant: 2),
+            weekTotalSteps.leadingAnchor.constraint(equalTo: weekInfoView.leadingAnchor, constant: 8),
+            weekTotalSteps.trailingAnchor.constraint(equalTo: weekInfoView.trailingAnchor),
+            weekTotalSteps.heightAnchor.constraint(equalToConstant: 20),
+            
+            weekAverageSteps.topAnchor.constraint(equalTo: weekTotalSteps.bottomAnchor, constant: 2),
+            weekAverageSteps.leadingAnchor.constraint(equalTo: weekInfoView.leadingAnchor, constant: 8),
+            weekAverageSteps.trailingAnchor.constraint(equalTo: weekInfoView.trailingAnchor),
+            weekAverageSteps.heightAnchor.constraint(equalToConstant: 20),
         ])
     }
     
@@ -253,6 +303,7 @@ final class StepsViewController: UIViewController {
         weekChartViewController.didMove(toParent: self)
         self.chartDelegate = weekChartViewController
         setupWeekChartViewLayout()
+        
     }
     
     private func setupWeekChartViewLayout(){
@@ -260,30 +311,52 @@ final class StepsViewController: UIViewController {
         chartView?.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            chartView!.topAnchor.constraint(equalTo: weekDaysRange.bottomAnchor, constant: 8),
+            chartView!.topAnchor.constraint(equalTo: weekInfoView.bottomAnchor),
             chartView!.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             chartView!.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             chartView!.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
-    }
-    
-    @objc
-    private func totalLabelTap() {
-        if toggle {
-            weekTotalSteps.text = "Average: \(averageSteps)"
-            toggle = false
-        } else {
-            weekTotalSteps.text = "Total: \(total)"
-            toggle = true
-        }
+        chartView!.isUserInteractionEnabled = true
+        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(chartSwipe))
+        swipeLeft.direction = .left
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(chartSwipe))
+        swipeRight.direction = .right
+        chartView!.addGestureRecognizer(swipeLeft)
+        chartView!.addGestureRecognizer(swipeRight)
     }
     
     @objc
     private func dateLabelTap() {
         let vc = CalendarViewController()
         vc.delegate = self
-        vc.height = weekChartViewController.view.frame.height + tabBarController!.tabBar.frame.height
+        vc.height = weekInfoView.frame.minY
         presentPanModal(vc)
+    }
+    @objc
+    private func chartSwipe(sender: UISwipeGestureRecognizer) {
+        switch sender.direction {
+        case .left: swipeLeft()
+        case .right: swipeRight()
+        default: break
+        }
+    }
+    private func swipeRight() {
+        var newDay = Date()
+        if let firstDay = self.selectedWeek.steppingDays.first {
+            let firstDate = firstDay.date
+            newDay = Calendar.iso8601UTC.date(byAdding: .day, value: -1, to: firstDate)!
+        }
+        didSelect(newDay)
+    }
+    private func swipeLeft() {
+        var newDay = Date()
+        if let lastDay = self.selectedWeek.steppingDays.last {
+            let lastDate = lastDay.date
+            newDay = Calendar.iso8601UTC.date(byAdding: .day, value: 1, to: lastDate)!
+            if newDay < Date() {
+                didSelect(newDay)
+            }
+        }
     }
     
     @objc
@@ -308,24 +381,10 @@ extension StepsViewController: CalendarDelegate {
                     self?.updateWeekLabels(week: week)
                     self?.chartDelegate?.updateData(stepWeek: week)
                 }
+                self.selectedWeek = week
             case .failure(let error):
                 print(error.localizedDescription)
             }
         }
     }
-    
-    
-//    @objc
-//    private func toAuthorization() {
-//        UserDefaults.standard.set(false, forKey: "isLogged")
-//        let authService = AuthServiceImplementation()
-//        let signUpVC = SignUpViewController(authService: authService)
-//        let loginVc = LoginViewController(authService: authService)
-//        let rootVC = AuthorizationViewController(loginVc: loginVc, signUpVc: signUpVC)
-//        let navVC = UINavigationController(rootViewController: rootVC)
-//        navVC.navigationBar.isHidden = true
-//        navVC.modalPresentationStyle = .fullScreen
-//        present(navVC, animated: true)
-//    }
-    
 }

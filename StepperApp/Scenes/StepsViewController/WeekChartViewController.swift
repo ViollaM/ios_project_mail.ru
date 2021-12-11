@@ -39,17 +39,18 @@ final class WeekChartViewController: UIViewController{
     }
     
     private func setGradientBackground() {
-        let colorTop =  UIColor(red: 204/255, green: 228/255, blue: 225/255, alpha: 0.5).cgColor
-        let colorBottom = UIColor(red: 204/255, green: 228/255, blue: 225/255, alpha: 1).cgColor
-        
-        let gradientLayer = CAGradientLayer()
-        gradientLayer.colors = [colorTop, colorBottom]
-        gradientLayer.locations = [0.0, 1.0]
-        gradientLayer.frame = view.frame
-        gradientLayer.cornerRadius = 10
-        gradientLayer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-        
-        self.view.layer.insertSublayer(gradientLayer, at:0)
+        //        let colorTop =  UIColor(red: 204/255, green: 228/255, blue: 225/255, alpha: 0.5).cgColor
+        //        let colorBottom = UIColor(red: 204/255, green: 228/255, blue: 225/255, alpha: 1).cgColor
+        //
+        //        let gradientLayer = CAGradientLayer()
+        //        gradientLayer.colors = [colorTop, colorBottom]
+        //        gradientLayer.locations = [0.0, 1.0]
+        //        gradientLayer.frame = view.frame
+        //        gradientLayer.cornerRadius = 10
+        //        gradientLayer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        //
+        //        self.view.layer.insertSublayer(gradientLayer, at:0)
+        view.backgroundColor = StepColor.cellBackground.withAlphaComponent(0.8)
     }
     
     private func setupLayout () {
@@ -182,12 +183,11 @@ private func getRightDays(days: [String]) -> [String]{
     let days_list = ["Mod", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun", "Mod", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
     
     let last_day_inx = days_list.firstIndex(of: days.last!)!
-
+    
     for i in 1...(7-days.count){
-        print(days_list[last_day_inx+i])
+        //        print(days_list[last_day_inx+i])
         new_days.append(days_list[last_day_inx+i])
     }
     
     return new_days
 }
-

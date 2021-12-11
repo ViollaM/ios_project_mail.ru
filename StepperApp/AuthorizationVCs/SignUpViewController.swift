@@ -8,7 +8,7 @@
 import UIKit
 
 class SignUpViewController: UIViewController {
-
+    
     private let authService: AuthService
     
     init(authService: AuthService) {
@@ -19,7 +19,7 @@ class SignUpViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     private lazy var signupButton: UIButton = {
         let button = UIButton()
         button.layer.cornerRadius = 10
@@ -84,7 +84,7 @@ class SignUpViewController: UIViewController {
         text.isSecureTextEntry = true
         return text
     }()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
@@ -150,22 +150,22 @@ class SignUpViewController: UIViewController {
         let response = Validation.shared.validate(values: (ValidationType.userName, nameText), (ValidationType.userPassword, passwordText))
         switch response.0 {
         case .success:
-        authService.registrationUser(email: emailText, name: nameText, password: passwordText) { [weak self] result in
-            guard let self = self else {
-                return
+            authService.registrationUser(email: emailText, name: nameText, password: passwordText) { [weak self] result in
+                guard let self = self else {
+                    return
+                }
+                switch result {
+                case nil:
+                    let rootVC = buildAppTabBarController()
+                    let navVC = UINavigationController(rootViewController: rootVC)
+                    navVC.navigationBar.isHidden = true
+                    navVC.modalPresentationStyle = .fullScreen
+                    self.present(navVC, animated: true)
+                    UserDefaults.standard.set(true, forKey: "isLogged")
+                default:
+                    displayAlert(message: result!.localizedDescription, viewController: self)
+                }
             }
-            switch result {
-            case nil:
-                let rootVC = buildAppTabBarController()
-                let navVC = UINavigationController(rootViewController: rootVC)
-                navVC.navigationBar.isHidden = true
-                navVC.modalPresentationStyle = .fullScreen
-                self.present(navVC, animated: true)
-                UserDefaults.standard.set(true, forKey: "isLogged")
-            default:
-                displayAlert(message: result!.localizedDescription, viewController: self)
-            }
-        }
         case .failure:
             displayAlert(message: "Name should contain only lower- or uppercase letters, digits or -, pasasword should contain from 6 to 15 symbols", viewController: self)
         }

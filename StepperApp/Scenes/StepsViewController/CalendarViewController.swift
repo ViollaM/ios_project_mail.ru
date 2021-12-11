@@ -41,7 +41,7 @@ final class CalendarViewController: UIViewController {
         super.viewDidLoad()
         setupLayout()
     }
-        
+    
     private func setupLayout() {
         view.layer.cornerRadius = 12
         view.backgroundColor = StepColor.cellBackground

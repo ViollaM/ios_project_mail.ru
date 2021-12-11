@@ -29,12 +29,10 @@ final class SettingsUnitMeasureCell: UICollectionViewCell {
     }
     
     private func kmSelected() {
-        print("steps")
         UserDefaults.standard.set(0, forKey: "km_miles")
     }
     
     private func milesSelected() {
-        print("distance")
         UserDefaults.standard.set(1, forKey: "km_miles")
     }
     override init(frame: CGRect) {

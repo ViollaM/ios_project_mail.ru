@@ -75,12 +75,12 @@ final class NewFriendViewController: UIViewController, NewFriendDelegate {
             titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
             titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
             titleLabel.heightAnchor.constraint(equalToConstant: 30),
-
+            
             newFriendTextField.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 30),
             newFriendTextField.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
             newFriendTextField.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor),
             newFriendTextField.heightAnchor.constraint(equalToConstant: 42),
-
+            
             addButton.topAnchor.constraint(equalTo: newFriendTextField.bottomAnchor, constant: 12),
             addButton.leadingAnchor.constraint(equalTo: newFriendTextField.leadingAnchor),
             addButton.trailingAnchor.constraint(equalTo: newFriendTextField.trailingAnchor),

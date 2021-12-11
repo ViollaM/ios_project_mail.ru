@@ -64,7 +64,7 @@ final class LoginViewController: UIViewController {
         let label = UILabel()
         let attributedString = NSMutableAttributedString.init(string: "Reset password")
         attributedString.addAttribute(NSAttributedString.Key.underlineStyle, value: 1, range:
-            NSRange.init(location: 0, length: attributedString.length));
+                                        NSRange.init(location: 0, length: attributedString.length));
         label.attributedText = attributedString
         label.numberOfLines = 1
         label.textAlignment = .center
@@ -75,10 +75,10 @@ final class LoginViewController: UIViewController {
         let guestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(resetPasswordToApp))
         label.addGestureRecognizer(guestureRecognizer)
         label.translatesAutoresizingMaskIntoConstraints = false
-
+        
         return label
     }()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
@@ -162,4 +162,3 @@ final class LoginViewController: UIViewController {
         }
     }
 }
-

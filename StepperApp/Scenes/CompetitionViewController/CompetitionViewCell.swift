@@ -52,7 +52,7 @@ final class CompetitionViewCell: UICollectionViewCell {
         time.text = "9 h 37 min"
         return time
     }()
-
+    
     private lazy var competitionLeaderLabel: UILabel = {
         let leader = UILabel()
         leader.translatesAutoresizingMaskIntoConstraints = false

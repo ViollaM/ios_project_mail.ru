@@ -8,7 +8,7 @@
 import Foundation
 
 final class UserOperations {
-        
+    
     func saveUser(user: User) {
         let encoder = JSONEncoder()
         if let encoded = try? encoder.encode(user) {

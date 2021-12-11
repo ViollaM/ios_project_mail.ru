@@ -24,7 +24,7 @@ final class StepsScreenSettings: UIViewController {
         return collectionView
     }()
     
-    private let appIconNames = ["wog", "wob", "gob", "gow"]
+    private let appIconNames = ["gow", "wob", "gob", "wog"]
     private let themeNames = ["BG", "BG2", "BG3"]
     private let sectionTitles = ["Daily goal", "Unit measure", "Icons", "Theme"]
     

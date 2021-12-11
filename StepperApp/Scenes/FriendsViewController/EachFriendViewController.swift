@@ -9,71 +9,55 @@ import UIKit
 import PinLayout
 
 final class EachFriendViewController: UIViewController {
-
+    
     var friend: User? {
         didSet {
             avatar = CircleImageView(image: UIImage(named: friend?.imageName ?? "Photo"))
-            name.text = "Name: @\(friend?.name ?? "user")"
-            age.text = "Age: \(ConvertBrithDayToAge(birthDate: friend?.birthDate ?? Date()) )"
-            if let a = friend?.isMan {
-                if a {
-                    gender.text = "Gender: Male"
-                } else {
-                    gender.text = "Gender: Female"
-                }
-            }
+            nameTitle.text = "Hi! I'm @\(friend?.name ?? "user")"
+            competitionLabel.text = "@\(friend?.name ?? "user")'s competitions:"
         }
     }
-
+    
     private lazy var avatar = CircleImageView()
     
-    private lazy var name: UILabel = {
+    private lazy var nameTitle: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 28, weight: .bold)
+        label.textAlignment = .center
+        label.textColor = StepColor.darkGreen
+        label.font = .systemFont(ofSize: 30, weight: .bold)
         return label
     }()
-
-    private lazy var age: UILabel = {
+    private lazy var competitionLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 22)
+        label.textAlignment = .left
+        label.textColor = StepColor.darkGreen
+        label.font = .systemFont(ofSize: 20, weight: .regular)
         return label
     }()
-
-    private lazy var gender: UILabel = {
-        let label = UILabel()
-        label.text = "Unknown"
-        label.font = .systemFont(ofSize: 22)
-        return label
-    }()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        [avatar, name, age, gender].forEach {
+        [avatar, nameTitle, competitionLabel].forEach {
             view.addSubview($0)
         }
         view.backgroundColor = StepColor.cellBackground
+        nameTitle.pin
+            .top(view.safeAreaInsets.top + 10)
+            .horizontally()
+            .height(34)
+        
         avatar.pin
-            .top(view.safeAreaInsets.top + 20)
-            .left(20)
-            .width(200)
-            .height(200)
-
-        name.pin
+            .below(of: nameTitle)
+            .marginTop(24)
+            .width(220)
+            .height(220)
+            .hCenter()
+        
+        competitionLabel.pin
             .below(of: avatar)
-            .marginTop(20)
-            .horizontally(20)
-            .height(50)
+            .marginTop(24)
+            .horizontally(40)
+            .height(24)
         
-        age.pin
-            .below(of: name)
-            .marginTop(20)
-            .horizontally(20)
-            .height(50)
-        
-        gender.pin
-            .below(of: age)
-            .marginTop(20)
-            .horizontally(20)
-            .height(50)
     }
 }

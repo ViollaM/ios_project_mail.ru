@@ -57,7 +57,7 @@ final class ProfileViewController: UIViewController {
     private lazy var ageTextField = UITextField()
     
     private lazy var ageDatePicker = UIDatePicker()
-        
+    
     private lazy var genderSegmentedControl: UISegmentedControl = {
         let sc = UISegmentedControl(items: ["Male", "Female"])
         sc.selectedSegmentTintColor = UIColor(red: 99/255, green: 142/255, blue: 135/255, alpha: 1)
@@ -332,7 +332,7 @@ final class ProfileViewController: UIViewController {
         if let isMan = userOperations.getUser()?.isMan {
             genderSegmentedControl.selectedSegmentIndex = isMan ? 1 : 0
         }
-                
+        
         nameLabel.text = "Name:"
         ageLabel.text = "Age:"
         

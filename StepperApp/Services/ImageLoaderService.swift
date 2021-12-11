@@ -39,7 +39,7 @@ final class ImageLoaderServiceImplementation: ImageLoaderService {
         }
     }
     
-   
+    
     func upload(image: UIImage, completion: @escaping (Result<String, Error>) -> Void) {
         guard let data = image.jpegData(compressionQuality: 0.5) else {
             completion(.failure(imageError.networkProblem))

@@ -61,7 +61,7 @@ class AuthorizationViewController: UIViewController {
         button.addTarget(self, action: #selector(sigunpButtosPushed), for: .touchUpInside)
         return button
     }()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
@@ -72,7 +72,7 @@ class AuthorizationViewController: UIViewController {
         [welcomeLabel, stepBeatLabel, loginButton, signupButton].forEach {
             view.addSubview($0)
         }
-
+        
     }
     
     override func viewDidLayoutSubviews() {
@@ -103,7 +103,7 @@ class AuthorizationViewController: UIViewController {
         backgroundImage.contentMode = UIView.ContentMode.scaleAspectFill
         self.view.insertSubview(backgroundImage, at: 0)
     }
-
+    
     @objc
     private func loginButtonPushed() {
         let title = "Log In"
@@ -124,5 +124,5 @@ class AuthorizationViewController: UIViewController {
         vc.navigationController?.navigationBar.tintColor = StepColor.darkGreen
         vc.navigationController?.navigationBar.largeTitleTextAttributes = [.foregroundColor: StepColor.darkGreen]
     }
-
+    
 }

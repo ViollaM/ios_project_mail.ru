@@ -15,19 +15,14 @@ final class SettingsIconsCell: UICollectionViewCell {
     }
     private var iconButton: RoundButton = {
         let button = RoundButton()
+        button.tintColor = StepColor.darkGreen
+        button.backgroundColor = UIColor(red: 120/255, green: 120/255, blue: 120/255, alpha: 1)
+        button.isEnabled = false
         button.layer.borderWidth = 2
         button.layer.borderColor = UIColor.white.cgColor
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.addTarget(self, action: #selector(iconButtonClicked), for: .touchUpInside)
+        //        button.addTarget(self, action: #selector(iconButtonClicked), for: .touchUpInside)
         return button
-    }()
-    
-    private var iconImageView: RoundedImageView = {
-        let image = UIImage()
-        let imageView = RoundedImageView(image: image)
-        imageView.backgroundColor = StepColor.cellBackground
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
     }()
     
     override init(frame: CGRect) {

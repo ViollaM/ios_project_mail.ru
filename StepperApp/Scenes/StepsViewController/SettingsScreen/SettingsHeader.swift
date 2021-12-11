@@ -52,7 +52,7 @@ final class SettingsHeader: UICollectionReusableView {
             lineView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -39),
             lineView.heightAnchor.constraint(equalToConstant: 2),
             lineView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
-
+            
         ])
     }
 }

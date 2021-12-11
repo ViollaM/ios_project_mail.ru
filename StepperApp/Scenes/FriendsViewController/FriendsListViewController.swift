@@ -53,18 +53,19 @@ final class FriendsListViewController: UIViewController {
         collectionView.backgroundColor = .clear
         return collectionView
     }()
-
+    
     private let cellWidth = UIScreen.main.bounds.width - 36
     private let cellHeight = CGFloat(70)
-
+    
     override func viewDidLoad() {
         setupData()
         setupNavigationItem()
         setupLayout()
     }
-
+    
     private func setupNavigationItem () {
         self.navigationItem.searchController = searchController
+        self.navigationItem.hidesSearchBarWhenScrolling = false
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addingNewFriend))
         self.navigationItem.rightBarButtonItem?.tintColor = StepColor.darkGreen
     }
@@ -87,7 +88,6 @@ final class FriendsListViewController: UIViewController {
     
     @objc
     private func addingNewFriend() {
-//        presentPanModal(newFriendVC)
         customPresentViewController(presenter, viewController: newFriendVC, animated: true, completion: nil)
     }
 }
@@ -123,15 +123,15 @@ extension FriendsListViewController: UICollectionViewDataSource, UICollectionVie
 extension FriendsListViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         if let searchText = searchController.searchBar.text?.lowercased(){
-                if searchText.count == 0 {
-                    filteredUsers = allUsers
-                }
-                else {
-                    filteredUsers = allUsers.filter {
-                        return $0.name.lowercased().contains(searchText)
-                    }
+            if searchText.count == 0 {
+                filteredUsers = allUsers
+            }
+            else {
+                filteredUsers = allUsers.filter {
+                    return $0.name.lowercased().contains(searchText)
                 }
             }
-            self.collectionView.reloadData()
+        }
+        self.collectionView.reloadData()
     }
 }

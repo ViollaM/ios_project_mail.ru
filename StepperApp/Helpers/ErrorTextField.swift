@@ -8,7 +8,7 @@
 import UIKit
 
 class ErrorTextField: UITextField {
-
+    
     func isError(numberOfShakes shakes: Float, revert: Bool) {
         let shake: CABasicAnimation = CABasicAnimation(keyPath: "position")
         shake.duration = 0.07

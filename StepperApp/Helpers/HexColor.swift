@@ -8,7 +8,7 @@
 import UIKit
 
 class HexColor: UIColor {
-
+    
     convenience init(rgb: UInt) {
         self.init(
             red: CGFloat((rgb & 0xFF0000) >> 16) / 255.0,

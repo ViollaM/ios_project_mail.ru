@@ -25,7 +25,7 @@ protocol PedometerService {
 final class PedometerServiceImplementation: PedometerService {
     
     private let pedometer = CMPedometer()
-
+    
     func updateStepsAndDistance(completion: @escaping (Result<PedometerData, Error>) -> Void) {
         var steps: NSNumber = 0
         var distance: NSNumber = 0

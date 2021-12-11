@@ -29,14 +29,14 @@ enum RegEx: String {
     case userAge = "^100|[1-9]?[0-9]$"
 }
 enum AlertMessages: String {
-     case inValidEmail = "InvalidEmail"
-     case inValidAge = "Invalid Age"
-     case inValidName = "Invalid Name"
-     case inValidPassword = "Invalid Password"
+    case inValidEmail = "InvalidEmail"
+    case inValidAge = "Invalid Age"
+    case inValidName = "Invalid Name"
+    case inValidPassword = "Invalid Password"
     
-     func localized() -> String {
+    func localized() -> String {
         return NSLocalizedString(self.rawValue, comment: "")
-     }
+    }
 }
 
 final class Validation: NSObject {

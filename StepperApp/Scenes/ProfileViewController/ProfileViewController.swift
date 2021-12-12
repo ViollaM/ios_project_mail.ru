@@ -46,7 +46,7 @@ final class ProfileViewController: UIViewController {
     
     private lazy var nameLabel = UILabel()
     
-    private lazy var nameTextField = ErrorTextField()
+    private lazy var nameTextField = UITextField()
     
     private lazy var nameLeftViewLabel = UILabel()
     
@@ -142,66 +142,51 @@ final class ProfileViewController: UIViewController {
     
     @objc
     private func saveButtonClicked() {
-        
         if let name = nameTextField.text {
-            if let age = ageTextField.text {
-                let response = Validation.shared.validate(values: (ValidationType.userName, name), (ValidationType.userAge, age))
-                switch response.0 {
-                case .success:
-                    let id = userOperations.getUser()!.id
-                    let name = nameTextField.text ?? ""
-                    let age = profileService.getDate() ?? Date()
-                    let gender = Bool(truncating: genderSegmentedControl.selectedSegmentIndex as NSNumber)
-                    let img = imageCircle.image
-                    let user = User(id: id, name: name, birthDate: age, isMan: gender, imageName: localImageName)
-                    userOperations.saveUser(user: user)
-                    profileService.saveImage(image: img)
-                    usersService.updateUser(user: user) { [weak self] result in
-                        guard self != nil else {
-                            return
-                        }
-                        switch result {
-                        case nil:
-                            print("success add user")
-                        default:
-                            displayAlert(message: result?.localizedDescription ?? "", viewController: self ?? UIViewController())
-                        }
+            let age = profileService.getDate() ?? Date()
+            let responseName = Validation.shared.validate(values: (ValidationType.userName, name))
+            if ageTextField.text != nil && getAge(birthdate: age) <= 100 {
+            switch responseName {
+            case .success:
+                let id = userOperations.getUser()!.id
+                let gender = Bool(truncating: genderSegmentedControl.selectedSegmentIndex as NSNumber)
+                let img = imageCircle.image
+                let user = User(id: id, name: name, birthDate: age, isMan: gender, imageName: localImageName)
+                userOperations.saveUser(user: user)
+                profileService.saveImage(image: img)
+                usersService.updateUser(user: user) { [weak self] result in
+                    guard self != nil else {
+                        return
                     }
-                    
-                    self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: editButton)
-                    [nameTextField, ageTextField].forEach {
-                        $0.isUserInteractionEnabled = false
+                    switch result {
+                    case nil:
+                        print("success add user")
+                    default:
+                        displayAlert(message: result?.localizedDescription ?? "", viewController: self ?? UIViewController())
                     }
-                    genderSegmentedControl.isUserInteractionEnabled = false
-                    imageCircle.isUserInteractionEnabled = false
-                    logoutButton.isHidden = true
-                case .failure:
-                    inputAlert(response.1)
                 }
+                self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: editButton)
+                [nameTextField, ageTextField].forEach {
+                    $0.isUserInteractionEnabled = false
+                }
+                genderSegmentedControl.isUserInteractionEnabled = false
+                imageCircle.isUserInteractionEnabled = false
+                logoutButton.isHidden = true
+            case .failure:
+                displayAlert(message: "Name should contain from 1 to 6 lower- or uppercase letters, digits or -", viewController: self)
+            }
             }
             else {
-                inputAlert("a")
+                switch responseName {
+                case .success:
+                    displayAlert(message: "Age should be in the range [0, 100]", viewController: self)
+                case .failure:
+                    displayAlert(message: "Name should contain from 1 to 6 lower- or uppercase letters, digits or -; age should be in the range [0, 100]", viewController: self)
+                }
             }
         }
         else {
-            inputAlert("n")
-        }
-    }
-    
-    private func inputAlert(_ c: Character) {
-        let alert = UIAlertController(title: "Alert", message: "Name should contain from 1 to 6 lower- or uppercase letters, digits or -; age should be in the range [0, 100]", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: {(alert: UIAlertAction!) in self.textError(c)}))
-        present(alert, animated: true, completion: nil)
-    }
-    
-    private func textError(_ c: Character) {
-        switch c {
-        case "n":
-            nameTextField.isError(numberOfShakes: 3, revert: true)
-        case "a":
-            return
-        default:
-            fatalError()
+            displayAlert(message: "Name should contain from 1 to 6 lower- or uppercase letters, digits or -", viewController: self)
         }
     }
     

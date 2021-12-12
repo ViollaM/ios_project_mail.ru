@@ -22,6 +22,7 @@
 		012440D72764BE6600676D03 /* PedometerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012440D62764BE6600676D03 /* PedometerService.swift */; };
 		012440D92764BE7D00676D03 /* StepsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012440D82764BE7D00676D03 /* StepsModels.swift */; };
 		012440DB2764FEA500676D03 /* LockedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012440DA2764FEA400676D03 /* LockedImage.swift */; };
+		012440FE2765199C00676D03 /* CustomErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012440FD2765199B00676D03 /* CustomErrors.swift */; };
 		014F5F96272D9E960058132F /* TabBarControllerFunc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014F5F95272D9E960058132F /* TabBarControllerFunc.swift */; };
 		014F5F99272D9F880058132F /* AuthorizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014F5F98272D9F880058132F /* AuthorizationViewController.swift */; };
 		014F5F9B272D9F990058132F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014F5F9A272D9F990058132F /* LoginViewController.swift */; };
@@ -77,6 +78,7 @@
 		012440D62764BE6600676D03 /* PedometerService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PedometerService.swift; sourceTree = "<group>"; };
 		012440D82764BE7D00676D03 /* StepsModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StepsModels.swift; sourceTree = "<group>"; };
 		012440DA2764FEA400676D03 /* LockedImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockedImage.swift; sourceTree = "<group>"; };
+		012440FD2765199B00676D03 /* CustomErrors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomErrors.swift; sourceTree = "<group>"; };
 		014F5F95272D9E960058132F /* TabBarControllerFunc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarControllerFunc.swift; sourceTree = "<group>"; };
 		014F5F98272D9F880058132F /* AuthorizationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationViewController.swift; sourceTree = "<group>"; };
 		014F5F9A272D9F990058132F /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -205,7 +207,6 @@
 				A17AB33F274D3DAB007EC89F /* AuthService.swift */,
 				A153C5462753D7BA00F9871E /* UsersService.swift */,
 				A1548E23275945710017BDA4 /* ImageLoaderService.swift */,
-				012440FB2765137500676D03 /* PedometerService.swift */,
 				A1BBC543275F7C91009BFD17 /* FriendsService.swift */,
 			);
 			path = Services;
@@ -227,7 +228,6 @@
 			children = (
 				012440D82764BE7D00676D03 /* StepsModels.swift */,
 				A13BD97E274448F10030F984 /* CompetitionModels.swift */,
-				012440F92765131D00676D03 /* StepsModels.swift */,
 				A187114127418525001DFAE7 /* FriendsList.swift */,
 				A1160099275B9697000A5518 /* UserModel.swift */,
 			);
@@ -267,7 +267,6 @@
 			children = (
 				012440D22764BE4600676D03 /* AddNewCompetitionViewController.swift */,
 				01F7D4B3274AA2D4007676CC /* HeaderCollectionReusableView.swift */,
-				012440F5276512D800676D03 /* AddNewCompetitionViewController.swift */,
 				A13BD974274448380030F984 /* CompetitionViewController.swift */,
 				A13BD980274449380030F984 /* EachCompetitionViewController.swift */,
 				A13BD976274448380030F984 /* CompetitionViewCell.swift */,
@@ -289,7 +288,6 @@
 				012440D42764BE5300676D03 /* NewFriendViewController.swift */,
 				01F7D4B5274AA2FD007676CC /* EachFriendViewController.swift */,
 				A187113D274184A8001DFAE7 /* FriendsListViewController.swift */,
-				012440F7276512F600676D03 /* NewFriendViewController.swift */,
 				A187113E274184A8001DFAE7 /* FriendsListCollectionViewCell.swift */,
 			);
 			path = FriendsViewController;
@@ -301,6 +299,7 @@
 				A19E9EA62760F77B009576A1 /* UserDefaults.swift */,
 				012440BF2764BDFB00676D03 /* CalendarISO8601.swift */,
 				012440BD2764BDF300676D03 /* CircleAndRoundedViews.swift */,
+				012440FD2765199B00676D03 /* CustomErrors.swift */,
 				012440C12764BE0400676D03 /* IntSeparatorExtension.swift */,
 				A13BD97A2744484A0030F984 /* HexColor.swift */,
 				A165E287274419880002A973 /* ErrorTextField.swift */,
@@ -452,14 +451,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				A13BD977274448380030F984 /* CompetitionViewController.swift in Sources */,
-				012440E12765128C00676D03 /* CustomErrors.swift in Sources */,
 				01F7D4B8274BF146007676CC /* StepColor.swift in Sources */,
-				012440F6276512D800676D03 /* AddNewCompetitionViewController.swift in Sources */,
-				012440F8276512F600676D03 /* NewFriendViewController.swift in Sources */,
-				012440F0276512AE00676D03 /* SettingsDailyGoalCell.swift in Sources */,
 				A13BD97F274448F10030F984 /* CompetitionModels.swift in Sources */,
 				014F5F9B272D9F990058132F /* LoginViewController.swift in Sources */,
-				012440F2276512AE00676D03 /* SettingsThemesCell.swift in Sources */,
 				014F5F99272D9F880058132F /* AuthorizationViewController.swift in Sources */,
 				012440DB2764FEA500676D03 /* LockedImage.swift in Sources */,
 				A116009C275EB911000A5518 /* ConvertBrithDayToAge.swift in Sources */,
@@ -468,24 +462,18 @@
 				A13BD97B2744484A0030F984 /* HexColor.swift in Sources */,
 				01F7D4B4274AA2D4007676CC /* HeaderCollectionReusableView.swift in Sources */,
 				A19E9EAC2760F797009576A1 /* WeekChartViewController.swift in Sources */,
-				012440F4276512BB00676D03 /* CalendarViewController.swift in Sources */,
 				014F5F96272D9E960058132F /* TabBarControllerFunc.swift in Sources */,
 				A165E285274419770002A973 /* ProfileViewController.swift in Sources */,
 				A153C5472753D7BA00F9871E /* UsersService.swift in Sources */,
 				A165E289274419880002A973 /* ErrorTextField.swift in Sources */,
 				012440C02764BDFB00676D03 /* CalendarISO8601.swift in Sources */,
 				A165E288274419880002A973 /* TextValidation.swift in Sources */,
-				012440FA2765131D00676D03 /* StepsModels.swift in Sources */,
 				0172EABE27242F7000DE1779 /* StepsService.swift in Sources */,
 				012440D72764BE6600676D03 /* PedometerService.swift in Sources */,
 				A187113F274184A8001DFAE7 /* FriendsListViewController.swift in Sources */,
-				012440F1276512AE00676D03 /* SettingsIconsCell.swift in Sources */,
-				012440DD2765127500676D03 /* LockedImage.swift in Sources */,
-				012440E32765129A00676D03 /* CircleAndRoundedViews.swift in Sources */,
 				A162C10227451F8F00C1D2BF /* BalloonMarker.swift in Sources */,
 				A187114227418525001DFAE7 /* FriendsList.swift in Sources */,
 				A13BD981274449380030F984 /* EachCompetitionViewController.swift in Sources */,
-				012440EF276512AE00676D03 /* StepsScreenSettings.swift in Sources */,
 				A19E9EAB2760F797009576A1 /* StepsViewController.swift in Sources */,
 				A1160098275B93C0000A5518 /* UserConvector.swift in Sources */,
 				012440CA2764BE2C00676D03 /* SettingsHeader.swift in Sources */,
@@ -499,17 +487,15 @@
 				012440CF2764BE2C00676D03 /* SettingsThemesCell.swift in Sources */,
 				012440D32764BE4600676D03 /* AddNewCompetitionViewController.swift in Sources */,
 				014F5F9D272D9FAE0058132F /* SignUpViewController.swift in Sources */,
+				012440FE2765199C00676D03 /* CustomErrors.swift in Sources */,
 				012440CC2764BE2C00676D03 /* StepsScreenSettings.swift in Sources */,
 				01651A3B27120D2D00DC9391 /* AppDelegate.swift in Sources */,
-				012440FC2765137600676D03 /* PedometerService.swift in Sources */,
 				A13BD979274448380030F984 /* CompetitionViewCell.swift in Sources */,
 				012440D12764BE3300676D03 /* CalendarViewController.swift in Sources */,
 				012440C22764BE0400676D03 /* IntSeparatorExtension.swift in Sources */,
 				A19E9EA72760F77B009576A1 /* UserDefaults.swift in Sources */,
 				A1BBC544275F7C91009BFD17 /* FriendsService.swift in Sources */,
-				012440E52765129F00676D03 /* CalendarISO8601.swift in Sources */,
 				0BD1511C2740176800F15800 /* ProfileService.swift in Sources */,
-				012440DF2765127C00676D03 /* IntSeparatorExtension.swift in Sources */,
 				01F7D4B6274AA2FD007676CC /* EachFriendViewController.swift in Sources */,
 				012440D92764BE7D00676D03 /* StepsModels.swift in Sources */,
 			);
@@ -674,7 +660,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.stepteam.;
+				PRODUCT_BUNDLE_IDENTIFIER = com.stepteam.stepbeat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -712,7 +698,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.stepteam.;
+				PRODUCT_BUNDLE_IDENTIFIER = com.stepteam.stepbeat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;

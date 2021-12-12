@@ -43,28 +43,28 @@ final class Validation: NSObject {
     
     public static let shared = Validation()
     
-    func validate(values: (type: ValidationType, inputValue: String)...) -> (Valid, Character) {
+    func validate(values: (type: ValidationType, inputValue: String)...) -> Valid {
         for valueToBeChecked in values {
             switch valueToBeChecked.type {
             case .userEmail:
                 if let tempValue = isValidString((valueToBeChecked.inputValue, .userEmail, .inValidEmail)) {
-                    return (tempValue, "e")
+                    return tempValue
                 }
             case .userAge:
                 if let tempValue = isValidString((valueToBeChecked.inputValue, .userAge, .inValidAge)) {
-                    return (tempValue, "a")
+                    return tempValue
                 }
             case .userName:
                 if let tempValue = isValidString((valueToBeChecked.inputValue, .userName, .inValidName)) {
-                    return (tempValue, "n")
+                    return tempValue
                 }
             case .userPassword:
                 if let tempValue = isValidString((valueToBeChecked.inputValue, .userPassword, .inValidPassword)) {
-                    return (tempValue, "p")
+                    return tempValue
                 }
             }
         }
-        return (.success, "s")
+        return .success
     }
     
     func isValidString(_ input: (text: String, regex: RegEx, invalidAlert: AlertMessages)) -> Valid? {

@@ -132,7 +132,10 @@ class SignUpViewController: UIViewController {
     
     @objc
     func changeLeftViewEnd() {
-        self.nameTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: self.nameTextField.frame.height))
+        if nameTextField.text == "" {
+            self.nameTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: self.nameTextField.frame.height))
+            
+        }
     }
     
     @objc func signupButtonToApp() {
@@ -144,27 +147,38 @@ class SignUpViewController: UIViewController {
             return
         }
         
-        let response = Validation.shared.validate(values: (ValidationType.userName, nameText), (ValidationType.userPassword, passwordText))
-        switch response.0 {
+        let responseName = Validation.shared.validate(values: (ValidationType.userName, nameText))
+        let responsePassword = Validation.shared.validate(values: (ValidationType.userPassword, passwordText))
+        switch responseName {
         case .success:
-            authService.registrationUser(email: emailText, name: nameText, password: passwordText) { [weak self] result in
-                guard let self = self else {
-                    return
-                }
-                switch result {
-                case nil:
-                    let rootVC = buildAppTabBarController()
-                    let navVC = UINavigationController(rootViewController: rootVC)
-                    navVC.navigationBar.isHidden = true
-                    navVC.modalPresentationStyle = .fullScreen
-                    self.present(navVC, animated: true)
-                    UserDefaults.standard.set(true, forKey: "isLogged")
-                default:
-                    displayAlert(message: result!.localizedDescription, viewController: self)
-                }
+            switch responsePassword {
+            case .success:
+                authService.registrationUser(email: emailText, name: nameText, password: passwordText) { [weak self] result in
+                            guard let self = self else {
+                                return
+                            }
+                            switch result {
+                            case nil:
+                                let rootVC = buildAppTabBarController()
+                                let navVC = UINavigationController(rootViewController: rootVC)
+                                navVC.navigationBar.isHidden = true
+                                navVC.modalPresentationStyle = .fullScreen
+                                self.present(navVC, animated: true)
+                                UserDefaults.standard.set(true, forKey: "isLogged")
+                            default:
+                                displayAlert(message: result!.localizedDescription, viewController: self)
+                            }
+                        }
+            case .failure:
+                displayAlert(message: "Password should be 6-15 symbols long", viewController: self)
             }
         case .failure:
-            displayAlert(message: "Name should contain only lower- or uppercase letters, digits or -, pasasword should contain from 6 to 15 symbols", viewController: self)
-        }
-    }
+                switch responsePassword {
+                case .success:
+                    displayAlert(message: "Name should contain from 1 to 6 lower- or uppercase letters, digits or -", viewController: self)
+                case .failure:
+                    displayAlert(message: "Name should contain from 1 to 6 lower- or uppercase letters, digits or -; password should be 6-15 symbols long", viewController: self)
+                }
+            }
+}
 }

@@ -31,8 +31,8 @@ final class StepsViewController: UIViewController {
     private var firstDay = ""
     private var lastDay = ""
     private var circleProgress: CircleProgressView = {
-        let circle = CircleProgressView(progress: 0.01, baseColor: StepColor.alpha5, progressColor: StepColor.darkGreen8)
-        circle.animateCircle(duration: 1, delay: 0.1)
+        let circle = CircleProgressView(progress: 0.01, baseColor: StepColor.alpha5, progressColor: StepColor.darkGreen8, duration: 1.5, delay: 0.1)
+        circle.animateCircle(duration: 1.5, delay: 0.1)
         circle.translatesAutoresizingMaskIntoConstraints = false
         return circle
     }()
@@ -113,9 +113,7 @@ final class StepsViewController: UIViewController {
     
     private let weekChartViewController = WeekChartViewController()
     private let calendarViewController = CalendarViewController()
-    private let circleProgressBarViewController = CircleProgressBarViewController()
     weak var chartDelegate: ChartDelegate?
-    weak var progressDelegate: ProgressDelegate?
     private var selectedWeek = SteppingWeek(steppingDays: [])
     
     private let widthOfUIElements = UIScreen.main.bounds.width / 1.8
@@ -161,9 +159,6 @@ final class StepsViewController: UIViewController {
                     self?.updateTodayLabels(lastDay: lastDay)
                     self?.updateWeekLabels(week: week)
                     self?.chartDelegate?.updateData(stepWeek: week)
-//                    self?.otherCircle.progress = CGFloat(lastDay.steps/10000)
-//                    self?.otherCircle.layoutSubviews()
-//                    self?.progressDelegate?.updateData(progress: CGFloat(lastDay.steps)/10000)
                     self?.circleProgress.progress = CGFloat(lastDay.steps)/10000
                     self?.circleProgress.layoutSubviews()
                 }
@@ -364,11 +359,13 @@ final class StepsViewController: UIViewController {
     
     @objc
     private func settingsButtonPressed() {
-        let vc = StepsScreenSettings()
-        vc.view.backgroundColor = StepColor.background
-        vc.navigationController?.navigationBar.tintColor = StepColor.darkGreen
-        UserDefaults.standard.register(defaults: ["stepsGoal": 10000, "distanceGoal": 10])
-        navigationController?.pushViewController(vc, animated: true)
+//        let vc = StepsScreenSettings()
+//        vc.view.backgroundColor = StepColor.background
+//        vc.navigationController?.navigationBar.tintColor = StepColor.darkGreen
+//        UserDefaults.standard.register(defaults: ["stepsGoal": 10000, "distanceGoal": 10])
+//        navigationController?.pushViewController(vc, animated: true)
+        circleProgress.progress += 0.2
+        circleProgress.layoutSubviews()
     }
 }
 

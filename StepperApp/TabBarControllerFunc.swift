@@ -13,10 +13,9 @@ func buildAppTabBarController() -> UITabBarController {
     let stepsService = StepsServiceImplementation()
     let profileService = ProfileServiceImplementation()
     let usersService = UsersServiceImplementation()
-    let imageService = ImageLoaderServiceImplementation()
     let friendsService = FriendsServiceImplementation()
     let imageLoaderService = ImageLoaderServiceImplementation()
-    let viewcontollers = [buildStepsViewController(stepsService: stepsService, pedometerService: pedometerService), buildFriendsListViewController(friendsService: friendsService, imageLoaderService: imageLoaderService), buildCompetitionViewController(stepsService: stepsService, pedometerService: pedometerService),  buildProfileViewController(profileService: profileService, usersService: usersService, imageService: imageService)]
+    let viewcontollers = [buildStepsViewController(stepsService: stepsService, pedometerService: pedometerService), buildFriendsListViewController(friendsService: friendsService, imageLoaderService: imageLoaderService), buildCompetitionViewController(stepsService: stepsService, pedometerService: pedometerService),  buildProfileViewController(profileService: profileService, usersService: usersService, imageService: imageLoaderService)]
     viewcontollers.forEach {
         setupBackground(on: $0)
     }

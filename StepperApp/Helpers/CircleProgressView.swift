@@ -11,15 +11,19 @@ public class CircleProgressView: UIView {
     private var radius: CGFloat { (bounds.height - lineWidth) / 2 }
     private let baseLayer = CAShapeLayer()
     private let progressLayer = CAShapeLayer()
+    var oldProgress: CGFloat = 1
     var progress: CGFloat
+    private let duration: TimeInterval
+    private let delay: TimeInterval
     private let lineWidth: CGFloat = 10.0
     required public init?(coder aDecoder: NSCoder) {
         fatalError()
     }
 
-    public init(progress: CGFloat, baseColor: UIColor, progressColor: UIColor) {
+    public init(progress: CGFloat, baseColor: UIColor, progressColor: UIColor, duration: TimeInterval, delay: TimeInterval) {
         self.progress = progress
-        
+        self.duration = duration
+        self.delay = delay
         for layer in [baseLayer, progressLayer] {
             layer.fillColor = UIColor.clear.cgColor
             layer.lineWidth = lineWidth
@@ -49,10 +53,12 @@ public class CircleProgressView: UIView {
         progressLayer.frame = bounds
 
         let center = CGPoint(x: bounds.width / 2, y: bounds.height / 2)
-        let basePath = UIBezierPath(arcCenter: center, radius: radius, startAngle: .initialAngle, endAngle: .endAngle(progress: 1), clockwise: true)
-        let progressPath = UIBezierPath(arcCenter: center, radius: radius, startAngle: .initialAngle, endAngle: .endAngle(progress: progress), clockwise: true)
+        let basePath = UIBezierPath(arcCenter: center, radius: radius, startAngle: .initialAngle, endAngle: .endAngle(progress: oldProgress), clockwise: true)
+        let progressPath = UIBezierPath(arcCenter: center, radius: radius, startAngle: .initialAngle * oldProgress, endAngle: .endAngle(progress: progress), clockwise: true)
         baseLayer.path = basePath.cgPath
         progressLayer.path = progressPath.cgPath
+        oldProgress = progress
+        addAnimation(duration: duration, delay: delay)
     }
 }
 

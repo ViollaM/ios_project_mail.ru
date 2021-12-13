@@ -11,7 +11,7 @@ import PinLayout
 import Charts
 
 final class CompetitionViewController: UIViewController {
-    private var competitions: [CompetitionData] = []
+    private var competitions: [CompetitionData] = CompetitionsState.current.fetch()
     private var steps = 0
     private var distanceKM: Double = 0
     private var distanceMI: Double {
@@ -33,10 +33,7 @@ final class CompetitionViewController: UIViewController {
     }
     
     private func loadStepsData() {
-        stepsService.fetchLastWeekInfo { [weak self] result in
-            guard let self = self else {
-                return
-            }
+        stepsService.fetchLastWeekInfo { result in
             switch result {
             case .success(let week):
                 DispatchQueue.main.async { [weak self] in
@@ -121,9 +118,14 @@ final class CompetitionViewController: UIViewController {
         return plus
     }()
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        loadStepsData()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadStepsData()
+//        loadStepsData()
         updatesStepData()
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTimeLabel), userInfo: nil, repeats: true)
         RunLoop.current.add(timer, forMode: .common)

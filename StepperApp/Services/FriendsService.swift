@@ -21,34 +21,47 @@ final class FriendsServiceImplementation: FriendsService {
     
     func addFriend(for userId: String, to friendUserName: String, completion: @escaping (Error?) -> Void) {
         
-        self.usersService.getUserByName(name: friendUserName) {  [weak self] result_request in
-            guard self != nil else {
+        usersService.getUserByName(name: friendUserName) {  [weak self] result_request in
+            guard let self = self else {
                 return
             }
             switch result_request {
             case .success(let friend):
-                self?.db.collection("friends").document(userId).setData([
-                    friend.id : true,
-                ], merge: true){ (error) in
-                    if error != nil{
+                if friend.id == userId {
+                    completion(CustomError.addYourselfFriend)
+                    return
+                }
+                
+                self.db.collection("friends").document(userId).getDocument { (documentSnapshot, error) in
+                    if let error = error {
                         completion(error)
                         return
                     }
-                }
-                self?.db.collection("friends").document(friend.id).setData([
-                    userId: true,
-                ], merge: true){ (error) in
-                    if error != nil{
-                        completion(error)
+                    guard let document = documentSnapshot else {
+                        completion(CustomError.parseDBProblem)
                         return
                     }
+                    if (document[friend.id] != nil) == true {
+                        completion(CustomError.friendAlreadyAdded)
+                        return
+                    }
+                    
+                    self.db.collection("friends").document(userId).setData([
+                        friend.id : true,
+                    ], merge: true){ (error) in
+                        if error != nil{
+                            completion(error)
+                            return
+                        }
+                    }
+                    completion(nil)
                 }
-                completion(nil)
             case .failure(let error):
                 completion(error)
             }
         }
     }
+    
     
     
     func getFriends(for userId: String, completion: @escaping (Result<[User], Error>) -> Void) {
@@ -66,22 +79,25 @@ final class FriendsServiceImplementation: FriendsService {
                 completion(.success([]))
                 return
             }
-            var friends : [User] = []
+            var friends: [User] = []
+            let group = DispatchGroup()
+            
             for key in keys {
-                self.usersService.getUserByUid(uid: key) { [weak self] result in
-                    guard self != nil else {
-                        return
-                    }
+                group.enter()
+                self.usersService.getUserByUid(uid: key) { result in
                     switch result {
                     case .success(let user):
                         friends.append(user)
                     case .failure(let error):
                         print(error.localizedDescription)
                     }
-                    completion(.success(friends))
+                    group.leave()
                 }
             }
-//            completion(.success(friends))
+            
+            group.notify(queue: .main) {
+                completion(.success(friends))
+            }
         }
     }
 }

@@ -12,6 +12,8 @@ public enum CustomError: Error {
     case noSuchUser
     case parseDBProblem
     case userNameTaken
+    case addYourselfFriend
+    case friendAlreadyAdded
 }
 
 extension CustomError: LocalizedError {
@@ -23,7 +25,12 @@ extension CustomError: LocalizedError {
             return NSLocalizedString("The problem with parsing data and working with the database.", comment: "My error")
         case .userNameTaken:
             return NSLocalizedString("This username is already taken. Choose another.", comment: "My error")
+        case .addYourselfFriend:
+            return NSLocalizedString("You can't add yourself as a friend.", comment: "My error")
+        case .friendAlreadyAdded:
+            return NSLocalizedString("This friend has already been added.", comment: "My error")
         }
+        
     }
 }
 

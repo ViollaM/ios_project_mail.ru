@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import HealthKit
 
 final class ProfileViewController: UIViewController {
     
@@ -28,15 +29,9 @@ final class ProfileViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private var localImageName: String = "Photo.png"
+    private var localImageName: String = ""
     
-    private lazy var imageCircle: CircleImageView = {
-        var i = CircleImageView(image: UIImage(named: "Photo.png"))
-        if let imPath = profileService.getImage() {
-            i = CircleImageView(image: UIImage(data: imPath))
-        }
-        return i
-    }()
+    private var imageCircle: CircleImageView = CircleImageView(image: UIImage(named: "Photo.png"))
     
     private lazy var editButton = UIButton()
     
@@ -46,7 +41,7 @@ final class ProfileViewController: UIViewController {
     
     private lazy var nameLabel = UILabel()
     
-    private lazy var nameTextField = ErrorTextField()
+    private lazy var nameTextField = UITextField()
     
     private lazy var nameLeftViewLabel = UILabel()
     
@@ -142,66 +137,55 @@ final class ProfileViewController: UIViewController {
     
     @objc
     private func saveButtonClicked() {
-        
         if let name = nameTextField.text {
-            if let age = ageTextField.text {
-                let response = Validation.shared.validate(values: (ValidationType.userName, name), (ValidationType.userAge, age))
-                switch response.0 {
+            let age = profileService.getDate() ?? Date()
+            let responseName = Validation.shared.validate(values: (ValidationType.userName, name))
+            if ageTextField.text != nil && getAge(birthdate: age) <= 100 {
+                switch responseName {
                 case .success:
                     let id = userOperations.getUser()!.id
-                    let name = nameTextField.text ?? ""
-                    let age = profileService.getDate() ?? Date()
                     let gender = Bool(truncating: genderSegmentedControl.selectedSegmentIndex as NSNumber)
                     let img = imageCircle.image
                     let user = User(id: id, name: name, birthDate: age, isMan: gender, imageName: localImageName)
-                    userOperations.saveUser(user: user)
-                    profileService.saveImage(image: img)
                     usersService.updateUser(user: user) { [weak self] result in
-                        guard self != nil else {
+                        guard let self = self else {
                             return
                         }
                         switch result {
                         case nil:
                             print("success add user")
+                            self.userOperations.saveUser(user: user)
+                            self.profileService.saveImage(image: img)
+                            DispatchQueue.main.async {
+                                self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: self.editButton)
+                                [self.nameTextField, self.ageTextField].forEach {
+                                    $0.isUserInteractionEnabled = false
+                                }
+                                self.genderSegmentedControl.isUserInteractionEnabled = false
+                                self.imageCircle.isUserInteractionEnabled = false
+                                self.logoutButton.isHidden = true
+                            }
+                        case CustomError.userNameTaken?:
+                            displayAlert(message: result?.localizedDescription ?? "", viewController: self )
                         default:
-                            displayAlert(message: result?.localizedDescription ?? "", viewController: self ?? UIViewController())
+                            displayAlert(message: result?.localizedDescription ?? "", viewController: self )
                         }
                     }
-                    
-                    self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: editButton)
-                    [nameTextField, ageTextField].forEach {
-                        $0.isUserInteractionEnabled = false
-                    }
-                    genderSegmentedControl.isUserInteractionEnabled = false
-                    imageCircle.isUserInteractionEnabled = false
-                    logoutButton.isHidden = true
                 case .failure:
-                    inputAlert(response.1)
+                    displayAlert(message: "Name should contain from 1 to 6 lower- or uppercase letters, digits or -", viewController: self)
                 }
             }
             else {
-                inputAlert("a")
+                switch responseName {
+                case .success:
+                    displayAlert(message: "Age should be in the range [0, 100]", viewController: self)
+                case .failure:
+                    displayAlert(message: "Name should contain from 1 to 6 lower- or uppercase letters, digits or -; age should be in the range [0, 100]", viewController: self)
+                }
             }
         }
         else {
-            inputAlert("n")
-        }
-    }
-    
-    private func inputAlert(_ c: Character) {
-        let alert = UIAlertController(title: "Alert", message: "Name should contain only lower- or uppercase letters, digits or -, age should be in the range [0, 100]", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: {(alert: UIAlertAction!) in self.textError(c)}))
-        present(alert, animated: true, completion: nil)
-    }
-    
-    private func textError(_ c: Character) {
-        switch c {
-        case "n":
-            nameTextField.isError(numberOfShakes: 3, revert: true)
-        case "a":
-            return
-        default:
-            fatalError()
+            displayAlert(message: "Name should contain from 1 to 6 lower- or uppercase letters, digits or -", viewController: self)
         }
     }
     
@@ -326,11 +310,26 @@ final class ProfileViewController: UIViewController {
         nameTextField.text = userOperations.getUser()?.name
         
         if let date = userOperations.getUser()?.birthDate {
-            print(date)
             ageTextField.text = String(ConvertBrithDayToAge(birthDate: date))
         }
         if let isMan = userOperations.getUser()?.isMan {
-            genderSegmentedControl.selectedSegmentIndex = isMan ? 1 : 0
+            genderSegmentedControl.selectedSegmentIndex = isMan ? 0 : 1
+        }
+        
+       
+        if let imPath = profileService.getImage() {
+            imageCircle = CircleImageView(image: UIImage(data: imPath))
+        } else {
+            let imageName = userOperations.getUser()?.imageName
+
+            imageLoaderService.getImage(with: imageName!) { [weak self] result in
+                guard let self = self else {
+                    return
+                }
+                DispatchQueue.main.async { [self] in
+                    self.imageCircle.image = result!
+                }
+            }
         }
         
         nameLabel.text = "Name:"

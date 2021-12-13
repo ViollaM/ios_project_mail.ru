@@ -27,20 +27,22 @@ final class UsersServiceImplementation: UsersService {
     private let db = Firestore.firestore()
     
     func updateUser(user: User,  completion: @escaping (Error?) -> Void) {
-        
-        self.getUserByName(name: user.name) {  [weak self] result_request in
-            guard self != nil else {
-                return
-            }
+        let group = DispatchGroup()
+        group.enter()
+        self.getUserByName(name: user.name) { result_request in
             switch result_request {
             case .success(let base_user):
                 if base_user.id != user.id{
                     completion(CustomError.userNameTaken)
                     return
-                } 
+                } else {
+                    group.leave()
+                }
             case .failure(let error):
+                print(error.localizedDescription)
                 if error as! CustomError == CustomError.noSuchUser{
                     print("Имя свободно")
+                    group.leave()
                 } else {
                     completion(error)
                     return
@@ -48,17 +50,19 @@ final class UsersServiceImplementation: UsersService {
             }
         }
         
-        self.db.collection("users").document(user.id).setData([
-            "uid": user.id,
-            "name": user.name,
-            "birthDate": user.birthDate,
-            "isMan": user.isMan,
-            "imageName": user.imageName,
-        ], merge: true){ (error) in
-            if error != nil{
-                completion(error)
-            } else {
-                completion(nil)
+        group.notify(queue: .main) {
+            self.db.collection("users").document(user.id).setData([
+                "uid": user.id,
+                "name": user.name,
+                "birthDate": user.birthDate,
+                "isMan": user.isMan,
+                "imageName": user.imageName,
+            ], merge: true){ (error) in
+                if error != nil{
+                    completion(error)
+                } else {
+                    completion(nil)
+                }
             }
         }
     }
@@ -86,6 +90,9 @@ final class UsersServiceImplementation: UsersService {
     
     func getUserByName(name: String, completion: @escaping (Result<User,Error>) -> Void){
         self.db.collection("users").whereField("name", isEqualTo: name).getDocuments { [weak self] (querySnapshot, error) in
+            guard let self = self else {
+                return
+            }
             if let error = error {
                 completion(.failure(error))
                 return
@@ -95,7 +102,7 @@ final class UsersServiceImplementation: UsersService {
                 return
             }
             
-            let users = documents.compactMap{ self?.userConvector.dictToUser(from: $0)}
+            let users = documents.compactMap{ self.userConvector.dictToUser(from: $0)}
             
             if users.count == 0{
                 completion(.failure(CustomError.noSuchUser))

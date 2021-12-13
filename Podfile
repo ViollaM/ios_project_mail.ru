@@ -15,4 +15,5 @@ target 'StepperApp' do
   pod 'FSCalendar'
   pod 'PanModal'
   pod 'Presentr'
+  pod 'KDCircularProgress'
 end

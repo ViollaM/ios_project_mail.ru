@@ -26,9 +26,9 @@ extension CustomError: LocalizedError {
         case .userNameTaken:
             return NSLocalizedString("This username is already taken. Choose another.", comment: "My error")
         case .addYourselfFriend:
-            return NSLocalizedString("You can't add yourself as a friend.", comment: "My error")
+            return NSLocalizedString("You can't subscribe to yourself.", comment: "My error")
         case .friendAlreadyAdded:
-            return NSLocalizedString("This friend has already been added.", comment: "My error")
+            return NSLocalizedString("You have already subscribed to this user.", comment: "My error")
         }
         
     }

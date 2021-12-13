@@ -13,4 +13,5 @@ struct User: Codable {
     var birthDate: Date?
     var isMan: Bool?
     var imageName: String
+    var steps: Int = 0
 }

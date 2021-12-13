@@ -20,8 +20,17 @@ final class NewFriendViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .left
         label.textColor = StepColor.darkGreen
-        label.text = "Add friend"
+        label.text = "Subscribe to user"
         label.font = .systemFont(ofSize: 30, weight: .bold)
+        return label
+    }()
+    
+    private let nameLeftViewLabel: UILabel = {
+        let label = UILabel()
+        label.text = " @"
+        label.font = UIFont(name: "Arial", size: 20)
+        label.textColor = StepColor.darkGreen
+        label.isUserInteractionEnabled = false
         return label
     }()
     
@@ -35,6 +44,8 @@ final class NewFriendViewController: UIViewController {
         text.autocorrectionType = .no
         text.placeholder = "Enter the nickname"
         text.tintColor = StepColor.darkGreen
+        text.addTarget(self, action: #selector(self.changeLeftViewBegin), for: .editingDidBegin)
+        text.addTarget(self, action: #selector(self.changeLeftViewEnd), for: .editingDidEnd)
         text.translatesAutoresizingMaskIntoConstraints = false
         return text
     }()
@@ -106,6 +117,19 @@ final class NewFriendViewController: UIViewController {
     @objc
     private func closeButtonTap() {
         dismiss(animated: true, completion: nil)
+    }
+    
+    @objc
+    func changeLeftViewBegin() {
+        self.newFriendTextField.leftView = nameLeftViewLabel
+    }
+    
+    @objc
+    func changeLeftViewEnd() {
+        if newFriendTextField.text == "" {
+            self.newFriendTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: self.newFriendTextField.frame.height))
+            
+        }
     }
 }
 

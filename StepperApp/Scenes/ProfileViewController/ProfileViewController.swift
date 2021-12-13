@@ -313,15 +313,16 @@ final class ProfileViewController: UIViewController {
             ageTextField.text = String(ConvertBrithDayToAge(birthDate: date))
         }
         if let isMan = userOperations.getUser()?.isMan {
-            genderSegmentedControl.selectedSegmentIndex = isMan ? 0 : 1
+            genderSegmentedControl.selectedSegmentIndex = isMan ? 1 : 0
         }
         
        
+        let imageName = userOperations.getUser()?.imageName
+        localImageName = imageName!
+        
         if let imPath = profileService.getImage() {
             imageCircle = CircleImageView(image: UIImage(data: imPath))
         } else {
-            let imageName = userOperations.getUser()?.imageName
-
             imageLoaderService.getImage(with: imageName!) { [weak self] result in
                 guard let self = self else {
                     return

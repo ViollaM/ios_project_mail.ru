@@ -56,7 +56,6 @@
 		A17AB340274D3DAB007EC89F /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A17AB33F274D3DAB007EC89F /* AuthService.swift */; };
 		A187113F274184A8001DFAE7 /* FriendsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A187113D274184A8001DFAE7 /* FriendsListViewController.swift */; };
 		A1871140274184A8001DFAE7 /* FriendsListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A187113E274184A8001DFAE7 /* FriendsListCollectionViewCell.swift */; };
-		A187114227418525001DFAE7 /* FriendsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = A187114127418525001DFAE7 /* FriendsList.swift */; };
 		A19E9EA72760F77B009576A1 /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = A19E9EA62760F77B009576A1 /* UserDefaults.swift */; };
 		A19E9EAB2760F797009576A1 /* StepsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A19E9EA92760F797009576A1 /* StepsViewController.swift */; };
 		A19E9EAC2760F797009576A1 /* WeekChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A19E9EAA2760F797009576A1 /* WeekChartViewController.swift */; };
@@ -122,7 +121,6 @@
 		A17AB33F274D3DAB007EC89F /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		A187113D274184A8001DFAE7 /* FriendsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsListViewController.swift; sourceTree = "<group>"; };
 		A187113E274184A8001DFAE7 /* FriendsListCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsListCollectionViewCell.swift; sourceTree = "<group>"; };
-		A187114127418525001DFAE7 /* FriendsList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsList.swift; sourceTree = "<group>"; };
 		A19E9EA62760F77B009576A1 /* UserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
 		A19E9EA92760F797009576A1 /* StepsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StepsViewController.swift; sourceTree = "<group>"; };
 		A19E9EAA2760F797009576A1 /* WeekChartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeekChartViewController.swift; sourceTree = "<group>"; };
@@ -232,7 +230,6 @@
 			children = (
 				012440D82764BE7D00676D03 /* StepsModels.swift */,
 				A13BD97E274448F10030F984 /* CompetitionModels.swift */,
-				A187114127418525001DFAE7 /* FriendsList.swift */,
 				A1160099275B9697000A5518 /* UserModel.swift */,
 			);
 			path = Models;
@@ -481,7 +478,6 @@
 				0172EABE27242F7000DE1779 /* StepsService.swift in Sources */,
 				A187113F274184A8001DFAE7 /* FriendsListViewController.swift in Sources */,
 				A162C10227451F8F00C1D2BF /* BalloonMarker.swift in Sources */,
-				A187114227418525001DFAE7 /* FriendsList.swift in Sources */,
 				A13BD981274449380030F984 /* EachCompetitionViewController.swift in Sources */,
 				A1223E4F27660DA9006312D6 /* NewFriendViewController.swift in Sources */,
 				A19E9EAB2760F797009576A1 /* StepsViewController.swift in Sources */,

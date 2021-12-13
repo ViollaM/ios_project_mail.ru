@@ -188,7 +188,6 @@ private func getRightDays(days: [String]) -> [String]{
     let last_day_inx = days_list.firstIndex(of: days.last!)!
     
     for i in 1...(7-days.count){
-        //        print(days_list[last_day_inx+i])
         new_days.append(days_list[last_day_inx+i])
     }
     

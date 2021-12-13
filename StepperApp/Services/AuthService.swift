@@ -10,6 +10,7 @@ import Firebase
 import FirebaseAuth
 import FirebaseFirestore
 
+
 protocol AuthService {
     func loginUser(email: String, password: String,completion: @escaping (Error?) -> Void)
     func registrationUser(email: String, name: String, password: String ,completion: @escaping (Error?) -> Void)
@@ -23,6 +24,8 @@ final class AuthServiceImplementation: AuthService {
     private let userOperations = UserOperations()
     
     private let usersService = UsersServiceImplementation()
+    
+    private let usersDefaultImages = ["16B09AAD-E89C-408F-B9DC-17A8A4B3A8D7","16E1F20D-7C3B-48B5-B1B3-071211AD8B74","4F8652AD-8B03-4353-8DD3-B5D1ABBD2352"]
     
     func resetPassword(email: String, completion: @escaping (Error?) -> Void) {
         FirebaseAuth.Auth.auth().sendPasswordReset(withEmail: email) { (error) in
@@ -67,7 +70,7 @@ final class AuthServiceImplementation: AuthService {
                         if error != nil {
                             completion(error)
                         } else {
-                            let defaultImageName = "E4E874E6-AB4E-4F2C-8F9C-C0762F58D6A5"
+                            let defaultImageName = self.usersDefaultImages[Int.random(in: 0..<3)]
                             self.db.collection("users").document(result!.user.uid).setData([
                                 "uid": result!.user.uid,
                                 "name": name,

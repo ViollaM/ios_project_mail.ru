@@ -54,14 +54,6 @@ final class FriendsServiceImplementation: FriendsService {
                             return
                         }
                     }
-                    self.db.collection("friends").document(friend.id).setData([
-                        userId: true,
-                    ], merge: true){ (error) in
-                        if error != nil{
-                            completion(error)
-                            return
-                        }
-                    }
                     completion(nil)
                 }
             case .failure(let error):

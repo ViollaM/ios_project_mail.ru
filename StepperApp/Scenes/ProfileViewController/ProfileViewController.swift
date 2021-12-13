@@ -163,7 +163,6 @@ final class ProfileViewController: UIViewController {
                                 }
                                 self.genderSegmentedControl.isUserInteractionEnabled = false
                                 self.imageCircle.isUserInteractionEnabled = false
-                                self.logoutButton.isHidden = true
                             }
                         case CustomError.userNameTaken?:
                             displayAlert(message: result?.localizedDescription ?? "", viewController: self )
@@ -172,7 +171,7 @@ final class ProfileViewController: UIViewController {
                         }
                     }
                 case .failure:
-                    displayAlert(message: "Name should contain from 1 to 6 lower- or uppercase letters, digits or -", viewController: self)
+                    displayAlert(message: "Name should contain from 1 to 10 lower- or uppercase letters, digits or -", viewController: self)
                 }
             }
             else {
@@ -180,12 +179,12 @@ final class ProfileViewController: UIViewController {
                 case .success:
                     displayAlert(message: "Age should be in the range [0, 100]", viewController: self)
                 case .failure:
-                    displayAlert(message: "Name should contain from 1 to 6 lower- or uppercase letters, digits or -; age should be in the range [0, 100]", viewController: self)
+                    displayAlert(message: "Name should contain from 1 to 10 lower- or uppercase letters, digits or -; age should be in the range [0, 100]", viewController: self)
                 }
             }
         }
         else {
-            displayAlert(message: "Name should contain from 1 to 6 lower- or uppercase letters, digits or -", viewController: self)
+            displayAlert(message: "Name should contain from 1 to 10 lower- or uppercase letters, digits or -", viewController: self)
         }
     }
     
@@ -199,7 +198,6 @@ final class ProfileViewController: UIViewController {
         }
         genderSegmentedControl.isUserInteractionEnabled = true
         imageCircle.isUserInteractionEnabled = true
-        logoutButton.isHidden = false
     }
     
     @objc
@@ -248,15 +246,28 @@ final class ProfileViewController: UIViewController {
     
     @objc
     private func toAuthorization() {
-        UserDefaults.standard.set(false, forKey: "isLogged")
-        let authService = AuthServiceImplementation()
-        let signUpVC = SignUpViewController(authService: authService)
-        let loginVc = LoginViewController(authService: authService)
-        let rootVC = AuthorizationViewController(loginVc: loginVc, signUpVc: signUpVC)
-        let navVC = UINavigationController(rootViewController: rootVC)
-        navVC.navigationBar.isHidden = true
-        navVC.modalPresentationStyle = .fullScreen
-        present(navVC, animated: true)
+        let logoutAlert = UIAlertController(title: "", message: "Do you want to log out of the app?", preferredStyle: UIAlertController.Style.alert)
+
+        logoutAlert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { [weak self] (action: UIAlertAction!) in
+            guard let self = self else {
+                return
+            }
+            UserDefaults.standard.set(false, forKey: "isLogged")
+            let authService = AuthServiceImplementation()
+            let signUpVC = SignUpViewController(authService: authService)
+            let loginVc = LoginViewController(authService: authService)
+            let rootVC = AuthorizationViewController(loginVc: loginVc, signUpVc: signUpVC)
+            let navVC = UINavigationController(rootViewController: rootVC)
+            navVC.navigationBar.isHidden = true
+            navVC.modalPresentationStyle = .fullScreen
+            self.present(navVC, animated: true)
+        }))
+
+        logoutAlert.addAction(UIAlertAction(title: "No", style: .cancel, handler: { (action: UIAlertAction!) in
+              print("Handle No Logic here")
+        }))
+
+        present(logoutAlert, animated: true, completion: nil)
     }
     
     //MARK: Supporting Functions
@@ -266,34 +277,49 @@ final class ProfileViewController: UIViewController {
     }
     
     private func nameLayout() {
-        nameTextView.pin.below(of: imageCircle).margin(66).height(43).hCenter().width(220)
-        inTextViewConstraints(nameTextView, nameLabel, nameTextField)
+        nameTextView.pin.below(of: imageCircle).margin(66).height(43).hCenter().width(230)
+        inTextViewConstraintsName(nameTextView, nameLabel, nameTextField)
     }
     
     private func ageLayout() {
-        ageTextView.pin.below(of: nameTextView).margin(4).width(220).height(43).hCenter()
-        inTextViewConstraints(ageTextView, ageLabel, ageTextField)
+        ageTextView.pin.below(of: nameTextView).margin(4).width(230).height(43).hCenter()
+        inTextViewConstraintsAge(ageTextView, ageLabel, ageTextField)
     }
     
     private func genderLayout() {
-        genderSegmentedControl.pin.below(of: ageTextView).margin(4).height(43).hCenter().width(220)
+        genderSegmentedControl.pin.below(of: ageTextView).margin(4).height(43).hCenter().width(230)
     }
     
     private func logoutLayout() {
-        logoutButton.pin.below(of: genderSegmentedControl).margin(8).height(43).hCenter().width(220)
+        logoutButton.pin.below(of: genderSegmentedControl).margin(8).height(43).hCenter().width(230)
     }
     
-    private func inTextViewConstraints(_ textView: UIView, _ label: UILabel, _ text: UITextField) {
+    private func inTextViewConstraintsName(_ textView: UIView, _ label: UILabel, _ text: UITextField) {
         NSLayoutConstraint.activate([
             label.leadingAnchor.constraint(equalTo: textView.leadingAnchor, constant: 16),
             label.topAnchor.constraint(equalTo: textView.topAnchor),
-            label.widthAnchor.constraint(equalToConstant: 80),
+            label.widthAnchor.constraint(equalToConstant: 59),
             label.heightAnchor.constraint(equalToConstant: 43),
             
             text.trailingAnchor.constraint(equalTo: textView.trailingAnchor, constant: -16),
             text.topAnchor.constraint(equalTo: textView.topAnchor),
             text.leadingAnchor.constraint(equalTo: label.trailingAnchor, constant: 4),
-            text.widthAnchor.constraint(equalToConstant: 104),
+            text.widthAnchor.constraint(equalToConstant: 125),
+            text.heightAnchor.constraint(equalToConstant: 43)
+        ])
+    }
+    
+    private func inTextViewConstraintsAge(_ textView: UIView, _ label: UILabel, _ text: UITextField) {
+        NSLayoutConstraint.activate([
+            label.leadingAnchor.constraint(equalTo: textView.leadingAnchor, constant: 16),
+            label.topAnchor.constraint(equalTo: textView.topAnchor),
+            label.widthAnchor.constraint(equalToConstant: 125),
+            label.heightAnchor.constraint(equalToConstant: 43),
+            
+            text.trailingAnchor.constraint(equalTo: textView.trailingAnchor, constant: -16),
+            text.topAnchor.constraint(equalTo: textView.topAnchor),
+            text.leadingAnchor.constraint(equalTo: label.trailingAnchor, constant: 4),
+            text.widthAnchor.constraint(equalToConstant: 59),
             text.heightAnchor.constraint(equalToConstant: 43)
         ])
     }
@@ -321,7 +347,7 @@ final class ProfileViewController: UIViewController {
         localImageName = imageName!
         
         if let imPath = profileService.getImage() {
-            imageCircle = CircleImageView(image: UIImage(data: imPath))
+            imageCircle.image = UIImage(data: imPath)
         } else {
             imageLoaderService.getImage(with: imageName!) { [weak self] result in
                 guard let self = self else {
@@ -342,11 +368,14 @@ final class ProfileViewController: UIViewController {
         genderSegmentedControl.isUserInteractionEnabled = false
         
         logoutButton.backgroundColor = UIColor(hue: 1, saturation: 1, brightness: 1, alpha: 0)
-        logoutButton.setTitleColor(StepColor.darkGreen8, for: .normal)
+        logoutButton.setTitleColor(StepColor.darkGreen, for: .normal)
         logoutButton.titleLabel?.font = UIFont(name: "Arial", size: 20)
         logoutButton.setTitle("Logout", for: .normal)
         logoutButton.addTarget(self, action: #selector(toAuthorization), for: .touchUpInside)
-        logoutButton.isHidden = true
+        let attributedString = NSMutableAttributedString.init(string: "something")
+        attributedString.addAttribute(NSAttributedString.Key.underlineStyle, value: 1, range:
+                                        NSRange.init(location: 0, length: attributedString.length));
+        logoutButton.titleLabel?.attributedText = attributedString
         
         editButton.semanticContentAttribute = UISemanticContentAttribute.forceRightToLeft
         editButton.setTitleColor(StepColor.darkGreen8, for: .normal)
@@ -368,7 +397,6 @@ final class ProfileViewController: UIViewController {
         ageDatePicker.maximumDate = Date()
         ageDatePicker.datePickerMode = .date
         ageDatePicker.addTarget(self, action: #selector(dateChanged), for: .valueChanged)
-        //ageDatePicker.isHidden = true
         if #available(iOS 14.0, *) {
             ageDatePicker.preferredDatePickerStyle = .wheels
         } else {

@@ -39,7 +39,6 @@ final class UsersServiceImplementation: UsersService {
                     group.leave()
                 }
             case .failure(let error):
-                print(error.localizedDescription)
                 if error as! CustomError == CustomError.noSuchUser{
                     print("Имя свободно")
                     group.leave()

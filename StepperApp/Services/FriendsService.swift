@@ -89,7 +89,8 @@ final class FriendsServiceImplementation: FriendsService {
                     case .success(let user):
                         friends.append(user)
                     case .failure(let error):
-                        print(error.localizedDescription)
+                        completion(.failure(error))
+                        return
                     }
                     group.leave()
                 }

@@ -20,8 +20,10 @@ final class EachCompetitionViewController: UIViewController {
             remainingTimeLabel.text = currentTime()
             progressLabel.text = "\(Int((currentStepsFunc()))) / \(Int((competition?.maxValue)!))"
             progressBar.progress  = Float((competition?.currentValue)! / (competition?.maxValue)!)
-            if progressBar.progress > 1 {
+            if competition!.isFinished {
+                print("Progress is over 1")
                 progressBar.isHidden = true
+                wellDoneLabel.isHidden = false
             }
         }
     }
@@ -31,6 +33,7 @@ final class EachCompetitionViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 30, weight: .bold)
         label.numberOfLines = 0
+        label.textColor = StepColor.darkGreen
         return label
     }()
     
@@ -52,6 +55,7 @@ final class EachCompetitionViewController: UIViewController {
     
     private lazy var remainingTimeLabel: UILabel = {
         let label = UILabel()
+        label.textColor = StepColor.darkGreen
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 20, weight: .bold)
         return label
@@ -59,6 +63,7 @@ final class EachCompetitionViewController: UIViewController {
     
     private lazy var timeEndsLabel: UILabel = {
         let label = UILabel()
+        label.textColor = StepColor.darkGreen
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 20)
         label.text = "Remaining time: "
@@ -67,6 +72,7 @@ final class EachCompetitionViewController: UIViewController {
     
     private lazy var yourProgressLabel: UILabel = {
         let label = UILabel()
+        label.textColor = StepColor.darkGreen
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 20)
         label.text = "Your progress: "
@@ -75,6 +81,7 @@ final class EachCompetitionViewController: UIViewController {
     
     private lazy var progressLabel: UILabel = {
         let label = UILabel()
+        label.textColor = StepColor.darkGreen
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 20, weight: .bold)
         return label
@@ -87,6 +94,28 @@ final class EachCompetitionViewController: UIViewController {
         bar.translatesAutoresizingMaskIntoConstraints = false
         bar.clipsToBounds = true
         return bar
+    }()
+    
+    private lazy var wellDoneLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = StepColor.darkGreen
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .systemFont(ofSize: 30, weight: .bold)
+        label.numberOfLines = 0
+        label.text = "Well done!"
+        label.textAlignment = .center
+        label.isHidden = true
+        return label
+    }()
+    
+    private lazy var otherParticipantsLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .systemFont(ofSize: 20)
+        label.textColor = HexColor(rgb: 0x375F57)
+        label.numberOfLines = 0
+        label.text = "Other participants:"
+        return label
     }()
     
     override func viewDidLoad() {
@@ -109,7 +138,7 @@ final class EachCompetitionViewController: UIViewController {
     }
     
     private func setupLayout() {
-        [competitionTitleLabel, descriptionLabel, remainingTimeLabel, timeEndsLabel, yourProgressLabel, progressLabel, progressBar].forEach {
+        [competitionTitleLabel, descriptionLabel, remainingTimeLabel, timeEndsLabel, yourProgressLabel, progressLabel, progressBar, wellDoneLabel, otherParticipantsLabel].forEach {
             view.addSubview($0)
         }
         
@@ -147,7 +176,17 @@ final class EachCompetitionViewController: UIViewController {
             progressBar.topAnchor.constraint(equalTo: yourProgressLabel.bottomAnchor, constant: 14),
             progressBar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: (view.frame.width - 315) / 2),
             progressBar.widthAnchor.constraint(equalToConstant: 315),
-            progressBar.heightAnchor.constraint(equalToConstant: 25)
+            progressBar.heightAnchor.constraint(equalToConstant: 25),
+            
+            wellDoneLabel.topAnchor.constraint(equalTo: yourProgressLabel.bottomAnchor, constant: 14),
+            wellDoneLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            wellDoneLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            wellDoneLabel.heightAnchor.constraint(equalToConstant: 30),
+            
+            otherParticipantsLabel.topAnchor.constraint(equalTo: yourProgressLabel.bottomAnchor, constant: 74),
+            otherParticipantsLabel.leadingAnchor.constraint(equalTo: competitionTitleLabel.leadingAnchor),
+            otherParticipantsLabel.trailingAnchor.constraint(equalTo: competitionTitleLabel.trailingAnchor),
+            otherParticipantsLabel.heightAnchor.constraint(equalToConstant: 32)
         ])
     }
 }

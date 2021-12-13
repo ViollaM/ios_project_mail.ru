@@ -29,14 +29,11 @@ final class CompetitionViewController: UIViewController {
     private var week: SteppingWeek = SteppingWeek(steppingDays: [])
     
     private func loadStepsData() {
-        stepsService.fetchLastWeekInfo { [weak self] result in
-            guard let self = self else {
-                return
-            }
+        stepsService.fetchLastWeekInfo { result in
             switch result {
             case .success(let week):
                 self.week = week
-                DispatchQueue.main.async { [weak self] in
+                DispatchQueue.main.async { 
                     currentSteps = week.steppingDays.last!.steps
                     for i in 0..<(allCompetitions.count - 1) {
                         allCompetitions[i].currentValue = Double(currentSteps)

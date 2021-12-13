@@ -27,13 +27,13 @@ final class UserConvector {
             return nil
         }
         
-        let birthDate = dict[Key.birthDate.rawValue] as? Date
+        print(dict)
+        let birthDate = dict[Key.birthDate.rawValue] as? Timestamp
         let isMan = dict[Key.isMan.rawValue] as? Bool
-        
         
         return User(id: uid,
                     name: name,
-                    birthDate: birthDate,
+                    birthDate: birthDate?.dateValue(),
                     isMan: isMan,
                     imageName: imageName)
     }

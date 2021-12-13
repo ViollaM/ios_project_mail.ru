@@ -183,12 +183,5 @@ class SignUpViewController: UIViewController {
                     displayAlert(message: "Name should contain from 1 to 6 lower- or uppercase letters, digits or -; password should be 6-15 symbols long", viewController: self)
                 }
             }
-        
-//        let rootVC = buildAppTabBarController()
-//        let navVC = UINavigationController(rootViewController: rootVC)
-//        navVC.navigationBar.isHidden = true
-//        navVC.modalPresentationStyle = .fullScreen
-//        present(navVC, animated: true)
-//        UserDefaults.standard.set(true, forKey: "isLogged")
 }
 }

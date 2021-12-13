@@ -12,21 +12,25 @@ import Charts
 
 final class CompetitionViewController: UIViewController {
     private var competitions: [CompetitionData] = []
-    
+    private var steps = 0
+    private var distanceKM: Double = 0
+    private var distanceMI: Double {
+        return distanceKM * 1.60934
+    }
     var timer = Timer()
     
     private let stepsService: StepsService
+    private let pedometerService: PedometerService
     
-    init(stepsService: StepsService) {
+    init(stepsService: StepsService, pedometerService: PedometerService) {
         self.stepsService = stepsService
+        self.pedometerService = pedometerService
         super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    private var week: SteppingWeek = SteppingWeek(steppingDays: [])
     
     private func loadStepsData() {
         stepsService.fetchLastWeekInfo { [weak self] result in
@@ -35,13 +39,47 @@ final class CompetitionViewController: UIViewController {
             }
             switch result {
             case .success(let week):
-                self.week = week
                 DispatchQueue.main.async { [weak self] in
-                    currentSteps = week.steppingDays.last!.steps
-                    for i in 0..<(allCompetitions.count - 1) {
-                        allCompetitions[i].currentValue = Double(currentSteps)
+                    if let day = week.steppingDays.last {
+                        self?.steps = day.steps
+                        self?.distanceKM = day.km
+                        for i in 0..<allCompetitions.count {
+                            if allCompetitions[i].isStepsCompetition {
+                                allCompetitions[i].currentValue = Double(self?.steps ?? 0)
+                            } else {
+                                allCompetitions[i].currentValue = self?.distanceKM ?? 0
+                            }
+                        }
+                        self?.competitions = CompetitionsState.current.fetch()
                     }
-                    
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }    
+    
+    private func updatesStepData() {
+        pedometerService.updateStepsAndDistanceForCompetitions { [weak self] result in
+            guard let self = self else {
+                return
+            }
+            switch result {
+            case .success(let update):
+                DispatchQueue.main.async { [weak self] in
+                    let pedometerDistance = Double(truncating: update.distance) / 1000
+                    let pedometerSteps = Int(truncating: update.steps)
+                    let totalSteps = self!.steps + pedometerSteps
+                    let totalDistance = self!.distanceKM + pedometerDistance
+                    print("[COMPVC] STEPS: \(update.steps)")
+                    for i in 0..<allCompetitions.count {
+                        if allCompetitions[i].isStepsCompetition {
+                            allCompetitions[i].currentValue = Double(totalSteps)
+                        } else {
+                            allCompetitions[i].currentValue = totalDistance
+                        }
+                    }
+                    self?.competitions = CompetitionsState.current.fetch()
                 }
             case .failure(let error):
                 print(error.localizedDescription)
@@ -75,6 +113,7 @@ final class CompetitionViewController: UIViewController {
         if let plusImage = UIImage(systemName: "plus", withConfiguration: config) {
             plus.setImage(plusImage, for: .normal)
         }
+        plus.isHidden = true
         plus.tintColor = StepColor.darkGreen
         plus.layer.cornerRadius = 10
         plus.backgroundColor = StepColor.cellBackground
@@ -84,18 +123,13 @@ final class CompetitionViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        loadStepsData()
+        updatesStepData()
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTimeLabel), userInfo: nil, repeats: true)
         RunLoop.current.add(timer, forMode: .common)
         setupLayout()
-        competitions = fetchCompetitions(state: .current)
         plusButton.addTarget(self, action: #selector(addNewCompetitionButtonPressed), for: .touchUpInside)
     }
-    
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-//        competitions = fetchCompetitions(state: .current)
-//    }
     
     private func fetchCompetitions(state : CompetitionsState) -> [CompetitionData] {
         var competitions = state.fetch()
@@ -111,7 +145,6 @@ final class CompetitionViewController: UIViewController {
         hour = calendar.component(.hour, from: date)
         minute = calendar.component(.minute, from: date)
         time = currentTime()
-        loadStepsData()
         collectionView.reloadData()
     }
     
@@ -128,34 +161,6 @@ final class CompetitionViewController: UIViewController {
         present(newVC, animated: true)
     }
     
-//    @objc
-//    private func currentCompetitionButtonPressed() {
-//        var t = 0
-//        self.competitions = []
-//        for i in allCompetitions {
-//            if (!i.isFinished) {
-//                competitions.append(i)
-//                competitions[t].remainingTime = currentTime()
-//                t += 1
-//            }
-//        }
-//        collectionView.reloadData()
-//    }
-//
-//    @objc
-//    private func finishedCompetitionButtonPressed() {
-//        var t = 0
-//        self.competitions = []
-//        for i in allCompetitions {
-//            if (i.isFinished) {
-//                competitions.append(i)
-//                competitions[t].remainingTime = currentTime()
-//                t += 1
-//            }
-//        }
-//        collectionView.reloadData()
-//    }
-    
     private func setupLayout () {
         view.addSubview(collectionView)
         NSLayoutConstraint.activate([
@@ -164,7 +169,6 @@ final class CompetitionViewController: UIViewController {
             collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
         ])
-        
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: plusButton)
     }
 }
@@ -176,14 +180,12 @@ extension CompetitionViewController: UICollectionViewDelegate, UICollectionViewD
         }
         let comp = competitions[indexPath.row]
         cell.competition = comp
-        
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         competitions.count
     }
 }
-
 
 extension CompetitionViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -222,6 +224,3 @@ extension CompetitionViewController: UICollectionViewDelegateFlowLayout {
         present(competitionVC, animated: true, completion: nil)
     }
 }
-
-
-

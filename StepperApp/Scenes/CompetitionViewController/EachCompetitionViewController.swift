@@ -18,7 +18,7 @@ final class EachCompetitionViewController: UIViewController {
             competitionTitleLabel.text = competition?.name
             descriptionLabel.text = competition?.text
             remainingTimeLabel.text = currentTime()
-            progressLabel.text = "\(Int((currentStepsFunc()))) / \(Int((competition?.maxValue)!))"
+            progressLabel.text = "\(Int(competition?.currentValue ?? 0)) / \(Int((competition?.maxValue) ?? 10000))"
             progressBar.progress  = Float((competition?.currentValue)! / (competition?.maxValue)!)
             if competition!.isFinished {
                 print("Progress is over 1")
@@ -47,7 +47,7 @@ final class EachCompetitionViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 20)
-        label.textColor = HexColor(rgb: 0x375F57)
+        label.textColor = StepColor.progress
         label.numberOfLines = 0
         return label
     }()
@@ -89,7 +89,7 @@ final class EachCompetitionViewController: UIViewController {
     
     lazy var progressBar: UIProgressView = {
         let bar = UIProgressView()
-        bar.tintColor = HexColor(rgb: 0x375F57)
+        bar.tintColor = StepColor.progress
         bar.trackTintColor = StepColor.cellBackground
         bar.translatesAutoresizingMaskIntoConstraints = false
         bar.clipsToBounds = true
@@ -112,7 +112,7 @@ final class EachCompetitionViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 20)
-        label.textColor = HexColor(rgb: 0x375F57)
+        label.textColor = StepColor.progress
         label.numberOfLines = 0
         label.text = "Other participants:"
         return label
@@ -121,8 +121,7 @@ final class EachCompetitionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupLayout()
-        view.backgroundColor = HexColor(rgb: 0xA7CDCC)
-        
+        view.backgroundColor = StepColor.background
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTimeLabel), userInfo: nil, repeats: true)
         RunLoop.current.add(timer, forMode: .common)
         
@@ -159,7 +158,7 @@ final class EachCompetitionViewController: UIViewController {
             timeEndsLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 1),
             
             remainingTimeLabel.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 11),
-            remainingTimeLabel.leadingAnchor.constraint(equalTo: progressLabel.leadingAnchor),
+            remainingTimeLabel.trailingAnchor.constraint(equalTo: competitionTitleLabel.trailingAnchor),
             remainingTimeLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 1),
             remainingTimeLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 1),
             
@@ -169,7 +168,7 @@ final class EachCompetitionViewController: UIViewController {
             yourProgressLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 1),
             
             progressLabel.topAnchor.constraint(equalTo: timeEndsLabel.bottomAnchor, constant: 4),
-            progressLabel.trailingAnchor.constraint(equalTo: progressBar.trailingAnchor),
+            progressLabel.trailingAnchor.constraint(equalTo: competitionTitleLabel.trailingAnchor),
             progressLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 1),
             progressLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 1),
             

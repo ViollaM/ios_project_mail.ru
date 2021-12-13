@@ -8,18 +8,14 @@
 import UIKit
 
 final class EachFriendViewController: UIViewController {
-    private let imageLoaderService = ImageLoaderServiceImplementation()
     
+    var image: UIImage? {
+        didSet {
+            avatarImage.image = image
+        }
+    }
     var friend: User? {
         didSet {
-            imageLoaderService.getImage(with: friend!.imageName) {[weak self] image in
-                guard let image = image else {
-                    return
-                }
-                DispatchQueue.main.async {
-                    self?.avatarImage.image = image
-                }
-            }
             nameTitle.text = "Hi! I'm @\(friend?.name ?? "user")"
             competitionLabel.text = "@\(friend?.name ?? "user")'s competitions:"
         }

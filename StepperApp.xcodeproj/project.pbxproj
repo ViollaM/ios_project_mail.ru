@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		011640A727677EDC002E1608 /* SwipeChartCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011640A627677EDC002E1608 /* SwipeChartCell.swift */; };
 		012440BE2764BDF300676D03 /* CircleAndRoundedViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012440BD2764BDF300676D03 /* CircleAndRoundedViews.swift */; };
 		012440C02764BDFB00676D03 /* CalendarISO8601.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012440BF2764BDFB00676D03 /* CalendarISO8601.swift */; };
 		012440C22764BE0400676D03 /* IntSeparatorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012440C12764BE0400676D03 /* IntSeparatorExtension.swift */; };
@@ -23,6 +24,8 @@
 		012440D92764BE7D00676D03 /* StepsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012440D82764BE7D00676D03 /* StepsModels.swift */; };
 		012440DB2764FEA500676D03 /* LockedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012440DA2764FEA400676D03 /* LockedImage.swift */; };
 		012440FE2765199C00676D03 /* CustomErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012440FD2765199B00676D03 /* CustomErrors.swift */; };
+		014A8B652767484900537C91 /* CircleProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014A8B642767484800537C91 /* CircleProgressView.swift */; };
+		014E38B327675536004FC8F2 /* CircleProgressBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014E38B227675536004FC8F2 /* CircleProgressBarViewController.swift */; };
 		014F5F96272D9E960058132F /* TabBarControllerFunc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014F5F95272D9E960058132F /* TabBarControllerFunc.swift */; };
 		014F5F99272D9F880058132F /* AuthorizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014F5F98272D9F880058132F /* AuthorizationViewController.swift */; };
 		014F5F9B272D9F990058132F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014F5F9A272D9F990058132F /* LoginViewController.swift */; };
@@ -63,6 +66,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		011640A627677EDC002E1608 /* SwipeChartCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeChartCell.swift; sourceTree = "<group>"; };
 		012440BD2764BDF300676D03 /* CircleAndRoundedViews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleAndRoundedViews.swift; sourceTree = "<group>"; };
 		012440BF2764BDFB00676D03 /* CalendarISO8601.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarISO8601.swift; sourceTree = "<group>"; };
 		012440C12764BE0400676D03 /* IntSeparatorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntSeparatorExtension.swift; sourceTree = "<group>"; };
@@ -79,6 +83,8 @@
 		012440D82764BE7D00676D03 /* StepsModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StepsModels.swift; sourceTree = "<group>"; };
 		012440DA2764FEA400676D03 /* LockedImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockedImage.swift; sourceTree = "<group>"; };
 		012440FD2765199B00676D03 /* CustomErrors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomErrors.swift; sourceTree = "<group>"; };
+		014A8B642767484800537C91 /* CircleProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleProgressView.swift; sourceTree = "<group>"; };
+		014E38B227675536004FC8F2 /* CircleProgressBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleProgressBarViewController.swift; sourceTree = "<group>"; };
 		014F5F95272D9E960058132F /* TabBarControllerFunc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarControllerFunc.swift; sourceTree = "<group>"; };
 		014F5F98272D9F880058132F /* AuthorizationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationViewController.swift; sourceTree = "<group>"; };
 		014F5F9A272D9F990058132F /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -309,6 +315,7 @@
 				A1160097275B93C0000A5518 /* UserConvector.swift */,
 				A116009B275EB911000A5518 /* ConvertBrithDayToAge.swift */,
 				012440DA2764FEA400676D03 /* LockedImage.swift */,
+				014A8B642767484800537C91 /* CircleProgressView.swift */,
 			);
 			name = Helpers;
 			path = StepperApp/Helpers;
@@ -331,6 +338,8 @@
 				A19E9EA92760F797009576A1 /* StepsViewController.swift */,
 				A19E9EAA2760F797009576A1 /* WeekChartViewController.swift */,
 				012440D02764BE3300676D03 /* CalendarViewController.swift */,
+				014E38B227675536004FC8F2 /* CircleProgressBarViewController.swift */,
+				011640A627677EDC002E1608 /* SwipeChartCell.swift */,
 			);
 			path = StepsViewController;
 			sourceTree = "<group>";
@@ -452,6 +461,7 @@
 			files = (
 				A13BD977274448380030F984 /* CompetitionViewController.swift in Sources */,
 				01F7D4B8274BF146007676CC /* StepColor.swift in Sources */,
+				011640A727677EDC002E1608 /* SwipeChartCell.swift in Sources */,
 				A13BD97F274448F10030F984 /* CompetitionModels.swift in Sources */,
 				014F5F9B272D9F990058132F /* LoginViewController.swift in Sources */,
 				014F5F99272D9F880058132F /* AuthorizationViewController.swift in Sources */,
@@ -467,6 +477,7 @@
 				A153C5472753D7BA00F9871E /* UsersService.swift in Sources */,
 				A165E289274419880002A973 /* ErrorTextField.swift in Sources */,
 				012440C02764BDFB00676D03 /* CalendarISO8601.swift in Sources */,
+				014E38B327675536004FC8F2 /* CircleProgressBarViewController.swift in Sources */,
 				A165E288274419880002A973 /* TextValidation.swift in Sources */,
 				0172EABE27242F7000DE1779 /* StepsService.swift in Sources */,
 				012440D72764BE6600676D03 /* PedometerService.swift in Sources */,
@@ -476,6 +487,7 @@
 				A13BD981274449380030F984 /* EachCompetitionViewController.swift in Sources */,
 				A19E9EAB2760F797009576A1 /* StepsViewController.swift in Sources */,
 				A1160098275B93C0000A5518 /* UserConvector.swift in Sources */,
+				014A8B652767484900537C91 /* CircleProgressView.swift in Sources */,
 				012440CA2764BE2C00676D03 /* SettingsHeader.swift in Sources */,
 				012440BE2764BDF300676D03 /* CircleAndRoundedViews.swift in Sources */,
 				A1548E24275945710017BDA4 /* ImageLoaderService.swift in Sources */,
@@ -660,7 +672,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.stepteam.stepbeat;
+				PRODUCT_BUNDLE_IDENTIFIER = com.rubenegikian.;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -698,7 +710,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.stepteam.stepbeat;
+				PRODUCT_BUNDLE_IDENTIFIER = com.rubenegikian.;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;

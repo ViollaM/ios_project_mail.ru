@@ -8,19 +8,14 @@
 import UIKit
 
 final class FriendsListCollectionViewCell: UICollectionViewCell {
-    
-    private let imageLoaderService = ImageLoaderServiceImplementation()
-    
+        
+    var image: UIImage? {
+        didSet {
+            avatarImage.image = image
+        }
+    }
     var friend: User? {
         didSet {
-            imageLoaderService.getImage(with: friend!.imageName) {[weak self] image in
-                guard let image = image else {
-                    return
-                }
-                DispatchQueue.main.async {
-                    self?.avatarImage.image = image
-                }
-            }
             nameLabel.text = "@\(friend?.name ?? "User")"
         }
     }

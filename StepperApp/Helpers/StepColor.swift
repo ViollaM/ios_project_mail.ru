@@ -27,6 +27,9 @@ final class StepColor: UIColor {
     // Slider
     static let minimumTrack = UIColor(red: 163/255, green: 210/255, blue: 204/255, alpha: 1)
     
+    // Progress Bar
+    static let progress = UIColor(red: 55/255, green: 95/255, blue: 87/255, alpha:  1)
+    
     // Steps screen labels
     static let weekRange = UIColor(red: 55/255, green: 95/255, blue: 87/255, alpha: 1)
     static let weekTotalAndAverage = UIColor(red: 72/255, green: 120/255, blue: 115/255, alpha: 1)

@@ -34,11 +34,8 @@ final class StepsScreenSettings: UIViewController {
     }
     
     func setupLayout () {
-        navigationController?.navigationBar.tintColor = StepColor.darkGreen
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        navigationController?.navigationBar.shadowImage = UIImage()
-        navigationController?.navigationBar.isTranslucent = true
         view.addSubview(collectionView)
+        view.backgroundColor = .white
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),

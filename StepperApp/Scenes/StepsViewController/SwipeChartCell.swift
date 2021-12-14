@@ -48,6 +48,10 @@ final class SwipeChartCell: UICollectionViewCell {
         contentView.backgroundColor = .clear
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+    }
+    
     private func setupLayout () {
         contentView.addSubview(chart)
         NSLayoutConstraint.activate([

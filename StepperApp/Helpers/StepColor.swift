@@ -29,6 +29,7 @@ final class StepColor: UIColor {
     
     // Progress Bar
     static let progress = UIColor(red: 55/255, green: 95/255, blue: 87/255, alpha:  1)
+    static let newProgress = UIColor(red: 77/255, green: 127/255, blue: 121/255, alpha: 1)
     
     // Steps screen labels
     static let weekRange = UIColor(red: 55/255, green: 95/255, blue: 87/255, alpha: 1)

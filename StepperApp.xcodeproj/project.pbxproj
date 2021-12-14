@@ -21,7 +21,6 @@
 		012440D92764BE7D00676D03 /* StepsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012440D82764BE7D00676D03 /* StepsModels.swift */; };
 		012440DB2764FEA500676D03 /* LockedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012440DA2764FEA400676D03 /* LockedImage.swift */; };
 		012440FE2765199C00676D03 /* CustomErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012440FD2765199B00676D03 /* CustomErrors.swift */; };
-		014A8B652767484900537C91 /* CircleProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014A8B642767484800537C91 /* CircleProgressView.swift */; };
 		014F5F96272D9E960058132F /* TabBarControllerFunc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014F5F95272D9E960058132F /* TabBarControllerFunc.swift */; };
 		014F5F99272D9F880058132F /* AuthorizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014F5F98272D9F880058132F /* AuthorizationViewController.swift */; };
 		014F5F9B272D9F990058132F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014F5F9A272D9F990058132F /* LoginViewController.swift */; };
@@ -81,7 +80,6 @@
 		012440D82764BE7D00676D03 /* StepsModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StepsModels.swift; sourceTree = "<group>"; };
 		012440DA2764FEA400676D03 /* LockedImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockedImage.swift; sourceTree = "<group>"; };
 		012440FD2765199B00676D03 /* CustomErrors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomErrors.swift; sourceTree = "<group>"; };
-		014A8B642767484800537C91 /* CircleProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleProgressView.swift; sourceTree = "<group>"; };
 		014F5F95272D9E960058132F /* TabBarControllerFunc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarControllerFunc.swift; sourceTree = "<group>"; };
 		014F5F98272D9F880058132F /* AuthorizationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationViewController.swift; sourceTree = "<group>"; };
 		014F5F9A272D9F990058132F /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -315,7 +313,6 @@
 				A1160097275B93C0000A5518 /* UserConvector.swift */,
 				A116009B275EB911000A5518 /* ConvertBrithDayToAge.swift */,
 				012440DA2764FEA400676D03 /* LockedImage.swift */,
-				014A8B642767484800537C91 /* CircleProgressView.swift */,
 			);
 			name = Helpers;
 			path = StepperApp/Helpers;
@@ -489,7 +486,6 @@
 				A1223E4F27660DA9006312D6 /* NewFriendViewController.swift in Sources */,
 				A19E9EAB2760F797009576A1 /* StepsViewController.swift in Sources */,
 				A1160098275B93C0000A5518 /* UserConvector.swift in Sources */,
-				014A8B652767484900537C91 /* CircleProgressView.swift in Sources */,
 				012440CA2764BE2C00676D03 /* SettingsHeader.swift in Sources */,
 				012440BE2764BDF300676D03 /* CircleAndRoundedViews.swift in Sources */,
 				A1548E24275945710017BDA4 /* ImageLoaderService.swift in Sources */,

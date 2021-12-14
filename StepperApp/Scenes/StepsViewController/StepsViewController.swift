@@ -6,8 +6,8 @@
 //
 
 import UIKit
-import PinLayout
 import PanModal
+import KDCircularProgress
 
 final class StepsViewController: UIViewController {
     
@@ -23,18 +23,26 @@ final class StepsViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+    private var usersGoal = Goal(steps: 10000, distance: nil, isSteps: true, isKM: false)
     private var steps = 0
     private var distance: Double = 0
     private var total = 0
     private var averageSteps = 0
     private var firstDay = ""
     private var lastDay = ""
-    private var circleProgress: CircleProgressView = {
-        let circle = CircleProgressView(progress: 0.01, baseColor: StepColor.alpha5, progressColor: StepColor.darkGreen8, duration: 1.5, delay: 0.1)
-        circle.animateCircle(duration: 1.5, delay: 0.1)
-        circle.translatesAutoresizingMaskIntoConstraints = false
-        return circle
+    private var circleProgress: KDCircularProgress = {
+        let progress = KDCircularProgress(frame: .zero)
+        progress.translatesAutoresizingMaskIntoConstraints = false
+        progress.startAngle = -90
+        progress.progressThickness = 0.2
+        progress.trackThickness = 0.25
+        progress.trackColor = StepColor.alpha5
+        progress.clockwise = true
+        progress.roundedCorners = false
+        progress.glowMode = .forward
+        progress.glowAmount = 0.9
+        progress.set(colors: StepColor.progress)
+        return progress
     }()
     private lazy var circleStepContainerView: CircleView = {
         let view = CircleView()
@@ -159,8 +167,10 @@ final class StepsViewController: UIViewController {
                     self?.updateTodayLabels(lastDay: lastDay)
                     self?.updateWeekLabels(week: week)
                     self?.chartDelegate?.updateData(stepWeek: week)
-                    self?.circleProgress.progress = CGFloat(lastDay.steps)/10000
-                    self?.circleProgress.layoutSubviews()
+                    self?.circleProgress.animate(toAngle: (Double(lastDay.steps)/10000)*360, duration: 1.5, completion: nil)
+                    if self?.circleProgress.angle == 360 {
+                        self?.circleProgress.isHidden = true
+                    }
                 }
                 self.selectedWeek = week
             case .failure(let error):
@@ -218,6 +228,7 @@ final class StepsViewController: UIViewController {
                     let pedometerSteps = Int(truncating: update.steps)
                     let totalSteps = self!.steps + pedometerSteps
                     let totalDistance = self!.distance + pedometerDistance
+                    self?.circleProgress.animate(toAngle: (Double(pedometerSteps)/10000)*360, duration: 0.5, completion: nil)
                     print("[STEPVC] STEPS: \(update.steps)")
                     self?.stepsCountLabel.text = "\(totalSteps)"
                     let roundedDistanceLabel = String(format: "%.1f", totalDistance)
@@ -258,8 +269,8 @@ final class StepsViewController: UIViewController {
             
             circleProgress.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -view.center.y * 0.55),
             circleProgress.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            circleProgress.heightAnchor.constraint(equalToConstant: widthOfUIElements),
-            circleProgress.widthAnchor.constraint(equalToConstant: widthOfUIElements),
+            circleProgress.heightAnchor.constraint(equalToConstant: widthOfUIElements/0.8),
+            circleProgress.widthAnchor.constraint(equalToConstant: widthOfUIElements/0.8),
          
             stepsCountLabel.centerXAnchor.constraint(equalTo: circleStepContainerView.centerXAnchor),
             stepsCountLabel.centerYAnchor.constraint(equalTo: circleStepContainerView.centerYAnchor, constant: -widthOfUIElements * 0.08),
@@ -327,7 +338,7 @@ final class StepsViewController: UIViewController {
     private func dateLabelTap() {
         let vc = CalendarViewController()
         vc.delegate = self
-        vc.height = weekInfoView.frame.minY
+        vc.height = weekChartViewController.view.frame.height + view.safeAreaInsets.bottom + 15
         presentPanModal(vc)
     }
     @objc
@@ -359,13 +370,11 @@ final class StepsViewController: UIViewController {
     
     @objc
     private func settingsButtonPressed() {
-//        let vc = StepsScreenSettings()
-//        vc.view.backgroundColor = StepColor.background
-//        vc.navigationController?.navigationBar.tintColor = StepColor.darkGreen
-//        UserDefaults.standard.register(defaults: ["stepsGoal": 10000, "distanceGoal": 10])
-//        navigationController?.pushViewController(vc, animated: true)
-        circleProgress.progress += 0.2
-        circleProgress.layoutSubviews()
+        let vc = StepsScreenSettings()
+        vc.view.backgroundColor = StepColor.background
+        vc.navigationController?.navigationBar.tintColor = StepColor.darkGreen
+        UserDefaults.standard.register(defaults: ["stepsGoal": 10000, "distanceGoal": 10])
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 

@@ -28,13 +28,22 @@ final class WeekChartViewController: UIViewController{
         collection.backgroundColor = StepColor.cellBackground.withAlphaComponent(0.8)
         collection.register(SwipeChartCell.self, forCellWithReuseIdentifier: "SwipeChartCell")
         collection.showsHorizontalScrollIndicator = false
+        collection.isPagingEnabled = true
         return collection
     }()
+    
+    private var previousPage = 0
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        let row = chartsCollectionView.numberOfItems(inSection: 0) - 1
+        let newIndexPath = IndexPath(row: row, section: 0)
+        chartsCollectionView.selectItem(at: newIndexPath, animated: false, scrollPosition: .left)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupLayout()
-        chartsCollectionView.isPagingEnabled = true
+        previousPage = chartsCollectionView.numberOfItems(inSection: 0) - 1
     }
 
     private func setupLayout () {
@@ -57,7 +66,7 @@ extension WeekChartViewController: ChartDelegate{
 
 extension WeekChartViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        10
+        52
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -74,6 +83,16 @@ extension WeekChartViewController: UICollectionViewDelegateFlowLayout, UICollect
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         0
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        let currentPage = Int(scrollView.contentOffset.x) / Int(scrollView.frame.width)
+        if currentPage > previousPage {
+            print("Swipe left")
+        } else if currentPage < previousPage {
+            print("Swipe right")
+        }
+        previousPage = currentPage
     }
     
 }

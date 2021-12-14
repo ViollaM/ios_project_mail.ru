@@ -7,12 +7,12 @@
 
 import UIKit
 
-protocol DailyGoalDelegate {
-    func newGoalIs(goal: Double)
+protocol DailyGoalDelegate: AnyObject {
+    func newGoalIs(steps: Int, distance: Double, isSteps: Bool)
 }
 
 final class SettingsDailyGoalCell: UICollectionViewCell {
-    var delegate: DailyGoalDelegate?
+    weak var delegate: DailyGoalDelegate?
     
     lazy var stepsOrDistanceSegmentedControl: UISegmentedControl = {
         let sc = UISegmentedControl(items: ["Steps", "Distance"])
@@ -76,12 +76,12 @@ final class SettingsDailyGoalCell: UICollectionViewCell {
             goalStepsCount -= 500
             UserDefaults.standard.set(goalStepsCount, forKey: "stepsGoal")
             goalCountLabel.text = goalStepsCount.formattedWithSeparator
-            delegate?.newGoalIs(goal: Double(goalStepsCount))
+            delegate?.newGoalIs(steps: goalStepsCount, distance: goalDistanceCount, isSteps: true)
         } else if stepsOrDistanceSegmentedControl.selectedSegmentIndex == 1 && goalDistanceCount > 0.5 {
             goalDistanceCount -= 0.5
             UserDefaults.standard.set(goalDistanceCount, forKey: "distanceGoal")
             goalCountLabel.text = goalDistanceCount.formattedWithSeparator
-            delegate?.newGoalIs(goal: goalDistanceCount)
+            delegate?.newGoalIs(steps: goalStepsCount, distance: goalDistanceCount, isSteps: false)
         }
     }
     
@@ -91,10 +91,12 @@ final class SettingsDailyGoalCell: UICollectionViewCell {
             goalStepsCount += 500
             UserDefaults.standard.set(goalStepsCount, forKey: "stepsGoal")
             goalCountLabel.text = goalStepsCount.formattedWithSeparator
+            delegate?.newGoalIs(steps: goalStepsCount, distance: goalDistanceCount, isSteps: true)
         } else {
             goalDistanceCount += 0.5
             UserDefaults.standard.set(goalDistanceCount, forKey: "distanceGoal")
             goalCountLabel.text = goalDistanceCount.formattedWithSeparator
+            delegate?.newGoalIs(steps: goalStepsCount, distance: goalDistanceCount, isSteps: false)
         }
     }
     

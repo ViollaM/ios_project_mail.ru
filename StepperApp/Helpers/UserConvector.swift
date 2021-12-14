@@ -16,13 +16,16 @@ final class UserConvector {
         case birthDate
         case isMan
         case imageName
+        case steps
     }
     
     func dictToUser(from document: DocumentSnapshot) -> User? {
         guard let dict = document.data(),
               let uid = dict[Key.uid.rawValue] as? String,
               let name = dict[Key.name.rawValue] as? String,
-              let imageName = dict[Key.imageName.rawValue] as? String
+              let imageName = dict[Key.imageName.rawValue] as? String,
+              let steps = dict[Key.steps.rawValue] as? Int
+            
         else {
             return nil
         }
@@ -34,6 +37,7 @@ final class UserConvector {
                     name: name,
                     birthDate: birthDate?.dateValue(),
                     isMan: isMan,
-                    imageName: imageName)
+                    imageName: imageName,
+                    steps: steps)
     }
 }

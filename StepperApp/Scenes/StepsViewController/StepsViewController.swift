@@ -13,8 +13,10 @@ final class StepsViewController: UIViewController {
     
     private let stepsService: StepsService
     private let pedometerService: PedometerService
+    private let usersService: UsersService
     
-    init(stepsService: StepsService, pedometerService: PedometerService) {
+    init(stepsService: StepsService, pedometerService: PedometerService, usersService: UsersService) {
+        self.usersService = usersService
         self.stepsService = stepsService
         self.pedometerService = pedometerService
         super.init(nibName: nil, bundle: nil)
@@ -23,6 +25,7 @@ final class StepsViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    private let userOperations = UserOperations()
     private var usersGoal = Goal(steps: 10000, distance: nil, isSteps: true, isKM: false)
     private var steps = 0
     private var distance: Double = 0
@@ -35,13 +38,14 @@ final class StepsViewController: UIViewController {
         progress.translatesAutoresizingMaskIntoConstraints = false
         progress.startAngle = -90
         progress.progressThickness = 0.2
-        progress.trackThickness = 0.25
+        progress.trackThickness = 0.2
         progress.trackColor = StepColor.alpha5
         progress.clockwise = true
-        progress.roundedCorners = false
+        progress.roundedCorners = true
         progress.glowMode = .forward
         progress.glowAmount = 0.9
         progress.set(colors: StepColor.progress)
+        progress.angle = 0
         return progress
     }()
     private lazy var circleStepContainerView: CircleView = {
@@ -160,19 +164,28 @@ final class StepsViewController: UIViewController {
             }
             switch result {
             case .success(let week):
+                let lastDay = week.steppingDays.last ?? SteppingDay()
                 DispatchQueue.main.async { [weak self] in
-                    let lastDay = week.steppingDays.last ?? SteppingDay()
                     self?.steps = lastDay.steps
                     self?.distance = lastDay.km
                     self?.updateTodayLabels(lastDay: lastDay)
                     self?.updateWeekLabels(week: week)
                     self?.chartDelegate?.updateData(stepWeek: week)
-                    self?.circleProgress.animate(toAngle: (Double(lastDay.steps)/10000)*360, duration: 1.5, completion: nil)
+                    self?.circleProgress.animate(toAngle: (Double(lastDay.steps)/10000)*360, duration: 0.5, completion: nil)
                     if self?.circleProgress.angle == 360 {
                         self?.circleProgress.isHidden = true
                     }
                 }
                 self.selectedWeek = week
+                var user = self.userOperations.getUser()
+                user?.steps = lastDay.steps
+                self.userOperations.saveUser(user: user!)
+                self.usersService.updateUser(user: user!) { error in
+                    if error != nil {
+                        print("Update user error")
+                    }
+                    print("User's steps are updated!")
+                }
             case .failure(let error):
                 print(error.localizedDescription)
             }
@@ -228,7 +241,16 @@ final class StepsViewController: UIViewController {
                     let pedometerSteps = Int(truncating: update.steps)
                     let totalSteps = self!.steps + pedometerSteps
                     let totalDistance = self!.distance + pedometerDistance
-                    self?.circleProgress.animate(toAngle: (Double(pedometerSteps)/10000)*360, duration: 0.5, completion: nil)
+                    var user = self?.userOperations.getUser()
+                    user?.steps = totalSteps
+                    self?.userOperations.saveUser(user: user!)
+                    self?.usersService.updateUser(user: user!) { error in
+                        if error != nil {
+                            print("Update user error")
+                        }
+                        print("User's steps are updated!")
+                    }
+                    self?.circleProgress.animate(toAngle: (Double(totalSteps)/10000)*360, duration: 0.5, completion: nil)
                     print("[STEPVC] STEPS: \(update.steps)")
                     self?.stepsCountLabel.text = "\(totalSteps)"
                     let roundedDistanceLabel = String(format: "%.1f", totalDistance)

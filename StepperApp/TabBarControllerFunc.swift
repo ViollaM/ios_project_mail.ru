@@ -15,7 +15,7 @@ func buildAppTabBarController() -> UITabBarController {
     let usersService = UsersServiceImplementation()
     let friendsService = FriendsServiceImplementation()
     let imageLoaderService = ImageLoaderServiceImplementation()
-    let viewcontollers = [buildStepsViewController(stepsService: stepsService, pedometerService: pedometerService), buildFriendsListViewController(friendsService: friendsService, imageLoaderService: imageLoaderService), buildCompetitionViewController(stepsService: stepsService, pedometerService: pedometerService),  buildProfileViewController(profileService: profileService, usersService: usersService, imageService: imageLoaderService)]
+    let viewcontollers = [buildStepsViewController(stepsService: stepsService, pedometerService: pedometerService, usersService: usersService), buildFriendsListViewController(friendsService: friendsService, imageLoaderService: imageLoaderService), buildCompetitionViewController(stepsService: stepsService, pedometerService: pedometerService),  buildProfileViewController(profileService: profileService, usersService: usersService, imageService: imageLoaderService)]
     viewcontollers.forEach {
         setupBackground(on: $0)
     }
@@ -31,9 +31,9 @@ func buildAppTabBarController() -> UITabBarController {
     return tabBarController
 }
 
-func buildStepsViewController(stepsService: StepsService, pedometerService: PedometerService) -> UIViewController {
+func buildStepsViewController(stepsService: StepsService, pedometerService: PedometerService, usersService: UsersService) -> UIViewController {
     let navigationController = UINavigationController()
-    let viewController = StepsViewController(stepsService: stepsService, pedometerService: pedometerService)
+    let viewController = StepsViewController(stepsService: stepsService, pedometerService: pedometerService, usersService: usersService)
     navigationController.viewControllers = [viewController]
     navigationController.navigationBar.tintColor = StepColor.darkGreen
     let stepsItem = UITabBarItem(title: "Steps", image: UIImage(systemName: "figure.walk"), selectedImage: nil)

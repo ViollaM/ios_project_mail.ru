@@ -52,13 +52,23 @@ final class EachFriendViewController: UIViewController {
         button.addTarget(self, action: #selector(unfollowTap), for: .touchUpInside)
         return button
     }()
+    private lazy var competitionsCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.register(FriendsCompetitionsCell.self, forCellWithReuseIdentifier: String(describing: FriendsCompetitionsCell.self))
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.backgroundColor = .clear
+        return collectionView
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        [avatarImage, nameTitle, competitionLabel, deleteButton].forEach {
+        [avatarImage, nameTitle, competitionLabel, competitionsCollectionView, deleteButton].forEach {
             view.addSubview($0)
         }
-        view.backgroundColor = StepColor.cellBackground
+        view.backgroundColor = StepColor.background
         
         NSLayoutConstraint.activate([
             nameTitle.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
@@ -79,9 +89,17 @@ final class EachFriendViewController: UIViewController {
             deleteButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             deleteButton.widthAnchor.constraint(greaterThanOrEqualToConstant: 1),
             deleteButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -8),
-            deleteButton.heightAnchor.constraint(greaterThanOrEqualToConstant: 20)
+            deleteButton.heightAnchor.constraint(greaterThanOrEqualToConstant: 20),
             
+            competitionsCollectionView.topAnchor.constraint(equalTo: competitionLabel.bottomAnchor, constant: 16),
+            competitionsCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 38),
+            competitionsCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -38),
+            competitionsCollectionView.bottomAnchor.constraint(equalTo: deleteButton.topAnchor, constant: -16)
         ])
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        print("[FRIEND APPEAR!]")
     }
     
     @objc
@@ -89,3 +107,24 @@ final class EachFriendViewController: UIViewController {
         print("unfollow")
     }
 }
+
+extension EachFriendViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        allCompetitions.count
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: FriendsCompetitionsCell.self), for: indexPath) as? FriendsCompetitionsCell {
+            cell.competition = allCompetitions[indexPath.row]
+            cell.numberOfCompetition = indexPath.row + 1
+            return cell
+        }
+        return .init()
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        CGSize(width: view.frame.width - 80, height: 46)
+    }
+}
+
+

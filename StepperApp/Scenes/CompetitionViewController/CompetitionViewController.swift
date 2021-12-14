@@ -120,12 +120,12 @@ final class CompetitionViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        loadStepsData()
+        competitions = CompetitionsState.current.fetch()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        loadStepsData()
+        loadStepsData()
         updatesStepData()
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTimeLabel), userInfo: nil, repeats: true)
         RunLoop.current.add(timer, forMode: .common)

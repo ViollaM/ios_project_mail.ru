@@ -7,12 +7,8 @@
 
 import Foundation
 import UIKit
-import PinLayout
 
 final class CompetitionViewCell: UICollectionViewCell {
-    
-    var a: Float = 0.0
-    
     
     var competition: CompetitionData? {
         didSet {

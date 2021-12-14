@@ -8,6 +8,17 @@
 import UIKit
 
 final class EachFriendViewController: UIViewController {
+    private let friendsService: FriendsService
+    
+    init(friendsService: FriendsService) {
+        self.friendsService = friendsService
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     private var friendsCompetitions = allCompetitions
     
     var image: UIImage? {
@@ -18,6 +29,7 @@ final class EachFriendViewController: UIViewController {
     var friend: User? {
         didSet {
             if let friend = friend {
+                friendsID = friend.id
                 friendsStep = friend.steps
                 nameTitle.text = "Hi! I'm @\(friend.name)"
                 competitionLabel.text = "@\(friend.name)'s competitions:"
@@ -25,6 +37,7 @@ final class EachFriendViewController: UIViewController {
         }
     }
     
+    private var friendsID = ""
     private var friendsStep = 0
     private var friendsKM = 0.0
     private var friendsMI = 0.0
@@ -108,6 +121,19 @@ final class EachFriendViewController: UIViewController {
     
     @objc
     private func unfollowTap() {
+        guard let user = UserOperations().getUser() else { return }
+        let userId = user.id
+        friendsService.removeFriend(for: userId, to: friendsID) { [weak self] error in
+            guard let self = self else { return }
+            if let error = error {
+                displayAlert(message: error.localizedDescription, viewController: self)
+                return
+            }
+            
+            self.dismiss(animated: true) {
+                displayAlert(message: "You are unfollowed successfully", viewController: self)
+            }
+        }
     }
 }
 

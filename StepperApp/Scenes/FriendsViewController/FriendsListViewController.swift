@@ -38,7 +38,6 @@ final class FriendsListViewController: UIViewController {
         presentr.backgroundColor = .black.withAlphaComponent(0.4)
         return presentr
     }()
-    private let newFriendVC = NewFriendViewController()
     private var allFriends: [User] = []
     private var filteredFriends: [User] = []
     
@@ -136,6 +135,7 @@ final class FriendsListViewController: UIViewController {
     
     @objc
     private func addingNewFriend() {
+        let newFriendVC = NewFriendViewController()
         newFriendVC.delegate = self
         customPresentViewController(presenter, viewController: newFriendVC, animated: true, completion: nil)
     }
@@ -164,7 +164,7 @@ extension FriendsListViewController: UICollectionViewDataSource, UICollectionVie
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let friendsVC = EachFriendViewController()
+        let friendsVC = EachFriendViewController(friendsService: friendsService)
         let friend = filteredFriends[indexPath.row]
         imageLoaderService.getImage(with: friend.imageName) { [weak weakVC = friendsVC] image in
             guard let image = image, let friendsVC = weakVC else { return }

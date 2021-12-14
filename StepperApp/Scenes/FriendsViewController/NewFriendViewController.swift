@@ -20,7 +20,7 @@ final class NewFriendViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .left
         label.textColor = StepColor.darkGreen
-        label.text = "Subscribe to user"
+        label.text = "Follow to user"
         label.font = .systemFont(ofSize: 30, weight: .bold)
         return label
     }()

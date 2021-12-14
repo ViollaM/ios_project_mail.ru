@@ -20,8 +20,8 @@ class ErrorTextField: UITextField {
     }
 }
 
-func displayAlert(message: String, viewController: UIViewController) {
-    let alert = UIAlertController(title: "Alert", message: message, preferredStyle: .alert)
+func displayAlert(alertTitle: String = "Alert", message: String, viewController: UIViewController) {
+    let alert = UIAlertController(title: alertTitle, message: message, preferredStyle: .alert)
     alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
     viewController.present(alert, animated: true, completion: nil)
 }

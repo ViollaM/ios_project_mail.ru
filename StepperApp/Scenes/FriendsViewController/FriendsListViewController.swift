@@ -165,6 +165,7 @@ extension FriendsListViewController: UICollectionViewDataSource, UICollectionVie
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let friendsVC = EachFriendViewController(friendsService: friendsService)
+        friendsVC.delegate = self
         let friend = filteredFriends[indexPath.row]
         imageLoaderService.getImage(with: friend.imageName) { [weak weakVC = friendsVC] image in
             guard let image = image, let friendsVC = weakVC else { return }
@@ -215,11 +216,18 @@ extension FriendsListViewController: NewFriendDelegate {
             }
             switch error {
             case nil:
-                displayAlert(message: "You have subscribed to \(nickname)!", viewController: self)
+                displayAlert(alertTitle: "Congratulations!",message: "You have followed to \(nickname)!", viewController: self)
                     self.getFriends()
             default:
                 displayAlert(message: error!.localizedDescription, viewController: self)
             }
         }
+    }
+}
+
+extension FriendsListViewController: FriendsChangeDelegate {
+    func removedUserWith(id: String) {
+        self.getFriends()
+        displayAlert(alertTitle: "",message: "You are unfollowed successfully", viewController: self)
     }
 }

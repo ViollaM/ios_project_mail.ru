@@ -7,7 +7,13 @@
 
 import UIKit
 
+protocol FriendsChangeDelegate: AnyObject {
+    func removedUserWith(id: String)
+}
+
 final class EachFriendViewController: UIViewController {
+    weak var delegate: FriendsChangeDelegate?
+    
     private let friendsService: FriendsService
     
     init(friendsService: FriendsService) {
@@ -129,9 +135,9 @@ final class EachFriendViewController: UIViewController {
                 displayAlert(message: error.localizedDescription, viewController: self)
                 return
             }
-            
             self.dismiss(animated: true) {
-                displayAlert(message: "You are unfollowed successfully", viewController: self)
+//                displayAlert(alertTitle: "",message: "You are unfollowed successfully", viewController: self)
+                self.delegate?.removedUserWith(id: userId)
             }
         }
     }

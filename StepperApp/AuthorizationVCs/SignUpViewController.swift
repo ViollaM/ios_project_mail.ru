@@ -175,9 +175,9 @@ class SignUpViewController: UIViewController {
         case .failure:
                 switch responsePassword {
                 case .success:
-                    displayAlert(message: "Name should contain from 1 to 6 lower- or uppercase letters, digits or -", viewController: self)
+                    displayAlert(message: "Name should contain from 1 to 10 lower- or uppercase letters, digits or -", viewController: self)
                 case .failure:
-                    displayAlert(message: "Name should contain from 1 to 6 lower- or uppercase letters, digits or -; password should be 6-15 symbols long", viewController: self)
+                    displayAlert(message: "Name should contain from 1 to 10 lower- or uppercase letters, digits or -; password should be 6-15 symbols long", viewController: self)
                 }
             }
 }

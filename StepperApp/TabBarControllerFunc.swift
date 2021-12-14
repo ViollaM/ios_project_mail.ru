@@ -64,9 +64,9 @@ func buildFriendsListViewController(friendsService: FriendsService, imageLoaderS
     navigationController.navigationBar.shadowImage = UIImage()
     navigationController.navigationBar.isTranslucent = true
     navigationController.navigationBar.isHidden = false
-    let friendsListItem = UITabBarItem(title: "Friends", image: UIImage(systemName: "person.3"), selectedImage: nil)
+    let friendsListItem = UITabBarItem(title: "Subscriptions", image: UIImage(systemName: "person.3"), selectedImage: nil)
     viewController.tabBarItem = friendsListItem
-    viewController.title = "Friends"
+    viewController.title = "Subscriptions"
     return navigationController
 }
 

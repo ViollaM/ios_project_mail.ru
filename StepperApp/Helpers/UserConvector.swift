@@ -27,7 +27,6 @@ final class UserConvector {
             return nil
         }
         
-        print(dict)
         let birthDate = dict[Key.birthDate.rawValue] as? Timestamp
         let isMan = dict[Key.isMan.rawValue] as? Bool
         

@@ -37,17 +37,18 @@ final class CompetitionViewController: UIViewController {
             switch result {
             case .success(let week):
                 DispatchQueue.main.async { [weak self] in
+                    guard let self = self else { return }
                     if let day = week.steppingDays.last {
-                        self?.steps = day.steps
-                        self?.distanceKM = day.km
+                        self.steps = day.steps
+                        self.distanceKM = day.km
                         for i in 0..<allCompetitions.count {
                             if allCompetitions[i].isStepsCompetition {
-                                allCompetitions[i].currentValue = Double(self?.steps ?? 0)
+                                allCompetitions[i].currentValue = Double(self.steps)
                             } else {
-                                allCompetitions[i].currentValue = self?.distanceKM ?? 0
+                                allCompetitions[i].currentValue = self.distanceKM
                             }
                         }
-                        self?.competitions = CompetitionsState.current.fetch()
+                        self.competitions = CompetitionsState.current.fetch()
                     }
                 }
             case .failure(let error):
@@ -64,10 +65,11 @@ final class CompetitionViewController: UIViewController {
             switch result {
             case .success(let update):
                 DispatchQueue.main.async { [weak self] in
+                    guard let self = self else { return }
                     let pedometerDistance = Double(truncating: update.distance) / 1000
                     let pedometerSteps = Int(truncating: update.steps)
-                    let totalSteps = self!.steps + pedometerSteps
-                    let totalDistance = self!.distanceKM + pedometerDistance
+                    let totalSteps = self.steps + pedometerSteps
+                    let totalDistance = self.distanceKM + pedometerDistance
                     print("[COMPVC] STEPS: \(update.steps)")
                     for i in 0..<allCompetitions.count {
                         if allCompetitions[i].isStepsCompetition {
@@ -76,7 +78,7 @@ final class CompetitionViewController: UIViewController {
                             allCompetitions[i].currentValue = totalDistance
                         }
                     }
-                    self?.competitions = CompetitionsState.current.fetch()
+                    self.competitions = CompetitionsState.current.fetch()
                 }
             case .failure(let error):
                 print(error.localizedDescription)

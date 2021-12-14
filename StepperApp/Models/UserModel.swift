@@ -17,8 +17,8 @@ struct User: Codable {
 }
 
 struct Goal {
-    var steps: Int?
-    var distance: Double?
-    var isSteps: Bool
+    var steps: Int = 10000
+    var distance: Double = 10
+    var isSteps: Bool = true
     var isKM: Bool = true
 }

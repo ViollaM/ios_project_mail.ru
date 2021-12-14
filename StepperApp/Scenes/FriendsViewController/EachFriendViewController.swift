@@ -8,6 +8,7 @@
 import UIKit
 
 final class EachFriendViewController: UIViewController {
+    private var friendsCompetitions = allCompetitions
     
     var image: UIImage? {
         didSet {
@@ -16,10 +17,17 @@ final class EachFriendViewController: UIViewController {
     }
     var friend: User? {
         didSet {
-            nameTitle.text = "Hi! I'm @\(friend?.name ?? "user")"
-            competitionLabel.text = "@\(friend?.name ?? "user")'s competitions:"
+            if let friend = friend {
+                friendsStep = friend.steps
+                nameTitle.text = "Hi! I'm @\(friend.name)"
+                competitionLabel.text = "@\(friend.name)'s competitions:"
+            }
         }
     }
+    
+    private var friendsStep = 0
+    private var friendsKM = 0.0
+    private var friendsMI = 0.0
     
     private lazy var avatarImage: UIImageView = {
         let image = UIImage()
@@ -105,12 +113,13 @@ final class EachFriendViewController: UIViewController {
 
 extension EachFriendViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        allCompetitions.count
+        friendsCompetitions.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: FriendsCompetitionsCell.self), for: indexPath) as? FriendsCompetitionsCell {
-            cell.competition = allCompetitions[indexPath.row]
+            friendsCompetitions[indexPath.row].currentValue = Double(friendsStep)
+            cell.competition = friendsCompetitions[indexPath.row]
             cell.numberOfCompetition = indexPath.row + 1
             return cell
         }

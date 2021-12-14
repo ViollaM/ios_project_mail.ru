@@ -51,8 +51,12 @@ final class StepsScreenSettings: UIViewController {
         ])
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
+//    override func viewDidDisappear(_ animated: Bool) {
+//        super.viewDidDisappear(animated)
+//        goalDelegate?.getNewGoal(newGoal: newGoal)
+//    }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         goalDelegate?.getNewGoal(newGoal: newGoal)
     }
 }

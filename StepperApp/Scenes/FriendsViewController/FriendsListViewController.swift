@@ -12,9 +12,11 @@ import Presentr
 
 final class FriendsListViewController: UIViewController {
     
+    private let imageLoaderService: ImageLoaderService
     private let friendsService: FriendsService
     
-    init(friendsService: FriendsService) {
+    init(friendsService: FriendsService, imageLoaderService: ImageLoaderService) {
+        self.imageLoaderService = imageLoaderService
         self.friendsService = friendsService
         super.init(nibName: nil, bundle: nil)
     }
@@ -26,7 +28,7 @@ final class FriendsListViewController: UIViewController {
     private let presenter: Presentr = {
         let width = ModalSize.custom(size: Float(UIScreen.main.bounds.width - 60))
         let height = ModalSize.fluid(percentage: 0.25)
-        let center = ModalCenterPosition.center
+        let center = ModalCenterPosition.topCenter
         let presentr = Presentr(presentationType: .custom(width: width, height: height, center: center))
         presentr.transitionType = .crossDissolve
         presentr.dismissTransitionType = .crossDissolve
@@ -145,9 +147,11 @@ extension FriendsListViewController: UICollectionViewDataSource, UICollectionVie
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: FriendsListCollectionViewCell.self), for: indexPath) as! FriendsListCollectionViewCell
-        cell.friend = filteredFriends[indexPath.row]
-        return cell
+        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: FriendsListCollectionViewCell.self), for: indexPath) as? FriendsListCollectionViewCell {
+            cell.friend = filteredFriends[indexPath.row]
+            return cell
+        }
+        return .init()
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -162,8 +166,27 @@ extension FriendsListViewController: UICollectionViewDataSource, UICollectionVie
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let friendsVC = EachFriendViewController()
         let friend = filteredFriends[indexPath.row]
+        imageLoaderService.getImage(with: friend.imageName) { [weak weakVC = friendsVC] image in
+            guard let image = image, let friendsVC = weakVC else { return }
+            DispatchQueue.main.async {
+                friendsVC.image = image
+            }
+        }
         friendsVC.friend = friend
         present(friendsVC, animated: true, completion: nil)
+    }
+    
+}
+
+extension FriendsListViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        let friend = filteredFriends[indexPath.row]
+        imageLoaderService.getImage(with: friend.imageName) { [weak weakCell = cell] image in
+            guard let image = image, let friendsCell = weakCell as? FriendsListCollectionViewCell else { return }
+            DispatchQueue.main.async {
+                friendsCell.image = image
+            }
+        }
     }
 }
 

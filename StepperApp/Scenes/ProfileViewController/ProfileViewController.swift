@@ -354,7 +354,7 @@ final class ProfileViewController: UIViewController {
                     return
                 }
                 DispatchQueue.main.async { [self] in
-                    self.imageCircle.image = result!
+                    self.imageCircle.image = result
                 }
             }
         }

@@ -15,3 +15,10 @@ struct User: Codable {
     var imageName: String
     var steps: Int = 0
 }
+
+struct Goal {
+    var steps: Int?
+    var distance: Double?
+    var isSteps: Bool
+    var isKM: Bool = true
+}

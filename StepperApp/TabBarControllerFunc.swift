@@ -13,9 +13,9 @@ func buildAppTabBarController() -> UITabBarController {
     let stepsService = StepsServiceImplementation()
     let profileService = ProfileServiceImplementation()
     let usersService = UsersServiceImplementation()
-    let imageService = ImageLoaderServiceImplementation()
     let friendsService = FriendsServiceImplementation()
-    let viewcontollers = [buildStepsViewController(stepsService: stepsService, pedometerService: pedometerService), buildFriendsListViewController(friendsService: friendsService), buildCompetitionViewController(stepsService: stepsService),  buildProfileViewController(profileService: profileService, usersService: usersService, imageService: imageService)]
+    let imageLoaderService = ImageLoaderServiceImplementation()
+    let viewcontollers = [buildStepsViewController(stepsService: stepsService, pedometerService: pedometerService, usersService: usersService), buildFriendsListViewController(friendsService: friendsService, imageLoaderService: imageLoaderService), buildCompetitionViewController(stepsService: stepsService, pedometerService: pedometerService),  buildProfileViewController(profileService: profileService, usersService: usersService, imageService: imageLoaderService)]
     viewcontollers.forEach {
         setupBackground(on: $0)
     }
@@ -31,9 +31,9 @@ func buildAppTabBarController() -> UITabBarController {
     return tabBarController
 }
 
-func buildStepsViewController(stepsService: StepsService, pedometerService: PedometerService) -> UIViewController {
+func buildStepsViewController(stepsService: StepsService, pedometerService: PedometerService, usersService: UsersService) -> UIViewController {
     let navigationController = UINavigationController()
-    let viewController = StepsViewController(stepsService: stepsService, pedometerService: pedometerService)
+    let viewController = StepsViewController(stepsService: stepsService, pedometerService: pedometerService, usersService: usersService)
     navigationController.viewControllers = [viewController]
     navigationController.navigationBar.tintColor = StepColor.darkGreen
     let stepsItem = UITabBarItem(title: "Steps", image: UIImage(systemName: "figure.walk"), selectedImage: nil)
@@ -54,9 +54,9 @@ func buildProfileViewController(profileService: ProfileService, usersService: Us
     return navigationController
 }
 
-func buildFriendsListViewController(friendsService: FriendsService) -> UIViewController {
+func buildFriendsListViewController(friendsService: FriendsService, imageLoaderService: ImageLoaderService) -> UIViewController {
     let navigationController = UINavigationController()
-    let viewController = FriendsListViewController(friendsService: friendsService)
+    let viewController = FriendsListViewController(friendsService: friendsService, imageLoaderService: imageLoaderService)
     navigationController.viewControllers = [viewController]
     navigationController.navigationBar.prefersLargeTitles = true
     navigationController.navigationBar.largeTitleTextAttributes = [.foregroundColor: StepColor.darkGreen]
@@ -70,9 +70,9 @@ func buildFriendsListViewController(friendsService: FriendsService) -> UIViewCon
     return navigationController
 }
 
-func buildCompetitionViewController(stepsService: StepsService) -> UIViewController {
+func buildCompetitionViewController(stepsService: StepsService, pedometerService: PedometerService) -> UIViewController {
     let navigationController = UINavigationController()
-    let viewController = CompetitionViewController(stepsService: stepsService)
+    let viewController = CompetitionViewController(stepsService: stepsService, pedometerService: pedometerService)
     navigationController.viewControllers = [viewController]
     navigationController.navigationBar.prefersLargeTitles = true
     navigationController.navigationBar.largeTitleTextAttributes = [.foregroundColor: StepColor.darkGreen]

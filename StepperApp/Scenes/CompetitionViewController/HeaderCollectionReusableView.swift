@@ -21,25 +21,6 @@ final class HeaderCollectionReusableView: UICollectionReusableView {
         return sc
     }()
     
-    //    lazy var plusButton: UIButton = {
-    //        let plus = UIButton()
-    //        plus.semanticContentAttribute = UISemanticContentAttribute.forceRightToLeft
-    //        plus.setTitleColor(StepColor.darkGreen8, for: .normal)
-    //        if let plusImage = UIImage(named: "plus.png") {
-    //            plus.setImage(plusImage, for: .normal)
-    //        }
-    //        plus.layer.cornerRadius = 10
-    //        plus.backgroundColor = StepColor.cellBackground
-    //        //plus.addTarget(self, action: #selector(editButtonClicked), for: .touchUpInside)
-    //        return plus
-    //    }()
-    
-    
-    
-    //    lazy var newCompetitionButton: UIBarButtonItem = {
-    //        let plus = UIBarButtonItem(customView: plusButton)
-    //    }()
-    
     lazy var currentCompetitionButton: UIButton = {
         let button = UIButton()
         button.setTitle("current", for: .normal)

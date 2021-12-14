@@ -8,7 +8,14 @@
 import Foundation
 import UIKit
 
+protocol GoalDelegate: AnyObject {
+    func getNewGoal(newGoal: Goal)
+}
+
 final class StepsScreenSettings: UIViewController {
+    private var newGoal = Goal(steps: 10000, distance: 10, isSteps: true, isKM: true)
+    weak var goalDelegate: GoalDelegate?
+    
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -33,12 +40,9 @@ final class StepsScreenSettings: UIViewController {
         setupLayout()
     }
     
-    func setupLayout () {
-        navigationController?.navigationBar.tintColor = StepColor.darkGreen
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        navigationController?.navigationBar.shadowImage = UIImage()
-        navigationController?.navigationBar.isTranslucent = true
+    private func setupLayout () {
         view.addSubview(collectionView)
+        view.backgroundColor = .white
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
@@ -112,3 +116,20 @@ extension StepsScreenSettings: UICollectionViewDataSource, UICollectionViewDeleg
     }
 }
 
+extension StepsScreenSettings: DailyGoalDelegate {
+    func newGoalIs(steps: Int, distance: Double, isSteps: Bool) {
+//        if newGoal.steps != steps {
+//            newGoal.steps = steps
+//        }
+//        if newGoal.distance != distance {
+//            newGoal.distance = distance
+//        }
+//        if !newGoal.isSteps {
+//            newGoal.isSteps = isSteps
+//        }
+        newGoal.isSteps = isSteps
+        newGoal.steps = steps
+        newGoal.distance = distance
+    }
+    
+}

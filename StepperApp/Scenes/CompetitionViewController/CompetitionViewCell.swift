@@ -9,13 +9,6 @@ import Foundation
 import UIKit
 import PinLayout
 
-var date = Date()
-let calendar = Calendar.current
-var hour = calendar.component(.hour, from: date)
-var minute = calendar.component(.minute, from: date)
-let second = calendar.component(.second, from: date)
-var time = currentTime()
-
 final class CompetitionViewCell: UICollectionViewCell {
     
     var a: Float = 0.0
@@ -26,7 +19,6 @@ final class CompetitionViewCell: UICollectionViewCell {
             competitionTitleLabel.text = competition?.name
             competitionTimeLabel.text = currentTime()
             competitionCurrentLeaderLabel.text = competition?.currentLeader
-            competition?.currentValue = Double(currentStepsFunc())
             progressBar.progress = Float((competition?.currentValue)! / (competition?.maxValue)!)
             if (!competition!.isFinished) {
                 isComplete.isHidden = true

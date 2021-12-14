@@ -92,10 +92,7 @@ final class LoginViewController: UIViewController {
     }
     
     private func setupBackground() {
-        let backgroundImage = UIImageView(frame: UIScreen.main.bounds)
-        backgroundImage.image = UIImage(named: "BG")
-        backgroundImage.contentMode = UIView.ContentMode.scaleAspectFill
-        self.view.insertSubview(backgroundImage, at: 0)
+        view.backgroundColor = StepColor.background
     }
     
     override func viewDidLayoutSubviews() {

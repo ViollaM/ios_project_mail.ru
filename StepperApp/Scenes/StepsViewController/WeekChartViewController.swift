@@ -14,182 +14,85 @@ protocol ChartDelegate: AnyObject {
 
 final class WeekChartViewController: UIViewController{
     
-    private let marker:BalloonMarker = BalloonMarker(color: StepColor.lineAndPointsChart, font: .systemFont(ofSize: 15, weight: .regular), textColor: UIColor.white, insets: UIEdgeInsets(top: 7.0, left: 7.0, bottom: 20.0, right: 7.0))
+    private var week: SteppingWeek?
     
-    private lazy var chart: LineChartView = {
-        let chart = LineChartView()
-        chart.dragEnabled = false
-        chart.doubleTapToZoomEnabled = false
-        chart.legend.enabled = false
-        chart.extraRightOffset = 22
-        
-        marker.minimumSize = CGSize(width: 50.0, height: 25.0)
-        chart.marker = marker
-        
-        chart.translatesAutoresizingMaskIntoConstraints = false
-        return chart
+    private lazy var chartsCollectionView: UICollectionView = {
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.scrollDirection = .horizontal
+        let collection = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
+        collection.isHidden = false
+        collection.translatesAutoresizingMaskIntoConstraints = false
+        collection.dataSource = self
+        collection.delegate = self
+        collection.isPagingEnabled = true
+        collection.backgroundColor = StepColor.cellBackground.withAlphaComponent(0.8)
+        collection.register(SwipeChartCell.self, forCellWithReuseIdentifier: "SwipeChartCell")
+        collection.showsHorizontalScrollIndicator = false
+        collection.isPagingEnabled = true
+        return collection
     }()
     
+    private var previousPage = 0
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        let row = chartsCollectionView.numberOfItems(inSection: 0) - 1
+        let newIndexPath = IndexPath(row: row, section: 0)
+        chartsCollectionView.selectItem(at: newIndexPath, animated: false, scrollPosition: .left)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupChartData(week: nil)
         setupLayout()
-        configureUI()
-        setGradientBackground()
+        previousPage = chartsCollectionView.numberOfItems(inSection: 0) - 1
     }
-    
-    private func setGradientBackground() {
-        //        let colorTop =  UIColor(red: 204/255, green: 228/255, blue: 225/255, alpha: 0.5).cgColor
-        //        let colorBottom = UIColor(red: 204/255, green: 228/255, blue: 225/255, alpha: 1).cgColor
-        //
-        //        let gradientLayer = CAGradientLayer()
-        //        gradientLayer.colors = [colorTop, colorBottom]
-        //        gradientLayer.locations = [0.0, 1.0]
-        //        gradientLayer.frame = view.frame
-        //        gradientLayer.cornerRadius = 10
-        //        gradientLayer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-        //
-        //        self.view.layer.insertSublayer(gradientLayer, at:0)
-        view.backgroundColor = StepColor.cellBackground.withAlphaComponent(0.8)
-    }
-    
+
     private func setupLayout () {
-        view.addSubview(chart)
+        view.addSubview(chartsCollectionView)
         NSLayoutConstraint.activate([
-            chart.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            chart.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            chart.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            chart.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            chartsCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            chartsCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            chartsCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            chartsCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
-    }
-    
-    private func configureUI () {
-        setupChartUI()
     }
 }
 
 extension WeekChartViewController: ChartDelegate{
     func updateData(stepWeek: SteppingWeek) {
-        setupChartData(week: stepWeek)
+        week = stepWeek
+        chartsCollectionView.reloadData()
     }
 }
 
-
-extension WeekChartViewController {
-    private func setupChartData(week: SteppingWeek?){
-        
-        let getlabelCountByMax = [10000: 5,
-                                  20000: 4,
-                                  30000: 6,
-                                  40000: 4,
-                                  50000: 5,]
-        
-        var steps = [ChartDataEntry]()
-        var days = [String]()
-        if week == nil {
-            for x in 0..<7{
-                steps.append(ChartDataEntry(x: Double(x), y: Double(Int.random(in: 5000...40000))))
-            }
-            days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
-        } else {
-            let week = week!
-            
-            if week.steppingDays.count == 7{
-                for x in 0..<7{
-                    steps.append(ChartDataEntry(x: Double(x), y: Double(week.steppingDays[x].steps)))
-                    days.append(convertDateToWeekday(date: week.steppingDays[x].date))
-                }
-            } else {
-                for x in 0..<week.steppingDays.count{
-                    steps.append(ChartDataEntry(x: Double(x), y: Double(week.steppingDays[x].steps)))
-                    days.append(convertDateToWeekday(date: week.steppingDays[x].date))
-                }
-                for x in week.steppingDays.count..<7{
-                    steps.append(ChartDataEntry(x: Double(x), y: Double(0)))
-                }
-                days = getRightDays(days: days)
-            }
-            
+extension WeekChartViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDelegate, UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        52
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SwipeChartCell", for: indexPath) as? SwipeChartCell {
+            cell.week = week
+            return cell
         }
-        
-        var set: LineChartDataSet! = nil
-        
-        set = LineChartDataSet(entries: steps, label: "Week Steps")
-        set.colors = [
-            StepColor.lineAndPointsChart,
-        ]
-        set.circleColors.removeAll(keepingCapacity: false)
-        set.lineWidth = 3
-        set.circleColors.append(StepColor.lineAndPointsChart)
-        set.drawValuesEnabled = {false}()
-        set.drawHorizontalHighlightIndicatorEnabled = false
-        set.drawVerticalHighlightIndicatorEnabled = false
-        
-        let data = LineChartData(dataSet: set)
-        chart.data = data
-        chart.xAxis.valueFormatter = IndexAxisValueFormatter(values:days)
-        
-        let maxSteps = set.yMax
-        let roundmaxSteps = (maxSteps/10000).rounded(.up)*10000
-        chart.leftAxis.axisMaximum = roundmaxSteps
-        chart.leftAxis.labelCount = getlabelCountByMax[Int(roundmaxSteps)] ?? 1
+        return .init()
     }
     
-    private func setupChartUI(){
-        let weekAxis = chart.xAxis
-        let leftAxis = chart.leftAxis
-        let rightAxis = chart.rightAxis
-        
-        leftAxis.axisMinimum = 0
-        leftAxis.labelFont = .systemFont(ofSize: 12, weight: .regular)
-        leftAxis.xOffset = 12
-        leftAxis.gridLineDashLengths = [4]
-        leftAxis.axisLineDashLengths = [4]
-        leftAxis.labelTextColor = UIColor(red: 32/255, green: 58/255, blue: 56/255, alpha: 1)
-        leftAxis.gridColor = StepColor.gridChart
-        leftAxis.axisLineColor = StepColor.gridChart
-        
-        rightAxis.drawLabelsEnabled = false
-        rightAxis.drawGridLinesEnabled = false
-        rightAxis.axisLineDashLengths = [4]
-        rightAxis.axisLineColor = StepColor.gridChart
-        
-        weekAxis.granularity = 1
-        weekAxis.drawGridLinesEnabled = false
-        weekAxis.labelPosition = XAxis.LabelPosition.top
-        weekAxis.labelFont = .systemFont(ofSize: 14, weight: .regular)
-        weekAxis.labelRotatedHeight = 30
-        weekAxis.yOffset = 15
-        weekAxis.gridLineDashLengths = [4]
-        weekAxis.axisLineDashLengths = [4]
-        weekAxis.labelTextColor = UIColor(red: 32/255, green: 58/255, blue: 56/255, alpha: 1)
-        weekAxis.gridColor = StepColor.gridChart
-        weekAxis.axisLineColor = StepColor.gridChart
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        CGSize(width: view.frame.width, height: view.frame.height - view.safeAreaInsets.top - view.safeAreaInsets.bottom)
     }
-}
 
-private func convertDateToWeekday(date: Date) -> String{
-    
-    let dateFormatter = DateFormatter()
-    dateFormatter.locale = Locale(identifier: "en_EN")
-    dateFormatter.dateFormat = "EEEE"
-    
-    let weekday = dateFormatter.string(from: date)
-    let capitalizedWeekday = weekday.capitalized
-    
-    return String(capitalizedWeekday.prefix(3))
-}
-
-
-private func getRightDays(days: [String]) -> [String]{
-    var new_days = days
-    let days_list = ["Mod", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun", "Mod", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
-    
-    let last_day_inx = days_list.firstIndex(of: days.last!)!
-    
-    for i in 1...(7-days.count){
-        new_days.append(days_list[last_day_inx+i])
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        0
     }
     
-    return new_days
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        let currentPage = Int(scrollView.contentOffset.x) / Int(scrollView.frame.width)
+        if currentPage > previousPage {
+            print("Swipe left")
+        } else if currentPage < previousPage {
+            print("Swipe right")
+        }
+        previousPage = currentPage
+    }
+    
 }

@@ -8,12 +8,12 @@
 import UIKit
 import PanModal
 
-protocol NewFriendDelegate {
+protocol NewFriendDelegate: AnyObject {
     func searchForUser(nickname: String)
 }
 
 final class NewFriendViewController: UIViewController {
-    var delegate: NewFriendDelegate?
+    weak var delegate: NewFriendDelegate?
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
@@ -56,7 +56,7 @@ final class NewFriendViewController: UIViewController {
         button.setTitleColor(StepColor.cellBackground, for: .normal)
         button.backgroundColor = StepColor.buttonBackground
         button.titleLabel?.font = .systemFont(ofSize: 20, weight: .regular)
-        button.setTitle("Search", for: .normal)
+        button.setTitle("Add", for: .normal)
         button.addTarget(self, action: #selector(addButtonTap), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -130,11 +130,5 @@ final class NewFriendViewController: UIViewController {
             self.newFriendTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: self.newFriendTextField.frame.height))
             
         }
-    }
-}
-
-extension NewFriendViewController: PanModalPresentable {
-    var panScrollable: UIScrollView? {
-        nil
     }
 }

@@ -215,7 +215,7 @@ extension FriendsListViewController: NewFriendDelegate {
             }
             switch error {
             case nil:
-                displayAlert(message: "\(nickname) is your friend!", viewController: self)
+                displayAlert(message: "You have subscribed to \(nickname)!", viewController: self)
                     self.getFriends()
             default:
                 displayAlert(message: error!.localizedDescription, viewController: self)

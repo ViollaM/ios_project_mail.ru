@@ -10,6 +10,7 @@ import Firebase
 
 protocol FriendsService {
     func addFriend(for userId: String, to friendUserName: String, completion: @escaping (Error?) -> Void)
+    func removeFriend(for userId: String, to friendUserId: String, completion: @escaping (Error?) -> Void)
     func getFriends(for userId: String, completion: @escaping (Result<[User], Error>) -> Void)
 }
 
@@ -62,6 +63,18 @@ final class FriendsServiceImplementation: FriendsService {
         }
     }
     
+    func removeFriend(for userId: String, to friendUserId: String, completion: @escaping (Error?) -> Void) {
+        self.db.collection("friends").document(userId).setData([
+            friendUserId : false,
+        ], merge: true){ (error) in
+            if error != nil{
+                completion(error)
+                return
+            }
+        }
+        completion(nil)
+    }
+    
     
     
     func getFriends(for userId: String, completion: @escaping (Result<[User], Error>) -> Void) {
@@ -83,16 +96,18 @@ final class FriendsServiceImplementation: FriendsService {
             let group = DispatchGroup()
             
             for key in keys {
-                group.enter()
-                self.usersService.getUserByUid(uid: key) { result in
-                    switch result {
-                    case .success(let user):
-                        friends.append(user)
-                    case .failure(let error):
-                        completion(.failure(error))
-                        return
+                if document[key]! as! Bool {
+                    group.enter()
+                    self.usersService.getUserByUid(uid: key) { result in
+                        switch result {
+                        case .success(let user):
+                            friends.append(user)
+                        case .failure(let error):
+                            completion(.failure(error))
+                            return
+                        }
+                        group.leave()
                     }
-                    group.leave()
                 }
             }
             

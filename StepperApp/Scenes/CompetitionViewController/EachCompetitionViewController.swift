@@ -22,7 +22,8 @@ final class EachCompetitionViewController: UIViewController {
                 if competition.isStepsCompetition {
                     progressLabel.text = "\(Int(competition.currentValue)) / \(Int(competition.maxValue))"
                 } else {
-                    progressLabel.text = "\(competition.currentValue) / \(competition.maxValue)"
+                    let roundedDistance = String(format: "%.1f", competition.currentValue)
+                    progressLabel.text = roundedDistance + " / \(competition.maxValue)"
                 }
                 
                 progressBar.progress  = Float((competition.currentValue) / (competition.maxValue))

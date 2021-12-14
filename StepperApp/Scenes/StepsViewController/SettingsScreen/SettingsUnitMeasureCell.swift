@@ -7,7 +7,13 @@
 
 import UIKit
 
+protocol UnitMeasureDelegate: AnyObject {
+    func unitChanged(km: Bool)
+}
+
 final class SettingsUnitMeasureCell: UICollectionViewCell {
+    weak var unitDelegate: UnitMeasureDelegate?
+    
     lazy var unitSegmentedControl: UISegmentedControl = {
         let sc = UISegmentedControl(items: ["km", "miles"])
         sc.translatesAutoresizingMaskIntoConstraints = false
@@ -29,10 +35,12 @@ final class SettingsUnitMeasureCell: UICollectionViewCell {
     }
     
     private func kmSelected() {
+        unitDelegate?.unitChanged(km: true)
         UserDefaults.standard.set(0, forKey: "km_miles")
     }
     
     private func milesSelected() {
+        unitDelegate?.unitChanged(km: false)
         UserDefaults.standard.set(1, forKey: "km_miles")
     }
     override init(frame: CGRect) {

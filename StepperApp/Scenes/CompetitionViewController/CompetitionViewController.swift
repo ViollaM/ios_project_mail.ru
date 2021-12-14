@@ -118,11 +118,6 @@ final class CompetitionViewController: UIViewController {
         return plus
     }()
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        competitions = CompetitionsState.current.fetch()
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         loadStepsData()

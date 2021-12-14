@@ -108,10 +108,10 @@ final class StepsViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
         label.textColor = StepColor.weekRange
-        label.font = .systemFont(ofSize: 18, weight: .semibold)
+        label.font = .systemFont(ofSize: 22, weight: .semibold)
         label.clipsToBounds = true
         label.layer.cornerRadius = 10
-        label.backgroundColor = StepColor.cellBackground
+//        label.backgroundColor = StepColor.cellBackground
         label.isUserInteractionEnabled = true
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dateLabelTap))
         label.addGestureRecognizer(tapGesture)
@@ -171,7 +171,7 @@ final class StepsViewController: UIViewController {
                     self?.updateTodayLabels(lastDay: lastDay)
                     self?.updateWeekLabels(week: week)
                     self?.chartDelegate?.updateData(stepWeek: week)
-                    self?.circleProgress.animate(toAngle: (Double(lastDay.steps)/10000)*360, duration: 0.5, completion: nil)
+                    self?.circleProgress.animate(toAngle: (Double(lastDay.steps)/10000)*360, duration: 1, completion: nil)
                     if self?.circleProgress.angle == 360 {
                         self?.circleProgress.isHidden = true
                     }
@@ -314,7 +314,7 @@ final class StepsViewController: UIViewController {
             weekInfoView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             weekInfoView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
 
-            weekDaysRange.centerYAnchor.constraint(equalTo: weekAverageSteps.centerYAnchor, constant: -4),
+            weekDaysRange.centerYAnchor.constraint(equalTo: weekAverageSteps.centerYAnchor, constant: -16),
             weekDaysRange.trailingAnchor.constraint(equalTo: weekInfoView.trailingAnchor, constant: -8),
             weekDaysRange.heightAnchor.constraint(equalToConstant: 24),
             
@@ -393,6 +393,7 @@ final class StepsViewController: UIViewController {
     @objc
     private func settingsButtonPressed() {
         let vc = StepsScreenSettings()
+        vc.goalDelegate = self
         vc.view.backgroundColor = StepColor.background
         vc.navigationController?.navigationBar.tintColor = StepColor.darkGreen
         UserDefaults.standard.register(defaults: ["stepsGoal": 10000, "distanceGoal": 10])
@@ -417,5 +418,11 @@ extension StepsViewController: CalendarDelegate {
                 print(error.localizedDescription)
             }
         }
+    }
+}
+
+extension StepsViewController: GoalDelegate {
+    func getNewGoal(newGoal: Goal) {
+        print(newGoal)
     }
 }

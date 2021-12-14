@@ -18,7 +18,8 @@ final class FriendsCompetitionsCell: UICollectionViewCell {
                     if competition.isStepsCompetition {
                         progressLabel.text = "\(Int(competition.currentValue))"
                     } else {
-                        progressLabel.text = "\(competition.currentValue)"
+                        let roundedDistance = String(format: "%.1f", competition.currentValue)
+                        progressLabel.text = roundedDistance
                     }
                 } else {
                     isComplete.isHidden = false

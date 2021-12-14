@@ -50,6 +50,11 @@ final class StepsScreenSettings: UIViewController {
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        goalDelegate?.getNewGoal(newGoal: newGoal)
+    }
 }
 
 extension StepsScreenSettings: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -71,7 +76,9 @@ extension StepsScreenSettings: UICollectionViewDataSource, UICollectionViewDeleg
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let dailyGoalCell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: SettingsDailyGoalCell.self), for: indexPath) as! SettingsDailyGoalCell
+        dailyGoalCell.delegate = self
         let unitMeasureCell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: SettingsUnitMeasureCell.self), for: indexPath) as! SettingsUnitMeasureCell
+        unitMeasureCell.unitDelegate = self
         let iconsCell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: SettingsIconsCell.self), for: indexPath) as! SettingsIconsCell
         let themesCell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: SettingsThemesCell.self), for: indexPath) as! SettingsThemesCell
         switch indexPath.section {
@@ -116,20 +123,14 @@ extension StepsScreenSettings: UICollectionViewDataSource, UICollectionViewDeleg
     }
 }
 
-extension StepsScreenSettings: DailyGoalDelegate {
+extension StepsScreenSettings: DailyGoalDelegate, UnitMeasureDelegate {
+    func unitChanged(km: Bool) {
+        newGoal.isKM = km
+    }
+    
     func newGoalIs(steps: Int, distance: Double, isSteps: Bool) {
-//        if newGoal.steps != steps {
-//            newGoal.steps = steps
-//        }
-//        if newGoal.distance != distance {
-//            newGoal.distance = distance
-//        }
-//        if !newGoal.isSteps {
-//            newGoal.isSteps = isSteps
-//        }
         newGoal.isSteps = isSteps
         newGoal.steps = steps
         newGoal.distance = distance
     }
-    
 }

@@ -17,6 +17,8 @@ final class UserConvector {
         case isMan
         case imageName
         case steps
+        case km
+        case miles
     }
     
     func dictToUser(from document: DocumentSnapshot) -> User? {
@@ -24,8 +26,9 @@ final class UserConvector {
               let uid = dict[Key.uid.rawValue] as? String,
               let name = dict[Key.name.rawValue] as? String,
               let imageName = dict[Key.imageName.rawValue] as? String,
-              let steps = dict[Key.steps.rawValue] as? Int
-            
+              let steps = dict[Key.steps.rawValue] as? Int,
+              let km = dict[Key.km.rawValue] as? Int,
+              let miles = dict[Key.miles.rawValue] as? Int
         else {
             return nil
         }
@@ -38,6 +41,8 @@ final class UserConvector {
                     birthDate: birthDate?.dateValue(),
                     isMan: isMan,
                     imageName: imageName,
-                    steps: steps)
+                    steps: steps,
+                    km: km,
+                    miles: miles)
     }
 }

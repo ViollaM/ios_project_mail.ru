@@ -344,7 +344,9 @@ final class ProfileViewController: UIViewController {
         
        
         let imageName = userOperations.getUser()?.imageName
-        localImageName = imageName!
+        if imageName != nil {
+            localImageName = imageName!
+        }
         
         if let imPath = profileService.getImage() {
             imageCircle.image = UIImage(data: imPath)

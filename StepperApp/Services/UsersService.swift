@@ -56,7 +56,9 @@ final class UsersServiceImplementation: UsersService {
                 "birthDate": user.birthDate,
                 "isMan": user.isMan,
                 "imageName": user.imageName,
-                "steps": user.steps
+                "steps": user.steps,
+                "km": user.km,
+                "miles": user.miles
             ], merge: true){ (error) in
                 if error != nil{
                     completion(error)

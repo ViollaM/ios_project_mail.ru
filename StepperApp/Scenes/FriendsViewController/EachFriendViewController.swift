@@ -97,14 +97,9 @@ final class EachFriendViewController: UIViewController {
             competitionsCollectionView.bottomAnchor.constraint(equalTo: deleteButton.topAnchor, constant: -16)
         ])
     }
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        print("[FRIEND APPEAR!]")
-    }
     
     @objc
     private func unfollowTap() {
-        print("unfollow")
     }
 }
 

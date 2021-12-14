@@ -11,17 +11,19 @@ import UIKit
 final class FriendsCompetitionsCell: UICollectionViewCell {
     var competition: CompetitionData? {
         didSet {
-            competitionTitleLabel.text = competition?.name
-            if (!competition!.isFinished) {
-                isComplete.isHidden = true
-                if ((competition?.isStepsCompetition) != nil) {
-                    progressLabel.text = "\(Int(competition!.currentValue))"
+            if let competition = competition {
+                competitionTitleLabel.text = competition.name
+                if !competition.isFinished {
+                    isComplete.isHidden = true
+                    if competition.isStepsCompetition {
+                        progressLabel.text = "\(Int(competition.currentValue))"
+                    } else {
+                        progressLabel.text = "\(competition.currentValue)"
+                    }
                 } else {
-                    progressLabel.text = "\(competition!.currentValue)"
+                    isComplete.isHidden = false
+                    progressLabel.isHidden = true
                 }
-            } else {
-                isComplete.isHidden = false
-                progressLabel.isHidden = true
             }
         }
     }
@@ -53,7 +55,6 @@ final class FriendsCompetitionsCell: UICollectionViewCell {
         image.image = UIImage(systemName: "rosette")
         image.translatesAutoresizingMaskIntoConstraints = false
         image.tintColor = StepColor.darkGreen
-//        image.backgroundColor = .clear
         return image
     }()
     private lazy var progressLabel: UILabel = {
@@ -108,5 +109,4 @@ final class FriendsCompetitionsCell: UICollectionViewCell {
         layer.masksToBounds = true
         backgroundColor = StepColor.cellBackground
     }
-    
 }

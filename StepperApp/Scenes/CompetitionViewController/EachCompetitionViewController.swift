@@ -14,16 +14,23 @@ final class EachCompetitionViewController: UIViewController {
     
     var competition: CompetitionData? {
         didSet {
-            competitionLeaderLabel.text = "Leader: \(competition?.currentLeader ?? "unknown")"
-            competitionTitleLabel.text = competition?.name
-            descriptionLabel.text = competition?.text
-            remainingTimeLabel.text = currentTime()
-            progressLabel.text = "\(Int(competition?.currentValue ?? 0)) / \(Int((competition?.maxValue) ?? 10000))"
-            progressBar.progress  = Float((competition?.currentValue)! / (competition?.maxValue)!)
-            if competition!.isFinished {
-                print("Progress is over 1")
-                progressBar.isHidden = true
-                wellDoneLabel.isHidden = false
+            if let competition = competition {
+                competitionLeaderLabel.text = "Leader: \(competition.currentLeader ?? "@user")"
+                competitionTitleLabel.text = competition.name
+                descriptionLabel.text = competition.text
+                remainingTimeLabel.text = currentTime()
+                if competition.isStepsCompetition {
+                    progressLabel.text = "\(Int(competition.currentValue)) / \(Int(competition.maxValue))"
+                } else {
+                    progressLabel.text = "\(competition.currentValue) / \(competition.maxValue)"
+                }
+                
+                progressBar.progress  = Float((competition.currentValue) / (competition.maxValue))
+                if competition.isFinished {
+                    print("Progress is over 1")
+                    progressBar.isHidden = true
+                    wellDoneLabel.isHidden = false
+                }
             }
         }
     }
@@ -58,6 +65,7 @@ final class EachCompetitionViewController: UIViewController {
         label.textColor = StepColor.darkGreen
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 20, weight: .bold)
+        label.textAlignment = .right
         return label
     }()
     
@@ -84,6 +92,7 @@ final class EachCompetitionViewController: UIViewController {
         label.textColor = StepColor.darkGreen
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 20, weight: .bold)
+        label.textAlignment = .right
         return label
     }()
     
@@ -143,38 +152,38 @@ final class EachCompetitionViewController: UIViewController {
         
         NSLayoutConstraint.activate([
             competitionTitleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 24),
-            competitionTitleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: (view.frame.width - 315) / 2),
-            competitionTitleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            competitionTitleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 28),
+            competitionTitleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -28),
             competitionTitleLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 1),
             
-            descriptionLabel.topAnchor.constraint(equalTo: competitionTitleLabel.bottomAnchor, constant: 15),
-            descriptionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: (view.frame.width - 315) / 2),
-            descriptionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            descriptionLabel.topAnchor.constraint(equalTo: competitionTitleLabel.bottomAnchor, constant: 16),
+            descriptionLabel.leadingAnchor.constraint(equalTo: competitionTitleLabel.leadingAnchor),
+            descriptionLabel.trailingAnchor.constraint(equalTo: competitionTitleLabel.trailingAnchor),
             descriptionLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 1),
             
-            timeEndsLabel.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 11),
-            timeEndsLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: (view.frame.width - 315) / 2),
-            timeEndsLabel.widthAnchor.constraint(equalToConstant: 244),
+            timeEndsLabel.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 14),
+            timeEndsLabel.leadingAnchor.constraint(equalTo: competitionTitleLabel.leadingAnchor),
+            timeEndsLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 100),
             timeEndsLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 1),
             
-            remainingTimeLabel.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 11),
+            remainingTimeLabel.centerYAnchor.constraint(equalTo: timeEndsLabel.centerYAnchor),
             remainingTimeLabel.trailingAnchor.constraint(equalTo: competitionTitleLabel.trailingAnchor),
-            remainingTimeLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 1),
+            remainingTimeLabel.leadingAnchor.constraint(equalTo: timeEndsLabel.trailingAnchor, constant: 12),
             remainingTimeLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 1),
             
-            yourProgressLabel.topAnchor.constraint(equalTo: timeEndsLabel.bottomAnchor, constant: 4),
-            yourProgressLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: (view.frame.width - 315) / 2),
-            yourProgressLabel.widthAnchor.constraint(equalToConstant: 150),
+            yourProgressLabel.topAnchor.constraint(equalTo: timeEndsLabel.bottomAnchor, constant: 6),
+            yourProgressLabel.leadingAnchor.constraint(equalTo: competitionTitleLabel.leadingAnchor),
+            yourProgressLabel.widthAnchor.constraint(equalTo: timeEndsLabel.widthAnchor),
             yourProgressLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 1),
             
-            progressLabel.topAnchor.constraint(equalTo: timeEndsLabel.bottomAnchor, constant: 4),
+            progressLabel.centerYAnchor.constraint(equalTo: yourProgressLabel.centerYAnchor),
             progressLabel.trailingAnchor.constraint(equalTo: competitionTitleLabel.trailingAnchor),
-            progressLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 1),
+            progressLabel.leadingAnchor.constraint(equalTo: yourProgressLabel.trailingAnchor, constant: 12),
             progressLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 1),
             
             progressBar.topAnchor.constraint(equalTo: yourProgressLabel.bottomAnchor, constant: 14),
-            progressBar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: (view.frame.width - 315) / 2),
-            progressBar.widthAnchor.constraint(equalToConstant: 315),
+            progressBar.leadingAnchor.constraint(equalTo: competitionTitleLabel.leadingAnchor),
+            progressBar.trailingAnchor.constraint(equalTo: competitionTitleLabel.trailingAnchor),
             progressBar.heightAnchor.constraint(equalToConstant: 25),
             
             wellDoneLabel.topAnchor.constraint(equalTo: yourProgressLabel.bottomAnchor, constant: 14),
@@ -185,7 +194,7 @@ final class EachCompetitionViewController: UIViewController {
             otherParticipantsLabel.topAnchor.constraint(equalTo: yourProgressLabel.bottomAnchor, constant: 74),
             otherParticipantsLabel.leadingAnchor.constraint(equalTo: competitionTitleLabel.leadingAnchor),
             otherParticipantsLabel.trailingAnchor.constraint(equalTo: competitionTitleLabel.trailingAnchor),
-            otherParticipantsLabel.heightAnchor.constraint(equalToConstant: 32)
+            otherParticipantsLabel.heightAnchor.constraint(equalToConstant: 32),
         ])
     }
 }

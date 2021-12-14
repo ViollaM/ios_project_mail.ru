@@ -53,7 +53,7 @@ enum CompetitionsState {
 }
 
 var allCompetitions = [
-    CompetitionData(name: "Daily step competition", maxValue: 1000, remainingTime: currentTime(), currentLeader: "@max", text: "Try to complete 10.000 steps today", isStepsCompetition: true),
+    CompetitionData(name: "Daily step competition", maxValue: 10000, remainingTime: currentTime(), currentLeader: "@max", text: "Try to complete 10.000 steps today", isStepsCompetition: true),
     CompetitionData(name: "10 km per day", maxValue: 10, remainingTime: currentTime(), currentLeader: "@katty", text: "Try to walk 10 km today", isStepsCompetition: false),
     CompetitionData(name: "15000 steps per day", maxValue: 15000, remainingTime: currentTime(), currentLeader: "@violla", text: "Try to complete 15.000 steps today", isStepsCompetition: true)
 ]

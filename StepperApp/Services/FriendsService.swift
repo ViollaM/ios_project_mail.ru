@@ -42,7 +42,7 @@ final class FriendsServiceImplementation: FriendsService {
                         completion(CustomError.parseDBProblem)
                         return
                     }
-                    if (document[friend.id] != nil) == true {
+                    if document[friend.id]! as! Bool {
                         completion(CustomError.friendAlreadyAdded)
                         return
                     }

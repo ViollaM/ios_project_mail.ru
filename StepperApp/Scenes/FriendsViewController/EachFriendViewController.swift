@@ -44,10 +44,18 @@ final class EachFriendViewController: UIViewController {
         label.font = .systemFont(ofSize: 20, weight: .regular)
         return label
     }()
+    private lazy var deleteButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitleColor(.red, for: .normal)
+        button.setTitle("Unfollow", for: .normal)
+        button.addTarget(self, action: #selector(unfollowTap), for: .touchUpInside)
+        return button
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        [avatarImage, nameTitle, competitionLabel].forEach {
+        [avatarImage, nameTitle, competitionLabel, deleteButton].forEach {
             view.addSubview($0)
         }
         view.backgroundColor = StepColor.cellBackground
@@ -66,8 +74,18 @@ final class EachFriendViewController: UIViewController {
             competitionLabel.topAnchor.constraint(equalTo: avatarImage.bottomAnchor, constant: 24),
             competitionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
             competitionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 40),
-            competitionLabel.heightAnchor.constraint(equalToConstant: 24)
+            competitionLabel.heightAnchor.constraint(equalToConstant: 24),
+            
+            deleteButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            deleteButton.widthAnchor.constraint(greaterThanOrEqualToConstant: 1),
+            deleteButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -8),
+            deleteButton.heightAnchor.constraint(greaterThanOrEqualToConstant: 20)
             
         ])
+    }
+    
+    @objc
+    private func unfollowTap() {
+        print("unfollow")
     }
 }

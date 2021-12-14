@@ -17,6 +17,7 @@ final class FriendsListCollectionViewCell: UICollectionViewCell {
     var friend: User? {
         didSet {
             nameLabel.text = "@\(friend?.name ?? "User")"
+            stepsLabel.text = "\(friend?.steps ?? 4412)"
         }
     }
         
@@ -36,6 +37,15 @@ final class FriendsListCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
+    private lazy var stepsLabel: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .right
+        label.font = .systemFont(ofSize: 18, weight: .regular)
+        label.textColor = StepColor.darkGreen
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
@@ -48,7 +58,7 @@ final class FriendsListCollectionViewCell: UICollectionViewCell {
 
 extension FriendsListCollectionViewCell {
     private func setupViews() {
-        [avatarImage, nameLabel].forEach {
+        [avatarImage, nameLabel, stepsLabel].forEach {
             contentView.addSubview($0)
         }
         contentView.layer.cornerRadius = 10
@@ -63,7 +73,12 @@ extension FriendsListCollectionViewCell {
             nameLabel.leadingAnchor.constraint(equalTo: avatarImage.trailingAnchor, constant: 25),
             nameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
             nameLabel.heightAnchor.constraint(equalTo: avatarImage.heightAnchor),
-            nameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -46)
+            nameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -46),
+            
+            stepsLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
+            stepsLabel.centerYAnchor.constraint(equalTo: nameLabel.centerYAnchor),
+            stepsLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 1),
+            stepsLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 1)
         ])
     }
 }

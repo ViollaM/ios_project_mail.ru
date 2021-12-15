@@ -14,6 +14,8 @@ struct User: Codable {
     var isMan: Bool?
     var imageName: String
     var steps: Int = 0
+    var km: Int = 0
+    var miles: Int = 0
 }
 
 struct Goal: Equatable {

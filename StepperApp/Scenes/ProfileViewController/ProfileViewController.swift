@@ -304,8 +304,8 @@ final class ProfileViewController: UIViewController {
             text.trailingAnchor.constraint(equalTo: textView.trailingAnchor, constant: -16),
             text.topAnchor.constraint(equalTo: textView.topAnchor),
             text.leadingAnchor.constraint(equalTo: label.trailingAnchor, constant: 4),
-            text.widthAnchor.constraint(equalToConstant: 135),
-            text.heightAnchor.constraint(equalToConstant: 43)
+            text.heightAnchor.constraint(equalToConstant: 43),
+
         ])
     }
     

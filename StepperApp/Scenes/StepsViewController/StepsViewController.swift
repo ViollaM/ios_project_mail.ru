@@ -14,18 +14,20 @@ final class StepsViewController: UIViewController {
     private let stepsService: StepsService
     private let pedometerService: PedometerService
     private let usersService: UsersService
+    private let userOperations: UserOperations
     
-    init(stepsService: StepsService, pedometerService: PedometerService, usersService: UsersService) {
+    init(stepsService: StepsService, pedometerService: PedometerService, usersService: UsersService, userOperations: UserOperations) {
         self.usersService = usersService
         self.stepsService = stepsService
         self.pedometerService = pedometerService
+        self.userOperations = userOperations
         super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    private let userOperations = UserOperations()
+    
     private var usersGoal = Goal()
     private var steps = 0
     private var distance: Double = 0
@@ -53,6 +55,13 @@ final class StepsViewController: UIViewController {
         view.backgroundColor = StepColor.alpha5
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
+    }()
+    private lazy var stepIcon: UIImageView = {
+        let image = UIImageView()
+        image.image = UIImage(named: "shoeIcon")
+        image.translatesAutoresizingMaskIntoConstraints = false
+        image.tintColor = StepColor.darkGreen
+        return image
     }()
     private lazy var stepsCountLabel: UILabel = {
         let label = UILabel()
@@ -166,9 +175,18 @@ final class StepsViewController: UIViewController {
             case .success(let week):
                 self.circleProgress.angle = 0
                 let lastDay = week.steppingDays.last ?? SteppingDay()
+                let user = self.userOperations.getUser()
+                guard var user = user else { return }
                 DispatchQueue.main.async { [weak self] in
                     guard let self = self else { return }
-                    self.steps = lastDay.steps
+//                    self.steps =  user.steps > lastDay.steps ? user.steps : lastDay.steps
+//                    self.steps = lastDay.steps
+                    if user.steps < lastDay.steps {
+                        self.steps = lastDay.steps
+                        user.steps = lastDay.steps
+                    } else {
+                        self.steps = user.steps
+                    }
                     if self.usersGoal.isKM {
                         self.distance = lastDay.km
                     } else {
@@ -181,10 +199,10 @@ final class StepsViewController: UIViewController {
                         let angle = (Double(lastDay.steps)/Double(self.usersGoal.steps))*360
                         if angle >= 360 {
                             self.circleProgress.animate(toAngle: 360, duration: 1, completion: nil)
-                            self.circleProgress.isHidden = true
+                            self.circleProgress.isHidden = true // должен перестать меняться вместо пропадания
                         } else {
                             self.circleProgress.isHidden = false
-                            self.circleProgress.animate(toAngle: (Double(lastDay.steps)/Double(self.usersGoal.steps))*360, duration: 1, completion: nil)
+                            self.circleProgress.animate(toAngle: angle, duration: 1, completion: nil)
                         }
                     } else if self.usersGoal.isKM {
                         let angle = (lastDay.km/self.usersGoal.distance)*360
@@ -193,7 +211,7 @@ final class StepsViewController: UIViewController {
                             self.circleProgress.isHidden = true
                         } else {
                             self.circleProgress.isHidden = false
-                            self.circleProgress.animate(toAngle: (lastDay.km/self.usersGoal.distance)*360, duration: 1, completion: nil)
+                            self.circleProgress.animate(toAngle: angle, duration: 1, completion: nil)
                         }
                     } else {
                         let angle = (lastDay.miles/self.usersGoal.distance)*360
@@ -202,15 +220,14 @@ final class StepsViewController: UIViewController {
                             self.circleProgress.isHidden = true
                         } else {
                             self.circleProgress.isHidden = false
-                            self.circleProgress.animate(toAngle: (lastDay.miles/self.usersGoal.distance)*360, duration: 1, completion: nil)
+                            self.circleProgress.animate(toAngle: angle, duration: 1, completion: nil)
                         }
                     }
                 }
                 self.selectedWeek = week
-                var user = self.userOperations.getUser()
-                user?.steps = lastDay.steps
-                self.userOperations.saveUser(user: user!)
-                self.usersService.updateUser(user: user!) { error in
+//                user.steps = lastDay.steps
+                self.userOperations.saveUser(user: user)
+                self.usersService.updateUser(user: user) { error in
                     if error != nil {
                         print("Update user error")
                     }
@@ -221,19 +238,74 @@ final class StepsViewController: UIViewController {
             }
         }
     }
-    
+    private func pedometerServiceActivation() {
+        pedometerService.updateStepsAndDistance { [weak self] result in
+            guard let self = self else {
+                return
+            }
+            switch result {
+            case .success(let update):
+                DispatchQueue.main.async { [weak self] in
+                    guard let self = self else { return }
+                    let pedometerSteps = Int(truncating: update.steps)
+                    var pedometerDistance: Double
+                    if self.usersGoal.isKM {
+                        pedometerDistance = Double(truncating: update.distance) / 1000
+                    } else {
+                        pedometerDistance = Double(truncating: update.distance) / 1609.34
+                    }
+                    let totalSteps = self.steps + pedometerSteps
+                    let totalDistance = self.distance + pedometerDistance
+                    var user = self.userOperations.getUser()
+                    user?.steps = totalSteps
+                    self.userOperations.saveUser(user: user!)
+                    self.usersService.updateUser(user: user!) { error in
+                        if error != nil {
+                            print("Update user error")
+                        }
+                        print("User's steps are updated!")
+                    }
+                    if self.usersGoal.isSteps {
+                        let angle = (Double(totalSteps)/Double(self.usersGoal.steps))*360
+                        if angle >= 360 {
+                            self.circleProgress.animate(toAngle: 360, duration: 1, completion: nil)
+                            self.circleProgress.isHidden = true // должен перестать меняться вместо пропадания
+                        } else {
+                            self.circleProgress.isHidden = false
+                            self.circleProgress.animate(toAngle: angle, duration: 1, completion: nil)
+                        }
+                    } else {
+                        let angle = (totalDistance/self.usersGoal.distance)*360
+                        if angle >= 360 {
+                            self.circleProgress.animate(toAngle: 360, duration: 1, completion: nil)
+                            self.circleProgress.isHidden = true
+                        } else {
+                            self.circleProgress.isHidden = false
+                            self.circleProgress.animate(toAngle: angle, duration: 1, completion: nil)
+                        }
+                    }
+                    self.circleProgress.animate(toAngle: (Double(totalSteps)/10000)*360, duration: 0.5, completion: nil)
+                    print("[STEPVC] STEPS: \(update.steps)")
+                    self.stepsCountLabel.text = "\(totalSteps)"
+                    let roundedDistanceLabel = String(format: "%.1f", totalDistance)
+                    self.distanceLabel.text = "distance: " + roundedDistanceLabel + " km"
+                    if 10000 - totalSteps > 0 {
+                        self.goalLabel.text = "left: \(10000-totalSteps)"
+                    } else {
+                        self.goalLabel.isHidden = true
+                        self.stepsCountLabel.font = .systemFont(ofSize: 44, weight: .bold)
+                    }
+                    
+                    
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
     private func updateTodayLabels(lastDay: SteppingDay) {
-//        let roundedDistanceLabel = String(format: "%.1f", distance)
-//        distanceLabel.text = "distance: " + roundedDistanceLabel + " km"
-//        stepsCountLabel.text = "\(self.steps)"
-//        if 10000 - self.steps > 0 {
-//            goalLabel.text = "left: \(10000-steps)"
-//        } else {
-//            goalLabel.isHidden = true
-//            stepsCountLabel.font = .systemFont(ofSize: 44, weight: .bold)
-//        }
-        
         if usersGoal.isSteps {
+            stepIcon.isHidden = false
             stepsCountLabel.text = "\(steps)"
             let fullString = NSMutableAttributedString(string: "")
             let imageAttachment = NSTextAttachment()
@@ -242,21 +314,25 @@ final class StepsViewController: UIViewController {
             let imageString = NSAttributedString(attachment: imageAttachment)
             fullString.append(imageString)
             fullString.append(.init(string: " "))
+            let roundedDistance = String(format: "%.01f", distance)
+            print(roundedDistance)
             if usersGoal.isKM {
-                fullString.append(NSAttributedString(string: "\(distance) km"))
+                fullString.append(NSAttributedString(string: "\(roundedDistance) km"))
             } else {
-                fullString.append(NSAttributedString(string: "\(distance) mi"))
+                fullString.append(NSAttributedString(string: "\(roundedDistance) mi"))
             }
             distanceLabel.attributedText = fullString
             goalLabel.text = "Goal: \(usersGoal.steps)"
         } else {
+            stepIcon.isHidden = true
             distanceLabel.isHidden = true
-            let roundedDistance = String(format: "%.1f", distance)
-            goalLabel.text = "Goal: \(usersGoal.distance)"
+            let roundedDistance = String(format: "%.01f", distance)
             if usersGoal.isKM {
-                stepsCountLabel.text = roundedDistance + " km"
+                goalLabel.text = "Goal: \(usersGoal.distance) km"
+                stepsCountLabel.text = roundedDistance
             } else {
-                stepsCountLabel.text = roundedDistance + " mi"
+                goalLabel.text = "Goal: \(usersGoal.distance) mi"
+                stepsCountLabel.text = roundedDistance
             }
         }
     }
@@ -286,54 +362,12 @@ final class StepsViewController: UIViewController {
         weekAverageSteps.text = "Average: \(averageSteps)"
     }
     
-    private func pedometerServiceActivation() {
-        pedometerService.updateStepsAndDistance { [weak self] result in
-            guard let self = self else {
-                return
-            }
-            switch result {
-            case .success(let update):
-                DispatchQueue.main.async { [weak self] in
-                    guard let self = self else { return }
-                    let pedometerDistance = Double(truncating: update.distance) / 1000
-                    let pedometerSteps = Int(truncating: update.steps)
-                    let totalSteps = self.steps + pedometerSteps
-                    let totalDistance = self.distance + pedometerDistance
-                    var user = self.userOperations.getUser()
-                    user?.steps = totalSteps
-                    self.userOperations.saveUser(user: user!)
-                    self.usersService.updateUser(user: user!) { error in
-                        if error != nil {
-                            print("Update user error")
-                        }
-                        print("User's steps are updated!")
-                    }
-                    self.circleProgress.animate(toAngle: (Double(totalSteps)/10000)*360, duration: 0.5, completion: nil)
-                    print("[STEPVC] STEPS: \(update.steps)")
-                    self.stepsCountLabel.text = "\(totalSteps)"
-                    let roundedDistanceLabel = String(format: "%.1f", totalDistance)
-                    self.distanceLabel.text = "distance: " + roundedDistanceLabel + " km"
-                    if 10000 - totalSteps > 0 {
-                        self.goalLabel.text = "left: \(10000-totalSteps)"
-                    } else {
-                        self.goalLabel.isHidden = true
-                        self.stepsCountLabel.font = .systemFont(ofSize: 44, weight: .bold)
-                    }
-                    
-                    
-                }
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
-        }
-    }
-    
     private func setupNavigation() {
         self.navigationItem.rightBarButtonItem = settingsButton
     }
     
     private func setupLayout() {
-        [stepsCountLabel, distanceLabel, goalLabel].forEach {
+        [stepsCountLabel, distanceLabel, goalLabel, stepIcon].forEach {
             circleStepContainerView.addSubview($0)
         }
         [weekTotalSteps, weekAverageSteps, weekDaysRange].forEach {
@@ -358,6 +392,11 @@ final class StepsViewController: UIViewController {
             stepsCountLabel.centerYAnchor.constraint(equalTo: circleStepContainerView.centerYAnchor, constant: -widthOfUIElements * 0.08),
             stepsCountLabel.widthAnchor.constraint(equalTo: circleStepContainerView.widthAnchor, multiplier: 0.715),
             stepsCountLabel.heightAnchor.constraint(equalTo: circleStepContainerView.heightAnchor, multiplier: 0.21),
+            
+            stepIcon.bottomAnchor.constraint(equalTo: stepsCountLabel.topAnchor, constant: -6),
+            stepIcon.centerXAnchor.constraint(equalTo: circleStepContainerView.centerXAnchor),
+//            stepIcon.widthAnchor.constraint(equalToConstant: 30),
+            stepIcon.heightAnchor.constraint(equalToConstant: 30),
             
             goalLabel.centerXAnchor.constraint(equalTo: circleStepContainerView.centerXAnchor),
             goalLabel.topAnchor.constraint(equalTo: stepsCountLabel.bottomAnchor, constant: widthOfUIElements * 0.04),
@@ -484,7 +523,9 @@ extension StepsViewController: CalendarDelegate {
 
 extension StepsViewController: GoalDelegate {
     func getNewGoal(newGoal: Goal) {
-        usersGoal = newGoal
-        loadWeekData()
+        if usersGoal != newGoal {
+            usersGoal = newGoal
+            loadWeekData()
+        }
     }
 }

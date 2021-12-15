@@ -16,9 +16,13 @@ struct User: Codable {
     var steps: Int = 0
 }
 
-struct Goal {
+struct Goal: Equatable {
     var steps: Int = 10000
     var distance: Double = 10
     var isSteps: Bool = true
     var isKM: Bool = true
+    
+    static func == (lhs: Goal, rhs: Goal) -> Bool {
+        return (lhs.steps == rhs.steps) && (lhs.distance == rhs.distance) && (lhs.isSteps == rhs.isSteps) && (lhs.isKM == rhs.isKM)
+    }
 }

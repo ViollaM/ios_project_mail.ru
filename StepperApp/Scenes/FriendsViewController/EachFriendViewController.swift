@@ -136,7 +136,6 @@ final class EachFriendViewController: UIViewController {
                 return
             }
             self.dismiss(animated: true) {
-//                displayAlert(alertTitle: "",message: "You are unfollowed successfully", viewController: self)
                 self.delegate?.removedUserWith(id: userId)
             }
         }

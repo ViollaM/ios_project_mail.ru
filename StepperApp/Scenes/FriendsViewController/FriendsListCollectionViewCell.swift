@@ -16,12 +16,24 @@ final class FriendsListCollectionViewCell: UICollectionViewCell {
     }
     var friend: User? {
         didSet {
-            nameLabel.text = "@\(friend?.name ?? "User")"
-            stepsLabel.text = "\(friend?.steps ?? 4412)"
+            if let user = friend {
+                nameLabel.text = "@\(user.name)"
+                stepsLabel.text = "\(user.steps)"
+//                if user.isMan {
+//                    
+//                }
+            }
         }
     }
         
     private lazy var avatarImage: UIImageView = {
+        let image = UIImage()
+        let imageView = CircleImageView(image: image)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    
+    private lazy var genderImage: UIImageView = {
         let image = UIImage()
         let imageView = CircleImageView(image: image)
         imageView.translatesAutoresizingMaskIntoConstraints = false

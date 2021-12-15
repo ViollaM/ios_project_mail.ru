@@ -16,6 +16,7 @@ final class CompetitionViewCell: UICollectionViewCell {
             competitionTimeLabel.text = currentTime()
             competitionCurrentLeaderLabel.text = competition?.currentLeader
             progressBar.progress = Float((competition?.currentValue)! / (competition?.maxValue)!)
+//            print("\(competition?.name) : \(competition?.currentValue) / \(competition?.maxValue)")
             if (!competition!.isFinished) {
                 isComplete.isHidden = true
             } else {

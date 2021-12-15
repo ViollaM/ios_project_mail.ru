@@ -32,60 +32,6 @@ final class CompetitionViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func loadStepsData() {
-        stepsService.fetchLastWeekInfo { result in
-            switch result {
-            case .success(let week):
-                DispatchQueue.main.async { [weak self] in
-                    guard let self = self else { return }
-                    if let day = week.steppingDays.last {
-                        self.steps = day.steps
-                        self.distanceKM = day.km
-                        for i in 0..<allCompetitions.count {
-                            if allCompetitions[i].isStepsCompetition {
-                                allCompetitions[i].currentValue = Double(self.steps)
-                            } else {
-                                allCompetitions[i].currentValue = self.distanceKM
-                            }
-                        }
-                        self.competitions = CompetitionsState.current.fetch()
-                    }
-                }
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
-        }
-    }    
-    
-    private func updatesStepData() {
-        pedometerService.updateStepsAndDistanceForCompetitions { [weak self] result in
-            guard let self = self else {
-                return
-            }
-            switch result {
-            case .success(let update):
-                DispatchQueue.main.async { [weak self] in
-                    guard let self = self else { return }
-                    let pedometerDistance = Double(truncating: update.distance) / 1000
-                    let pedometerSteps = Int(truncating: update.steps)
-                    let totalSteps = self.steps + pedometerSteps
-                    let totalDistance = self.distanceKM + pedometerDistance
-                    print("[COMPVC] STEPS: \(update.steps)")
-                    for i in 0..<allCompetitions.count {
-                        if allCompetitions[i].isStepsCompetition {
-                            allCompetitions[i].currentValue = Double(totalSteps)
-                        } else {
-                            allCompetitions[i].currentValue = totalDistance
-                        }
-                    }
-                    self.competitions = CompetitionsState.current.fetch()
-                }
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
-        }
-    }
-    
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -128,6 +74,59 @@ final class CompetitionViewController: UIViewController {
         RunLoop.current.add(timer, forMode: .common)
         setupLayout()
         plusButton.addTarget(self, action: #selector(addNewCompetitionButtonPressed), for: .touchUpInside)
+    }
+    
+    private func loadStepsData() {
+        stepsService.fetchLastWeekInfo { result in
+            switch result {
+            case .success(let week):
+                DispatchQueue.main.async { [weak self] in
+                    guard let self = self else { return }
+                    if let day = week.steppingDays.last {
+                        self.steps = day.steps
+                        self.distanceKM = day.km
+                        for i in 0..<allCompetitions.count {
+                            if allCompetitions[i].isStepsCompetition {
+                                allCompetitions[i].currentValue = Double(self.steps)
+                            } else {
+                                allCompetitions[i].currentValue = self.distanceKM
+                            }
+                        }
+                        self.competitions = CompetitionsState.current.fetch()
+                    }
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    private func updatesStepData() {
+        pedometerService.updateStepsAndDistanceForCompetitions { [weak self] result in
+            guard let self = self else {
+                return
+            }
+            switch result {
+            case .success(let update):
+                DispatchQueue.main.async { [weak self] in
+                    guard let self = self else { return }
+                    let pedometerDistance = Double(truncating: update.distance) / 1000
+                    let pedometerSteps = Int(truncating: update.steps)
+                    let totalSteps = self.steps + pedometerSteps
+                    let totalDistance = self.distanceKM + pedometerDistance
+                    for i in 0..<allCompetitions.count {
+                        if allCompetitions[i].isStepsCompetition {
+                            allCompetitions[i].currentValue = Double(totalSteps)
+                        } else {
+                            allCompetitions[i].currentValue = totalDistance
+                        }
+                    }
+                    self.competitions = CompetitionsState.current.fetch()
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
     }
     
     private func fetchCompetitions(state : CompetitionsState) -> [CompetitionData] {

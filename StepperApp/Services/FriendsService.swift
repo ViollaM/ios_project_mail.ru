@@ -42,9 +42,11 @@ final class FriendsServiceImplementation: FriendsService {
                         completion(CustomError.parseDBProblem)
                         return
                     }
-                    if document[friend.id]! as! Bool {
-                        completion(CustomError.friendAlreadyAdded)
-                        return
+                    if let friend = document[friend.id] {
+                        if (friend as! Bool) {
+                            completion(CustomError.friendAlreadyAdded)
+                            return
+                        }
                     }
                     
                     self.db.collection("friends").document(userId).setData([

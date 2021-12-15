@@ -129,7 +129,6 @@ final class StepsViewController: UIViewController {
         button.tintColor = StepColor.darkGreen
         return button
     }()
-    
     private let weekChartViewController = WeekChartViewController()
     private let calendarViewController = CalendarViewController()
     weak var chartDelegate: ChartDelegate?
@@ -154,7 +153,8 @@ final class StepsViewController: UIViewController {
             switch result {
             case .success(let result):
                 if result {
-                    self.loadWeekData()
+//                    self.loadWeekData()
+                    self.loadContainsWeek(day: Date())
                 } else {
                     print("Alert! Give us permission!")
                 }
@@ -163,9 +163,8 @@ final class StepsViewController: UIViewController {
             }
         }
     }
-    
-    private func loadWeekData() {
-        stepsService.fetchLastWeekInfo { [weak self] result in
+    private func loadContainsWeek(day: Date) {
+        stepsService.fetchWeekContains(day: day) { [weak self] result in
             guard let self = self else {
                 return
             }
@@ -175,33 +174,34 @@ final class StepsViewController: UIViewController {
                 let lastDay = week.steppingDays.last ?? SteppingDay()
                 let user = self.userOperations.getUser()
                 var correctDay = lastDay
-                guard var user = user else { return }
+                guard var guardUser = user else { return }
                 DispatchQueue.main.async { [weak self] in
                     guard let self = self else { return }
-                    if user.steps < lastDay.steps {
+                    if guardUser.steps < lastDay.steps {
                         self.steps = lastDay.steps
-                        user.steps = lastDay.steps
+                        guardUser.steps = lastDay.steps
                     } else {
-                        self.steps = user.steps
-                        correctDay.steps = user.steps
-                        week.steppingDays[week.steppingDays.count - 1].steps = user.steps
+                        self.steps = guardUser.steps
+                        correctDay.steps = guardUser.steps
+                        week.steppingDays[week.steppingDays.count - 1].steps = guardUser.steps
                     }
-                    if user.km < lastDay.km {
+                    if guardUser.km < lastDay.km {
                         self.distanceKM = lastDay.km
-                        user.km = lastDay.km
+                        guardUser.km = lastDay.km
                     } else {
-                        self.distanceKM = user.km
-                        correctDay.km = user.km
-                        week.steppingDays[week.steppingDays.count - 1].km = user.km
+                        self.distanceKM = guardUser.km
+                        correctDay.km = guardUser.km
+                        week.steppingDays[week.steppingDays.count - 1].km = guardUser.km
                     }
-                    if user.miles < lastDay.miles {
+                    if guardUser.miles < lastDay.miles {
                         self.distanceMI = lastDay.miles
-                        user.miles = lastDay.miles
+                        guardUser.miles = lastDay.miles
                     } else {
-                        self.distanceMI = user.miles
-                        correctDay.miles = user.miles
-                        week.steppingDays[week.steppingDays.count - 1].miles = user.miles
+                        self.distanceMI = guardUser.miles
+                        correctDay.miles = guardUser.miles
+                        week.steppingDays[week.steppingDays.count - 1].miles = guardUser.miles
                     }
+                    print("[HEALTHKIT] Steps: \(correctDay.steps), KM: \(correctDay.km), Miles: \(correctDay.miles)")
                     self.updateTodayLabels(lastDay: correctDay)
                     self.updateWeekLabels(week: week)
                     self.chartDelegate?.updateData(stepWeek: week)
@@ -235,13 +235,99 @@ final class StepsViewController: UIViewController {
                     }
                 }
                 self.selectedWeek = week
-                self.lastDay = lastDay
-                self.userOperations.saveUser(user: user)
-                self.usersService.updateUser(user: user) { error in
+                self.lastDay = correctDay
+                self.userOperations.saveUser(user: guardUser)
+                self.usersService.updateUser(user: guardUser) { error in
                     if error != nil {
                         print("Update user error")
                     }
-                    print("User's steps are updated!")
+                    print("User's steps are updated by healthkit!")
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    private func loadWeekData() {
+        stepsService.fetchLastWeekInfo { [weak self] result in
+            guard let self = self else {
+                return
+            }
+            switch result {
+            case .success(var week):
+                self.circleProgress.angle = 0
+                let lastDay = week.steppingDays.last ?? SteppingDay()
+                let user = self.userOperations.getUser()
+                var correctDay = lastDay
+                guard var guardUser = user else { return }
+                DispatchQueue.main.async { [weak self] in
+                    guard let self = self else { return }
+                    if guardUser.steps < lastDay.steps {
+                        self.steps = lastDay.steps
+                        guardUser.steps = lastDay.steps
+                    } else {
+                        self.steps = guardUser.steps
+                        correctDay.steps = guardUser.steps
+                        week.steppingDays[week.steppingDays.count - 1].steps = guardUser.steps
+                    }
+                    if guardUser.km < lastDay.km {
+                        self.distanceKM = lastDay.km
+                        guardUser.km = lastDay.km
+                    } else {
+                        self.distanceKM = guardUser.km
+                        correctDay.km = guardUser.km
+                        week.steppingDays[week.steppingDays.count - 1].km = guardUser.km
+                    }
+                    if guardUser.miles < lastDay.miles {
+                        self.distanceMI = lastDay.miles
+                        guardUser.miles = lastDay.miles
+                    } else {
+                        self.distanceMI = guardUser.miles
+                        correctDay.miles = guardUser.miles
+                        week.steppingDays[week.steppingDays.count - 1].miles = guardUser.miles
+                    }
+                    print("[HEALTHKIT] Steps: \(correctDay.steps), KM: \(correctDay.km), Miles: \(correctDay.miles)")
+                    self.updateTodayLabels(lastDay: correctDay)
+                    self.updateWeekLabels(week: week)
+                    self.chartDelegate?.updateData(stepWeek: week)
+                    if self.usersGoal.isSteps {
+                        let angle = (Double(correctDay.steps)/Double(self.usersGoal.steps))*360
+                        if angle >= 360 {
+                            self.circleProgress.animate(toAngle: 360, duration: 1, completion: nil)
+                            self.circleProgress.isHidden = true // должен перестать меняться вместо пропадания
+                        } else {
+                            self.circleProgress.isHidden = false
+                            self.circleProgress.animate(toAngle: angle, duration: 1, completion: nil)
+                        }
+                    } else if self.usersGoal.isKM {
+                        let angle = (correctDay.km/self.usersGoal.distance)*360
+                        if angle >= 360 {
+                            self.circleProgress.animate(toAngle: 360, duration: 1, completion: nil)
+                            self.circleProgress.isHidden = true
+                        } else {
+                            self.circleProgress.isHidden = false
+                            self.circleProgress.animate(toAngle: angle, duration: 1, completion: nil)
+                        }
+                    } else {
+                        let angle = (correctDay.miles/self.usersGoal.distance)*360
+                        if angle >= 360 {
+                            self.circleProgress.animate(toAngle: 360, duration: 1, completion: nil)
+                            self.circleProgress.isHidden = true
+                        } else {
+                            self.circleProgress.isHidden = false
+                            self.circleProgress.animate(toAngle: angle, duration: 1, completion: nil)
+                        }
+                    }
+                }
+                self.selectedWeek = week
+                self.lastDay = correctDay
+                self.userOperations.saveUser(user: guardUser)
+                self.usersService.updateUser(user: guardUser) { error in
+                    if error != nil {
+                        print("Update user error")
+                    }
+                    print("User's steps are updated by pedometer!")
                 }
             case .failure(let error):
                 print(error.localizedDescription)
@@ -255,6 +341,28 @@ final class StepsViewController: UIViewController {
             }
             switch result {
             case .success(let update):
+                if self.pedometerService.pedometerCheckForDateChange(newDay: Date()) {
+                    self.pedometerService.pedometerStop()
+                    self.steps = 0
+                    self.distanceKM = 0.0
+                    self.distanceMI = 0.0
+                    var user = self.userOperations.getUser()
+                    user?.steps = 0
+                    user?.miles = 0.0
+                    user?.km = 0.0
+                    self.lastDay.km = 0.0
+                    self.lastDay.miles = 0.0
+                    self.lastDay.steps = 0
+                    self.lastDay.date = Date()
+                    self.userOperations.saveUser(user: user!)
+                    self.usersService.updateUser(user: user!) { error in
+                        if error != nil {
+                            print("Update user error")
+                        }
+                        print("User's steps are updated!")
+                    }
+                    self.pedometerServiceActivation(lastDay: self.lastDay)
+                }
                 DispatchQueue.main.async { [weak self] in
                     guard let self = self else { return }
                     let pedometerSteps = Int(truncating: update.steps)
@@ -268,6 +376,8 @@ final class StepsViewController: UIViewController {
                     correctDay.steps = totalSteps
                     correctDay.miles = totalDistanceMI
                     correctDay.km = totalDistanceKM
+                    print("[PEDOMETER UPDATE] Steps: \(pedometerSteps), KM: \(pedometerDistanceKM), MI: \(pedometerDistanceMI)")
+                    print("[AFTER PEDOMETER UPDATE] Steps: \(correctDay.steps), KM: \(correctDay.km), Miles: \(correctDay.miles)")
                     user?.steps = totalSteps
                     user?.miles = totalDistanceMI
                     user?.km = totalDistanceKM
@@ -302,8 +412,8 @@ final class StepsViewController: UIViewController {
                             self.circleProgress.animate(toAngle: angle, duration: 1, completion: nil)
                         }
                     }
-                    print("[STEPVC] STEPS: \(update.steps)")
-                    self.updateTodayLabels(lastDay: correctDay)
+//                    print("[STEPVC] STEPS: \(update.steps)")
+                        self.updateTodayLabels(lastDay: correctDay)
                 }
             case .failure(let error):
                 print(error.localizedDescription)
@@ -313,7 +423,9 @@ final class StepsViewController: UIViewController {
     private func updateTodayLabels(lastDay: SteppingDay) {
         if usersGoal.isSteps {
             stepIcon.isHidden = false
-            stepsCountLabel.text = "\(steps)"
+            distanceLabel.isHidden = false
+//            stepsCountLabel.text = "\(steps)"
+            stepsCountLabel.text = "\(lastDay.steps)"
             let fullString = NSMutableAttributedString(string: "")
             let imageAttachment = NSTextAttachment()
             imageAttachment.image = UIImage(systemName: "arrow.forward")
@@ -323,10 +435,12 @@ final class StepsViewController: UIViewController {
             fullString.append(.init(string: " "))
             var roundedDistance: String
             if usersGoal.isKM {
-                roundedDistance = String(format: "%.01f", distanceKM)
+//                roundedDistance = String(format: "%.01f", distanceKM)
+                roundedDistance = String(format: "%.01f", lastDay.km)
                 fullString.append(NSAttributedString(string: "\(roundedDistance) km"))
             } else {
-                roundedDistance = String(format: "%.01f", distanceMI)
+//                roundedDistance = String(format: "%.01f", distanceMI)
+                roundedDistance = String(format: "%.01f", lastDay.miles)
                 fullString.append(NSAttributedString(string: "\(roundedDistance) mi"))
             }
             distanceLabel.attributedText = fullString
@@ -336,11 +450,13 @@ final class StepsViewController: UIViewController {
             distanceLabel.isHidden = true
             var roundedDistance: String
             if usersGoal.isKM {
-                roundedDistance = String(format: "%.01f", distanceKM)
+                roundedDistance = String(format: "%.01f", lastDay.km)
+//                roundedDistance = String(format: "%.01f", distanceKM)
                 goalLabel.text = "Goal: \(usersGoal.distance) km"
                 stepsCountLabel.text = roundedDistance
             } else {
-                roundedDistance = String(format: "%.01f", distanceMI)
+                roundedDistance = String(format: "%.01f", lastDay.miles)
+//                roundedDistance = String(format: "%.01f", distanceMI)
                 goalLabel.text = "Goal: \(usersGoal.distance) mi"
                 stepsCountLabel.text = roundedDistance
             }
@@ -535,7 +651,10 @@ extension StepsViewController: GoalDelegate {
     func getNewGoal(newGoal: Goal) {
         if usersGoal != newGoal {
             usersGoal = newGoal
-            loadWeekData()
+//            loadWeekData()
+            loadContainsWeek(day: Date())
+            pedometerService.pedometerStop()
+            pedometerServiceActivation(lastDay: lastDay)
         }
     }
 }

@@ -56,7 +56,7 @@ final class NewFriendViewController: UIViewController {
         button.setTitleColor(StepColor.cellBackground, for: .normal)
         button.backgroundColor = StepColor.buttonBackground
         button.titleLabel?.font = .systemFont(ofSize: 20, weight: .regular)
-        button.setTitle("Add", for: .normal)
+        button.setTitle("Follow", for: .normal)
         button.addTarget(self, action: #selector(addButtonTap), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button

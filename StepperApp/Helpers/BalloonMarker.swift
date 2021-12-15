@@ -80,7 +80,7 @@ open class BalloonMarker: MarkerImage
     
     open override func draw(context: CGContext, point: CGPoint)
     {
-        guard let label = label else { return }
+        guard let newLabel = label else { return }
         
         let offset = self.offsetForDrawing(atPoint: point)
         let size = self.size
@@ -168,7 +168,7 @@ open class BalloonMarker: MarkerImage
         
         UIGraphicsPushContext(context)
         
-        label.draw(in: rect, withAttributes: _drawAttributes)
+        newLabel.draw(in: rect, withAttributes: _drawAttributes)
         
         UIGraphicsPopContext()
         

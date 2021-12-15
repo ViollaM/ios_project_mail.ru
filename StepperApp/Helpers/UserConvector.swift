@@ -27,8 +27,8 @@ final class UserConvector {
               let name = dict[Key.name.rawValue] as? String,
               let imageName = dict[Key.imageName.rawValue] as? String,
               let steps = dict[Key.steps.rawValue] as? Int,
-              let km = dict[Key.km.rawValue] as? Int,
-              let miles = dict[Key.miles.rawValue] as? Int
+              let km = dict[Key.km.rawValue] as? Double,
+              let miles = dict[Key.miles.rawValue] as? Double
         else {
             return nil
         }

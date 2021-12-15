@@ -8,7 +8,7 @@
 import Foundation
 
 struct SteppingWeek {
-    let steppingDays: [SteppingDay]
+    var steppingDays: [SteppingDay]
     var totalStepsForWeek: Int {
         var total = 0
         steppingDays.forEach { day in

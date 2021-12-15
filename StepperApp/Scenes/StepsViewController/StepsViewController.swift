@@ -28,13 +28,13 @@ final class StepsViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    private var lastDay = SteppingDay()
     private var usersGoal = Goal()
     private var steps = 0
-    private var distance: Double = 0
+    private var distanceKM: Double = 0
+    private var distanceMI: Double = 0
     private var total = 0
     private var averageSteps = 0
-    private var firstDay = ""
-    private var lastDay = ""
     private var circleProgress: KDCircularProgress = {
         let progress = KDCircularProgress(frame: .zero)
         progress.translatesAutoresizingMaskIntoConstraints = false
@@ -77,7 +77,6 @@ final class StepsViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
         label.textColor = StepColor.darkGreen
-//        label.text = "distance: \(distance) km"
         return label
     }()
     private lazy var goalLabel: UILabel = {
@@ -85,7 +84,6 @@ final class StepsViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
         label.textColor = StepColor.darkGreen
-//        label.text = "Goal: 0"
         return label
     }()
     private lazy var weekInfoView: UIView = {
@@ -142,7 +140,7 @@ final class StepsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         stepsServiceAuth()
-//        pedometerServiceActivation()
+        pedometerServiceActivation(lastDay: lastDay)
         setupNavigation()
         setupLayout()
         getWeekChartView()
@@ -172,31 +170,43 @@ final class StepsViewController: UIViewController {
                 return
             }
             switch result {
-            case .success(let week):
+            case .success(var week):
                 self.circleProgress.angle = 0
                 let lastDay = week.steppingDays.last ?? SteppingDay()
                 let user = self.userOperations.getUser()
+                var correctDay = lastDay
                 guard var user = user else { return }
                 DispatchQueue.main.async { [weak self] in
                     guard let self = self else { return }
-//                    self.steps =  user.steps > lastDay.steps ? user.steps : lastDay.steps
-//                    self.steps = lastDay.steps
                     if user.steps < lastDay.steps {
                         self.steps = lastDay.steps
                         user.steps = lastDay.steps
                     } else {
                         self.steps = user.steps
+                        correctDay.steps = user.steps
+                        week.steppingDays[week.steppingDays.count - 1].steps = user.steps
                     }
-                    if self.usersGoal.isKM {
-                        self.distance = lastDay.km
+                    if user.km < lastDay.km {
+                        self.distanceKM = lastDay.km
+                        user.km = lastDay.km
                     } else {
-                        self.distance = lastDay.miles
+                        self.distanceKM = user.km
+                        correctDay.km = user.km
+                        week.steppingDays[week.steppingDays.count - 1].km = user.km
                     }
-                    self.updateTodayLabels(lastDay: lastDay)
+                    if user.miles < lastDay.miles {
+                        self.distanceMI = lastDay.miles
+                        user.miles = lastDay.miles
+                    } else {
+                        self.distanceMI = user.miles
+                        correctDay.miles = user.miles
+                        week.steppingDays[week.steppingDays.count - 1].miles = user.miles
+                    }
+                    self.updateTodayLabels(lastDay: correctDay)
                     self.updateWeekLabels(week: week)
                     self.chartDelegate?.updateData(stepWeek: week)
                     if self.usersGoal.isSteps {
-                        let angle = (Double(lastDay.steps)/Double(self.usersGoal.steps))*360
+                        let angle = (Double(correctDay.steps)/Double(self.usersGoal.steps))*360
                         if angle >= 360 {
                             self.circleProgress.animate(toAngle: 360, duration: 1, completion: nil)
                             self.circleProgress.isHidden = true // должен перестать меняться вместо пропадания
@@ -205,7 +215,7 @@ final class StepsViewController: UIViewController {
                             self.circleProgress.animate(toAngle: angle, duration: 1, completion: nil)
                         }
                     } else if self.usersGoal.isKM {
-                        let angle = (lastDay.km/self.usersGoal.distance)*360
+                        let angle = (correctDay.km/self.usersGoal.distance)*360
                         if angle >= 360 {
                             self.circleProgress.animate(toAngle: 360, duration: 1, completion: nil)
                             self.circleProgress.isHidden = true
@@ -214,7 +224,7 @@ final class StepsViewController: UIViewController {
                             self.circleProgress.animate(toAngle: angle, duration: 1, completion: nil)
                         }
                     } else {
-                        let angle = (lastDay.miles/self.usersGoal.distance)*360
+                        let angle = (correctDay.miles/self.usersGoal.distance)*360
                         if angle >= 360 {
                             self.circleProgress.animate(toAngle: 360, duration: 1, completion: nil)
                             self.circleProgress.isHidden = true
@@ -225,7 +235,7 @@ final class StepsViewController: UIViewController {
                     }
                 }
                 self.selectedWeek = week
-//                user.steps = lastDay.steps
+                self.lastDay = lastDay
                 self.userOperations.saveUser(user: user)
                 self.usersService.updateUser(user: user) { error in
                     if error != nil {
@@ -238,7 +248,7 @@ final class StepsViewController: UIViewController {
             }
         }
     }
-    private func pedometerServiceActivation() {
+    private func pedometerServiceActivation(lastDay: SteppingDay) {
         pedometerService.updateStepsAndDistance { [weak self] result in
             guard let self = self else {
                 return
@@ -248,16 +258,19 @@ final class StepsViewController: UIViewController {
                 DispatchQueue.main.async { [weak self] in
                     guard let self = self else { return }
                     let pedometerSteps = Int(truncating: update.steps)
-                    var pedometerDistance: Double
-                    if self.usersGoal.isKM {
-                        pedometerDistance = Double(truncating: update.distance) / 1000
-                    } else {
-                        pedometerDistance = Double(truncating: update.distance) / 1609.34
-                    }
+                    let pedometerDistanceKM = Double(truncating: update.distance) / 1000
+                    let pedometerDistanceMI = Double(truncating: update.distance) / 1609.34
                     let totalSteps = self.steps + pedometerSteps
-                    let totalDistance = self.distance + pedometerDistance
+                    let totalDistanceKM = self.distanceKM + pedometerDistanceKM
+                    let totalDistanceMI = self.distanceMI + pedometerDistanceMI
                     var user = self.userOperations.getUser()
+                    var correctDay = lastDay
+                    correctDay.steps = totalSteps
+                    correctDay.miles = totalDistanceMI
+                    correctDay.km = totalDistanceKM
                     user?.steps = totalSteps
+                    user?.miles = totalDistanceMI
+                    user?.km = totalDistanceKM
                     self.userOperations.saveUser(user: user!)
                     self.usersService.updateUser(user: user!) { error in
                         if error != nil {
@@ -275,7 +288,12 @@ final class StepsViewController: UIViewController {
                             self.circleProgress.animate(toAngle: angle, duration: 1, completion: nil)
                         }
                     } else {
-                        let angle = (totalDistance/self.usersGoal.distance)*360
+                        var angle: Double
+                        if self.usersGoal.isKM {
+                            angle = (totalDistanceKM/self.usersGoal.distance)*360
+                        } else {
+                            angle = (totalDistanceMI/self.usersGoal.distance)*360
+                        }
                         if angle >= 360 {
                             self.circleProgress.animate(toAngle: 360, duration: 1, completion: nil)
                             self.circleProgress.isHidden = true
@@ -284,19 +302,8 @@ final class StepsViewController: UIViewController {
                             self.circleProgress.animate(toAngle: angle, duration: 1, completion: nil)
                         }
                     }
-                    self.circleProgress.animate(toAngle: (Double(totalSteps)/10000)*360, duration: 0.5, completion: nil)
                     print("[STEPVC] STEPS: \(update.steps)")
-                    self.stepsCountLabel.text = "\(totalSteps)"
-                    let roundedDistanceLabel = String(format: "%.1f", totalDistance)
-                    self.distanceLabel.text = "distance: " + roundedDistanceLabel + " km"
-                    if 10000 - totalSteps > 0 {
-                        self.goalLabel.text = "left: \(10000-totalSteps)"
-                    } else {
-                        self.goalLabel.isHidden = true
-                        self.stepsCountLabel.font = .systemFont(ofSize: 44, weight: .bold)
-                    }
-                    
-                    
+                    self.updateTodayLabels(lastDay: correctDay)
                 }
             case .failure(let error):
                 print(error.localizedDescription)
@@ -314,11 +321,12 @@ final class StepsViewController: UIViewController {
             let imageString = NSAttributedString(attachment: imageAttachment)
             fullString.append(imageString)
             fullString.append(.init(string: " "))
-            let roundedDistance = String(format: "%.01f", distance)
-            print(roundedDistance)
+            var roundedDistance: String
             if usersGoal.isKM {
+                roundedDistance = String(format: "%.01f", distanceKM)
                 fullString.append(NSAttributedString(string: "\(roundedDistance) km"))
             } else {
+                roundedDistance = String(format: "%.01f", distanceMI)
                 fullString.append(NSAttributedString(string: "\(roundedDistance) mi"))
             }
             distanceLabel.attributedText = fullString
@@ -326,11 +334,13 @@ final class StepsViewController: UIViewController {
         } else {
             stepIcon.isHidden = true
             distanceLabel.isHidden = true
-            let roundedDistance = String(format: "%.01f", distance)
+            var roundedDistance: String
             if usersGoal.isKM {
+                roundedDistance = String(format: "%.01f", distanceKM)
                 goalLabel.text = "Goal: \(usersGoal.distance) km"
                 stepsCountLabel.text = roundedDistance
             } else {
+                roundedDistance = String(format: "%.01f", distanceMI)
                 goalLabel.text = "Goal: \(usersGoal.distance) mi"
                 stepsCountLabel.text = roundedDistance
             }
@@ -353,8 +363,8 @@ final class StepsViewController: UIViewController {
             firstDateFormatter.dateFormat = "d MMM yyyy"
             weekDaysRange.widthAnchor.constraint(greaterThanOrEqualToConstant: 250).isActive = true
         }
-        self.firstDay = firstDateFormatter.string(from: first.date)
-        self.lastDay = lastDateFormatter.string(from: last.date)
+        let firstDay = firstDateFormatter.string(from: first.date)
+        let lastDay = lastDateFormatter.string(from: last.date)
         weekDaysRange.text = "\(firstDay) - \(lastDay)"
         self.total = week.totalStepsForWeek
         weekTotalSteps.text = "Total: \(total)"
@@ -395,7 +405,7 @@ final class StepsViewController: UIViewController {
             
             stepIcon.bottomAnchor.constraint(equalTo: stepsCountLabel.topAnchor, constant: -6),
             stepIcon.centerXAnchor.constraint(equalTo: circleStepContainerView.centerXAnchor),
-//            stepIcon.widthAnchor.constraint(equalToConstant: 30),
+            stepIcon.widthAnchor.constraint(equalToConstant: 30),
             stepIcon.heightAnchor.constraint(equalToConstant: 30),
             
             goalLabel.centerXAnchor.constraint(equalTo: circleStepContainerView.centerXAnchor),

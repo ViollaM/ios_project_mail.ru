@@ -18,10 +18,24 @@ final class FriendsListCollectionViewCell: UICollectionViewCell {
         didSet {
             if let user = friend {
                 nameLabel.text = "@\(user.name)"
-                stepsLabel.text = "\(user.steps)"
-//                if user.isMan {
-//                    
-//                }
+                stepsLabel.text = "Steps: \(user.steps)"
+                if let male = user.isMan {
+                    genderImage.isHidden = false
+                    if male {
+                        let image = UIImage(named: "manSign")
+                        let tintableImage = image?.withRenderingMode(.alwaysTemplate)
+                        genderImage.image = tintableImage
+                        genderImage.tintColor = .blue
+                    } else {
+                        genderImage.image = UIImage(named: "womanSign")!
+                        let tintableImage = image?.withRenderingMode(.alwaysTemplate)
+                        genderImage.image = tintableImage
+                        genderImage.tintColor = .systemPink
+                    }
+                }
+                if let age = user.birthDate {
+                    ageLabel.text = "age: " + String(getAge(birthdate: age))
+                }
             }
         }
     }
@@ -35,15 +49,25 @@ final class FriendsListCollectionViewCell: UICollectionViewCell {
     
     private lazy var genderImage: UIImageView = {
         let image = UIImage()
-        let imageView = CircleImageView(image: image)
+        let imageView = UIImageView(image: image)
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.isHidden = true
         return imageView
     }()
     
     private lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .left
-        label.font = .systemFont(ofSize: 20, weight: .regular)
+        label.font = .systemFont(ofSize: 20, weight: .bold)
+        label.textColor = StepColor.darkGreen
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private lazy var ageLabel: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .left
+        label.font = .systemFont(ofSize: 12, weight: .regular)
         label.textColor = StepColor.darkGreen
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -53,7 +77,7 @@ final class FriendsListCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.textAlignment = .right
         label.font = .systemFont(ofSize: 18, weight: .regular)
-        label.textColor = StepColor.darkGreen
+        label.textColor = .gray
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -70,7 +94,7 @@ final class FriendsListCollectionViewCell: UICollectionViewCell {
 
 extension FriendsListCollectionViewCell {
     private func setupViews() {
-        [avatarImage, nameLabel, stepsLabel].forEach {
+        [avatarImage, nameLabel, stepsLabel, genderImage, ageLabel].forEach {
             contentView.addSubview($0)
         }
         contentView.layer.cornerRadius = 10
@@ -82,16 +106,38 @@ extension FriendsListCollectionViewCell {
             avatarImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
             avatarImage.heightAnchor.constraint(equalTo: avatarImage.widthAnchor),
             
-            nameLabel.leadingAnchor.constraint(equalTo: avatarImage.trailingAnchor, constant: 25),
-            nameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
-            nameLabel.heightAnchor.constraint(equalTo: avatarImage.heightAnchor),
-            nameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -46),
+            nameLabel.leadingAnchor.constraint(equalTo: avatarImage.trailingAnchor, constant: 22),
+            nameLabel.centerYAnchor.constraint(equalTo: avatarImage.centerYAnchor, constant: -8),
+            nameLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 1),
+//            nameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -58),
+            nameLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 50),
             
             stepsLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
-            stepsLabel.centerYAnchor.constraint(equalTo: nameLabel.centerYAnchor),
+            stepsLabel.centerYAnchor.constraint(equalTo: avatarImage.centerYAnchor),
             stepsLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 1),
-            stepsLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 1)
+            stepsLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 1),
+            
+            ageLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor),
+            ageLabel.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor, constant: 4),
+            ageLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 1),
+            ageLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 1),
+            
+            genderImage.centerXAnchor.constraint(equalTo: avatarImage.trailingAnchor),
+            genderImage.centerYAnchor.constraint(equalTo: avatarImage.bottomAnchor, constant: -4),
+//            genderImage.heightAnchor.constraint(greaterThanOrEqualToConstant: 1),
+            genderImage.heightAnchor.constraint(equalToConstant: 25),
+            genderImage.widthAnchor.constraint(equalToConstant: 25)
+//            genderImage.widthAnchor.constraint(greaterThanOrEqualToConstant: 1)
         ])
+    }
+    
+    private func getAge(birthdate: Date) -> Int {
+        let calendar = Calendar.current
+        let now = calendar.dateComponents([.year, .month, .day], from: Date())
+        let birthdate = calendar.dateComponents([.year, .month, .day], from: birthdate)
+        let ageComponents = calendar.dateComponents([.year], from: birthdate, to: now)
+        let age = ageComponents.year!
+        return age
     }
 }
 

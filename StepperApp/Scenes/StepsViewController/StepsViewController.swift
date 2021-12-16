@@ -27,7 +27,7 @@ final class StepsViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+    private var currentDay = Date()
     private var lastDay = SteppingDay()
     private var usersGoal = Goal()
     private var steps = 0
@@ -118,7 +118,6 @@ final class StepsViewController: UIViewController {
         label.font = .systemFont(ofSize: 22, weight: .semibold)
         label.clipsToBounds = true
         label.layer.cornerRadius = 10
-//        label.backgroundColor = StepColor.cellBackground
         label.isUserInteractionEnabled = true
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dateLabelTap))
         label.addGestureRecognizer(tapGesture)
@@ -129,6 +128,18 @@ final class StepsViewController: UIViewController {
         button.tintColor = StepColor.darkGreen
         return button
     }()
+    private lazy var addProgressButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(addProgress))
+        button.tintColor = StepColor.darkGreen
+        return button
+    }()
+    
+    @objc
+    private func addProgress() {
+        let angle = circleProgress.angle + 100
+        angleCheck(angle: angle)
+    }
+    
     private let weekChartViewController = WeekChartViewController()
     private let calendarViewController = CalendarViewController()
     weak var chartDelegate: ChartDelegate?
@@ -341,7 +352,7 @@ final class StepsViewController: UIViewController {
             }
             switch result {
             case .success(let update):
-                if self.pedometerService.pedometerCheckForDateChange(newDay: Date()) {
+                if self.currentDay != self.pedometerService.getPedometerOldDate() {
                     self.pedometerService.pedometerStop()
                     self.steps = 0
                     self.distanceKM = 0.0
@@ -390,13 +401,7 @@ final class StepsViewController: UIViewController {
                     }
                     if self.usersGoal.isSteps {
                         let angle = (Double(totalSteps)/Double(self.usersGoal.steps))*360
-                        if angle >= 360 {
-                            self.circleProgress.animate(toAngle: 360, duration: 1, completion: nil)
-                            self.circleProgress.isHidden = true // должен перестать меняться вместо пропадания
-                        } else {
-                            self.circleProgress.isHidden = false
-                            self.circleProgress.animate(toAngle: angle, duration: 1, completion: nil)
-                        }
+                        self.angleCheck(angle: angle)
                     } else {
                         var angle: Double
                         if self.usersGoal.isKM {
@@ -404,15 +409,8 @@ final class StepsViewController: UIViewController {
                         } else {
                             angle = (totalDistanceMI/self.usersGoal.distance)*360
                         }
-                        if angle >= 360 {
-                            self.circleProgress.animate(toAngle: 360, duration: 1, completion: nil)
-                            self.circleProgress.isHidden = true
-                        } else {
-                            self.circleProgress.isHidden = false
-                            self.circleProgress.animate(toAngle: angle, duration: 1, completion: nil)
-                        }
+                        self.angleCheck(angle: angle)
                     }
-//                    print("[STEPVC] STEPS: \(update.steps)")
                         self.updateTodayLabels(lastDay: correctDay)
                 }
             case .failure(let error):
@@ -490,6 +488,7 @@ final class StepsViewController: UIViewController {
     
     private func setupNavigation() {
         self.navigationItem.rightBarButtonItem = settingsButton
+        self.navigationItem.leftBarButtonItem = addProgressButton
     }
     
     private func setupLayout() {
@@ -572,13 +571,16 @@ final class StepsViewController: UIViewController {
             chartView!.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             chartView!.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
-//        chartView!.isUserInteractionEnabled = true
-//        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(chartSwipe))
-//        swipeLeft.direction = .left
-//        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(chartSwipe))
-//        swipeRight.direction = .right
-//        chartView!.addGestureRecognizer(swipeLeft)
-//        chartView!.addGestureRecognizer(swipeRight)
+    }
+
+    private func angleCheck(angle: Double) {
+        if angle >= 360 {
+            self.circleProgress.animate(toAngle: 360, duration: 1) { bool in
+                self.circleProgress.trackColor = StepColor.progress
+            }
+        } else {
+            self.circleProgress.animate(toAngle: angle, duration: 1, completion: nil)
+        }
     }
     
     @objc
@@ -587,14 +589,6 @@ final class StepsViewController: UIViewController {
         vc.delegate = self
         vc.height = weekChartViewController.view.frame.height + view.safeAreaInsets.bottom + 15
         presentPanModal(vc)
-    }
-    @objc
-    private func chartSwipe(sender: UISwipeGestureRecognizer) {
-        switch sender.direction {
-        case .left: swipeLeft()
-        case .right: swipeRight()
-        default: break
-        }
     }
     private func swipeRight() {
         var newDay = Date()

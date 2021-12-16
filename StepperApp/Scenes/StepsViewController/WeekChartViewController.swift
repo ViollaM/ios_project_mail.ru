@@ -14,7 +14,21 @@ protocol ChartDelegate: AnyObject {
 
 final class WeekChartViewController: UIViewController{
     
-    private var week: SteppingWeek?
+    private var week: SteppingWeek = SteppingWeek(steppingDays: [])
+    private var arrayOfWeeks: [SteppingWeek] = []
+    private let countOfWeeks = 3
+    private var previousPage = 0
+    private var oldMonday = Date()
+    private let stepsService: StepsService
+    
+    init(stepsService: StepsService) {
+        self.stepsService = stepsService
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     private lazy var chartsCollectionView: UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()
@@ -31,21 +45,42 @@ final class WeekChartViewController: UIViewController{
         collection.isPagingEnabled = true
         return collection
     }()
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+//        setupArrayOfWeeks()
+        setupLayout()
+        previousPage = chartsCollectionView.numberOfItems(inSection: 0) - 1
+    }
     
-    private var previousPage = 0
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
+    private func moveToTheRightCell() {
         let row = chartsCollectionView.numberOfItems(inSection: 0) - 1
         let newIndexPath = IndexPath(row: row, section: 0)
         chartsCollectionView.selectItem(at: newIndexPath, animated: false, scrollPosition: .left)
     }
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupLayout()
-        previousPage = chartsCollectionView.numberOfItems(inSection: 0) - 1
+    private func setupArrayOfWeeks() {
+        oldMonday = week.steppingDays.first!.date
+        for _ in 1...countOfWeeks {
+            let newMonday = Calendar.iso8601UTC.date(byAdding: .day, value: -7, to: oldMonday)!
+            oldMonday = newMonday
+            stepsService.fetchWeekContains(day: newMonday) { [weak self] result in
+                guard let self = self else {
+                    return
+                }
+                switch result {
+                case .success(let week):
+                    self.arrayOfWeeks.append(week)
+                    DispatchQueue.main.async {
+                        self.chartsCollectionView.reloadData()
+                        self.moveToTheRightCell()
+                    }
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
+        }
     }
-
     private func setupLayout () {
         view.addSubview(chartsCollectionView)
         NSLayoutConstraint.activate([
@@ -55,24 +90,78 @@ final class WeekChartViewController: UIViewController{
             chartsCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
+    
+    private func swipeRight() {
+        var newDay: Date
+        if let firstDay = self.week.steppingDays.first {
+            let firstDate = firstDay.date
+            newDay = Calendar.iso8601UTC.date(byAdding: .day, value: -1, to: firstDate)!
+            didSelect(newDay)
+        }
+    }
+    private func swipeLeft() {
+        var newDay: Date
+        if let lastDay = self.week.steppingDays.last {
+            let lastDate = lastDay.date
+            newDay = Calendar.iso8601UTC.date(byAdding: .day, value: 1, to: lastDate)!
+            if newDay < Date() {
+                didSelect(newDay)
+            }
+        }
+    }
+    
+    private func didSelect(_ date: Date) {
+        stepsService.fetchWeekContains(day: date) { [weak self] result in
+            guard let self = self else {
+                return
+            }
+            switch result {
+            case .success(let week):
+                DispatchQueue.main.async { [weak self] in
+                    guard let self = self else { return }
+//                    self.updateWeekLabels(week: week)
+//                    self.chartDelegate?.updateData(stepWeek: week)
+                    self.week = week
+                    self.chartsCollectionView.reloadData()
+                }
+//                self.selectedWeek = week
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
 }
 
 extension WeekChartViewController: ChartDelegate{
     func updateData(stepWeek: SteppingWeek) {
         week = stepWeek
-        chartsCollectionView.reloadData()
+        arrayOfWeeks.append(week)
+        setupArrayOfWeeks()
+//        chartsCollectionView.reloadData()
+//        moveToTheRightCell()
     }
 }
 
 extension WeekChartViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        52
+        if arrayOfWeeks.count > 0 {
+            return arrayOfWeeks.count
+        } else {
+            return 1
+        }
+//        return 30
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SwipeChartCell", for: indexPath) as? SwipeChartCell {
-            cell.week = week
+            if arrayOfWeeks.count > 1 {
+                cell.week = arrayOfWeeks[countOfWeeks - indexPath.row]
+            } else {
+                cell.week = week
+            }
             return cell
+//            cell.week = week
+//            return cell
         }
         return .init()
     }
@@ -89,8 +178,10 @@ extension WeekChartViewController: UICollectionViewDelegateFlowLayout, UICollect
         let currentPage = Int(scrollView.contentOffset.x) / Int(scrollView.frame.width)
         if currentPage > previousPage {
             print("Swipe left")
+            swipeLeft()
         } else if currentPage < previousPage {
             print("Swipe right")
+            swipeRight()
         }
         previousPage = currentPage
     }

@@ -140,7 +140,7 @@ final class StepsViewController: UIViewController {
         angleCheck(angle: angle)
     }
     
-    private let weekChartViewController = WeekChartViewController()
+    private var weekChartViewController: WeekChartViewController!
     private let calendarViewController = CalendarViewController()
     weak var chartDelegate: ChartDelegate?
     private var selectedWeek = SteppingWeek(steppingDays: [])
@@ -149,6 +149,7 @@ final class StepsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        weekChartViewController = WeekChartViewController(stepsService: stepsService)
         stepsServiceAuth()
         pedometerServiceActivation(lastDay: lastDay)
         setupNavigation()

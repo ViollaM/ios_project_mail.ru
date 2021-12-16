@@ -11,7 +11,7 @@ import FSCalendar
 import PanModal
 
 protocol CalendarDelegate: AnyObject {
-    func didSelect(_ date: Date)
+    func didSelectDay(_ date: Date)
 }
 
 final class CalendarViewController: UIViewController {
@@ -63,7 +63,7 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
     func calendar(_ calendar: FSCalendar, shouldSelect date: Date, at monthPosition: FSCalendarMonthPosition) -> Bool {
         let newDate = date.addingTimeInterval(TimeInterval(TimeZone.current.secondsFromGMT(for: date)))
         if newDate <= Date() {
-            delegate?.didSelect(newDate)
+            delegate?.didSelectDay(newDate)
             return true
         } else {
             return false

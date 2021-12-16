@@ -12,15 +12,21 @@ final class CompetitionViewCell: UICollectionViewCell {
     
     var competition: CompetitionData? {
         didSet {
-            competitionTitleLabel.text = competition?.name
-            competitionTimeLabel.text = currentTime()
-            competitionCurrentLeaderLabel.text = competition?.currentLeader
-            progressBar.progress = Float((competition?.currentValue)! / (competition?.maxValue)!)
-//            print("\(competition?.name) : \(competition?.currentValue) / \(competition?.maxValue)")
-            if (!competition!.isFinished) {
-                isComplete.isHidden = true
-            } else {
-                isComplete.isHidden = false
+            if let competition = competition {
+                competitionTitleLabel.text = competition.name
+                competitionTimeLabel.text = currentTime()
+                competitionCurrentLeaderLabel.text = competition.currentLeader
+                let newprogress =  Float((competition.currentValue) / (competition.maxValue))
+                if progressBar.progress != newprogress{
+                    progressBar.progress = newprogress
+                }
+                //print("\(competition?.name) : \(competition?.currentValue) / \(competition?.maxValue)")
+//                print("\(competition.name) \(progressBar.progress)")
+                if (!competition.isFinished) {
+                    isComplete.isHidden = true
+                } else {
+                    isComplete.isHidden = false
+                }
             }
         }
     }

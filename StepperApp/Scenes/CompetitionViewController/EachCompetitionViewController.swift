@@ -27,6 +27,7 @@ final class EachCompetitionViewController: UIViewController {
                 }
                 
                 progressBar.progress  = Float((competition.currentValue) / (competition.maxValue))
+
                 if competition.isFinished {
                     print("Progress is over 1")
                     progressBar.isHidden = true

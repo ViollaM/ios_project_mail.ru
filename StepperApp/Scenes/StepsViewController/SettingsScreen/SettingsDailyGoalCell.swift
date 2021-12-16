@@ -27,7 +27,12 @@ final class SettingsDailyGoalCell: UICollectionViewCell {
     private lazy var goalCountLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.text = goalStepsCount.formattedWithSeparator
+        if UserDefaults.standard.integer(forKey: "steps_distance") == 0 {
+            label.text = goalStepsCount.formattedWithSeparator
+        } else {
+            label.text = goalDistanceCount.formattedWithSeparator
+
+        }
         label.textColor = StepColor.darkGreen
         label.font = .systemFont(ofSize: 36, weight: .bold)
         label.translatesAutoresizingMaskIntoConstraints = false

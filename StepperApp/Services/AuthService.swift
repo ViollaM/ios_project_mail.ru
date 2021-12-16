@@ -74,7 +74,10 @@ final class AuthServiceImplementation: AuthService {
                             self.db.collection("users").document(result!.user.uid).setData([
                                 "uid": result!.user.uid,
                                 "name": name,
-                                "imageName": defaultImageName
+                                "imageName": defaultImageName,
+                                "steps": 0,
+                                "km": 0,
+                                "miles": 0
                             ]) { (error) in
                                 if error != nil{
                                     completion(error)

@@ -37,6 +37,8 @@ final class EachFriendViewController: UIViewController {
             if let friend = friend {
                 friendsID = friend.id
                 friendsStep = friend.steps
+                friendsKM = friend.km
+                friendsMI = friend.miles
                 nameTitle.text = "Hi! I'm @\(friend.name)"
                 competitionLabel.text = "@\(friend.name)'s competitions:"
             }
@@ -149,7 +151,13 @@ extension EachFriendViewController: UICollectionViewDelegate, UICollectionViewDa
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: FriendsCompetitionsCell.self), for: indexPath) as? FriendsCompetitionsCell {
-            friendsCompetitions[indexPath.row].currentValue = Double(friendsStep)
+            if friendsCompetitions[indexPath.row].isStepsCompetition {
+                friendsCompetitions[indexPath.row].currentValue = Double(friendsStep)
+            } else if friendsCompetitions[indexPath.row].isKM {
+                friendsCompetitions[indexPath.row].currentValue = friendsKM
+            } else {
+                friendsCompetitions[indexPath.row].currentValue = friendsMI
+            }
             cell.competition = friendsCompetitions[indexPath.row]
             cell.numberOfCompetition = indexPath.row + 1
             return cell

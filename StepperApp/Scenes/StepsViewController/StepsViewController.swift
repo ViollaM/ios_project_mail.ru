@@ -27,7 +27,7 @@ final class StepsViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    private var currentDay = Date()
+    private let currentDay = Date()
     private var lastDay = SteppingDay()
     private var usersGoal = Goal()
     private var steps = 0
@@ -353,28 +353,28 @@ final class StepsViewController: UIViewController {
             }
             switch result {
             case .success(let update):
-                if self.currentDay != self.pedometerService.getPedometerOldDate() {
-                    self.pedometerService.pedometerStop()
-                    self.steps = 0
-                    self.distanceKM = 0.0
-                    self.distanceMI = 0.0
-                    var user = self.userOperations.getUser()
-                    user?.steps = 0
-                    user?.miles = 0.0
-                    user?.km = 0.0
-                    self.lastDay.km = 0.0
-                    self.lastDay.miles = 0.0
-                    self.lastDay.steps = 0
-                    self.lastDay.date = Date()
-                    self.userOperations.saveUser(user: user!)
-                    self.usersService.updateUser(user: user!) { error in
-                        if error != nil {
-                            print("Update user error")
-                        }
-                        print("User's steps are updated!")
-                    }
-                    self.pedometerServiceActivation(lastDay: self.lastDay)
-                }
+//                if self.currentDay != self.pedometerService.getPedometerOldDate() {
+//                    self.pedometerService.pedometerStop()
+//                    self.steps = 0
+//                    self.distanceKM = 0.0
+//                    self.distanceMI = 0.0
+//                    var user = self.userOperations.getUser()
+//                    user?.steps = 0
+//                    user?.miles = 0.0
+//                    user?.km = 0.0
+//                    self.lastDay.km = 0.0
+//                    self.lastDay.miles = 0.0
+//                    self.lastDay.steps = 0
+//                    self.lastDay.date = Date()
+//                    self.userOperations.saveUser(user: user!)
+//                    self.usersService.updateUser(user: user!) { error in
+//                        if error != nil {
+//                            print("Update user error")
+//                        }
+//                        print("User's steps are updated!")
+//                    }
+//                    self.pedometerServiceActivation(lastDay: self.lastDay)
+//                }
                 DispatchQueue.main.async { [weak self] in
                     guard let self = self else { return }
                     let pedometerSteps = Int(truncating: update.steps)

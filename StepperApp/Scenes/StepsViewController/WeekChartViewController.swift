@@ -15,8 +15,8 @@ protocol ChartDelegate: AnyObject {
 final class WeekChartViewController: UIViewController{
     
     private var week: SteppingWeek = SteppingWeek(steppingDays: [])
-    private var arrayOfWeeks: [SteppingWeek] = []
-    private let countOfWeeks = 3
+    private let countOfWeeks = 30
+    private var arrayOfWeeks: [SteppingWeek] = Array(repeating: SteppingWeek(steppingDays: []), count: 31)
     private var previousPage = 0
     private var oldMonday = Date()
     private let stepsService: StepsService
@@ -57,11 +57,12 @@ final class WeekChartViewController: UIViewController{
         let row = chartsCollectionView.numberOfItems(inSection: 0) - 1
         let newIndexPath = IndexPath(row: row, section: 0)
         chartsCollectionView.selectItem(at: newIndexPath, animated: false, scrollPosition: .left)
+//        chartsCollectionView.scrollToItem(at: correctIndexPath, at: .left, animated: true)
     }
 
     private func setupArrayOfWeeks() {
         oldMonday = week.steppingDays.first!.date
-        for _ in 1...countOfWeeks {
+        for i in 1...countOfWeeks {
             let newMonday = Calendar.iso8601UTC.date(byAdding: .day, value: -7, to: oldMonday)!
             oldMonday = newMonday
             stepsService.fetchWeekContains(day: newMonday) { [weak self] result in
@@ -70,7 +71,7 @@ final class WeekChartViewController: UIViewController{
                 }
                 switch result {
                 case .success(let week):
-                    self.arrayOfWeeks.append(week)
+                    self.arrayOfWeeks[i] = week
                     DispatchQueue.main.async {
                         self.chartsCollectionView.reloadData()
                         self.moveToTheRightCell()
@@ -135,7 +136,7 @@ final class WeekChartViewController: UIViewController{
 extension WeekChartViewController: ChartDelegate{
     func updateData(stepWeek: SteppingWeek) {
         week = stepWeek
-        arrayOfWeeks.append(week)
+        arrayOfWeeks[0] = week
         setupArrayOfWeeks()
 //        chartsCollectionView.reloadData()
 //        moveToTheRightCell()

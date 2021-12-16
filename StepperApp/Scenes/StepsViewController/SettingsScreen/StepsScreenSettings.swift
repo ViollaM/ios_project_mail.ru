@@ -57,6 +57,11 @@ final class StepsScreenSettings: UIViewController {
 //    }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        let stepGoal = UserDefaults.standard.integer(forKey: "stepsGoal")
+        let dstanceGoal = UserDefaults.standard.double(forKey: "distanceGoal")
+        let isMiles = UserDefaults.standard.bool(forKey: "km_miles")
+        let isDistance = UserDefaults.standard.bool(forKey: "steps_distance")
+        newGoal = Goal(steps: stepGoal, distance: dstanceGoal, isSteps: !isDistance, isKM: !isMiles)
         goalDelegate?.getNewGoal(newGoal: newGoal)
     }
 }

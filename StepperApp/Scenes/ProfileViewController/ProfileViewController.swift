@@ -144,9 +144,12 @@ final class ProfileViewController: UIViewController {
                 switch responseName {
                 case .success:
                     let id = userOperations.getUser()!.id
+                    let steps = userOperations.getUser()!.steps
+                    let km = userOperations.getUser()!.km
+                    let miles = userOperations.getUser()!.miles
                     let gender = Bool(truncating: genderSegmentedControl.selectedSegmentIndex as NSNumber)
                     let img = imageCircle.image
-                    let user = User(id: id, name: name, birthDate: age, isMan: gender, imageName: localImageName)
+                    let user = User(id: id, name: name, birthDate: age, isMan: gender, imageName: localImageName, steps: steps, km: km, miles: miles)
                     usersService.updateUser(user: user) { [weak self] result in
                         guard let self = self else {
                             return

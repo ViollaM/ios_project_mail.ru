@@ -616,7 +616,7 @@ final class StepsViewController: UIViewController {
         vc.goalDelegate = self
         vc.view.backgroundColor = StepColor.background
         vc.navigationController?.navigationBar.tintColor = StepColor.darkGreen
-        UserDefaults.standard.register(defaults: ["stepsGoal": 10000, "distanceGoal": 10])
+//        UserDefaults.standard.register(defaults: ["stepsGoal": 10000, "distanceGoal": 10])
         navigationController?.pushViewController(vc, animated: true)
     }
 }

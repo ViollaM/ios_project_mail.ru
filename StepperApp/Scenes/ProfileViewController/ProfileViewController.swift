@@ -74,10 +74,8 @@ final class ProfileViewController: UIViewController {
         }
         nameTextField.smartInsertDeleteType = .no
         nameTextField.delegate = self
-//        nameTextView.addSubview(nameLabel)
         nameTextView.addSubview(nameTextField)
         
-//        ageTextView.addSubview(ageLabel)
         ageTextView.addSubview(ageTextField)
         
         imageCircleLayout()
@@ -300,33 +298,15 @@ final class ProfileViewController: UIViewController {
     
     private func inTextViewConstraintsName(_ textView: UIView, _ label: UILabel, _ text: UITextField) {
         NSLayoutConstraint.activate([
-//            label.leadingAnchor.constraint(equalTo: textView.leadingAnchor, constant: 32),
-//            label.topAnchor.constraint(equalTo: textView.topAnchor),
-//            label.widthAnchor.constraint(equalToConstant: 59),
-//            label.heightAnchor.constraint(equalToConstant: 43),
-            
             text.trailingAnchor.constraint(equalTo: textView.trailingAnchor, constant: -16),
             text.topAnchor.constraint(equalTo: textView.topAnchor),
             text.leadingAnchor.constraint(equalTo: textView.leadingAnchor, constant: 16),
-//            text.widthAnchor.constraint(equalToConstant: textView.frame.width/2 - 16),
             text.heightAnchor.constraint(equalToConstant: 43),
-
         ])
     }
     
     private func inTextViewConstraintsAge(_ textView: UIView, _ label: UILabel, _ text: UITextField) {
         NSLayoutConstraint.activate([
-//            label.leadingAnchor.constraint(equalTo: textView.leadingAnchor, constant: 32),
-//            label.topAnchor.constraint(equalTo: textView.topAnchor),
-//            label.widthAnchor.constraint(equalToConstant: 135),
-//            label.heightAnchor.constraint(equalToConstant: 43),
-            
-//            text.trailingAnchor.constraint(equalTo: textView.trailingAnchor, constant: -16),
-//            text.topAnchor.constraint(equalTo: textView.topAnchor),
-//            text.leadingAnchor.constraint(equalTo: label.trailingAnchor, constant: 4),
-//            text.widthAnchor.constraint(equalToConstant: textView.frame.width/2 - 46),
-//            text.heightAnchor.constraint(equalToConstant: 43)
-            
             text.trailingAnchor.constraint(equalTo: textView.trailingAnchor, constant: -16),
             text.topAnchor.constraint(equalTo: textView.topAnchor),
             text.leadingAnchor.constraint(equalTo: textView.leadingAnchor, constant: 16),

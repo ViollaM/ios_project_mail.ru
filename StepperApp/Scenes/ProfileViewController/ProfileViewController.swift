@@ -426,24 +426,24 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
         var imageName = UUID().uuidString
         
         imageLoaderService.upload(image: image) { [weak self] result in
-            guard self != nil else {
+            guard let self = self else {
                 return
             }
             switch result{
             case .success(let Id):
                 imageName = Id
+                self.localImageName = imageName
+                let imagePath = self.getDocumentsDirectory().appendingPathComponent(imageName)
+                if let jpegData = image.jpegData(compressionQuality: 0.8){
+                    try? jpegData.write(to: imagePath)
+                    self.imageCircle.image = UIImage(data: jpegData)
+                }
+                self.dismiss(animated: true)
             case.failure(let error):
                 print(error.localizedDescription)
                 return
             }
         }
-        localImageName = imageName
-        let imagePath = getDocumentsDirectory().appendingPathComponent(imageName)
-        if let jpegData = image.jpegData(compressionQuality: 0.8){
-            try? jpegData.write(to: imagePath)
-            imageCircle.image = UIImage(data: jpegData)
-        }
-        dismiss(animated: true)
     }
 }
 

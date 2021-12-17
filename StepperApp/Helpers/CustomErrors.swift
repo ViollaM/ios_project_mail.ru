@@ -30,7 +30,5 @@ extension CustomError: LocalizedError {
         case .friendAlreadyAdded:
             return NSLocalizedString("You have already followed to this user.", comment: "My error")
         }
-        
     }
 }
-

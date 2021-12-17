@@ -121,6 +121,7 @@ final class EachCompetitionViewController: UIViewController {
     
     private lazy var otherParticipantsLabel: UILabel = {
         let label = UILabel()
+        label.isHidden = true
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 20)
         label.textColor = StepColor.progress

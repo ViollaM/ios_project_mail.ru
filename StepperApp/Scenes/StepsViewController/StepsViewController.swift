@@ -178,7 +178,6 @@ final class StepsViewController: UIViewController {
                         correctDay.miles = guardUser.miles
                         week.steppingDays[week.steppingDays.count - 1].miles = guardUser.miles
                     }
-                    print("[HEALTHKIT] Steps: \(correctDay.steps), KM: \(correctDay.km), Miles: \(correctDay.miles)")
                     self.updateTodayLabels(lastDay: correctDay)
                     self.chartDelegate?.updateData(stepWeek: week)
                     if self.usersGoal.isSteps {
@@ -193,16 +192,16 @@ final class StepsViewController: UIViewController {
                         }
                         self.angleCheck(angle: angle)
                     }
+                    self.userOperations.saveUser(user: guardUser)
+                    self.usersService.updateUser(user: guardUser) { error in
+                        if error != nil {
+                            print("Update user error")
+                        }
+                        print("User's steps are updated by healthkit!")
+                    }
                 }
                 self.selectedWeek = week
                 self.lastDay = correctDay
-                self.userOperations.saveUser(user: guardUser)
-                self.usersService.updateUser(user: guardUser) { error in
-                    if error != nil {
-                        print("Update user error")
-                    }
-                    print("User's steps are updated by healthkit!")
-                }
             case .failure(let error):
                 print(error.localizedDescription)
             }

@@ -31,8 +31,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         rootNC.navigationBar.isHidden = true
         window?.rootViewController = rootNC
         window?.makeKeyAndVisible()
-        
-        
         return true
     }
     

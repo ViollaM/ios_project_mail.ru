@@ -22,13 +22,13 @@ final class FriendsListCollectionViewCell: UICollectionViewCell {
                 if let male = user.isMan {
                     genderImage.isHidden = false
                     if male {
-                        let image = UIImage(named: "manSign")
-                        let tintableImage = image?.withRenderingMode(.alwaysTemplate)
+                        let image = UIImage(named: "manSign")!
+                        let tintableImage = image.withRenderingMode(.alwaysTemplate)
                         genderImage.image = tintableImage
                         genderImage.tintColor = .blue
                     } else {
-                        genderImage.image = UIImage(named: "womanSign")!
-                        let tintableImage = image?.withRenderingMode(.alwaysTemplate)
+                        let image = UIImage(named: "womanSign")!
+                        let tintableImage = image.withRenderingMode(.alwaysTemplate)
                         genderImage.image = tintableImage
                         genderImage.tintColor = .systemPink
                     }
@@ -109,7 +109,6 @@ extension FriendsListCollectionViewCell {
             nameLabel.leadingAnchor.constraint(equalTo: avatarImage.trailingAnchor, constant: 22),
             nameLabel.centerYAnchor.constraint(equalTo: avatarImage.centerYAnchor, constant: -8),
             nameLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 1),
-//            nameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -58),
             nameLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 50),
             
             stepsLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
@@ -122,12 +121,10 @@ extension FriendsListCollectionViewCell {
             ageLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 1),
             ageLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 1),
             
-            genderImage.centerXAnchor.constraint(equalTo: avatarImage.trailingAnchor),
-            genderImage.centerYAnchor.constraint(equalTo: avatarImage.bottomAnchor, constant: -4),
-//            genderImage.heightAnchor.constraint(greaterThanOrEqualToConstant: 1),
+            genderImage.centerXAnchor.constraint(equalTo: avatarImage.trailingAnchor, constant: -4),
+            genderImage.centerYAnchor.constraint(equalTo: avatarImage.bottomAnchor, constant: -8),
             genderImage.heightAnchor.constraint(equalToConstant: 25),
             genderImage.widthAnchor.constraint(equalToConstant: 25)
-//            genderImage.widthAnchor.constraint(greaterThanOrEqualToConstant: 1)
         ])
     }
     

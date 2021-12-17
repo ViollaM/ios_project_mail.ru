@@ -20,8 +20,6 @@ final class CompetitionViewCell: UICollectionViewCell {
                 if progressBar.progress != newprogress{
                     progressBar.progress = newprogress
                 }
-                //print("\(competition?.name) : \(competition?.currentValue) / \(competition?.maxValue)")
-//                print("\(competition.name) \(progressBar.progress)")
                 if (!competition.isFinished) {
                     isComplete.isHidden = true
                 } else {
@@ -50,6 +48,7 @@ final class CompetitionViewCell: UICollectionViewCell {
     
     private lazy var competitionLeaderLabel: UILabel = {
         let leader = UILabel()
+        leader.isHidden = true
         leader.translatesAutoresizingMaskIntoConstraints = false
         leader.font = .systemFont(ofSize: 16, weight: .bold)
         leader.text = "Leader: "
@@ -58,6 +57,7 @@ final class CompetitionViewCell: UICollectionViewCell {
     
     private lazy var competitionCurrentLeaderLabel: UILabel = {
         let current = UILabel()
+        current.isHidden = true
         current.translatesAutoresizingMaskIntoConstraints = false
         current.font = .systemFont(ofSize: 16)
         current.text = "@max"

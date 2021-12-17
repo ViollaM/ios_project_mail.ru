@@ -157,25 +157,6 @@ final class WeekChartViewController: UIViewController{
         ])
     }
     
-    private func swipeRight() {
-        var newDay: Date
-        if let firstDay = self.week.steppingDays.first {
-            let firstDate = firstDay.date
-            newDay = Calendar.iso8601UTC.date(byAdding: .day, value: -1, to: firstDate)!
-            didSelect(newDay)
-        }
-    }
-    private func swipeLeft() {
-        var newDay: Date
-        if let lastDay = self.week.steppingDays.last {
-            let lastDate = lastDay.date
-            newDay = Calendar.iso8601UTC.date(byAdding: .day, value: 1, to: lastDate)!
-            if newDay < Date() {
-                didSelect(newDay)
-            }
-        }
-    }
-    
     private func updateWeekLabels(week: SteppingWeek) {
         let firstDateFormatter = DateFormatter()
         let lastDateFormatter = DateFormatter()
@@ -223,7 +204,7 @@ final class WeekChartViewController: UIViewController{
     private func dateLabelTap() {
         let vc = CalendarViewController()
         vc.delegate = self
-        vc.height = view.frame.height + view.safeAreaInsets.bottom + 15
+        vc.height = view.frame.height + view.safeAreaInsets.bottom + 45
         presentPanModal(vc)
     }
 }
@@ -271,10 +252,8 @@ extension WeekChartViewController: UICollectionViewDelegateFlowLayout, UICollect
         updateWeekLabels(week: arrayOfWeeks[countOfWeeks - currentPage])
         if currentPage > previousPage {
             print("Swipe left")
-            swipeLeft()
         } else if currentPage < previousPage {
             print("Swipe right")
-            swipeRight()
         }
         previousPage = currentPage
     }

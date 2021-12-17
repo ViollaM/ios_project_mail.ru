@@ -14,9 +14,7 @@ final class CompetitionViewController: UIViewController {
     private var competitions: [CompetitionData] = CompetitionsState.current.fetch()
     private var steps = 0
     private var distanceKM: Double = 0
-    private var distanceMI: Double {
-        return distanceKM * 1.60934
-    }
+    private var distanceMI: Double = 0
     var timer = Timer()
     
     private let stepsService: StepsService
@@ -85,11 +83,14 @@ final class CompetitionViewController: UIViewController {
                     if let day = week.steppingDays.last {
                         self.steps = day.steps
                         self.distanceKM = day.km
+                        self.distanceMI = day.miles
                         for i in 0..<allCompetitions.count {
                             if allCompetitions[i].isStepsCompetition {
                                 allCompetitions[i].currentValue = Double(self.steps)
-                            } else {
+                            } else if allCompetitions[i].isKM {
                                 allCompetitions[i].currentValue = self.distanceKM
+                            } else {
+                                allCompetitions[i].currentValue = self.distanceMI
                             }
                         }
                         self.competitions = CompetitionsState.current.fetch()
@@ -110,17 +111,24 @@ final class CompetitionViewController: UIViewController {
             case .success(let update):
                 DispatchQueue.main.async { [weak self] in
                     guard let self = self else { return }
-                    let pedometerDistance = Double(truncating: update.distance) / 1000
+//                    let pedometerDistance = Double(truncating: update.distance) / 1000
+//                    let pedometerSteps = Int(truncating: update.steps)
+//                    let totalSteps = self.steps + pedometerSteps
+//                    let totalDistance = self.distanceKM + pedometerDistance
                     let pedometerSteps = Int(truncating: update.steps)
+                    let pedometerDistanceKM = Double(truncating: update.distance) / 1000
+                    let pedometerDistanceMI = Double(truncating: update.distance) / 1609.34
                     let totalSteps = self.steps + pedometerSteps
-                    let totalDistance = self.distanceKM + pedometerDistance
+                    let totalDistanceKM = self.distanceKM + pedometerDistanceKM
+                    let totalDistanceMI = self.distanceMI + pedometerDistanceMI
                     for i in 0..<allCompetitions.count {
                         if allCompetitions[i].isStepsCompetition {
                             allCompetitions[i].currentValue = Double(totalSteps)
+                        } else if allCompetitions[i].isKM {
+                            allCompetitions[i].currentValue = totalDistanceKM
                         } else {
-                            allCompetitions[i].currentValue = totalDistance
-                        }
-                    }
+                            allCompetitions[i].currentValue = totalDistanceMI
+                        }                    }
                     self.competitions = CompetitionsState.current.fetch()
                 }
             case .failure(let error):

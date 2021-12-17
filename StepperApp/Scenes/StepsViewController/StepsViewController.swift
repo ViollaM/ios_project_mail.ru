@@ -100,59 +100,11 @@ final class StepsViewController: UIViewController {
         label.textColor = StepColor.darkGreen
         return label
     }()
-//    private lazy var weekInfoView: UIView = {
-//        let view = UIView()
-//        view.translatesAutoresizingMaskIntoConstraints = false
-//        view.backgroundColor = StepColor.cellBackground.withAlphaComponent(0.8)
-//        view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-//        view.layer.cornerRadius = 12
-//        return view
-//    }()
-//    private lazy var weekTotalSteps: UILabel = {
-//        let label = UILabel()
-//        label.translatesAutoresizingMaskIntoConstraints = false
-//        label.textAlignment = .left
-//        label.textColor = StepColor.weekTotalAndAverage
-//        label.font = .systemFont(ofSize: 16, weight: .regular)
-//        return label
-//    }()
-//    private lazy var weekAverageSteps: UILabel = {
-//        let label = UILabel()
-//        label.translatesAutoresizingMaskIntoConstraints = false
-//        label.textAlignment = .left
-//        label.textColor = StepColor.weekTotalAndAverage
-//        label.font = .systemFont(ofSize: 16, weight: .regular)
-//        return label
-//    }()
-//    private lazy var weekDaysRange: UILabel = {
-//        let label = UILabel()
-//        label.translatesAutoresizingMaskIntoConstraints = false
-//        label.textAlignment = .center
-//        label.textColor = StepColor.weekRange
-//        label.font = .systemFont(ofSize: 22, weight: .semibold)
-//        label.clipsToBounds = true
-//        label.layer.cornerRadius = 10
-//        label.isUserInteractionEnabled = true
-//        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dateLabelTap))
-//        label.addGestureRecognizer(tapGesture)
-//        return label
-//    }()
     private lazy var settingsButton: UIBarButtonItem = {
         let button = UIBarButtonItem(image: UIImage(systemName: "gearshape.fill"), style: .plain, target: self, action: #selector(settingsButtonPressed))
         button.tintColor = StepColor.darkGreen
         return button
     }()
-    private lazy var addProgressButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(addProgress))
-        button.tintColor = StepColor.darkGreen
-        return button
-    }()
-    
-    @objc
-    private func addProgress() {
-        let angle = circleProgress.angle + 100
-        angleCheck(angle: angle)
-    }
     
     private var weekChartViewController: WeekChartViewController!
     private let calendarViewController = CalendarViewController()
@@ -179,7 +131,6 @@ final class StepsViewController: UIViewController {
             switch result {
             case .success(let result):
                 if result {
-                    //                    self.loadWeekData()
                     self.loadContainsWeek(day: Date())
                 } else {
                     print("Alert! Give us permission!")
@@ -229,35 +180,18 @@ final class StepsViewController: UIViewController {
                     }
                     print("[HEALTHKIT] Steps: \(correctDay.steps), KM: \(correctDay.km), Miles: \(correctDay.miles)")
                     self.updateTodayLabels(lastDay: correctDay)
-//                    self.updateWeekLabels(week: week)
                     self.chartDelegate?.updateData(stepWeek: week)
                     if self.usersGoal.isSteps {
                         let angle = (Double(correctDay.steps)/Double(self.usersGoal.steps))*360
-                        if angle >= 360 {
-                            self.circleProgress.animate(toAngle: 360, duration: 1, completion: nil)
-                            self.circleProgress.isHidden = true // должен перестать меняться вместо пропадания
-                        } else {
-                            self.circleProgress.isHidden = false
-                            self.circleProgress.animate(toAngle: angle, duration: 1, completion: nil)
-                        }
-                    } else if self.usersGoal.isKM {
-                        let angle = (correctDay.km/self.usersGoal.distance)*360
-                        if angle >= 360 {
-                            self.circleProgress.animate(toAngle: 360, duration: 1, completion: nil)
-                            self.circleProgress.isHidden = true
-                        } else {
-                            self.circleProgress.isHidden = false
-                            self.circleProgress.animate(toAngle: angle, duration: 1, completion: nil)
-                        }
+                        self.angleCheck(angle: angle)
                     } else {
-                        let angle = (correctDay.miles/self.usersGoal.distance)*360
-                        if angle >= 360 {
-                            self.circleProgress.animate(toAngle: 360, duration: 1, completion: nil)
-                            self.circleProgress.isHidden = true
+                        var angle: Double
+                        if self.usersGoal.isKM {
+                            angle = (correctDay.km/self.usersGoal.distance)*360
                         } else {
-                            self.circleProgress.isHidden = false
-                            self.circleProgress.animate(toAngle: angle, duration: 1, completion: nil)
+                            angle = (correctDay.miles/self.usersGoal.distance)*360
                         }
+                        self.angleCheck(angle: angle)
                     }
                 }
                 self.selectedWeek = week
@@ -313,37 +247,19 @@ final class StepsViewController: UIViewController {
                         correctDay.miles = guardUser.miles
                         week.steppingDays[week.steppingDays.count - 1].miles = guardUser.miles
                     }
-                    print("[HEALTHKIT] Steps: \(correctDay.steps), KM: \(correctDay.km), Miles: \(correctDay.miles)")
                     self.updateTodayLabels(lastDay: correctDay)
-//                    self.updateWeekLabels(week: week)
                     self.chartDelegate?.updateData(stepWeek: week)
                     if self.usersGoal.isSteps {
                         let angle = (Double(correctDay.steps)/Double(self.usersGoal.steps))*360
-                        if angle >= 360 {
-                            self.circleProgress.animate(toAngle: 360, duration: 1, completion: nil)
-                            self.circleProgress.isHidden = true // должен перестать меняться вместо пропадания
-                        } else {
-                            self.circleProgress.isHidden = false
-                            self.circleProgress.animate(toAngle: angle, duration: 1, completion: nil)
-                        }
-                    } else if self.usersGoal.isKM {
-                        let angle = (correctDay.km/self.usersGoal.distance)*360
-                        if angle >= 360 {
-                            self.circleProgress.animate(toAngle: 360, duration: 1, completion: nil)
-                            self.circleProgress.isHidden = true
-                        } else {
-                            self.circleProgress.isHidden = false
-                            self.circleProgress.animate(toAngle: angle, duration: 1, completion: nil)
-                        }
+                        self.angleCheck(angle: angle)
                     } else {
-                        let angle = (correctDay.miles/self.usersGoal.distance)*360
-                        if angle >= 360 {
-                            self.circleProgress.animate(toAngle: 360, duration: 1, completion: nil)
-                            self.circleProgress.isHidden = true
+                        var angle: Double
+                        if self.usersGoal.isKM {
+                            angle = (correctDay.km/self.usersGoal.distance)*360
                         } else {
-                            self.circleProgress.isHidden = false
-                            self.circleProgress.animate(toAngle: angle, duration: 1, completion: nil)
+                            angle = (correctDay.miles/self.usersGoal.distance)*360
                         }
+                        self.angleCheck(angle: angle)
                     }
                 }
                 self.selectedWeek = week
@@ -402,8 +318,6 @@ final class StepsViewController: UIViewController {
                     correctDay.steps = totalSteps
                     correctDay.miles = totalDistanceMI
                     correctDay.km = totalDistanceKM
-                    print("[PEDOMETER UPDATE] Steps: \(pedometerSteps), KM: \(pedometerDistanceKM), MI: \(pedometerDistanceMI)")
-                    print("[AFTER PEDOMETER UPDATE] Steps: \(correctDay.steps), KM: \(correctDay.km), Miles: \(correctDay.miles)")
                     user?.steps = totalSteps
                     user?.miles = totalDistanceMI
                     user?.km = totalDistanceKM
@@ -437,7 +351,6 @@ final class StepsViewController: UIViewController {
         if usersGoal.isSteps {
             stepIcon.isHidden = false
             distanceLabel.isHidden = false
-            //            stepsCountLabel.text = "\(steps)"
             stepsCountLabel.text = "\(lastDay.steps)"
             let fullString = NSMutableAttributedString(string: "")
             let imageAttachment = NSTextAttachment()
@@ -448,11 +361,9 @@ final class StepsViewController: UIViewController {
             fullString.append(.init(string: " "))
             var roundedDistance: String
             if usersGoal.isKM {
-                //                roundedDistance = String(format: "%.01f", distanceKM)
                 roundedDistance = String(format: "%.01f", lastDay.km)
                 fullString.append(NSAttributedString(string: "\(roundedDistance) km"))
             } else {
-                //                roundedDistance = String(format: "%.01f", distanceMI)
                 roundedDistance = String(format: "%.01f", lastDay.miles)
                 fullString.append(NSAttributedString(string: "\(roundedDistance) mi"))
             }
@@ -464,59 +375,27 @@ final class StepsViewController: UIViewController {
             var roundedDistance: String
             if usersGoal.isKM {
                 roundedDistance = String(format: "%.01f", lastDay.km)
-                //                roundedDistance = String(format: "%.01f", distanceKM)
                 goalLabel.text = "Goal: \(usersGoal.distance) km"
                 stepsCountLabel.text = roundedDistance
             } else {
                 roundedDistance = String(format: "%.01f", lastDay.miles)
-                //                roundedDistance = String(format: "%.01f", distanceMI)
                 goalLabel.text = "Goal: \(usersGoal.distance) mi"
                 stepsCountLabel.text = roundedDistance
             }
         }
     }
-    
-//    private func updateWeekLabels(week: SteppingWeek) {
-//        let firstDateFormatter = DateFormatter()
-//        let lastDateFormatter = DateFormatter()
-//        lastDateFormatter.dateFormat = "d MMM yyyy"
-//        let first = week.steppingDays.first ?? SteppingDay()
-//        let last = week.steppingDays.last ?? SteppingDay()
-//        if Calendar.iso8601UTC.component(.month, from: first.date) == Calendar.iso8601UTC.component(.month, from: last.date) {
-//            firstDateFormatter.dateFormat = "d"
-//            weekDaysRange.widthAnchor.constraint(greaterThanOrEqualToConstant: 160).isActive = true
-//        } else if Calendar.iso8601UTC.component(.year, from: first.date) == Calendar.iso8601UTC.component(.year, from: last.date) {
-//            firstDateFormatter.dateFormat = "d MMM"
-//            weekDaysRange.widthAnchor.constraint(greaterThanOrEqualToConstant: 200).isActive = true
-//        } else {
-//            firstDateFormatter.dateFormat = "d MMM yyyy"
-//            weekDaysRange.widthAnchor.constraint(greaterThanOrEqualToConstant: 250).isActive = true
-//        }
-//        let firstDay = firstDateFormatter.string(from: first.date)
-//        let lastDay = lastDateFormatter.string(from: last.date)
-//        weekDaysRange.text = "\(firstDay) - \(lastDay)"
-//        self.total = week.totalStepsForWeek
-//        weekTotalSteps.text = "Total: \(total)"
-//        self.averageSteps = week.averageStepsForWeek
-//        weekAverageSteps.text = "Average: \(averageSteps)"
-//    }
-    
+
     private func setupNavigation() {
         self.navigationItem.rightBarButtonItem = settingsButton
-        self.navigationItem.leftBarButtonItem = addProgressButton
     }
     
     private func setupLayout() {
         [stepsCountLabel, distanceLabel, goalLabel, stepIcon].forEach {
             circleStepContainerView.addSubview($0)
         }
-//        [weekTotalSteps, weekAverageSteps, weekDaysRange].forEach {
-//            weekInfoView.addSubview($0)
-//        }
         [circleStepContainerView,  circleProgress].forEach {
             view.addSubview($0)
         }
-        
         NSLayoutConstraint.activate([
             circleStepContainerView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -view.center.y * 0.55),
             circleStepContainerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -547,25 +426,6 @@ final class StepsViewController: UIViewController {
             distanceLabel.topAnchor.constraint(equalTo: goalLabel.bottomAnchor, constant: widthOfUIElements * 0.04),
             distanceLabel.widthAnchor.constraint(equalTo: circleStepContainerView.widthAnchor, multiplier: 0.5),
             distanceLabel.heightAnchor.constraint(equalTo: goalLabel.heightAnchor),
-            
-//            weekInfoView.topAnchor.constraint(equalTo: circleStepContainerView.bottomAnchor, constant: 130),
-//            weekInfoView.heightAnchor.constraint(equalToConstant: 50),
-//            weekInfoView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-//            weekInfoView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-//
-//            weekDaysRange.centerYAnchor.constraint(equalTo: weekAverageSteps.centerYAnchor, constant: -16),
-//            weekDaysRange.trailingAnchor.constraint(equalTo: weekInfoView.trailingAnchor, constant: -8),
-//            weekDaysRange.heightAnchor.constraint(equalToConstant: 24),
-//
-//            weekTotalSteps.topAnchor.constraint(equalTo: weekInfoView.topAnchor, constant: 4),
-//            weekTotalSteps.leadingAnchor.constraint(equalTo: weekInfoView.leadingAnchor, constant: 8),
-//            weekTotalSteps.trailingAnchor.constraint(equalTo: weekInfoView.trailingAnchor),
-//            weekTotalSteps.heightAnchor.constraint(equalToConstant: 20),
-//
-//            weekAverageSteps.topAnchor.constraint(equalTo: weekTotalSteps.bottomAnchor, constant: 2),
-//            weekAverageSteps.leadingAnchor.constraint(equalTo: weekInfoView.leadingAnchor, constant: 8),
-//            weekAverageSteps.trailingAnchor.constraint(equalTo: weekInfoView.trailingAnchor),
-//            weekAverageSteps.heightAnchor.constraint(equalToConstant: 20),
         ])
     }
     
@@ -581,8 +441,7 @@ final class StepsViewController: UIViewController {
         let chartView = weekChartViewController.view
         chartView?.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            //chartView!.topAnchor.constraint(equalTo: weekInfoView.bottomAnchor),
-            chartView!.topAnchor.constraint(equalTo: circleStepContainerView.bottomAnchor, constant: 180),
+            chartView!.topAnchor.constraint(equalTo: circleStepContainerView.bottomAnchor, constant: 160),
             chartView!.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             chartView!.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             chartView!.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
@@ -599,69 +458,20 @@ final class StepsViewController: UIViewController {
         }
     }
     
-//    @objc
-//    private func dateLabelTap() {
-//        let vc = CalendarViewController()
-//        vc.delegate = self
-//        vc.height = weekChartViewController.view.frame.height + view.safeAreaInsets.bottom + 15
-//        presentPanModal(vc)
-//    }
-//    private func swipeRight() {
-//        var newDay = Date()
-//        if let firstDay = self.selectedWeek.steppingDays.first {
-//            let firstDate = firstDay.date
-//            newDay = Calendar.iso8601UTC.date(byAdding: .day, value: -1, to: firstDate)!
-//        }
-//        didSelectDay(newDay)
-//    }
-//    private func swipeLeft() {
-//        var newDay = Date()
-//        if let lastDay = self.selectedWeek.steppingDays.last {
-//            let lastDate = lastDay.date
-//            newDay = Calendar.iso8601UTC.date(byAdding: .day, value: 1, to: lastDate)!
-//            if newDay < Date() {
-//                didSelectDay(newDay)
-//            }
-//        }
-//    }
-    
     @objc
     private func settingsButtonPressed() {
         let vc = StepsScreenSettings()
         vc.goalDelegate = self
         vc.view.backgroundColor = StepColor.background
         vc.navigationController?.navigationBar.tintColor = StepColor.darkGreen
-        //        UserDefaults.standard.register(defaults: ["stepsGoal": 10000, "distanceGoal": 10])
         navigationController?.pushViewController(vc, animated: true)
     }
 }
-
-//extension StepsViewController: CalendarDelegate {
-//    func didSelectDay(_ date: Date) {
-//        stepsService.fetchWeekContains(day: date) { [weak self] result in
-//            guard let self = self else {
-//                return
-//            }
-//            switch result {
-//            case .success(let week):
-//                DispatchQueue.main.async { [weak self] in
-//                    guard let self = self else { return }
-//                    self.updateWeekLabels(week: week)
-//                    self.chartDelegate?.updateData(stepWeek: week)
-//                }
-//                self.selectedWeek = week
-//            case .failure(let error):
-//                print(error.localizedDescription)
-//            }
-//        }
-//    }
-//}
 
 extension StepsViewController: GoalDelegate {
     func getNewGoal(newGoal: Goal) {
         if usersGoal != newGoal {
             usersGoal = newGoal
-            //            loadWeekData()
             loadContainsWeek(day: Date())
             pedometerService.pedometerStop()
             pedometerServiceActivation(lastDay: lastDay)

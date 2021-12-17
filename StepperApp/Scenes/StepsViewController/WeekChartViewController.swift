@@ -88,7 +88,6 @@ final class WeekChartViewController: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //        setupArrayOfWeeks()
         setupLayout()
         previousPage = chartsCollectionView.numberOfItems(inSection: 0) - 1
     }
@@ -152,7 +151,6 @@ final class WeekChartViewController: UIViewController{
             weekAverageSteps.heightAnchor.constraint(equalToConstant: 20),
 
             chartsCollectionView.topAnchor.constraint(equalTo: weekInfoView.bottomAnchor),
-//            chartsCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             chartsCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             chartsCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             chartsCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
@@ -212,12 +210,9 @@ final class WeekChartViewController: UIViewController{
             case .success(let week):
                 DispatchQueue.main.async { [weak self] in
                     guard let self = self else { return }
-                    //                    self.updateWeekLabels(week: week)
-                    //                    self.chartDelegate?.updateData(stepWeek: week)
                     self.week = week
                     self.chartsCollectionView.reloadData()
                 }
-                //                self.selectedWeek = week
             case .failure(let error):
                 print(error.localizedDescription)
             }
@@ -239,8 +234,6 @@ extension WeekChartViewController: ChartDelegate{
         arrayOfWeeks[0] = week
         updateWeekLabels(week: week)
         setupArrayOfWeeks()
-        //        chartsCollectionView.reloadData()
-        //        moveToTheRightCell()
     }
 }
 
@@ -251,7 +244,6 @@ extension WeekChartViewController: UICollectionViewDelegateFlowLayout, UICollect
         } else {
             return 1
         }
-        //        return 30
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -262,8 +254,6 @@ extension WeekChartViewController: UICollectionViewDelegateFlowLayout, UICollect
                 cell.week = week
             }
             return cell
-            //            cell.week = week
-            //            return cell
         }
         return .init()
     }
@@ -306,7 +296,3 @@ extension WeekChartViewController: CalendarDelegate {
         }
     }
 }
-
-
-
-

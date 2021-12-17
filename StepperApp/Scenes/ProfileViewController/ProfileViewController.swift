@@ -72,7 +72,8 @@ final class ProfileViewController: UIViewController {
         [nameTextView, ageTextView, imageCircle, logoutButton, genderSegmentedControl].forEach {
             view.addSubview($0)
         }
-        
+        nameTextField.smartInsertDeleteType = .no
+        nameTextField.delegate = self
 //        nameTextView.addSubview(nameLabel)
         nameTextView.addSubview(nameTextField)
         
@@ -444,5 +445,17 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
         }
         dismiss(animated: true)
     }
+}
+
+extension ProfileViewController: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+            guard let textFieldText = textField.text,
+                let rangeOfTextToReplace = Range(range, in: textFieldText) else {
+                    return false
+            }
+            let substringToReplace = textFieldText[rangeOfTextToReplace]
+            let count = textFieldText.count - substringToReplace.count + string.count
+            return count <= 10
+        }
 }
 

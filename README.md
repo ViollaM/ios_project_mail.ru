@@ -1,3 +1,4 @@
+xfun::embed_file("https://github.com/ViollaM/ios_project_mail.ru/files/7888475/Logo_Design.pdf")
 [Logo_Design.pdf](https://github.com/ViollaM/ios_project_mail.ru/files/7888475/Logo_Design.pdf)
 Stepper Application
 

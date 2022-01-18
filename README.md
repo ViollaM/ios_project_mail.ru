@@ -1,12 +1,9 @@
+# Stepper Application
 <img src="https://user-images.githubusercontent.com/84673954/149951390-43ef051f-c068-4ccf-a338-57cca31d5524.png" width="800" height="450">
-Stepper Application
+## This app will show how many steps you did today. Compete with your friends.
 
-This app will show how many steps you did today. Compete with your friends.
-
-- Create your account or simply log in!
-![Simulator Screen Shot - iPhone 12 mini - 2022-01-18 at 13 49 25](https://user-images.githubusercontent.com/84673954/149925522-d132a67c-ea8a-4b17-b02c-fb1ca3a47a02.png)
-![IMAGE 2022-01-18 13:53:03](https://user-images.githubusercontent.com/84673954/149925543-ac3bbc32-20eb-445f-ae8d-9cd670db5fd1.jpg)
-![IMAGE 2022-01-18 13:53:06](https://user-images.githubusercontent.com/84673954/149925547-e3744fb8-711e-44e7-9044-05bc1408f0d1.jpg)
+### - Create your account or simply log in!
+<img src="https://user-images.githubusercontent.com/84673954/149925522-d132a67c-ea8a-4b17-b02c-fb1ca3a47a02.png" width="350" height="800"><img src="https://user-images.githubusercontent.com/84673954/149925543-ac3bbc32-20eb-445f-ae8d-9cd670db5fd1.jpg" width="350" height="800"><img src="https://user-images.githubusercontent.com/84673954/149925547-e3744fb8-711e-44e7-9044-05bc1408f0d1.jpg" width="350" height="800">
 
 - Track your goal progress, set your own goal and explore your week statistics!
 ![IMAGE 2022-01-18 13:53:09](https://user-images.githubusercontent.com/84673954/149926387-033a7311-97c7-4a19-9627-0d50344c6cc6.jpg)

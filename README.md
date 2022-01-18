@@ -1,5 +1,5 @@
-xfun::embed_file("https://github.com/ViollaM/ios_project_mail.ru/files/7888475/Logo_Design.pdf")
-[Logo_Design.pdf](https://github.com/ViollaM/ios_project_mail.ru/files/7888475/Logo_Design.pdf)
+![Logo](https://user-images.githubusercontent.com/84673954/149951390-43ef051f-c068-4ccf-a338-57cca31d5524.png =800x450)
+
 Stepper Application
 
 This app will show how many steps you did today. Compete with your friends.

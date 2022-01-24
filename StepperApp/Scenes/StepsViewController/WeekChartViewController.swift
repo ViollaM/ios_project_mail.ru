@@ -99,7 +99,7 @@ final class WeekChartViewController: UIViewController{
     }
     
     private func setupArrayOfWeeks() {
-        oldMonday = week.steppingDays.first!.date
+        oldMonday = week.steppingDays.first?.date ?? Date()
         for i in 1...countOfWeeks {
             let newMonday = Calendar.iso8601UTC.date(byAdding: .day, value: -7, to: oldMonday)!
             oldMonday = newMonday

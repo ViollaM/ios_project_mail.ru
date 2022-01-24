@@ -329,7 +329,7 @@ final class ProfileViewController: UIViewController {
             ageTextField.text = String(ConvertBrithDayToAge(birthDate: date))
         }
         if let isMan = userOperations.getUser()?.isMan {
-            genderSegmentedControl.selectedSegmentIndex = isMan ? 1 : 0
+            genderSegmentedControl.selectedSegmentIndex = isMan ? 0 : 1
         }
         
        

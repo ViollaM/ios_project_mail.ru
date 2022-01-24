@@ -27,7 +27,6 @@ final class StepsViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    private let currentDay = Date()
     private var lastDay = SteppingDay()
     private var usersGoal: Goal = {
         var stepGoal = UserDefaults.standard.integer(forKey: "stepsGoal")
@@ -146,38 +145,20 @@ final class StepsViewController: UIViewController {
                 return
             }
             switch result {
-            case .success(var week):
+            case .success(let week):
                 self.circleProgress.angle = 0
                 let lastDay = week.steppingDays.last ?? SteppingDay()
                 let user = self.userOperations.getUser()
-                var correctDay = lastDay
+                let correctDay = lastDay
                 guard var guardUser = user else { return }
                 DispatchQueue.main.async { [weak self] in
                     guard let self = self else { return }
-                    if guardUser.steps < lastDay.steps {
                         self.steps = lastDay.steps
                         guardUser.steps = lastDay.steps
-                    } else {
-                        self.steps = guardUser.steps
-                        correctDay.steps = guardUser.steps
-                        week.steppingDays[week.steppingDays.count - 1].steps = guardUser.steps
-                    }
-                    if guardUser.km < lastDay.km {
                         self.distanceKM = lastDay.km
                         guardUser.km = lastDay.km
-                    } else {
-                        self.distanceKM = guardUser.km
-                        correctDay.km = guardUser.km
-                        week.steppingDays[week.steppingDays.count - 1].km = guardUser.km
-                    }
-                    if guardUser.miles < lastDay.miles {
                         self.distanceMI = lastDay.miles
                         guardUser.miles = lastDay.miles
-                    } else {
-                        self.distanceMI = guardUser.miles
-                        correctDay.miles = guardUser.miles
-                        week.steppingDays[week.steppingDays.count - 1].miles = guardUser.miles
-                    }
                     self.updateTodayLabels(lastDay: correctDay)
                     self.chartDelegate?.updateData(stepWeek: week)
                     if self.usersGoal.isSteps {
@@ -215,28 +196,6 @@ final class StepsViewController: UIViewController {
             }
             switch result {
             case .success(let update):
-                //                if self.currentDay != self.pedometerService.getPedometerOldDate() {
-                //                    self.pedometerService.pedometerStop()
-                //                    self.steps = 0
-                //                    self.distanceKM = 0.0
-                //                    self.distanceMI = 0.0
-                //                    var user = self.userOperations.getUser()
-                //                    user?.steps = 0
-                //                    user?.miles = 0.0
-                //                    user?.km = 0.0
-                //                    self.lastDay.km = 0.0
-                //                    self.lastDay.miles = 0.0
-                //                    self.lastDay.steps = 0
-                //                    self.lastDay.date = Date()
-                //                    self.userOperations.saveUser(user: user!)
-                //                    self.usersService.updateUser(user: user!) { error in
-                //                        if error != nil {
-                //                            print("Update user error")
-                //                        }
-                //                        print("User's steps are updated!")
-                //                    }
-                //                    self.pedometerServiceActivation(lastDay: self.lastDay)
-                //                }
                 DispatchQueue.main.async { [weak self] in
                     guard let self = self else { return }
                     let pedometerSteps = Int(truncating: update.steps)

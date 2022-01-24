@@ -246,18 +246,6 @@ extension WeekChartViewController: UICollectionViewDelegateFlowLayout, UICollect
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         0
     }
-    
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        let currentPage = Int(scrollView.contentOffset.x) / Int(scrollView.frame.width)
-        updateWeekLabels(week: arrayOfWeeks[countOfWeeks - currentPage])
-        if currentPage > previousPage {
-            print("Swipe left")
-        } else if currentPage < previousPage {
-            print("Swipe right")
-        }
-        previousPage = currentPage
-    }
-    
 }
 
 

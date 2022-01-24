@@ -22,14 +22,12 @@ protocol PedometerService {
     func updateStepsAndDistance(completion: @escaping (Result<PedometerData, Error>) -> Void)
     func updateStepsAndDistanceForCompetitions(completion: @escaping (Result<PedometerData, Error>) -> Void)
     func pedometerStop()
-    func getPedometerOldDate() -> Date
 }
 
 final class PedometerServiceImplementation: PedometerService {
     
     private let stepScreenPedometer = CMPedometer()
     private let competitionScreenPedometer = CMPedometer()
-    private var currentDate = Date()
     
     func updateStepsAndDistance(completion: @escaping (Result<PedometerData, Error>) -> Void) {
         var steps: NSNumber = 0
@@ -44,7 +42,6 @@ final class PedometerServiceImplementation: PedometerService {
                     distance = response.distance ?? 0
                     steps = response.numberOfSteps
                 }
-                self.currentDate = Date()
                 completion(.success(PedometerData(steps: steps, distance: distance)))
             })
         } else {
@@ -65,7 +62,6 @@ final class PedometerServiceImplementation: PedometerService {
                     distance = response.distance ?? 0
                     steps = response.numberOfSteps
                 }
-                self.currentDate = Date()
                 completion(.success(PedometerData(steps: steps, distance: distance)))
             })
         } else {
@@ -75,9 +71,5 @@ final class PedometerServiceImplementation: PedometerService {
     
     func pedometerStop() {
         stepScreenPedometer.stopUpdates()
-    }
-    
-    func getPedometerOldDate() -> Date {
-        return currentDate
     }
 }

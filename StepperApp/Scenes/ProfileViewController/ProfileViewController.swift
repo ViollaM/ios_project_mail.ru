@@ -332,7 +332,6 @@ final class ProfileViewController: UIViewController {
             genderSegmentedControl.selectedSegmentIndex = isMan ? 0 : 1
         }
         
-       
         let imageName = userOperations.getUser()?.imageName
         if imageName != nil {
             localImageName = imageName!
@@ -345,8 +344,15 @@ final class ProfileViewController: UIViewController {
                 guard let self = self else {
                     return
                 }
+                guard let image = result else {
+                    return
+                }
                 DispatchQueue.main.async { [self] in
-                    self.imageCircle.image = result
+                    let imagePath = self.getDocumentsDirectory().appendingPathComponent(imageName!)
+                    if let jpegData = image.jpegData(compressionQuality: 0.8){
+                        try? jpegData.write(to: imagePath)
+                        self.imageCircle.image = UIImage(data: jpegData)
+                    }
                 }
             }
         }

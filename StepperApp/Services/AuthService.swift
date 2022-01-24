@@ -48,7 +48,7 @@ final class AuthServiceImplementation: AuthService {
                     }
                     switch result_request {
                     case .success(let user):
-                        UserDefaults.standard.removeObject(forKey: "image")
+                        self.userOperations.cleanSetupUserDefaults()
                         self.userOperations.saveUser(user: user)
                         completion(nil)
                     case .failure(let error):
@@ -84,7 +84,7 @@ final class AuthServiceImplementation: AuthService {
                                     completion(error)
                                 } else {
                                     completion(nil)
-                                    UserDefaults.standard.removeObject(forKey: "image")
+                                    self.userOperations.cleanSetupUserDefaults()
                                     let newUser = User(id: result!.user.uid, name: name, imageName: defaultImageName)
                                     self.userOperations.saveUser(user: newUser)
                                 }

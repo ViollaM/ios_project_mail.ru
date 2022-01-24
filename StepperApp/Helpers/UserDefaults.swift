@@ -26,4 +26,12 @@ final class UserOperations {
         }
         else {return nil}
     }
+    
+    func cleanSetupUserDefaults(){
+        UserDefaults.standard.removeObject(forKey: "image")
+        UserDefaults.standard.removeObject(forKey: "km_miles")
+        UserDefaults.standard.removeObject(forKey: "stepsGoal")
+        UserDefaults.standard.removeObject(forKey: "distanceGoal")
+        UserDefaults.standard.removeObject(forKey: "steps_distance")
+    }
 }

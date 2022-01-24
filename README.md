@@ -2,6 +2,7 @@
 <img src="https://user-images.githubusercontent.com/84673954/149951390-43ef051f-c068-4ccf-a338-57cca31d5524.png" width="800" height="450">
 
 ## This app will show how many steps you did today. Compete with your friends.
+### If you want to check this app on Xcode simulator, then set your steps in health app first :)
 
 ### - Create your account or simply log in!
 

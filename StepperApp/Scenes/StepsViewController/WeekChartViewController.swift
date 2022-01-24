@@ -75,7 +75,7 @@ final class WeekChartViewController: UIViewController{
     private lazy var weekDaysRange: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textAlignment = .center
+        label.textAlignment = .right
         label.textColor = StepColor.weekRange
         label.font = .systemFont(ofSize: 22, weight: .semibold)
         label.clipsToBounds = true
@@ -246,18 +246,6 @@ extension WeekChartViewController: UICollectionViewDelegateFlowLayout, UICollect
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         0
     }
-    
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        let currentPage = Int(scrollView.contentOffset.x) / Int(scrollView.frame.width)
-        updateWeekLabels(week: arrayOfWeeks[countOfWeeks - currentPage])
-        if currentPage > previousPage {
-            print("Swipe left")
-        } else if currentPage < previousPage {
-            print("Swipe right")
-        }
-        previousPage = currentPage
-    }
-    
 }
 
 

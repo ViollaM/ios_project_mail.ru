@@ -75,7 +75,7 @@ final class WeekChartViewController: UIViewController{
     private lazy var weekDaysRange: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textAlignment = .center
+        label.textAlignment = .right
         label.textColor = StepColor.weekRange
         label.font = .systemFont(ofSize: 22, weight: .semibold)
         label.clipsToBounds = true
